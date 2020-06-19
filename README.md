@@ -1,3 +1,3 @@
-# UnityModule_Plugin_Client
+# UnityLibrary_Plugin
 
-유니티 모듈 플러그인 클라이언트 프로젝트
+UnityLibrary 플러그인 프로젝트

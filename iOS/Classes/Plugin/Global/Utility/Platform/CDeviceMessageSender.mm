@@ -40,15 +40,15 @@ static CDeviceMessageSender *g_pInstance = nil;
 //! 스토어 버전 반환 메세지를 전송한다
 - (void)sendGetStoreVersionMessage:(NSString *)a_pVersion withResult:(BOOL)a_bIsSuccess {
 	auto pDataList = [NSDictionary dictionaryWithObjectsAndKeys:a_pVersion, @(KEY_DEVICE_MS_VERSION),
-					  Function::ConvertBoolToString(a_bIsSuccess), @(KEY_DEVICE_MS_RESULT), nil];
+					  Func::ConvertBoolToString(a_bIsSuccess), @(KEY_DEVICE_MS_RESULT), nil];
 	
-	auto pMessage = Function::ConvertObjectToJSONString(pDataList, NULL);
+	auto pMessage = Func::ConvertObjectToJSONString(pDataList, NULL);
 	[self send:@(COMMAND_GET_STORE_VERSION) withMessage:pMessage];
 }
 
 //! 알림 창 출력 메세지를 전송한다
 - (void)sendShowAlertMessage:(BOOL)a_bIsTrue {
-	auto pMessage = Function::ConvertBoolToString(a_bIsTrue);
+	auto pMessage = Func::ConvertBoolToString(a_bIsTrue);
 	[self send:@(COMMAND_SHOW_ALERT) withMessage:pMessage];
 }
 
@@ -57,7 +57,7 @@ static CDeviceMessageSender *g_pInstance = nil;
 	auto pDictionary = [NSDictionary dictionaryWithObjectsAndKeys:a_pCommand, @(KEY_COMMAND),
 						a_pMessage, @(KEY_MESSAGE), nil];
 	
-	NSString *pString = Function::ConvertObjectToJSONString(pDictionary, NULL);
+	NSString *pString = Func::ConvertObjectToJSONString(pDictionary, NULL);
 	UnitySendMessage(OBJ_NAME_DEVICE_MESSAGE_RECEIVER, FUNC_NAME_DEVICE_MESSAGE_HANDLE_METHOD, pString.UTF8String);
 }
 

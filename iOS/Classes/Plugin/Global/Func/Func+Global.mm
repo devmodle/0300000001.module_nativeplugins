@@ -5,9 +5,9 @@
 //  Created by 이상동 on 2020/01/11.
 //
 
-#import "Function+Global.h"
+#import "Func+Global.h"
 
-namespace Function {
+namespace Func {
 	//! 문자열 유효 여부를 검사한다
 	BOOL IsValidString(NSString *a_pString) {
 		return a_pString != nil && a_pString.length >= 1;

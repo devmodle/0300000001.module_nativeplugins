@@ -1,9 +1,9 @@
-package dante.distribution.plugin.Global.Function;
+package dante.distribution.plugin.Global.Func;
 
 import dante.distribution.plugin.Global.Define.KGlobalDefine;
 
 //! 전역 함수
-public abstract class GlobalFunction {
+public abstract class GlobalFunc {
 	//! 문자열 유효 여부를 검사한다
 	public static boolean isValidString(String a_oString) {
 		return a_oString != null && a_oString.length() >= 1;

@@ -166,7 +166,7 @@
 		EDCF4241B90252A916506D66 /* System.Configuration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84A043709292AE56428B999D /* System.Configuration.cpp */; };
 		F5A64AB0BB36CB43850781FB /* mscorlib8.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DB0A42BA8DBC59381AFD6D43 /* mscorlib8.cpp */; };
 		F5EE4F57803155C1F09446EA /* UnityEngine.AudioModule_CodeGen.c in Sources */ = {isa = PBXBuildFile; fileRef = 4FA24CF0A0FD9B974EFF7C0E /* UnityEngine.AudioModule_CodeGen.c */; };
-		FE5C44272405FFB100D79683 /* Function+Global.mm in Sources */ = {isa = PBXBuildFile; fileRef = FE5C441C2405FFB100D79683 /* Function+Global.mm */; };
+		FE5C44272405FFB100D79683 /* Func+Global.mm in Sources */ = {isa = PBXBuildFile; fileRef = FE5C441C2405FFB100D79683 /* Func+Global.mm */; };
 		FE5C44282405FFB100D79683 /* CDeviceMessageSender.mm in Sources */ = {isa = PBXBuildFile; fileRef = FE5C44202405FFB100D79683 /* CDeviceMessageSender.mm */; };
 		FE5C44292405FFB100D79683 /* KeychainItemWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = FE5C44242405FFB100D79683 /* KeychainItemWrapper.m */; };
 		FE5C442C2406003C00D79683 /* CiOSPlugin.mm in Sources */ = {isa = PBXBuildFile; fileRef = FE5C442B2406003C00D79683 /* CiOSPlugin.mm */; };
@@ -422,8 +422,8 @@
 		FC85CCB916C3ED8000BAF7C7 /* CrashReporter.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CrashReporter.mm; sourceTree = "<group>"; };
 		FC85CCBA16C3ED8000BAF7C7 /* PLCrashReporter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLCrashReporter.h; sourceTree = "<group>"; };
 		FE5C441A2405FFB100D79683 /* KDefine+Global.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "KDefine+Global.h"; sourceTree = "<group>"; };
-		FE5C441C2405FFB100D79683 /* Function+Global.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "Function+Global.mm"; sourceTree = "<group>"; };
-		FE5C441D2405FFB100D79683 /* Function+Global.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Function+Global.h"; sourceTree = "<group>"; };
+		FE5C441C2405FFB100D79683 /* Func+Global.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "Func+Global.mm"; sourceTree = "<group>"; };
+		FE5C441D2405FFB100D79683 /* Func+Global.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Func+Global.h"; sourceTree = "<group>"; };
 		FE5C44202405FFB100D79683 /* CDeviceMessageSender.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CDeviceMessageSender.mm; sourceTree = "<group>"; };
 		FE5C44212405FFB100D79683 /* CDeviceMessageSender.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDeviceMessageSender.h; sourceTree = "<group>"; };
 		FE5C44242405FFB100D79683 /* KeychainItemWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeychainItemWrapper.m; sourceTree = "<group>"; };
@@ -814,7 +814,7 @@
 			isa = PBXGroup;
 			children = (
 				FE5C44192405FFB100D79683 /* Define */,
-				FE5C441B2405FFB100D79683 /* Function */,
+				FE5C441B2405FFB100D79683 /* Func */,
 				FE5C441E2405FFB100D79683 /* Utility */,
 			);
 			path = Global;
@@ -828,13 +828,13 @@
 			path = Define;
 			sourceTree = "<group>";
 		};
-		FE5C441B2405FFB100D79683 /* Function */ = {
+		FE5C441B2405FFB100D79683 /* Func */ = {
 			isa = PBXGroup;
 			children = (
-				FE5C441D2405FFB100D79683 /* Function+Global.h */,
-				FE5C441C2405FFB100D79683 /* Function+Global.mm */,
+				FE5C441D2405FFB100D79683 /* Func+Global.h */,
+				FE5C441C2405FFB100D79683 /* Func+Global.mm */,
 			);
-			path = Function;
+			path = Func;
 			sourceTree = "<group>";
 		};
 		FE5C441E2405FFB100D79683 /* Utility */ = {
@@ -1058,7 +1058,7 @@
 				9DA3B0442174CB96001678C7 /* main.mm in Sources */,
 				FE5C44292405FFB100D79683 /* KeychainItemWrapper.m in Sources */,
 				FE5C442C2406003C00D79683 /* CiOSPlugin.mm in Sources */,
-				FE5C44272405FFB100D79683 /* Function+Global.mm in Sources */,
+				FE5C44272405FFB100D79683 /* Func+Global.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -8,7 +8,7 @@
 #import "../Define/KDefine+Global.h"
 
 //! 전역 함수
-namespace Function {
+namespace Func {
 	//! 문자열 유효 여부를 검사한다
 	BOOL IsValidString(NSString *a_pString);
 	

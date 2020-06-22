@@ -34,7 +34,7 @@ import java.util.Locale;
 import java.util.UUID;
 
 import dante.distribution.plugin.Global.Define.KGlobalDefine;
-import dante.distribution.plugin.Global.Function.GlobalFunction;
+import dante.distribution.plugin.Global.Func.GlobalFunc;
 import dante.distribution.plugin.Global.Utility.Platform.CDeviceMessageSender;
 
 //! 안드로이드 플러그인
@@ -218,7 +218,7 @@ public class CAndroidPlugin {
 		String oCancelButtonTitle = oJSONObject.getString(KGlobalDefine.KEY_ALERT_CANCEL_BUTTON_TEXT);
 		
 		AlertDialog.Builder oBuilder = new AlertDialog.Builder(UnityPlayer.currentActivity);
-		oBuilder.setTitle(GlobalFunction.isValidString(oTitle) ? oTitle : null);
+		oBuilder.setTitle(GlobalFunc.isValidString(oTitle) ? oTitle : null);
 		oBuilder.setMessage(oMessage);
 		
 		// 확인 버튼을 눌렀을 경우
@@ -229,7 +229,7 @@ public class CAndroidPlugin {
 			}
 		});
 		
-		if(GlobalFunction.isValidString(oCancelButtonTitle)) {
+		if(GlobalFunc.isValidString(oCancelButtonTitle)) {
 			// 취소 버튼을 눌렀을 경우
 			oBuilder.setNegativeButton(oCancelButtonTitle, new DialogInterface.OnClickListener() {
 				@Override
@@ -270,7 +270,7 @@ public class CAndroidPlugin {
 	private void handleActivityIndicatorMessage(String a_oMessage) {
 		Log.d(KGlobalDefine.TAG, String.format("CAndroidPlugin.handleActivityIndicatorMessage: %s", a_oMessage));
 		
-		if(GlobalFunction.convertStringToBool(a_oMessage)) {
+		if(GlobalFunc.convertStringToBool(a_oMessage)) {
 			m_oProgressBar.setVisibility(View.VISIBLE);
 		} else {
 			m_oProgressBar.setVisibility(View.GONE);

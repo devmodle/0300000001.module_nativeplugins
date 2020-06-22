@@ -7,7 +7,7 @@ import com.unity3d.player.UnityPlayer;
 import org.json.JSONObject;
 
 import dante.distribution.plugin.Global.Define.KGlobalDefine;
-import dante.distribution.plugin.Global.Function.GlobalFunction;
+import dante.distribution.plugin.Global.Func.GlobalFunc;
 
 //! 디바이스 메세지 전송자
 public class CDeviceMessageSender {
@@ -45,7 +45,7 @@ public class CDeviceMessageSender {
 	//! 스토어 버전 반환 메세지를 전송한다
 	public void sendGetStoreVersionMessage(String a_oVersion, boolean a_bIsSuccess) {
 		try {
-			String oResult = GlobalFunction.convertBoolToString(a_bIsSuccess);
+			String oResult = GlobalFunc.convertBoolToString(a_bIsSuccess);
 			
 			JSONObject oJSONObject = new JSONObject();
 			oJSONObject.put(KGlobalDefine.KEY_DEVICE_MS_VERSION, a_oVersion);
@@ -61,7 +61,7 @@ public class CDeviceMessageSender {
 	//! 알림 창 출력 메세지를 전송한다
 	public void sendShowAlertMessage(boolean a_bIsTrue) {
 		try {
-			String oResult = GlobalFunction.convertBoolToString(a_bIsTrue);
+			String oResult = GlobalFunc.convertBoolToString(a_bIsTrue);
 			this.sendMessage(KGlobalDefine.COMMAND_SHOW_ALERT, oResult);
 		} catch(Exception oException) {
 			oException.printStackTrace();

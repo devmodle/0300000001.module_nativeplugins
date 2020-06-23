@@ -814,7 +814,7 @@
 			isa = PBXGroup;
 			children = (
 				FE5C44192405FFB100D79683 /* Define */,
-				FE5C441B2405FFB100D79683 /* Func */,
+				FE5C441B2405FFB100D79683 /* Function */,
 				FE5C441E2405FFB100D79683 /* Utility */,
 			);
 			path = Global;
@@ -828,13 +828,13 @@
 			path = Define;
 			sourceTree = "<group>";
 		};
-		FE5C441B2405FFB100D79683 /* Func */ = {
+		FE5C441B2405FFB100D79683 /* Function */ = {
 			isa = PBXGroup;
 			children = (
 				FE5C441D2405FFB100D79683 /* Func+Global.h */,
 				FE5C441C2405FFB100D79683 /* Func+Global.mm */,
 			);
-			path = Func;
+			path = Function;
 			sourceTree = "<group>";
 		};
 		FE5C441E2405FFB100D79683 /* Utility */ = {

@@ -6,7 +6,7 @@
 //
 
 #import "CiOSPlugin.h"
-#import "Global/Func/Func+Global.h"
+#import "Global/Function/Func+Global.h"
 #import "Global/Utility/Platform/CDeviceMessageSender.h"
 
 //! 전역 변수

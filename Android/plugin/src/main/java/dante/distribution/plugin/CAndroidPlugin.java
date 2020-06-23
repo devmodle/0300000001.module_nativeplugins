@@ -34,7 +34,7 @@ import java.util.Locale;
 import java.util.UUID;
 
 import dante.distribution.plugin.Global.Define.KGlobalDefine;
-import dante.distribution.plugin.Global.Func.GlobalFunc;
+import dante.distribution.plugin.Global.Function.GlobalFunc;
 import dante.distribution.plugin.Global.Utility.Platform.CDeviceMessageSender;
 
 //! 안드로이드 플러그인

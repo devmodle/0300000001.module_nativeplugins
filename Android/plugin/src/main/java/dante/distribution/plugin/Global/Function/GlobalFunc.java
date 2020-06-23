@@ -1,4 +1,4 @@
-package dante.distribution.plugin.Global.Func;
+package dante.distribution.plugin.Global.Function;
 
 import dante.distribution.plugin.Global.Define.KGlobalDefine;
 

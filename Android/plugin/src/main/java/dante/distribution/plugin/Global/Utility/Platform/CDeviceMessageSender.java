@@ -7,7 +7,7 @@ import com.unity3d.player.UnityPlayer;
 import org.json.JSONObject;
 
 import dante.distribution.plugin.Global.Define.KGlobalDefine;
-import dante.distribution.plugin.Global.Func.GlobalFunc;
+import dante.distribution.plugin.Global.Function.GlobalFunc;
 
 //! 디바이스 메세지 전송자
 public class CDeviceMessageSender {

@@ -6,7 +6,7 @@ namespace il2cpp
 {
 namespace metadata
 {
-    class Il2CppGenericContExCompare
+    class Il2CppGenericContextCompare
     {
     public:
         bool operator()(const Il2CppGenericContext* t1, const Il2CppGenericContext* t2) const;

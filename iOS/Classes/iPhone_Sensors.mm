@@ -346,6 +346,7 @@ extern "C" int UnityIsGyroAvailable()
 #pragma clang diagnostic ignored "-Wobjc-method-access"
 enum JoystickButtonNumbers
 {
+    BTN_PAUSE = 0,
     BTN_DPAD_UP = 4,
     BTN_DPAD_RIGHT = 5,
     BTN_DPAD_DOWN = 6,
@@ -358,10 +359,9 @@ enum JoystickButtonNumbers
     BTN_L2 = 10,
     BTN_R1 = 9,
     BTN_R2 = 11,
-    BTN_L3 = 16,
-    BTN_R3 = 17,
-    BTN_MENU = 18,
-    BTN_PAUSE = 19,
+    BTN_MENU = 16,
+    BTN_L3 = 17,
+    BTN_R3 = 18,
     BTN_COUNT
 };
 
@@ -488,8 +488,8 @@ static void SetJoystickButtonState(int joyNum, int buttonNum, int state)
     char buf[128];
     sprintf(buf, "joystick %d button %d", joyNum, buttonNum);
     UnitySetKeyState(UnityStringToKey(buf), state);
-    ReportAggregatedJoystickButton(buttonNum, state);
 #endif
+    ReportAggregatedJoystickButton(buttonNum, state);
 }
 
 static void ReportJoystickButton(int idx, JoystickButtonNumbers num, GCControllerButtonInput* button)
@@ -558,14 +558,6 @@ static void ReportJoystickBasic(int idx, GCGamepad* gamepad)
 static void ReportJoystickExtended(int idx, GCExtendedGamepad* gamepad)
 {
     GCControllerDirectionPad* dpad = [gamepad dpad];
-    GCControllerDirectionPad* leftStick = [gamepad leftThumbstick];
-    GCControllerDirectionPad* rightStick = [gamepad rightThumbstick];
-
-    UnitySetJoystickPosition(idx + 1, 0, GetAxisValue([leftStick xAxis]));
-    UnitySetJoystickPosition(idx + 1, 1, -GetAxisValue([leftStick yAxis]));
-
-    UnitySetJoystickPosition(idx + 1, 2, GetAxisValue([rightStick xAxis]));
-    UnitySetJoystickPosition(idx + 1, 3, -GetAxisValue([rightStick yAxis]));
     ReportJoystickButton(idx, BTN_DPAD_UP, [dpad up]);
     ReportJoystickButton(idx, BTN_DPAD_RIGHT, [dpad right]);
     ReportJoystickButton(idx, BTN_DPAD_DOWN, [dpad down]);
@@ -592,6 +584,17 @@ static void ReportJoystickExtended(int idx, GCExtendedGamepad* gamepad)
         ReportJoystickButton(idx, BTN_MENU, [gamepad valueForKey: @"buttonMenu"]);
         ReportJoystickButton(idx, BTN_PAUSE, [gamepad valueForKey: @"buttonOptions"]);
     }
+
+    // To avoid overwriting axis input with button input when axis index
+    // overlaps with button enum value, handle directional input after buttons.
+    GCControllerDirectionPad* leftStick = [gamepad leftThumbstick];
+    GCControllerDirectionPad* rightStick = [gamepad rightThumbstick];
+
+    UnitySetJoystickPosition(idx + 1, 0, GetAxisValue([leftStick xAxis]));
+    UnitySetJoystickPosition(idx + 1, 1, -GetAxisValue([leftStick yAxis]));
+
+    UnitySetJoystickPosition(idx + 1, 2, GetAxisValue([rightStick xAxis]));
+    UnitySetJoystickPosition(idx + 1, 3, -GetAxisValue([rightStick yAxis]));
 }
 
 static void SimulateAttitudeViaGravityVector(const Vector3f& gravity, Quaternion4f& currentAttitude, Vector3f& rotationRate)

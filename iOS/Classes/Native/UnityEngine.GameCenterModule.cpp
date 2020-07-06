@@ -1308,12 +1308,14 @@ struct  GcUserProfileData_tDCEBF6CF74E9EBC0B9F9847CE96118169391B57D
 public:
 	// System.String UnityEngine.SocialPlatforms.GameCenter.GcUserProfileData::userName
 	String_t* ___userName_0;
-	// System.String UnityEngine.SocialPlatforms.GameCenter.GcUserProfileData::userID
-	String_t* ___userID_1;
+	// System.String UnityEngine.SocialPlatforms.GameCenter.GcUserProfileData::teamID
+	String_t* ___teamID_1;
+	// System.String UnityEngine.SocialPlatforms.GameCenter.GcUserProfileData::gameID
+	String_t* ___gameID_2;
 	// System.Int32 UnityEngine.SocialPlatforms.GameCenter.GcUserProfileData::isFriend
-	int32_t ___isFriend_2;
+	int32_t ___isFriend_3;
 	// UnityEngine.Texture2D UnityEngine.SocialPlatforms.GameCenter.GcUserProfileData::image
-	Texture2D_tBBF96AC337723E2EF156DF17E09D4379FD05DE1C * ___image_3;
+	Texture2D_tBBF96AC337723E2EF156DF17E09D4379FD05DE1C * ___image_4;
 
 public:
 	inline static int32_t get_offset_of_userName_0() { return static_cast<int32_t>(offsetof(GcUserProfileData_tDCEBF6CF74E9EBC0B9F9847CE96118169391B57D, ___userName_0)); }
@@ -1325,30 +1327,39 @@ public:
 		Il2CppCodeGenWriteBarrier((void**)(&___userName_0), (void*)value);
 	}
 
-	inline static int32_t get_offset_of_userID_1() { return static_cast<int32_t>(offsetof(GcUserProfileData_tDCEBF6CF74E9EBC0B9F9847CE96118169391B57D, ___userID_1)); }
-	inline String_t* get_userID_1() const { return ___userID_1; }
-	inline String_t** get_address_of_userID_1() { return &___userID_1; }
-	inline void set_userID_1(String_t* value)
+	inline static int32_t get_offset_of_teamID_1() { return static_cast<int32_t>(offsetof(GcUserProfileData_tDCEBF6CF74E9EBC0B9F9847CE96118169391B57D, ___teamID_1)); }
+	inline String_t* get_teamID_1() const { return ___teamID_1; }
+	inline String_t** get_address_of_teamID_1() { return &___teamID_1; }
+	inline void set_teamID_1(String_t* value)
 	{
-		___userID_1 = value;
-		Il2CppCodeGenWriteBarrier((void**)(&___userID_1), (void*)value);
+		___teamID_1 = value;
+		Il2CppCodeGenWriteBarrier((void**)(&___teamID_1), (void*)value);
 	}
 
-	inline static int32_t get_offset_of_isFriend_2() { return static_cast<int32_t>(offsetof(GcUserProfileData_tDCEBF6CF74E9EBC0B9F9847CE96118169391B57D, ___isFriend_2)); }
-	inline int32_t get_isFriend_2() const { return ___isFriend_2; }
-	inline int32_t* get_address_of_isFriend_2() { return &___isFriend_2; }
-	inline void set_isFriend_2(int32_t value)
+	inline static int32_t get_offset_of_gameID_2() { return static_cast<int32_t>(offsetof(GcUserProfileData_tDCEBF6CF74E9EBC0B9F9847CE96118169391B57D, ___gameID_2)); }
+	inline String_t* get_gameID_2() const { return ___gameID_2; }
+	inline String_t** get_address_of_gameID_2() { return &___gameID_2; }
+	inline void set_gameID_2(String_t* value)
 	{
-		___isFriend_2 = value;
+		___gameID_2 = value;
+		Il2CppCodeGenWriteBarrier((void**)(&___gameID_2), (void*)value);
 	}
 
-	inline static int32_t get_offset_of_image_3() { return static_cast<int32_t>(offsetof(GcUserProfileData_tDCEBF6CF74E9EBC0B9F9847CE96118169391B57D, ___image_3)); }
-	inline Texture2D_tBBF96AC337723E2EF156DF17E09D4379FD05DE1C * get_image_3() const { return ___image_3; }
-	inline Texture2D_tBBF96AC337723E2EF156DF17E09D4379FD05DE1C ** get_address_of_image_3() { return &___image_3; }
-	inline void set_image_3(Texture2D_tBBF96AC337723E2EF156DF17E09D4379FD05DE1C * value)
+	inline static int32_t get_offset_of_isFriend_3() { return static_cast<int32_t>(offsetof(GcUserProfileData_tDCEBF6CF74E9EBC0B9F9847CE96118169391B57D, ___isFriend_3)); }
+	inline int32_t get_isFriend_3() const { return ___isFriend_3; }
+	inline int32_t* get_address_of_isFriend_3() { return &___isFriend_3; }
+	inline void set_isFriend_3(int32_t value)
 	{
-		___image_3 = value;
-		Il2CppCodeGenWriteBarrier((void**)(&___image_3), (void*)value);
+		___isFriend_3 = value;
+	}
+
+	inline static int32_t get_offset_of_image_4() { return static_cast<int32_t>(offsetof(GcUserProfileData_tDCEBF6CF74E9EBC0B9F9847CE96118169391B57D, ___image_4)); }
+	inline Texture2D_tBBF96AC337723E2EF156DF17E09D4379FD05DE1C * get_image_4() const { return ___image_4; }
+	inline Texture2D_tBBF96AC337723E2EF156DF17E09D4379FD05DE1C ** get_address_of_image_4() { return &___image_4; }
+	inline void set_image_4(Texture2D_tBBF96AC337723E2EF156DF17E09D4379FD05DE1C * value)
+	{
+		___image_4 = value;
+		Il2CppCodeGenWriteBarrier((void**)(&___image_4), (void*)value);
 	}
 };
 
@@ -1356,17 +1367,19 @@ public:
 struct GcUserProfileData_tDCEBF6CF74E9EBC0B9F9847CE96118169391B57D_marshaled_pinvoke
 {
 	char* ___userName_0;
-	char* ___userID_1;
-	int32_t ___isFriend_2;
-	Texture2D_tBBF96AC337723E2EF156DF17E09D4379FD05DE1C * ___image_3;
+	char* ___teamID_1;
+	char* ___gameID_2;
+	int32_t ___isFriend_3;
+	Texture2D_tBBF96AC337723E2EF156DF17E09D4379FD05DE1C * ___image_4;
 };
 // Native definition for COM marshalling of UnityEngine.SocialPlatforms.GameCenter.GcUserProfileData
 struct GcUserProfileData_tDCEBF6CF74E9EBC0B9F9847CE96118169391B57D_marshaled_com
 {
 	Il2CppChar* ___userName_0;
-	Il2CppChar* ___userID_1;
-	int32_t ___isFriend_2;
-	Texture2D_tBBF96AC337723E2EF156DF17E09D4379FD05DE1C * ___image_3;
+	Il2CppChar* ___teamID_1;
+	Il2CppChar* ___gameID_2;
+	int32_t ___isFriend_3;
+	Texture2D_tBBF96AC337723E2EF156DF17E09D4379FD05DE1C * ___image_4;
 };
 
 // UnityEngine.SocialPlatforms.Range
@@ -1974,6 +1987,8 @@ public:
 	int32_t ___m_State_3;
 	// UnityEngine.Texture2D UnityEngine.SocialPlatforms.Impl.UserProfile::m_Image
 	Texture2D_tBBF96AC337723E2EF156DF17E09D4379FD05DE1C * ___m_Image_4;
+	// System.String UnityEngine.SocialPlatforms.Impl.UserProfile::m_gameID
+	String_t* ___m_gameID_5;
 
 public:
 	inline static int32_t get_offset_of_m_UserName_0() { return static_cast<int32_t>(offsetof(UserProfile_tB1F9D8E54F0480240196974DCCAF2742F8F0A51E, ___m_UserName_0)); }
@@ -2017,6 +2032,15 @@ public:
 	{
 		___m_Image_4 = value;
 		Il2CppCodeGenWriteBarrier((void**)(&___m_Image_4), (void*)value);
+	}
+
+	inline static int32_t get_offset_of_m_gameID_5() { return static_cast<int32_t>(offsetof(UserProfile_tB1F9D8E54F0480240196974DCCAF2742F8F0A51E, ___m_gameID_5)); }
+	inline String_t* get_m_gameID_5() const { return ___m_gameID_5; }
+	inline String_t** get_address_of_m_gameID_5() { return &___m_gameID_5; }
+	inline void set_m_gameID_5(String_t* value)
+	{
+		___m_gameID_5 = value;
+		Il2CppCodeGenWriteBarrier((void**)(&___m_gameID_5), (void*)value);
 	}
 };
 
@@ -2105,36 +2129,36 @@ struct  LocalUser_tBBCEEB55B6F28DFA7F4677E9273622A34CABB135  : public UserProfil
 {
 public:
 	// UnityEngine.SocialPlatforms.IUserProfile[] UnityEngine.SocialPlatforms.Impl.LocalUser::m_Friends
-	IUserProfileU5BU5D_tBE2EEBD677C2C607E3F86B6ABF3F164B72E570B0* ___m_Friends_5;
+	IUserProfileU5BU5D_tBE2EEBD677C2C607E3F86B6ABF3F164B72E570B0* ___m_Friends_6;
 	// System.Boolean UnityEngine.SocialPlatforms.Impl.LocalUser::m_Authenticated
-	bool ___m_Authenticated_6;
+	bool ___m_Authenticated_7;
 	// System.Boolean UnityEngine.SocialPlatforms.Impl.LocalUser::m_Underage
-	bool ___m_Underage_7;
+	bool ___m_Underage_8;
 
 public:
-	inline static int32_t get_offset_of_m_Friends_5() { return static_cast<int32_t>(offsetof(LocalUser_tBBCEEB55B6F28DFA7F4677E9273622A34CABB135, ___m_Friends_5)); }
-	inline IUserProfileU5BU5D_tBE2EEBD677C2C607E3F86B6ABF3F164B72E570B0* get_m_Friends_5() const { return ___m_Friends_5; }
-	inline IUserProfileU5BU5D_tBE2EEBD677C2C607E3F86B6ABF3F164B72E570B0** get_address_of_m_Friends_5() { return &___m_Friends_5; }
-	inline void set_m_Friends_5(IUserProfileU5BU5D_tBE2EEBD677C2C607E3F86B6ABF3F164B72E570B0* value)
+	inline static int32_t get_offset_of_m_Friends_6() { return static_cast<int32_t>(offsetof(LocalUser_tBBCEEB55B6F28DFA7F4677E9273622A34CABB135, ___m_Friends_6)); }
+	inline IUserProfileU5BU5D_tBE2EEBD677C2C607E3F86B6ABF3F164B72E570B0* get_m_Friends_6() const { return ___m_Friends_6; }
+	inline IUserProfileU5BU5D_tBE2EEBD677C2C607E3F86B6ABF3F164B72E570B0** get_address_of_m_Friends_6() { return &___m_Friends_6; }
+	inline void set_m_Friends_6(IUserProfileU5BU5D_tBE2EEBD677C2C607E3F86B6ABF3F164B72E570B0* value)
 	{
-		___m_Friends_5 = value;
-		Il2CppCodeGenWriteBarrier((void**)(&___m_Friends_5), (void*)value);
+		___m_Friends_6 = value;
+		Il2CppCodeGenWriteBarrier((void**)(&___m_Friends_6), (void*)value);
 	}
 
-	inline static int32_t get_offset_of_m_Authenticated_6() { return static_cast<int32_t>(offsetof(LocalUser_tBBCEEB55B6F28DFA7F4677E9273622A34CABB135, ___m_Authenticated_6)); }
-	inline bool get_m_Authenticated_6() const { return ___m_Authenticated_6; }
-	inline bool* get_address_of_m_Authenticated_6() { return &___m_Authenticated_6; }
-	inline void set_m_Authenticated_6(bool value)
+	inline static int32_t get_offset_of_m_Authenticated_7() { return static_cast<int32_t>(offsetof(LocalUser_tBBCEEB55B6F28DFA7F4677E9273622A34CABB135, ___m_Authenticated_7)); }
+	inline bool get_m_Authenticated_7() const { return ___m_Authenticated_7; }
+	inline bool* get_address_of_m_Authenticated_7() { return &___m_Authenticated_7; }
+	inline void set_m_Authenticated_7(bool value)
 	{
-		___m_Authenticated_6 = value;
+		___m_Authenticated_7 = value;
 	}
 
-	inline static int32_t get_offset_of_m_Underage_7() { return static_cast<int32_t>(offsetof(LocalUser_tBBCEEB55B6F28DFA7F4677E9273622A34CABB135, ___m_Underage_7)); }
-	inline bool get_m_Underage_7() const { return ___m_Underage_7; }
-	inline bool* get_address_of_m_Underage_7() { return &___m_Underage_7; }
-	inline void set_m_Underage_7(bool value)
+	inline static int32_t get_offset_of_m_Underage_8() { return static_cast<int32_t>(offsetof(LocalUser_tBBCEEB55B6F28DFA7F4677E9273622A34CABB135, ___m_Underage_8)); }
+	inline bool get_m_Underage_8() const { return ___m_Underage_8; }
+	inline bool* get_address_of_m_Underage_8() { return &___m_Underage_8; }
+	inline void set_m_Underage_8(bool value)
 	{
-		___m_Underage_7 = value;
+		___m_Underage_8 = value;
 	}
 };
 
@@ -2705,6 +2729,10 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void UserProfile_SetUserName_mC279B9030E4C28E
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR String_t* GameCenterPlatform_Internal_UserID_m9F210A0D743A528E4B17A8656E5E15486CB17010 (const RuntimeMethod* method);
 // System.Void UnityEngine.SocialPlatforms.Impl.UserProfile::SetUserID(System.String)
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void UserProfile_SetUserID_m498F118E4303653235C8BB13F2645B86101514CF (UserProfile_tB1F9D8E54F0480240196974DCCAF2742F8F0A51E * __this, String_t* ___id0, const RuntimeMethod* method);
+// System.String UnityEngine.SocialPlatforms.GameCenter.GameCenterPlatform::Internal_UserGameID()
+IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR String_t* GameCenterPlatform_Internal_UserGameID_mD44B3B1425419E0CE2BAC3BC808490E3E705C90E (const RuntimeMethod* method);
+// System.Void UnityEngine.SocialPlatforms.Impl.UserProfile::SetUserGameID(System.String)
+IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void UserProfile_SetUserGameID_mF90580CC3E04FCBC548811BC4E7E267EB3AC5E4B (UserProfile_tB1F9D8E54F0480240196974DCCAF2742F8F0A51E * __this, String_t* ___id0, const RuntimeMethod* method);
 // System.Boolean UnityEngine.SocialPlatforms.GameCenter.GameCenterPlatform::GetIsUnderage()
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool GameCenterPlatform_GetIsUnderage_mB1889A6D0F54F96772591EA7849BDB0D7B68187C (const RuntimeMethod* method);
 // System.Void UnityEngine.SocialPlatforms.Impl.LocalUser::SetUnderage(System.Boolean)
@@ -2818,8 +2846,8 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool GcLeaderboard_GcLeaderboard_Loading_m4C8
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void GcLeaderboard_GcLeaderboard_Dispose_m3871069EBD50B9B205166C813C7D0EC622F1EAB8 (intptr_t ___leaderboard0, const RuntimeMethod* method);
 // System.Void UnityEngine.SocialPlatforms.Impl.Score::.ctor(System.String,System.Int64,System.String,System.DateTime,System.String,System.Int32)
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void Score__ctor_m927C21269C57AEFAD73F413EDD17DD7BFA3A5183 (Score_tE23EDB9F6DECBC3AD8D644EC255512A0CDF533E7 * __this, String_t* ___leaderboardID0, int64_t ___value1, String_t* ___userID2, DateTime_t349B7449FBAAFF4192636E2B7A07694DA9236132  ___date3, String_t* ___formattedValue4, int32_t ___rank5, const RuntimeMethod* method);
-// System.Void UnityEngine.SocialPlatforms.Impl.UserProfile::.ctor(System.String,System.String,System.Boolean,UnityEngine.SocialPlatforms.UserState,UnityEngine.Texture2D)
-IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void UserProfile__ctor_mA6594E3C7514264E933C665708C784CC8436FDDD (UserProfile_tB1F9D8E54F0480240196974DCCAF2742F8F0A51E * __this, String_t* ___name0, String_t* ___id1, bool ___friend2, int32_t ___state3, Texture2D_tBBF96AC337723E2EF156DF17E09D4379FD05DE1C * ___image4, const RuntimeMethod* method);
+// System.Void UnityEngine.SocialPlatforms.Impl.UserProfile::.ctor(System.String,System.String,System.String,System.Boolean,UnityEngine.SocialPlatforms.UserState,UnityEngine.Texture2D)
+IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void UserProfile__ctor_m92FDA53E61AFE8734B660FC43C78EE6FEFC572B9 (UserProfile_tB1F9D8E54F0480240196974DCCAF2742F8F0A51E * __this, String_t* ___name0, String_t* ___teamId1, String_t* ___gameId2, bool ___friend3, int32_t ___state4, Texture2D_tBBF96AC337723E2EF156DF17E09D4379FD05DE1C * ___image5, const RuntimeMethod* method);
 // UnityEngine.SocialPlatforms.Impl.UserProfile UnityEngine.SocialPlatforms.GameCenter.GcUserProfileData::ToUserProfile()
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR UserProfile_tB1F9D8E54F0480240196974DCCAF2742F8F0A51E * GcUserProfileData_ToUserProfile_m6A2C008AE96EEA7E87D7FC34DBEE1696397D43EE (GcUserProfileData_tDCEBF6CF74E9EBC0B9F9847CE96118169391B57D * __this, const RuntimeMethod* method);
 // System.Void UnityEngine.SocialPlatforms.Impl.Achievement::set_id(System.String)
@@ -3735,13 +3763,17 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void GameCenterPlatform_PopulateLocalUser_mDF
 		NullCheck(L_4);
 		UserProfile_SetUserID_m498F118E4303653235C8BB13F2645B86101514CF(L_4, L_5, /*hidden argument*/NULL);
 		LocalUser_tBBCEEB55B6F28DFA7F4677E9273622A34CABB135 * L_6 = ((GameCenterPlatform_t699FF764080BA03011F7DBEA26659A3E4FB2ED43_StaticFields*)il2cpp_codegen_static_fields_for(GameCenterPlatform_t699FF764080BA03011F7DBEA26659A3E4FB2ED43_il2cpp_TypeInfo_var))->get_m_LocalUser_5();
-		bool L_7 = GameCenterPlatform_GetIsUnderage_mB1889A6D0F54F96772591EA7849BDB0D7B68187C(/*hidden argument*/NULL);
+		String_t* L_7 = GameCenterPlatform_Internal_UserGameID_mD44B3B1425419E0CE2BAC3BC808490E3E705C90E(/*hidden argument*/NULL);
 		NullCheck(L_6);
-		LocalUser_SetUnderage_m8ED50A92329270F163B16CC7C66167BA3CDA37BE(L_6, L_7, /*hidden argument*/NULL);
+		UserProfile_SetUserGameID_mF90580CC3E04FCBC548811BC4E7E267EB3AC5E4B(L_6, L_7, /*hidden argument*/NULL);
 		LocalUser_tBBCEEB55B6F28DFA7F4677E9273622A34CABB135 * L_8 = ((GameCenterPlatform_t699FF764080BA03011F7DBEA26659A3E4FB2ED43_StaticFields*)il2cpp_codegen_static_fields_for(GameCenterPlatform_t699FF764080BA03011F7DBEA26659A3E4FB2ED43_il2cpp_TypeInfo_var))->get_m_LocalUser_5();
-		Texture2D_tBBF96AC337723E2EF156DF17E09D4379FD05DE1C * L_9 = GameCenterPlatform_GetUserImage_m71B11BAA34D99DEF16629C8B825AF0CBD319ABE3(/*hidden argument*/NULL);
+		bool L_9 = GameCenterPlatform_GetIsUnderage_mB1889A6D0F54F96772591EA7849BDB0D7B68187C(/*hidden argument*/NULL);
 		NullCheck(L_8);
-		UserProfile_SetImage_mA0A53EC856BFB207ED300DF5C533B5E3F532A358(L_8, L_9, /*hidden argument*/NULL);
+		LocalUser_SetUnderage_m8ED50A92329270F163B16CC7C66167BA3CDA37BE(L_8, L_9, /*hidden argument*/NULL);
+		LocalUser_tBBCEEB55B6F28DFA7F4677E9273622A34CABB135 * L_10 = ((GameCenterPlatform_t699FF764080BA03011F7DBEA26659A3E4FB2ED43_StaticFields*)il2cpp_codegen_static_fields_for(GameCenterPlatform_t699FF764080BA03011F7DBEA26659A3E4FB2ED43_il2cpp_TypeInfo_var))->get_m_LocalUser_5();
+		Texture2D_tBBF96AC337723E2EF156DF17E09D4379FD05DE1C * L_11 = GameCenterPlatform_GetUserImage_m71B11BAA34D99DEF16629C8B825AF0CBD319ABE3(/*hidden argument*/NULL);
+		NullCheck(L_10);
+		UserProfile_SetImage_mA0A53EC856BFB207ED300DF5C533B5E3F532A358(L_10, L_11, /*hidden argument*/NULL);
 		return;
 	}
 }
@@ -4818,6 +4850,16 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR String_t* GameCenterPlatform_Internal_UserID_
 	String_t* retVal = _il2cpp_icall_func();
 	return retVal;
 }
+// System.String UnityEngine.SocialPlatforms.GameCenter.GameCenterPlatform::Internal_UserGameID()
+IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR String_t* GameCenterPlatform_Internal_UserGameID_mD44B3B1425419E0CE2BAC3BC808490E3E705C90E (const RuntimeMethod* method)
+{
+	typedef String_t* (*GameCenterPlatform_Internal_UserGameID_mD44B3B1425419E0CE2BAC3BC808490E3E705C90E_ftn) ();
+	static GameCenterPlatform_Internal_UserGameID_mD44B3B1425419E0CE2BAC3BC808490E3E705C90E_ftn _il2cpp_icall_func;
+	if (!_il2cpp_icall_func)
+	_il2cpp_icall_func = (GameCenterPlatform_Internal_UserGameID_mD44B3B1425419E0CE2BAC3BC808490E3E705C90E_ftn)il2cpp_codegen_resolve_icall ("UnityEngine.SocialPlatforms.GameCenter.GameCenterPlatform::Internal_UserGameID()");
+	String_t* retVal = _il2cpp_icall_func();
+	return retVal;
+}
 // System.Boolean UnityEngine.SocialPlatforms.GameCenter.GameCenterPlatform::GetIsUnderage()
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool GameCenterPlatform_GetIsUnderage_mB1889A6D0F54F96772591EA7849BDB0D7B68187C (const RuntimeMethod* method)
 {
@@ -5840,13 +5882,13 @@ IL2CPP_EXTERN_C  Score_tE23EDB9F6DECBC3AD8D644EC255512A0CDF533E7 * GcScoreData_T
 // Conversion methods for marshalling of: UnityEngine.SocialPlatforms.GameCenter.GcUserProfileData
 IL2CPP_EXTERN_C void GcUserProfileData_tDCEBF6CF74E9EBC0B9F9847CE96118169391B57D_marshal_pinvoke(const GcUserProfileData_tDCEBF6CF74E9EBC0B9F9847CE96118169391B57D& unmarshaled, GcUserProfileData_tDCEBF6CF74E9EBC0B9F9847CE96118169391B57D_marshaled_pinvoke& marshaled)
 {
-	Exception_t* ___image_3Exception = il2cpp_codegen_get_marshal_directive_exception("Cannot marshal field 'image' of type 'GcUserProfileData': Reference type field marshaling is not supported.");
-	IL2CPP_RAISE_MANAGED_EXCEPTION(___image_3Exception, NULL);
+	Exception_t* ___image_4Exception = il2cpp_codegen_get_marshal_directive_exception("Cannot marshal field 'image' of type 'GcUserProfileData': Reference type field marshaling is not supported.");
+	IL2CPP_RAISE_MANAGED_EXCEPTION(___image_4Exception, NULL);
 }
 IL2CPP_EXTERN_C void GcUserProfileData_tDCEBF6CF74E9EBC0B9F9847CE96118169391B57D_marshal_pinvoke_back(const GcUserProfileData_tDCEBF6CF74E9EBC0B9F9847CE96118169391B57D_marshaled_pinvoke& marshaled, GcUserProfileData_tDCEBF6CF74E9EBC0B9F9847CE96118169391B57D& unmarshaled)
 {
-	Exception_t* ___image_3Exception = il2cpp_codegen_get_marshal_directive_exception("Cannot marshal field 'image' of type 'GcUserProfileData': Reference type field marshaling is not supported.");
-	IL2CPP_RAISE_MANAGED_EXCEPTION(___image_3Exception, NULL);
+	Exception_t* ___image_4Exception = il2cpp_codegen_get_marshal_directive_exception("Cannot marshal field 'image' of type 'GcUserProfileData': Reference type field marshaling is not supported.");
+	IL2CPP_RAISE_MANAGED_EXCEPTION(___image_4Exception, NULL);
 }
 // Conversion method for clean up from marshalling of: UnityEngine.SocialPlatforms.GameCenter.GcUserProfileData
 IL2CPP_EXTERN_C void GcUserProfileData_tDCEBF6CF74E9EBC0B9F9847CE96118169391B57D_marshal_pinvoke_cleanup(GcUserProfileData_tDCEBF6CF74E9EBC0B9F9847CE96118169391B57D_marshaled_pinvoke& marshaled)
@@ -5855,13 +5897,13 @@ IL2CPP_EXTERN_C void GcUserProfileData_tDCEBF6CF74E9EBC0B9F9847CE96118169391B57D
 // Conversion methods for marshalling of: UnityEngine.SocialPlatforms.GameCenter.GcUserProfileData
 IL2CPP_EXTERN_C void GcUserProfileData_tDCEBF6CF74E9EBC0B9F9847CE96118169391B57D_marshal_com(const GcUserProfileData_tDCEBF6CF74E9EBC0B9F9847CE96118169391B57D& unmarshaled, GcUserProfileData_tDCEBF6CF74E9EBC0B9F9847CE96118169391B57D_marshaled_com& marshaled)
 {
-	Exception_t* ___image_3Exception = il2cpp_codegen_get_marshal_directive_exception("Cannot marshal field 'image' of type 'GcUserProfileData': Reference type field marshaling is not supported.");
-	IL2CPP_RAISE_MANAGED_EXCEPTION(___image_3Exception, NULL);
+	Exception_t* ___image_4Exception = il2cpp_codegen_get_marshal_directive_exception("Cannot marshal field 'image' of type 'GcUserProfileData': Reference type field marshaling is not supported.");
+	IL2CPP_RAISE_MANAGED_EXCEPTION(___image_4Exception, NULL);
 }
 IL2CPP_EXTERN_C void GcUserProfileData_tDCEBF6CF74E9EBC0B9F9847CE96118169391B57D_marshal_com_back(const GcUserProfileData_tDCEBF6CF74E9EBC0B9F9847CE96118169391B57D_marshaled_com& marshaled, GcUserProfileData_tDCEBF6CF74E9EBC0B9F9847CE96118169391B57D& unmarshaled)
 {
-	Exception_t* ___image_3Exception = il2cpp_codegen_get_marshal_directive_exception("Cannot marshal field 'image' of type 'GcUserProfileData': Reference type field marshaling is not supported.");
-	IL2CPP_RAISE_MANAGED_EXCEPTION(___image_3Exception, NULL);
+	Exception_t* ___image_4Exception = il2cpp_codegen_get_marshal_directive_exception("Cannot marshal field 'image' of type 'GcUserProfileData': Reference type field marshaling is not supported.");
+	IL2CPP_RAISE_MANAGED_EXCEPTION(___image_4Exception, NULL);
 }
 // Conversion method for clean up from marshalling of: UnityEngine.SocialPlatforms.GameCenter.GcUserProfileData
 IL2CPP_EXTERN_C void GcUserProfileData_tDCEBF6CF74E9EBC0B9F9847CE96118169391B57D_marshal_com_cleanup(GcUserProfileData_tDCEBF6CF74E9EBC0B9F9847CE96118169391B57D_marshaled_com& marshaled)
@@ -5879,51 +5921,59 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR UserProfile_tB1F9D8E54F0480240196974DCCAF2742
 	UserProfile_tB1F9D8E54F0480240196974DCCAF2742F8F0A51E * V_0 = NULL;
 	String_t* G_B2_0 = NULL;
 	String_t* G_B2_1 = NULL;
+	String_t* G_B2_2 = NULL;
 	String_t* G_B1_0 = NULL;
 	String_t* G_B1_1 = NULL;
+	String_t* G_B1_2 = NULL;
 	int32_t G_B3_0 = 0;
 	String_t* G_B3_1 = NULL;
 	String_t* G_B3_2 = NULL;
+	String_t* G_B3_3 = NULL;
 	{
 		String_t* L_0 = __this->get_userName_0();
-		String_t* L_1 = __this->get_userID_1();
-		int32_t L_2 = __this->get_isFriend_2();
-		G_B1_0 = L_1;
-		G_B1_1 = L_0;
-		if ((((int32_t)L_2) == ((int32_t)1)))
+		String_t* L_1 = __this->get_teamID_1();
+		String_t* L_2 = __this->get_gameID_2();
+		int32_t L_3 = __this->get_isFriend_3();
+		G_B1_0 = L_2;
+		G_B1_1 = L_1;
+		G_B1_2 = L_0;
+		if ((((int32_t)L_3) == ((int32_t)1)))
 		{
-			G_B2_0 = L_1;
-			G_B2_1 = L_0;
-			goto IL_0019;
+			G_B2_0 = L_2;
+			G_B2_1 = L_1;
+			G_B2_2 = L_0;
+			goto IL_001f;
 		}
 	}
 	{
 		G_B3_0 = 0;
 		G_B3_1 = G_B1_0;
 		G_B3_2 = G_B1_1;
-		goto IL_001a;
+		G_B3_3 = G_B1_2;
+		goto IL_0020;
 	}
 
-IL_0019:
+IL_001f:
 	{
 		G_B3_0 = 1;
 		G_B3_1 = G_B2_0;
 		G_B3_2 = G_B2_1;
+		G_B3_3 = G_B2_2;
 	}
 
-IL_001a:
+IL_0020:
 	{
-		Texture2D_tBBF96AC337723E2EF156DF17E09D4379FD05DE1C * L_3 = __this->get_image_3();
-		UserProfile_tB1F9D8E54F0480240196974DCCAF2742F8F0A51E * L_4 = (UserProfile_tB1F9D8E54F0480240196974DCCAF2742F8F0A51E *)il2cpp_codegen_object_new(UserProfile_tB1F9D8E54F0480240196974DCCAF2742F8F0A51E_il2cpp_TypeInfo_var);
-		UserProfile__ctor_mA6594E3C7514264E933C665708C784CC8436FDDD(L_4, G_B3_2, G_B3_1, (bool)G_B3_0, 3, L_3, /*hidden argument*/NULL);
-		V_0 = L_4;
-		goto IL_0029;
+		Texture2D_tBBF96AC337723E2EF156DF17E09D4379FD05DE1C * L_4 = __this->get_image_4();
+		UserProfile_tB1F9D8E54F0480240196974DCCAF2742F8F0A51E * L_5 = (UserProfile_tB1F9D8E54F0480240196974DCCAF2742F8F0A51E *)il2cpp_codegen_object_new(UserProfile_tB1F9D8E54F0480240196974DCCAF2742F8F0A51E_il2cpp_TypeInfo_var);
+		UserProfile__ctor_m92FDA53E61AFE8734B660FC43C78EE6FEFC572B9(L_5, G_B3_3, G_B3_2, G_B3_1, (bool)G_B3_0, 3, L_4, /*hidden argument*/NULL);
+		V_0 = L_5;
+		goto IL_002f;
 	}
 
-IL_0029:
+IL_002f:
 	{
-		UserProfile_tB1F9D8E54F0480240196974DCCAF2742F8F0A51E * L_5 = V_0;
-		return L_5;
+		UserProfile_tB1F9D8E54F0480240196974DCCAF2742F8F0A51E * L_6 = V_0;
+		return L_6;
 	}
 }
 IL2CPP_EXTERN_C  UserProfile_tB1F9D8E54F0480240196974DCCAF2742F8F0A51E * GcUserProfileData_ToUserProfile_m6A2C008AE96EEA7E87D7FC34DBEE1696397D43EE_AdjustorThunk (RuntimeObject * __this, const RuntimeMethod* method)
@@ -6751,9 +6801,9 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void LocalUser__ctor_mF6CF1AB0E708BF7D9A03A2D
 		UserProfileU5BU5D_t74EE7690744D8F99BA578ACE0CC65C45837F522F* L_0 = (UserProfileU5BU5D_t74EE7690744D8F99BA578ACE0CC65C45837F522F*)(UserProfileU5BU5D_t74EE7690744D8F99BA578ACE0CC65C45837F522F*)SZArrayNew(UserProfileU5BU5D_t74EE7690744D8F99BA578ACE0CC65C45837F522F_il2cpp_TypeInfo_var, (uint32_t)0);
 		V_0 = (IUserProfileU5BU5D_tBE2EEBD677C2C607E3F86B6ABF3F164B72E570B0*)L_0;
 		IUserProfileU5BU5D_tBE2EEBD677C2C607E3F86B6ABF3F164B72E570B0* L_1 = V_0;
-		__this->set_m_Friends_5(L_1);
-		__this->set_m_Authenticated_6((bool)0);
-		__this->set_m_Underage_7((bool)0);
+		__this->set_m_Friends_6(L_1);
+		__this->set_m_Authenticated_7((bool)0);
+		__this->set_m_Underage_8((bool)0);
 		return;
 	}
 }
@@ -6762,7 +6812,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void LocalUser_SetFriends_m2D56A73FA031F1D0E7
 {
 	{
 		IUserProfileU5BU5D_tBE2EEBD677C2C607E3F86B6ABF3F164B72E570B0* L_0 = ___friends0;
-		__this->set_m_Friends_5(L_0);
+		__this->set_m_Friends_6(L_0);
 		return;
 	}
 }
@@ -6771,7 +6821,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void LocalUser_SetAuthenticated_mF54904343B2A
 {
 	{
 		bool L_0 = ___value0;
-		__this->set_m_Authenticated_6(L_0);
+		__this->set_m_Authenticated_7(L_0);
 		return;
 	}
 }
@@ -6780,7 +6830,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void LocalUser_SetUnderage_m8ED50A92329270F16
 {
 	{
 		bool L_0 = ___value0;
-		__this->set_m_Underage_7(L_0);
+		__this->set_m_Underage_8(L_0);
 		return;
 	}
 }
@@ -6789,7 +6839,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool LocalUser_get_authenticated_m62396464F58
 {
 	bool V_0 = false;
 	{
-		bool L_0 = __this->get_m_Authenticated_6();
+		bool L_0 = __this->get_m_Authenticated_7();
 		V_0 = L_0;
 		goto IL_000a;
 	}
@@ -6983,21 +7033,23 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void UserProfile__ctor_mF78D833C03B1DF5100C4B
 		return;
 	}
 }
-// System.Void UnityEngine.SocialPlatforms.Impl.UserProfile::.ctor(System.String,System.String,System.Boolean,UnityEngine.SocialPlatforms.UserState,UnityEngine.Texture2D)
-IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void UserProfile__ctor_mA6594E3C7514264E933C665708C784CC8436FDDD (UserProfile_tB1F9D8E54F0480240196974DCCAF2742F8F0A51E * __this, String_t* ___name0, String_t* ___id1, bool ___friend2, int32_t ___state3, Texture2D_tBBF96AC337723E2EF156DF17E09D4379FD05DE1C * ___image4, const RuntimeMethod* method)
+// System.Void UnityEngine.SocialPlatforms.Impl.UserProfile::.ctor(System.String,System.String,System.String,System.Boolean,UnityEngine.SocialPlatforms.UserState,UnityEngine.Texture2D)
+IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void UserProfile__ctor_m92FDA53E61AFE8734B660FC43C78EE6FEFC572B9 (UserProfile_tB1F9D8E54F0480240196974DCCAF2742F8F0A51E * __this, String_t* ___name0, String_t* ___teamId1, String_t* ___gameId2, bool ___friend3, int32_t ___state4, Texture2D_tBBF96AC337723E2EF156DF17E09D4379FD05DE1C * ___image5, const RuntimeMethod* method)
 {
 	{
 		Object__ctor_m925ECA5E85CA100E3FB86A4F9E15C120E9A184C0(__this, /*hidden argument*/NULL);
 		String_t* L_0 = ___name0;
 		__this->set_m_UserName_0(L_0);
-		String_t* L_1 = ___id1;
+		String_t* L_1 = ___teamId1;
 		__this->set_m_ID_1(L_1);
-		bool L_2 = ___friend2;
-		__this->set_m_IsFriend_2(L_2);
-		int32_t L_3 = ___state3;
-		__this->set_m_State_3(L_3);
-		Texture2D_tBBF96AC337723E2EF156DF17E09D4379FD05DE1C * L_4 = ___image4;
-		__this->set_m_Image_4(L_4);
+		String_t* L_2 = ___gameId2;
+		__this->set_m_gameID_5(L_2);
+		bool L_3 = ___friend3;
+		__this->set_m_IsFriend_2(L_3);
+		int32_t L_4 = ___state4;
+		__this->set_m_State_3(L_4);
+		Texture2D_tBBF96AC337723E2EF156DF17E09D4379FD05DE1C * L_5 = ___image5;
+		__this->set_m_Image_4(L_5);
 		return;
 	}
 }
@@ -7076,6 +7128,15 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void UserProfile_SetUserID_m498F118E430365323
 	{
 		String_t* L_0 = ___id0;
 		__this->set_m_ID_1(L_0);
+		return;
+	}
+}
+// System.Void UnityEngine.SocialPlatforms.Impl.UserProfile::SetUserGameID(System.String)
+IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void UserProfile_SetUserGameID_mF90580CC3E04FCBC548811BC4E7E267EB3AC5E4B (UserProfile_tB1F9D8E54F0480240196974DCCAF2742F8F0A51E * __this, String_t* ___id0, const RuntimeMethod* method)
+{
+	{
+		String_t* L_0 = ___id0;
+		__this->set_m_gameID_5(L_0);
 		return;
 	}
 }

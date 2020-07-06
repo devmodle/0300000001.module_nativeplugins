@@ -1,12 +1,11 @@
 #include <sys/types.h>
 #include <sys/sysctl.h>
 
-#include <AdSupport/ASIdentifierManager.h>
-
 #include "DisplayManager.h"
 
 // ad/vendor ids
-
+#if UNITY_USES_IAD
+#include <AdSupport/ASIdentifierManager.h>
 static id QueryASIdentifierManager()
 {
     NSBundle* bundle = [NSBundle bundleWithPath: @"/System/Library/Frameworks/AdSupport.framework"];
@@ -20,9 +19,13 @@ static id QueryASIdentifierManager()
     return nil;
 }
 
+#endif
+
 extern "C" const char* UnityAdvertisingIdentifier()
 {
     static const char* _ADID = NULL;
+
+#if UNITY_USES_IAD
     static const NSString* _ADIDNSString = nil;
 
     // ad id can be reset during app lifetime
@@ -38,6 +41,7 @@ extern "C" const char* UnityAdvertisingIdentifier()
             _ADID = AllocCString(adid);
         }
     }
+#endif
 
     return _ADID;
 }
@@ -69,10 +73,12 @@ extern "C" int UnityAdvertisingTrackingEnabled()
 {
     bool _AdTrackingEnabled = false;
 
+#if UNITY_USES_IAD
     // ad tracking can be changed during app lifetime
     id manager = QueryASIdentifierManager();
     if (manager)
         _AdTrackingEnabled = [manager performSelector: @selector(isAdvertisingTrackingEnabled)];
+#endif
 
     return _AdTrackingEnabled ? 1 : 0;
 }

@@ -144,6 +144,12 @@ NSInteger _forceInterfaceOrientationMask = 0;
     [audioSession setActive: YES error: nil];
     [audioSession addObserver: self forKeyPath: @"outputVolume" options: 0 context: nil];
     UnityUpdateMuteState([audioSession outputVolume] < 0.01f ? 1 : 0);
+
+#if UNITY_REPLAY_KIT_AVAILABLE
+    void InitUnityReplayKit();  // Classes/Unity/UnityReplayKit.mm
+
+    InitUnityReplayKit();
+#endif
 }
 
 extern "C" void UnityDestroyDisplayLink()
@@ -354,7 +360,7 @@ extern "C" void UnityCleanupTrampoline()
 {
     ::printf("-> applicationDidBecomeActive()\n");
 
-    [self removeSnapshotView];
+    [self removeSnapshotViewController];
 
     if (_unityAppReady)
     {
@@ -387,15 +393,49 @@ extern "C" void UnityCleanupTrampoline()
     UnityUpdateMuteState([[AVAudioSession sharedInstance] outputVolume] < 0.01f ? 1 : 0);
 }
 
-- (void)removeSnapshotView
+- (void)addSnapshotViewController
+{
+    // This is done on the next frame so that
+    // in the case where unity is paused while going
+    // into the background and an input is deactivated
+    // we don't mess with the view hierarchy while taking
+    // a view snapshot (case 760747).
+    dispatch_async(dispatch_get_main_queue(), ^{
+        // if we are active again, we don't need to do this anymore
+        if (!_didResignActive || _snapshotViewController)
+        {
+            return;
+        }
+
+        UIView* snapshotView = [self createSnapshotView];
+
+        if (snapshotView != nil)
+        {
+            _snapshotViewController = [[UIViewController alloc] init];
+            _snapshotViewController.modalPresentationStyle = UIModalPresentationFullScreen;
+            _snapshotViewController.view = snapshotView;
+
+            [_rootController presentViewController: _snapshotViewController animated: false completion: nil];
+        }
+    });
+}
+
+- (void)removeSnapshotViewController
 {
     // do this on the main queue async so that if we try to create one
     // and remove in the same frame, this always happens after in the same queue
     dispatch_async(dispatch_get_main_queue(), ^{
-        if (_snapshotView)
+        if (_snapshotViewController)
         {
-            [_snapshotView removeFromSuperview];
-            _snapshotView = nil;
+            // we've got a view on top of the snapshot view (3rd party plugin/social media login etc).
+            if (_snapshotViewController.presentedViewController)
+            {
+                [self performSelector: @selector(removeSnapshotViewController) withObject: nil afterDelay: 0.05];
+                return;
+            }
+
+            [_snapshotViewController dismissViewControllerAnimated: NO completion: nil];
+            _snapshotViewController = nil;
 
             // Make sure that the keyboard input field regains focus after the application becomes active.
             [[KeyboardDelegate Instance] becomeFirstResponder];
@@ -425,22 +465,7 @@ extern "C" void UnityCleanupTrampoline()
                 [self repaint];
                 UnityPause(1);
 
-                // this is done on the next frame so that
-                // in the case where unity is paused while going
-                // into the background and an input is deactivated
-                // we don't mess with the view hierarchy while taking
-                // a view snapshot (case 760747).
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    // if we are active again, we don't need to do this anymore
-                    if (!_didResignActive)
-                    {
-                        return;
-                    }
-
-                    _snapshotView = [self createSnapshotView];
-                    if (_snapshotView)
-                        [_rootView addSubview: _snapshotView];
-                });
+                [self addSnapshotViewController];
             }
         }
     }

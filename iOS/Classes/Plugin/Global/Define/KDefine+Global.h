@@ -1,5 +1,5 @@
 //
-//  KGlobalDefine.h
+//  KDefine+Global.h
 //  Unity-iPhone
 //
 //  Created by 이상동 on 2020/01/10.
@@ -11,6 +11,7 @@
 
 #import "UnityInterface.h"
 
+// 기타
 #define EMPTY_STRING			("")
 
 // 결과
@@ -24,9 +25,9 @@
 // 식별자 {
 #define ID_KEYCHAIN_DEVICE			("KeychainDeviceID")
 
-#define SYSTEM_SOUND_ID_LIGHT			(1519)
-#define SYSTEM_SOUND_ID_MEDIUM			(1102)
-#define SYSTEM_SOUND_ID_HEAVY			(1520)
+#define SYSTEM_SND_ID_LIGHT				(1519)
+#define SYSTEM_SND_ID_MEDIUM			(1102)
+#define SYSTEM_SND_ID_HEAVY				(1520)
 // 식별자 }
 
 // 비율
@@ -40,26 +41,26 @@
 #define MIN_VERSION_ACTIVITY_INDICATOR				13.0
 
 // 명령어
-#define COMMAND_GET_DEVICE_ID				("GetDeviceID")
-#define COMMAND_GET_COUNTRY_CODE			("GetCountryCode")
-#define COMMAND_GET_STORE_VERSION			("GetStoreVersion")
-#define COMMAND_SET_BUILD_MODE				("SetBuildMode")
-#define COMMAND_SHOW_ALERT					("ShowAlert")
-#define COMMAND_VIBRATE						("Vibrate")
-#define COMMAND_ACTIVITY_INDICATOR			("ActivityIndicator")
+#define CMD_GET_DEVICE_ID				("GetDeviceID")
+#define CMD_GET_COUNTRY_CODE			("GetCountryCode")
+#define CMD_GET_STORE_VERSION			("GetStoreVersion")
+#define CMD_SET_BUILD_MODE				("SetBuildMode")
+#define CMD_SHOW_ALERT					("ShowAlert")
+#define CMD_VIBRATE						("Vibrate")
+#define CMD_ACTIVITY_INDICATOR			("ActivityIndicator")
 
 // 키 {
-#define KEY_COMMAND			("Command")
-#define KEY_MESSAGE			("Message")
+#define KEY_CMD			("Cmd")
+#define KEY_MSG			("Msg")
 
 #define KEY_APP_ID			("AppID")
 #define KEY_VERSION			("Version")
 #define KEY_TIMEOUT			("Timeout")
 
-#define KEY_ALERT_TITLE							("Title")
-#define KEY_ALERT_MESSAGE						("Message")
-#define KEY_ALERT_OK_BUTTON_TEXT				("OKButtonText")
-#define KEY_ALERT_CANCEL_BUTTON_TEXT			("CancelButtonText")
+#define KEY_ALERT_TITLE						("Title")
+#define KEY_ALERT_MSG						("Msg")
+#define KEY_ALERT_OK_BTN_TEXT				("OKBtnText")
+#define KEY_ALERT_CANCEL_BTN_TEXT			("CancelBtnText")
 
 #define KEY_STORE_VERSION					("version")
 #define KEY_STORE_VERSION_RESULT			("results")
@@ -80,8 +81,8 @@
 // 네트워크 }
 
 // 이름
-#define OBJ_NAME_DEVICE_MESSAGE_RECEIVER				("CDeviceMessageReceiver")
-#define FUNC_NAME_DEVICE_MESSAGE_HANDLE_METHOD			("HandleDeviceMessage")
+#define OBJ_NAME_DEVICE_MSG_RECEIVER				("CDeviceMsgReceiver")
+#define FUNC_NAME_DEVICE_MSG_HANDLE_METHOD			("HandleDeviceMsg")
 
 //! 진동 타입
 enum class EVibrateType {

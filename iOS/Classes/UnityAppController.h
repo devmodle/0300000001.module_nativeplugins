@@ -17,7 +17,7 @@ __attribute__ ((visibility("default")))
     UIWindow*           _window;
     UIView*             _rootView;
     UIViewController*   _rootController;
-    UIView*             _snapshotView;
+    UIViewController*   _snapshotViewController;
 
     DisplayConnection*  _mainDisplay;
 

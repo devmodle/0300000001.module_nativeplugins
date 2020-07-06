@@ -87,10 +87,13 @@ namespace os
 
         static ThreadId CurrentThreadId();
         static Thread* GetCurrentThread();
+        static bool HasCurrentThread();
         static Thread* GetOrCreateCurrentThread();
         static void DetachCurrentThread();
 
         static bool YieldInternal();
+
+        static void SetDefaultAffinityMask(int64_t affinityMask);
 
 #if IL2CPP_HAS_NATIVE_THREAD_CLEANUP
         typedef void (*ThreadCleanupFunc) (void* arg);
@@ -101,6 +104,7 @@ namespace os
 #endif
 
         static const uint64_t kInvalidThreadId = 0;
+        static const int64_t kThreadAffinityAll = -1;
 
     private:
 
@@ -128,6 +132,8 @@ namespace os
         Thread(ThreadImpl* thread);
 
         static void RunWrapper(void* arg);
+
+        static int64_t s_DefaultAffinityMask;
     };
 }
 }

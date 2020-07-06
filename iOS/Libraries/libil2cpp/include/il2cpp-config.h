@@ -144,7 +144,7 @@ typedef void (STDCALL *SynchronizationContextCallback)(intptr_t arg);
 #endif
 
 /* Platform support to cleanup attached threads even when native threads are not exited cleanly */
-#define IL2CPP_HAS_NATIVE_THREAD_CLEANUP (IL2CPP_THREADS_PTHREAD || IL2CPP_THREADS_WIN32)
+#define IL2CPP_HAS_NATIVE_THREAD_CLEANUP (IL2CPP_THREADS_PTHREAD || IL2CPP_THREADS_WIN32 || IL2CPP_TARGET_SWITCH)
 
 #define IL2CPP_THREAD_IMPL_HAS_COM_APARTMENTS IL2CPP_TARGET_WINDOWS
 
@@ -170,7 +170,9 @@ typedef void (STDCALL *SynchronizationContextCallback)(intptr_t arg);
 #if IL2CPP_ENABLE_STACKTRACES
 
 /* Platforms which use stacktrace sentries */
+#if !defined(IL2CPP_ENABLE_STACKTRACE_SENTRIES)
 #define IL2CPP_ENABLE_STACKTRACE_SENTRIES (IL2CPP_TARGET_JAVASCRIPT || IL2CPP_TARGET_N3DS || IL2CPP_TARGET_SWITCH)
+#endif
 
 #endif // IL2CPP_ENABLE_STACKTRACES
 
@@ -246,6 +248,12 @@ static const uint32_t kInvalidIl2CppMethodSlot = 65535;
 #define ICALLMESSAGE(name)      __FILE_UTF8__ "(" $Line ") : FIXME: Missing internal call implementation: " name
 #define RUNTIMEMESSAGE(name)    __FILE_UTF8__ "(" $Line ") : FIXME: Missing runtime implementation: " name
 #define NOTSUPPORTEDICALLMESSAGE(target, name, reason)  __FILE_UTF8__ "(" $Line ") : Unsupported internal call for " target ":" name " - " reason
+
+#ifndef IL2CPP_DEFAULT_DATA_DIR_PATH
+#define IL2CPP_DEFAULT_DATA_DIR_PATH Data
+#endif
+
+#define IL2CPP_DEFAULT_DATA_DIR_PATH_STR MAKE_STRING(STRINGIZE, IL2CPP_DEFAULT_DATA_DIR_PATH)
 
 // Keeping this for future usage if needed.
 //#if defined(_MSC_VER)
@@ -333,12 +341,12 @@ static const uint32_t kInvalidIl2CppMethodSlot = 65535;
 #define IL2CPP_USE_GENERIC_ENVIRONMENT  (!IL2CPP_TARGET_WINDOWS && !IL2CPP_TARGET_POSIX)
 #endif
 
-#define IL2CPP_USE_GENERIC_COM  (!IL2CPP_TARGET_WINDOWS)
-#define IL2CPP_USE_GENERIC_COM_SAFEARRAYS   (!IL2CPP_TARGET_WINDOWS || IL2CPP_TARGET_XBOXONE)
-#define IL2CPP_USE_GENERIC_WINDOWSRUNTIME (!IL2CPP_TARGET_WINDOWS || RUNTIME_MONO || RUNTIME_NONE || IL2CPP_TINY)
+#define IL2CPP_USE_GENERIC_COM  (!IL2CPP_TARGET_WINDOWS || IL2CPP_TARGET_WINDOWS_GAMES)
+#define IL2CPP_USE_GENERIC_COM_SAFEARRAYS   (!IL2CPP_TARGET_WINDOWS || IL2CPP_TARGET_XBOXONE || IL2CPP_TARGET_WINDOWS_GAMES)
+#define IL2CPP_USE_GENERIC_WINDOWSRUNTIME (!IL2CPP_TARGET_WINDOWS || RUNTIME_MONO || RUNTIME_NONE || IL2CPP_TINY || IL2CPP_TARGET_WINDOWS_GAMES)
 
 #ifndef IL2CPP_USE_GENERIC_MEMORY_MAPPED_FILE
-#define IL2CPP_USE_GENERIC_MEMORY_MAPPED_FILE (IL2CPP_TARGET_XBOXONE || (!IL2CPP_TARGET_WINDOWS && !IL2CPP_TARGET_POSIX))
+#define IL2CPP_USE_GENERIC_MEMORY_MAPPED_FILE (IL2CPP_TARGET_XBOXONE || IL2CPP_TARGET_WINDOWS_GAMES || IL2CPP_TARGET_JAVASCRIPT || (!IL2CPP_TARGET_WINDOWS && !IL2CPP_TARGET_POSIX))
 #endif
 
 #ifndef IL2CPP_HAS_CLOSE_EXEC
@@ -369,10 +377,10 @@ static const uint32_t kInvalidIl2CppMethodSlot = 65535;
 #endif
 
 #if IL2CPP_MONO_DEBUGGER
-#define STORE_SEQ_POINT(storage, seqPoint) do { (storage).currentSequencePoint = seqPoint; } while (0)
-#define STORE_TRY_ID(storage, id) do { (storage).tryId = id; } while (0)
-#define CHECK_SEQ_POINT(storage, seqPoint) do {  il2cpp_codegen_check_sequence_point(&(storage), seqPoint); } while (0)
-#define CHECK_METHOD_ENTRY_SEQ_POINT(storage, seqPoint) do { il2cpp_codegen_check_sequence_point_entry(&(storage), seqPoint); } while (0)
+#define STORE_SEQ_POINT(storage, seqPoint) (storage).currentSequencePoint = seqPoint;
+#define STORE_TRY_ID(storage, id) (storage).tryId = id;
+#define CHECK_SEQ_POINT(storage, seqPoint) il2cpp_codegen_check_sequence_point(&(storage), seqPoint);
+#define CHECK_METHOD_ENTRY_SEQ_POINT(storage, seqPoint) il2cpp_codegen_check_sequence_point_entry(&(storage), seqPoint);
 #define CHECK_METHOD_EXIT_SEQ_POINT(name, storage, seqPoint) MethodExitSequencePointChecker name(&(storage), seqPoint);
 #define DECLARE_METHOD_THIS(variableName, thisAddress) void* variableName[] = { thisAddress }
 #define DECLARE_METHOD_PARAMS(variableName, ...) void* variableName[] = { __VA_ARGS__ }
@@ -437,6 +445,7 @@ typedef int32_t il2cpp_hresult_t;
 
 // Sorted numerically!
 #define IL2CPP_S_OK                          ((il2cpp_hresult_t)0)
+#define IL2CPP_S_FALSE                       ((il2cpp_hresult_t)1)
 #define IL2CPP_E_BOUNDS                      ((il2cpp_hresult_t)0x8000000B)
 #define IL2CPP_E_CHANGED_STATE               ((il2cpp_hresult_t)0x8000000C)
 #define IL2CPP_E_ILLEGAL_METHOD_CALL         ((il2cpp_hresult_t)0x8000000E)
@@ -456,6 +465,7 @@ typedef int32_t il2cpp_hresult_t;
 #define IL2CPP_E_OUTOFMEMORY                 ((il2cpp_hresult_t)0x8007000E)
 #define IL2CPP_E_INVALIDARG                  ((il2cpp_hresult_t)0x80070057)
 #define IL2CPP_COR_E_EXCEPTION               ((il2cpp_hresult_t)0x80131500)
+#define IL2CPP_COR_E_EXECUTIONENGINE         ((il2cpp_hresult_t)0x80131506)
 #define IL2CPP_COR_E_INVALIDOPERATION        ((il2cpp_hresult_t)0x80131509)
 #define IL2CPP_COR_E_PLATFORMNOTSUPPORTED    ((il2cpp_hresult_t)0x80131539)
 #define IL2CPP_COR_E_OPERATIONCANCELED       ((il2cpp_hresult_t)0x8013153B)

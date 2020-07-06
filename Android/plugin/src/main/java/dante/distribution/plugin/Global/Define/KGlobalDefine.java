@@ -25,25 +25,25 @@ public abstract class KGlobalDefine {
 	public static final String BUILD_MODE_RELEASE = "Release";
 	
 	// 명령어
-	public static final String COMMAND_GET_DEVICE_ID = "GetDeviceID";
-	public static final String COMMAND_GET_COUNTRY_CODE = "GetCountryCode";
-	public static final String COMMAND_GET_STORE_VERSION = "GetStoreVersion";
-	public static final String COMMAND_SET_BUILD_MODE = "SetBuildMode";
-	public static final String COMMAND_SHOW_ALERT = "ShowAlert";
-	public static final String COMMAND_SHOW_TOAST = "ShowToast";
-	public static final String COMMAND_VIBRATE = "Vibrate";
-	public static final String COMMAND_ACTIVITY_INDICATOR = "ActivityIndicator";
+	public static final String CMD_GET_DEVICE_ID = "GetDeviceID";
+	public static final String CMD_GET_COUNTRY_CODE = "GetCountryCode";
+	public static final String CMD_GET_STORE_VERSION = "GetStoreVersion";
+	public static final String CMD_SET_BUILD_MODE = "SetBuildMode";
+	public static final String CMD_SHOW_ALERT = "ShowAlert";
+	public static final String CMD_SHOW_TOAST = "ShowToast";
+	public static final String CMD_VIBRATE = "Vibrate";
+	public static final String CMD_ACTIVITY_INDICATOR = "ActivityIndicator";
 	
 	// 키 {
-	public static final String KEY_COMMAND = "Command";
-	public static final String KEY_MESSAGE = "Message";
+	public static final String KEY_CMD = "Cmd";
+	public static final String KEY_MSG = "Msg";
 	
 	public static final String KEY_VERSION = "Version";
 	
 	public static final String KEY_ALERT_TITLE = "Title";
-	public static final String KEY_ALERT_MESSAGE = "Message";
-	public static final String KEY_ALERT_OK_BUTTON_TEXT = "OKButtonText";
-	public static final String KEY_ALERT_CANCEL_BUTTON_TEXT = "CancelButtonText";
+	public static final String KEY_ALERT_MSG = "Msg";
+	public static final String KEY_ALERT_OK_BTN_TEXT = "OKBtnText";
+	public static final String KEY_ALERT_CANCEL_BTN_TEXT = "CancelBtnText";
 	
 	public static final String KEY_VIBRATE_DURATION = "Duration";
 	public static final String KEY_VIBRATE_INTENSITY = "Intensity";
@@ -53,6 +53,6 @@ public abstract class KGlobalDefine {
 	// 키 }
 	
 	// 이름
-	public static final String OBJ_NAME_DEVICE_MESSAGE_RECEIVER = "CDeviceMessageReceiver";
-	public static final String FUNC_NAME_DEVICE_MESSAGE_HANDLER = "HandleDeviceMessage";
+	public static final String OBJ_NAME_DEVICE_MSG_RECEIVER = "CDeviceMsgReceiver";
+	public static final String FUNC_NAME_DEVICE_MSG_HANDLER = "HandleDeviceMsg";
 }

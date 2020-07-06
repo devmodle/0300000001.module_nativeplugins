@@ -1,5 +1,5 @@
 //
-//  GlobalFunction.h
+//  Func+Global.h
 //  Unity-iPhone
 //
 //  Created by 이상동 on 2020/01/11.

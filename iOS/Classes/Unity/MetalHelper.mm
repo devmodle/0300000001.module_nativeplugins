@@ -171,14 +171,6 @@ extern "C" void CreateRenderingSurfaceMTL(UnityDisplaySurfaceMTL* surface)
             txDesc.sampleCount = 4;
         surface->targetAAColorRT = [surface->device newTextureWithDescriptor: txDesc];
         surface->targetAAColorRT.label = @"targetAAColorRT";
-
-        if (!surface->targetColorRT)
-        {
-            MTLTextureDescriptor* txDescResolve = [txDesc copyWithZone: nil];
-            txDescResolve.textureType = MTLTextureType2D;
-            txDescResolve.sampleCount = 1;
-            surface->targetColorRT = [surface->device newTextureWithDescriptor: txDescResolve];
-        }
     }
 }
 
@@ -239,14 +231,25 @@ extern "C" void CreateUnityRenderBuffersMTL(UnityDisplaySurfaceMTL* surface)
 
     // To avoid race condition with EndFrameRenderingMTL where systemColorRB is nulled we store it here
     MTLTextureRef systemColorRB = surface->drawableProxyRT[0];
-
     surface->systemColorRB = systemColorRB;
-    if (surface->targetAAColorRT)
-        surface->unityColorBuffer   = UnityCreateExternalColorSurfaceMTL(surface->unityColorBuffer, surface->targetAAColorRT, surface->targetColorRT, &tgt_desc, nil);
-    else if (surface->targetColorRT)
-        surface->unityColorBuffer   = UnityCreateExternalColorSurfaceMTL(surface->unityColorBuffer, surface->targetColorRT, nil, &tgt_desc, nil);
+
+    // we could unify all of it with ugly chain of ternary operators but what if karma exists?
+
+    if (surface->targetColorRT)
+    {
+        // render to interim RT: we do NOT need to request drawable
+        MTLTextureRef texRender     = surface->targetAAColorRT ? surface->targetAAColorRT : surface->targetColorRT;
+        MTLTextureRef texResolve    = surface->targetAAColorRT ? surface->targetColorRT : nil;
+        surface->unityColorBuffer   = UnityCreateExternalColorSurfaceMTL(surface->unityColorBuffer, texRender, texResolve, &tgt_desc, nil);
+    }
     else
-        surface->unityColorBuffer   = UnityCreateExternalColorSurfaceMTL(surface->unityColorBuffer, surface->systemColorRB, nil, &tgt_desc, surface);
+    {
+        // render to backbuffer directly: we will request drawable hence we need to pass surface
+        MTLTextureRef texRender     = surface->targetAAColorRT ? surface->targetAAColorRT : systemColorRB;
+        MTLTextureRef texResolve    = surface->targetAAColorRT ? systemColorRB : nil;
+
+        surface->unityColorBuffer   = UnityCreateExternalColorSurfaceMTL(surface->unityColorBuffer, texRender, texResolve, &tgt_desc, surface);
+    }
 
     if (surface->depthRB)
         surface->unityDepthBuffer   = UnityCreateExternalDepthSurfaceMTL(surface->unityDepthBuffer, surface->depthRB, surface->stencilRB, &tgt_desc);

@@ -637,7 +637,7 @@ static bool StringContainsEmoji(NSString *string);
 
 #if !FILTER_EMOJIS_IOS_KEYBOARD
     // If the user inserts any emoji that exceeds the character limit it should quickly reject it, else it'll crash
-    if (newLength > _characterLimit && StringContainsEmoji(text_))
+    if (newLength > _characterLimit && _characterLimit != 0 && StringContainsEmoji(text_))
     {
         return NO;
     }

@@ -7,7 +7,7 @@
 
 #import "CiOSPlugin.h"
 #import "Global/Function/Func+Global.h"
-#import "Global/Utility/Platform/CDeviceMessageSender.h"
+#import "Global/Utility/Platform/CDeviceMsgSender.h"
 
 //! 전역 변수
 static CiOSPlugin *g_pInstance = nil;
@@ -18,47 +18,47 @@ static CiOSPlugin *g_pInstance = nil;
 }
 
 //! 디바이스 식별자 반환 메세지를 처리한다
-- (void)handleGetDeviceIDMessage:(const char *)a_pszMessage;
+- (void)handleGetDeviceIDMsg:(const char *)a_pszMsg;
 
 //! 국가 코드 반환 메세지를 처리한다
-- (void)handleGetCountryCodeMessage:(const char *)a_pszMessage;
+- (void)handleGetCountryCodeMsg:(const char *)a_pszMsg;
 
 //! 스토어 버전 반환 메세지를 처리한다
-- (void)handleGetStoreVersionMessage:(const char *)a_pszMessage;
+- (void)handleGetStoreVersionMsg:(const char *)a_pszMsg;
 
 //! 빌드 모드 변경 메세지를 처리한다
-- (void)handleSetBuildModeMessage:(const char *)a_pszMessage;
+- (void)handleSetBuildModeMsg:(const char *)a_pszMsg;
 
 //! 알림 창 출력 메세지를 처리한다
-- (void)handleShowAlertMessage:(const char *)a_pszMessage;
+- (void)handleShowAlertMsg:(const char *)a_pszMsg;
 
 //! 진동 메세지를 처리한다
-- (void)handleVibrateMessage:(const char *)a_pszMessage;
+- (void)handleVibrateMsg:(const char *)a_pszMsg;
 
 //! 액티비티 인디게이터 메세지를 처리한다
-- (void)handleActivityIndicatorMessage:(const char *)a_pszMessage;
+- (void)handleActivityIndicatorMsg:(const char *)a_pszMsg;
 
 @end			// CiOSPlugin (Private)
 
 extern "C" {
 	//! 유니티 메세지를 처리한다
-	void HandleUnityMessage(const char *a_pszCommand, const char *a_pszMessage) {
-		NSLog(@"CiOSPlugin.HandleUnityMessage: %@, %@", @(a_pszCommand), @(a_pszMessage));
+	void HandleUnityMsg(const char *a_pszCmd, const char *a_pszMsg) {
+		NSLog(@"CiOSPlugin.HandleUnityMsg: %@, %@", @(a_pszCmd), @(a_pszMsg));
 		
-		if(strcmp(a_pszCommand, COMMAND_GET_DEVICE_ID) == 0) {
-			[CiOSPlugin.sharedInstance handleGetDeviceIDMessage:a_pszMessage];
-		} else if(strcmp(a_pszCommand, COMMAND_GET_COUNTRY_CODE) == 0) {
-			[CiOSPlugin.sharedInstance handleGetCountryCodeMessage:a_pszMessage];
-		} else if(strcmp(a_pszCommand, COMMAND_GET_STORE_VERSION) == 0) {
-			[CiOSPlugin.sharedInstance handleGetStoreVersionMessage:a_pszMessage];
-		} else if(strcmp(a_pszCommand, COMMAND_SET_BUILD_MODE) == 0) {
-			[CiOSPlugin.sharedInstance handleSetBuildModeMessage:a_pszMessage];
-		} else if(strcmp(a_pszCommand, COMMAND_SHOW_ALERT) == 0) {
-			[CiOSPlugin.sharedInstance handleShowAlertMessage:a_pszMessage];
-		} else if(strcmp(a_pszCommand, COMMAND_VIBRATE) == 0) {
-			[CiOSPlugin.sharedInstance handleVibrateMessage:a_pszMessage];
-		} else if(strcmp(a_pszCommand, COMMAND_ACTIVITY_INDICATOR) == 0) {
-			[CiOSPlugin.sharedInstance handleActivityIndicatorMessage:a_pszMessage];
+		if(strcmp(a_pszCmd, CMD_GET_DEVICE_ID) == 0) {
+			[CiOSPlugin.sharedInstance handleGetDeviceIDMsg:a_pszMsg];
+		} else if(strcmp(a_pszCmd, CMD_GET_COUNTRY_CODE) == 0) {
+			[CiOSPlugin.sharedInstance handleGetCountryCodeMsg:a_pszMsg];
+		} else if(strcmp(a_pszCmd, CMD_GET_STORE_VERSION) == 0) {
+			[CiOSPlugin.sharedInstance handleGetStoreVersionMsg:a_pszMsg];
+		} else if(strcmp(a_pszCmd, CMD_SET_BUILD_MODE) == 0) {
+			[CiOSPlugin.sharedInstance handleSetBuildModeMsg:a_pszMsg];
+		} else if(strcmp(a_pszCmd, CMD_SHOW_ALERT) == 0) {
+			[CiOSPlugin.sharedInstance handleShowAlertMsg:a_pszMsg];
+		} else if(strcmp(a_pszCmd, CMD_VIBRATE) == 0) {
+			[CiOSPlugin.sharedInstance handleVibrateMsg:a_pszMsg];
+		} else if(strcmp(a_pszCmd, CMD_ACTIVITY_INDICATOR) == 0) {
+			[CiOSPlugin.sharedInstance handleActivityIndicatorMsg:a_pszMsg];
 		}
 	}
 }
@@ -191,8 +191,8 @@ extern "C" {
 }
 
 //! 디바이스 식별자 반환 메세지를 처리한다
-- (void)handleGetDeviceIDMessage:(const char *)a_pszMessage {
-	NSLog(@"CiOSPlugin.handleGetDeviceIDMessage: %@", @(a_pszMessage));
+- (void)handleGetDeviceIDMsg:(const char *)a_pszMsg {
+	NSLog(@"CiOSPlugin.handleGetDeviceIDMsg: %@", @(a_pszMsg));
 	
 	if(!Func::IsValidString(self.deviceID)) {
 		if(@available(iOS MIN_VERSION_DEVICE_ID_FOR_VENDOR, *)) {
@@ -205,21 +205,21 @@ extern "C" {
 		[self.keychainItemWrapper setObject:self.deviceID forKey:(__bridge id)kSecAttrAccount];
 	}
 	
-	[CDeviceMessageSender.sharedInstance sendGetDeviceIDMessage:self.deviceID];
+	[CDeviceMsgSender.sharedInstance sendGetDeviceIDMsg:self.deviceID];
 }
 
 //! 국가 코드 반환 메세지를 처리한다
-- (void)handleGetCountryCodeMessage:(const char *)a_pszMessage {
-	NSLog(@"CiOSPlugin.handleGetCountryCodeMessage: %@", @(a_pszMessage));
+- (void)handleGetCountryCodeMsg:(const char *)a_pszMsg {
+	NSLog(@"CiOSPlugin.handleGetCountryCodeMsg: %@", @(a_pszMsg));
 	
 	auto pLocale = NSLocale.currentLocale;
-	[CDeviceMessageSender.sharedInstance sendGetCountryCodeMessage:pLocale.countryCode];
+	[CDeviceMsgSender.sharedInstance sendGetCountryCodeMsg:pLocale.countryCode];
 }
 
 //! 스토어 버전 반환 메세지를 처리한다
-- (void)handleGetStoreVersionMessage:(const char *)a_pszMessage {
-	NSLog(@"CiOSPlugin.handleGetStoreVersionMessage: %@", @(a_pszMessage));
-	auto pDataList = (NSDictionary *)Func::ConvertJSONStringToObject(@(a_pszMessage), NULL);
+- (void)handleGetStoreVersionMsg:(const char *)a_pszMsg {
+	NSLog(@"CiOSPlugin.handleGetStoreVersionMsg: %@", @(a_pszMsg));
+	auto pDataList = (NSDictionary *)Func::ConvertJSONStringToObject(@(a_pszMsg), NULL);
 	
 	auto pAppID = (NSString *)[pDataList objectForKey:@(KEY_APP_ID)];
 	auto pVersion = (NSString *)[pDataList objectForKey:@(KEY_VERSION)];
@@ -230,15 +230,15 @@ extern "C" {
 	
 	// 데이터를 수신했을 경우
 	Func::SendURLRequest(pRequest, ^void(NSData *a_pData, NSURLResponse *a_pResponse, NSError *a_pError) {
-		NSLog(@"CiOSPlugin.onHandleGetStoreVersionMessage: %@", a_pData);
+		NSLog(@"CiOSPlugin.onHandleGetStoreVersionMsg: %@", a_pData);
 		
 		// 디버그 모드 일 경우
 		if([self.buildMode isEqualToString:@(BUILD_MODE_DEBUG)]) {
-			[CDeviceMessageSender.sharedInstance sendGetStoreVersionMessage:pVersion withResult:YES];
+			[CDeviceMsgSender.sharedInstance sendGetStoreVersionMsg:pVersion withResult:YES];
 		} else {
 			if(a_pError != nil || (a_pData == nil || a_pResponse == nil)) {
-				NSLog(@"CiOSPlugin.onHandleGetStoreVersionMessage Fail: %@", a_pError);
-				[CDeviceMessageSender.sharedInstance sendGetStoreVersionMessage:pVersion withResult:NO];
+				NSLog(@"CiOSPlugin.onHandleGetStoreVersionMsg Fail: %@", a_pError);
+				[CDeviceMsgSender.sharedInstance sendGetStoreVersionMsg:pVersion withResult:NO];
 			} else {
 				auto pString = [[NSString alloc] initWithData:a_pData encoding:NSUTF8StringEncoding];
 				auto pResponseDataList = (NSDictionary *)Func::ConvertJSONStringToObject(pString, NULL);
@@ -247,12 +247,12 @@ extern "C" {
 				auto pVersionInfo = (NSDictionary *)[pVersionInfoList lastObject];
 				
 				auto pStoreVersion = (NSString *)[pVersionInfo objectForKey:@(KEY_STORE_VERSION)];
-				NSLog(@"CiOSPlugin.onHandleGetStoreVersionMessage Success: %@", pStoreVersion);
+				NSLog(@"CiOSPlugin.onHandleGetStoreVersionMsg Success: %@", pStoreVersion);
 				
 				if(Func::IsValidString(pStoreVersion)) {
-					[CDeviceMessageSender.sharedInstance sendGetStoreVersionMessage:pStoreVersion withResult:YES];
+					[CDeviceMsgSender.sharedInstance sendGetStoreVersionMsg:pStoreVersion withResult:YES];
 				} else {
-					[CDeviceMessageSender.sharedInstance sendGetStoreVersionMessage:pVersion withResult:NO];
+					[CDeviceMsgSender.sharedInstance sendGetStoreVersionMsg:pVersion withResult:NO];
 				}
 			}
 		}
@@ -260,40 +260,40 @@ extern "C" {
 }
 
 //! 빌드 모드 변경 메세지를 처리한다
-- (void)handleSetBuildModeMessage:(const char *)a_pszMessage {
-	NSLog(@"CiOSPlugin.handleSetBuildModeMessage: %@", @(a_pszMessage));
-	self.buildMode = @(a_pszMessage);
+- (void)handleSetBuildModeMsg:(const char *)a_pszMsg {
+	NSLog(@"CiOSPlugin.handleSetBuildModeMsg: %@", @(a_pszMsg));
+	self.buildMode = @(a_pszMsg);
 }
 
 //! 알림 창 출력 메세지를 처리한다
-- (void)handleShowAlertMessage:(const char *)a_pszMessage {
-	NSLog(@"CiOSPlugin.handleShowAlertMessage: %@", @(a_pszMessage));
-	auto pDataList = (NSDictionary *)Func::ConvertJSONStringToObject(@(a_pszMessage), NULL);
+- (void)handleShowAlertMsg:(const char *)a_pszMsg {
+	NSLog(@"CiOSPlugin.handleShowAlertMsg: %@", @(a_pszMsg));
+	auto pDataList = (NSDictionary *)Func::ConvertJSONStringToObject(@(a_pszMsg), NULL);
 	
 	auto pTitle = (NSString *)[pDataList objectForKey:@(KEY_ALERT_TITLE)];
-	auto pMessage = (NSString *)[pDataList objectForKey:@(KEY_ALERT_MESSAGE)];
-	auto pOKButtonTitle = (NSString *)[pDataList objectForKey:@(KEY_ALERT_OK_BUTTON_TEXT)];
-	auto pCancelButtonTitle = (NSString *)[pDataList objectForKey:@(KEY_ALERT_CANCEL_BUTTON_TEXT)];
+	auto pMsg = (NSString *)[pDataList objectForKey:@(KEY_ALERT_MSG)];
+	auto pOKBtnTitle = (NSString *)[pDataList objectForKey:@(KEY_ALERT_OK_BTN_TEXT)];
+	auto pCancelBtnTitle = (NSString *)[pDataList objectForKey:@(KEY_ALERT_CANCEL_BTN_TEXT)];
 	
 	auto pAlertController = [UIAlertController alertControllerWithTitle:Func::IsValidString(pTitle) ? pTitle : nil
-																message:pMessage
+																message:pMsg
 														 preferredStyle:UIAlertControllerStyleAlert];
 	
 	// 확인 버튼을 눌렀을 경우
-	[pAlertController addAction:[UIAlertAction actionWithTitle:pOKButtonTitle
+	[pAlertController addAction:[UIAlertAction actionWithTitle:pOKBtnTitle
 														 style:UIAlertActionStyleDefault
 													   handler:^void(UIAlertAction *a_pSender)
 	{
-		[CDeviceMessageSender.sharedInstance sendShowAlertMessage:YES];
+		[CDeviceMsgSender.sharedInstance sendShowAlertMsg:YES];
 	}]];
 	
-	if(Func::IsValidString(pCancelButtonTitle)) {
+	if(Func::IsValidString(pCancelBtnTitle)) {
 		// 취소 버튼을 눌렀을 경우
-		[pAlertController addAction:[UIAlertAction actionWithTitle:pCancelButtonTitle
+		[pAlertController addAction:[UIAlertAction actionWithTitle:pCancelBtnTitle
 															 style:UIAlertActionStyleCancel
 														   handler:^void(UIAlertAction *a_pSender)
 		{
-			[CDeviceMessageSender.sharedInstance sendShowAlertMessage:NO];
+			[CDeviceMsgSender.sharedInstance sendShowAlertMsg:NO];
 		}]];
 	}
 	
@@ -302,9 +302,9 @@ extern "C" {
 }
 
 //! 진동 메세지를 처리한다
-- (void)handleVibrateMessage:(const char *)a_pszMessage {
-	NSLog(@"CiOSPlugin.handleVibrateMessage: %@", @(a_pszMessage));
-	auto pDataList = (NSDictionary *)Func::ConvertJSONStringToObject(@(a_pszMessage), NULL);
+- (void)handleVibrateMsg:(const char *)a_pszMsg {
+	NSLog(@"CiOSPlugin.handleVibrateMsg: %@", @(a_pszMsg));
+	auto pDataList = (NSDictionary *)Func::ConvertJSONStringToObject(@(a_pszMsg), NULL);
 	
 	auto pType = (NSString *)[pDataList objectForKey:@(KEY_VIBRATE_TYPE)];
 	auto pStyle = (NSString *)[pDataList objectForKey:@(KEY_VIBRATE_STYLE)];
@@ -336,24 +336,24 @@ extern "C" {
 				}
 			}
 		} else {
-			SystemSoundID nSoundID = SYSTEM_SOUND_ID_LIGHT;
+			SystemSoundID nSndID = SYSTEM_SND_ID_LIGHT;
 			
 			if(eVibrateStyle == EVibrateStyle::MEDIUM) {
-				nSoundID = SYSTEM_SOUND_ID_MEDIUM;
+				nSndID = SYSTEM_SND_ID_MEDIUM;
 			} else if(eVibrateStyle == EVibrateStyle::HEAVY) {
-				nSoundID = SYSTEM_SOUND_ID_HEAVY;
+				nSndID = SYSTEM_SND_ID_HEAVY;
 			}
 			
-			AudioServicesPlaySystemSound(nSoundID);
+			AudioServicesPlaySystemSound(nSndID);
 		}
 	}
 }
 
 //! 액티비티 인디게이터 메세지를 처리한다
-- (void)handleActivityIndicatorMessage:(const char *)a_pszMessage {
-	NSLog(@"CiOSPlugin.handleStartActivityIndicatorMessage: %@", @(a_pszMessage));
+- (void)handleActivityIndicatorMsg:(const char *)a_pszMsg {
+	NSLog(@"CiOSPlugin.handleStartActivityIndicatorMsg: %@", @(a_pszMsg));
 	
-	if(Func::ConvertStringToBool(@(a_pszMessage))) {
+	if(Func::ConvertStringToBool(@(a_pszMsg))) {
 		[self.activityIndicatorView startAnimating];
 	} else {
 		[self.activityIndicatorView stopAnimating];

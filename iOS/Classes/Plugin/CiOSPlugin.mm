@@ -219,7 +219,7 @@ extern "C" {
 //! 스토어 버전 반환 메세지를 처리한다
 - (void)handleGetStoreVersionMsg:(const char *)a_pszMsg {
 	NSLog(@"CiOSPlugin.handleGetStoreVersionMsg: %@", @(a_pszMsg));
-	auto pDataList = (NSDictionary *)Func::ConvertJSONStringToObject(@(a_pszMsg), NULL);
+	auto pDataList = (NSDictionary *)Func::ConvertJSONStringToObj(@(a_pszMsg), NULL);
 	
 	auto pAppID = (NSString *)[pDataList objectForKey:@(KEY_APP_ID)];
 	auto pVersion = (NSString *)[pDataList objectForKey:@(KEY_VERSION)];
@@ -241,7 +241,7 @@ extern "C" {
 				[CDeviceMsgSender.sharedInstance sendGetStoreVersionMsg:pVersion withResult:NO];
 			} else {
 				auto pString = [[NSString alloc] initWithData:a_pData encoding:NSUTF8StringEncoding];
-				auto pResponseDataList = (NSDictionary *)Func::ConvertJSONStringToObject(pString, NULL);
+				auto pResponseDataList = (NSDictionary *)Func::ConvertJSONStringToObj(pString, NULL);
 				
 				auto pVersionInfoList = (NSArray *)[pResponseDataList objectForKey:@(KEY_STORE_VERSION_RESULT)];
 				auto pVersionInfo = (NSDictionary *)[pVersionInfoList lastObject];
@@ -268,7 +268,7 @@ extern "C" {
 //! 알림 창 출력 메세지를 처리한다
 - (void)handleShowAlertMsg:(const char *)a_pszMsg {
 	NSLog(@"CiOSPlugin.handleShowAlertMsg: %@", @(a_pszMsg));
-	auto pDataList = (NSDictionary *)Func::ConvertJSONStringToObject(@(a_pszMsg), NULL);
+	auto pDataList = (NSDictionary *)Func::ConvertJSONStringToObj(@(a_pszMsg), NULL);
 	
 	auto pTitle = (NSString *)[pDataList objectForKey:@(KEY_ALERT_TITLE)];
 	auto pMsg = (NSString *)[pDataList objectForKey:@(KEY_ALERT_MSG)];
@@ -304,7 +304,7 @@ extern "C" {
 //! 진동 메세지를 처리한다
 - (void)handleVibrateMsg:(const char *)a_pszMsg {
 	NSLog(@"CiOSPlugin.handleVibrateMsg: %@", @(a_pszMsg));
-	auto pDataList = (NSDictionary *)Func::ConvertJSONStringToObject(@(a_pszMsg), NULL);
+	auto pDataList = (NSDictionary *)Func::ConvertJSONStringToObj(@(a_pszMsg), NULL);
 	
 	auto pType = (NSString *)[pDataList objectForKey:@(KEY_VIBRATE_TYPE)];
 	auto pStyle = (NSString *)[pDataList objectForKey:@(KEY_VIBRATE_STYLE)];

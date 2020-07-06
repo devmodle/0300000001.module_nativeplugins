@@ -25,7 +25,7 @@ namespace Func {
 	NSString * ConvertObjectToJSONString(NSObject *a_pObject, NSError **a_pError);
 	
 	//! JSON 문자열 -> 객체로 변환한다
-	NSObject * ConvertJSONStringToObject(NSString *a_pJSONString, NSError **a_pError);
+	NSObject * ConvertJSONStringToObj(NSString *a_pJSONString, NSError **a_pError);
 	
 	//! URL 요청을 전송한다
 	void SendURLRequest(NSURLRequest *a_pRequest, void (^a_pfnCallback)(NSData *, NSURLResponse *, NSError *));

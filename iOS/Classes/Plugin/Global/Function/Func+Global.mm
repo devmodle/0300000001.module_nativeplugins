@@ -38,7 +38,7 @@ namespace Func {
 	}
 
 	//! JSON 문자열 -> 객체로 변환한다
-	NSObject * ConvertJSONStringToObject(NSString *a_pJSONString, NSError **a_pError) {
+	NSObject * ConvertJSONStringToObj(NSString *a_pJSONString, NSError **a_pError) {
 		auto pData = [a_pJSONString dataUsingEncoding:NSUTF8StringEncoding];
 		
 		return [NSJSONSerialization JSONObjectWithData:pData

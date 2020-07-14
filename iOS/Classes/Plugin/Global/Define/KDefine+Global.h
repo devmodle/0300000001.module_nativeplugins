@@ -45,6 +45,7 @@
 #define CMD_GET_COUNTRY_CODE			("GetCountryCode")
 #define CMD_GET_STORE_VERSION			("GetStoreVersion")
 #define CMD_SET_BUILD_MODE				("SetBuildMode")
+#define CMD_LOGIN						("Login")
 #define CMD_SHOW_ALERT					("ShowAlert")
 #define CMD_VIBRATE						("Vibrate")
 #define CMD_ACTIVITY_INDICATOR			("ActivityIndicator")

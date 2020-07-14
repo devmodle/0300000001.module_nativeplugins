@@ -29,9 +29,6 @@ static CiOSPlugin *g_pInstance = nil;
 //! 빌드 모드 변경 메세지를 처리한다
 - (void)handleSetBuildModeMsg:(const char *)a_pszMsg;
 
-//! 로그인 메세지를 출력한다
-- (void)handleLoginMsg:(const char *)a_pszMsg;
-
 //! 알림 창 출력 메세지를 처리한다
 - (void)handleShowAlertMsg:(const char *)a_pszMsg;
 

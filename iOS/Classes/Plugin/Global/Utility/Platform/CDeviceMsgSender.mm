@@ -39,8 +39,10 @@ static CDeviceMsgSender *g_pInstance = nil;
 
 //! 스토어 버전 반환 메세지를 전송한다
 - (void)sendGetStoreVersionMsg:(NSString *)a_pVersion withResult:(BOOL)a_bIsSuccess {
+	auto pResultString = Func::ConvertBoolToString(a_bIsSuccess);
+	
 	auto pDataList = [NSDictionary dictionaryWithObjectsAndKeys:a_pVersion, @(KEY_DEVICE_MS_VERSION),
-					  Func::ConvertBoolToString(a_bIsSuccess), @(KEY_DEVICE_MS_RESULT), nil];
+					  pResultString, @(KEY_DEVICE_MS_RESULT), nil];
 	
 	auto pMsg = Func::ConvertObjectToJSONString(pDataList, NULL);
 	[self send:@(CMD_GET_STORE_VERSION) withMsg:pMsg];

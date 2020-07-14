@@ -56,8 +56,6 @@ extern "C" {
 			[CiOSPlugin.sharedInstance handleGetStoreVersionMsg:a_pszMsg];
 		} else if(strcmp(a_pszCmd, CMD_SET_BUILD_MODE) == 0) {
 			[CiOSPlugin.sharedInstance handleSetBuildModeMsg:a_pszMsg];
-		} else if(strcmp(a_pszCmd, CMD_LOGIN) == 0) {
-			[CiOSPlugin.sharedInstance handleLoginMsg:a_pszMsg];
 		} else if(strcmp(a_pszCmd, CMD_SHOW_ALERT) == 0) {
 			[CiOSPlugin.sharedInstance handleShowAlertMsg:a_pszMsg];
 		} else if(strcmp(a_pszCmd, CMD_VIBRATE) == 0) {
@@ -268,13 +266,6 @@ extern "C" {
 - (void)handleSetBuildModeMsg:(const char *)a_pszMsg {
 	NSLog(@"CiOSPlugin.handleSetBuildModeMsg: %@", @(a_pszMsg));
 	self.buildMode = @(a_pszMsg);
-}
-
-//! 로그인 메세지를 출력한다
-- (void)handleLoginMsg:(const char *)a_pszMsg {
-	NSLog(@"CiOSPlugin.handleLoginMsg: %@", @(a_pszMsg));
-	
-	
 }
 
 //! 알림 창 출력 메세지를 처리한다

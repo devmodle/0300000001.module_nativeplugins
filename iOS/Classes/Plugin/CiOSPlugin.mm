@@ -37,7 +37,6 @@ static CiOSPlugin *g_pInstance = nil;
 
 //! 액티비티 인디게이터 메세지를 처리한다
 - (void)handleActivityIndicatorMsg:(const char *)a_pszMsg;
-
 @end			// CiOSPlugin (Private)
 
 extern "C" {
@@ -65,8 +64,7 @@ extern "C" {
 
 //! iOS 플러그인
 @implementation CiOSPlugin
-
-// 프로퍼티 {
+#pragma mark - Property
 @synthesize buildMode;
 
 @synthesize deviceID = m_pDeviceID;
@@ -76,7 +74,6 @@ extern "C" {
 @synthesize impactGeneratorList = m_pImpactGeneratorList;
 @synthesize selectionGenerator = m_pSelectionGenerator;
 @synthesize notificationGenerator = m_pNotificationGenerator;
-// 프로퍼티 }
 
 #pragma mark - init
 //! 객체를 생성한다
@@ -93,7 +90,7 @@ extern "C" {
 #pragma mark - instance method
 //! 디바이스 식별자를 반환한다
 - (NSString *)deviceID {
-	if(!Func::IsValidString(m_pDeviceID)) {
+	if(!Func::IsValid(m_pDeviceID)) {
 		m_pDeviceID = (NSString *)[self.keychainItemWrapper objectForKey:(__bridge id)kSecAttrAccount];
 	}
 	
@@ -194,7 +191,7 @@ extern "C" {
 - (void)handleGetDeviceIDMsg:(const char *)a_pszMsg {
 	NSLog(@"CiOSPlugin.handleGetDeviceIDMsg: %@", @(a_pszMsg));
 	
-	if(!Func::IsValidString(self.deviceID)) {
+	if(!Func::IsValid(self.deviceID)) {
 		if(@available(iOS MIN_VERSION_DEVICE_ID_FOR_VENDOR, *)) {
 			self.deviceID = UIDevice.currentDevice.identifierForVendor.UUIDString;
 		} else {
@@ -226,7 +223,7 @@ extern "C" {
 	auto pTimeout = (NSString *)[pDataList objectForKey:@(KEY_TIMEOUT)];
 	
 	auto pURL = [NSString stringWithFormat:@(URL_FORMAT_STORE_VERSION), pAppID];
-	auto pRequest = Func::CreateURLRequest(pURL, @(HTTP_METHOD_GET), pTimeout.doubleValue);
+	auto pRequest = Func::MakeURLRequest(pURL, @(HTTP_METHOD_GET), pTimeout.doubleValue);
 	
 	// 데이터를 수신했을 경우
 	Func::SendURLRequest(pRequest, ^void(NSData *a_pData, NSURLResponse *a_pResponse, NSError *a_pError) {
@@ -249,7 +246,7 @@ extern "C" {
 				auto pStoreVersion = (NSString *)[pVersionInfo objectForKey:@(KEY_STORE_VERSION)];
 				NSLog(@"CiOSPlugin.onHandleGetStoreVersionMsg Success: %@", pStoreVersion);
 				
-				if(Func::IsValidString(pStoreVersion)) {
+				if(Func::IsValid(pStoreVersion)) {
 					[CDeviceMsgSender.sharedInstance sendGetStoreVersionMsg:pStoreVersion withResult:YES];
 				} else {
 					[CDeviceMsgSender.sharedInstance sendGetStoreVersionMsg:pVersion withResult:NO];
@@ -275,7 +272,7 @@ extern "C" {
 	auto pOKBtnTitle = (NSString *)[pDataList objectForKey:@(KEY_ALERT_OK_BTN_TEXT)];
 	auto pCancelBtnTitle = (NSString *)[pDataList objectForKey:@(KEY_ALERT_CANCEL_BTN_TEXT)];
 	
-	auto pAlertController = [UIAlertController alertControllerWithTitle:Func::IsValidString(pTitle) ? pTitle : nil
+	auto pAlertController = [UIAlertController alertControllerWithTitle:Func::IsValid(pTitle) ? pTitle : nil
 																message:pMsg
 														 preferredStyle:UIAlertControllerStyleAlert];
 	
@@ -287,7 +284,7 @@ extern "C" {
 		[CDeviceMsgSender.sharedInstance sendShowAlertMsg:YES];
 	}]];
 	
-	if(Func::IsValidString(pCancelBtnTitle)) {
+	if(Func::IsValid(pCancelBtnTitle)) {
 		// 취소 버튼을 눌렀을 경우
 		[pAlertController addAction:[UIAlertAction actionWithTitle:pCancelBtnTitle
 															 style:UIAlertActionStyleCancel
@@ -312,7 +309,7 @@ extern "C" {
 	auto eVibrateType = (EVibrateType)pType.intValue;
 	auto eVibrateStyle = (EVibrateStyle)pStyle.intValue;
 	
-	if(Func::IsValidVibrateType(eVibrateType)) {
+	if(Func::IsValid(eVibrateType)) {
 		// 햅틱 진동을 지원 할 경우
 		if(@available(iOS MIN_VERSION_FEEDBACK_GENERATOR, *)) {
 			if(eVibrateType == EVibrateType::SELECTION) {
@@ -371,5 +368,4 @@ extern "C" {
 	
 	return g_pInstance;
 }
-
 @end			// CiOSPlugin

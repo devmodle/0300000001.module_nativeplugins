@@ -13,7 +13,6 @@ static CDeviceMsgSender *g_pInstance = nil;
 
 //! 디바이스 메세지 전송자
 @implementation CDeviceMsgSender
-
 #pragma mark - init
 //! 객체를 생성한다
 + (id)alloc {
@@ -39,12 +38,12 @@ static CDeviceMsgSender *g_pInstance = nil;
 
 //! 스토어 버전 반환 메세지를 전송한다
 - (void)sendGetStoreVersionMsg:(NSString *)a_pVersion withResult:(BOOL)a_bIsSuccess {
-	auto pResultString = Func::ConvertBoolToString(a_bIsSuccess);
+	auto pString = Func::ConvertBoolToString(a_bIsSuccess);
 	
 	auto pDataList = [NSDictionary dictionaryWithObjectsAndKeys:a_pVersion, @(KEY_DEVICE_MS_VERSION),
-					  pResultString, @(KEY_DEVICE_MS_RESULT), nil];
+					  pString, @(KEY_DEVICE_MS_RESULT), nil];
 	
-	auto pMsg = Func::ConvertObjectToJSONString(pDataList, NULL);
+	auto pMsg = Func::ConvertObjToJSONString(pDataList, NULL);
 	[self send:@(CMD_GET_STORE_VERSION) withMsg:pMsg];
 }
 
@@ -59,7 +58,7 @@ static CDeviceMsgSender *g_pInstance = nil;
 	auto pDictionary = [NSDictionary dictionaryWithObjectsAndKeys:a_pCmd, @(KEY_CMD),
 						a_pMsg, @(KEY_MSG), nil];
 	
-	NSString *pString = Func::ConvertObjectToJSONString(pDictionary, NULL);
+	auto pString = Func::ConvertObjToJSONString(pDictionary, NULL);
 	UnitySendMessage(OBJ_NAME_DEVICE_MSG_RECEIVER, FUNC_NAME_DEVICE_MSG_HANDLE_METHOD, pString.UTF8String);
 }
 
@@ -74,5 +73,4 @@ static CDeviceMsgSender *g_pInstance = nil;
 	
 	return g_pInstance;
 }
-
 @end			// CDeviceMsgSender

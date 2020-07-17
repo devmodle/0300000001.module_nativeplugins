@@ -8,13 +8,13 @@
 #import "Func+Global.h"
 
 namespace Func {
-	//! 문자열 유효 여부를 검사한다
-	BOOL IsValidString(NSString *a_pString) {
+	//! 유효 여부를 검사한다
+	BOOL IsValid(NSString *a_pString) {
 		return a_pString != nil && a_pString.length >= 1;
 	}
 	
-	//! 진동 타입 유효 여부를 검사한다
-	BOOL IsValidVibrateType(EVibrateType a_eType) {
+	//! 유효 여부를 검사한다
+	BOOL IsValid(EVibrateType a_eType) {
 		return a_eType > EVibrateType::NONE && a_eType < EVibrateType::MAX_VALUE;
 	}
 
@@ -29,8 +29,8 @@ namespace Func {
 	}
 
 	//! 객체 -> JSON 문자열로 변환한다
-	NSString * ConvertObjectToJSONString(NSObject *a_pObject, NSError **a_pError) {
-		auto pData = [NSJSONSerialization dataWithJSONObject:a_pObject
+	NSString * ConvertObjToJSONString(NSObject *a_pObj, NSError **a_pError) {
+		auto pData = [NSJSONSerialization dataWithJSONObject:a_pObj
 													 options:NSJSONWritingPrettyPrinted
 													   error:a_pError];
 		
@@ -38,8 +38,8 @@ namespace Func {
 	}
 
 	//! JSON 문자열 -> 객체로 변환한다
-	NSObject * ConvertJSONStringToObj(NSString *a_pJSONString, NSError **a_pError) {
-		auto pData = [a_pJSONString dataUsingEncoding:NSUTF8StringEncoding];
+	NSObject * ConvertJSONStringToObj(NSString *a_pString, NSError **a_pError) {
+		auto pData = [a_pString dataUsingEncoding:NSUTF8StringEncoding];
 		
 		return [NSJSONSerialization JSONObjectWithData:pData
 											   options:NSJSONReadingMutableContainers
@@ -55,7 +55,7 @@ namespace Func {
 	}
 
 	//! URL 요청을 생성한다
-	NSMutableURLRequest * CreateURLRequest(NSString *a_pURL, NSString *a_pMethod, double a_dblTimeout) {
+	NSMutableURLRequest * MakeURLRequest(NSString *a_pURL, NSString *a_pMethod, double a_dblTimeout) {
 		auto pRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:a_pURL]
 												cachePolicy:NSURLRequestUseProtocolCachePolicy
 											timeoutInterval:a_dblTimeout];

@@ -144,8 +144,8 @@ public class CAndroidPlugin {
 	private void handleGetStoreVersionMsg(String a_oMsg) throws Exception {
 		Log.d(KGlobalDefine.TAG, String.format("CAndroidPlugin.handleGetStoreVersionMsg: %s", a_oMsg));
 		
-		JSONObject oJSONObject = new JSONObject(a_oMsg);
-		final String oVersion = oJSONObject.getString(KGlobalDefine.KEY_VERSION);
+		JSONObject oJSONObj = new JSONObject(a_oMsg);
+		final String oVersion = oJSONObj.getString(KGlobalDefine.KEY_VERSION);
 		
 		// 앱 업데이트 관리자를 지원하지 않을 경우
 		if(Build.VERSION.SDK_INT < KGlobalDefine.MIN_VERSION_APP_UPDATE_MANAGER) {
@@ -209,16 +209,16 @@ public class CAndroidPlugin {
 	
 	//! 알림 창 출력 메세지를 처리한다
 	private void handleShowAlertMsg(String a_oMsg) throws Exception {
-		JSONObject oJSONObject = new JSONObject(a_oMsg);
+		JSONObject oJSONObj = new JSONObject(a_oMsg);
 		Log.d(KGlobalDefine.TAG, String.format("CAndroidPlugin.handleShowAlertMsg: %s", a_oMsg));
 		
-		String oTitle = oJSONObject.getString(KGlobalDefine.KEY_ALERT_TITLE);
-		String oMsg = oJSONObject.getString(KGlobalDefine.KEY_ALERT_MSG);
-		String oOKBtnTitle = oJSONObject.getString(KGlobalDefine.KEY_ALERT_OK_BTN_TEXT);
-		String oCancelBtnTitle = oJSONObject.getString(KGlobalDefine.KEY_ALERT_CANCEL_BTN_TEXT);
+		String oTitle = oJSONObj.getString(KGlobalDefine.KEY_ALERT_TITLE);
+		String oMsg = oJSONObj.getString(KGlobalDefine.KEY_ALERT_MSG);
+		String oOKBtnTitle = oJSONObj.getString(KGlobalDefine.KEY_ALERT_OK_BTN_TEXT);
+		String oCancelBtnTitle = oJSONObj.getString(KGlobalDefine.KEY_ALERT_CANCEL_BTN_TEXT);
 		
 		AlertDialog.Builder oBuilder = new AlertDialog.Builder(UnityPlayer.currentActivity);
-		oBuilder.setTitle(GlobalFunc.isValidString(oTitle) ? oTitle : null);
+		oBuilder.setTitle(GlobalFunc.isValid(oTitle) ? oTitle : null);
 		oBuilder.setMessage(oMsg);
 		
 		// 확인 버튼을 눌렀을 경우
@@ -229,7 +229,7 @@ public class CAndroidPlugin {
 			}
 		});
 		
-		if(GlobalFunc.isValidString(oCancelBtnTitle)) {
+		if(GlobalFunc.isValid(oCancelBtnTitle)) {
 			// 취소 버튼을 눌렀을 경우
 			oBuilder.setNegativeButton(oCancelBtnTitle, new DialogInterface.OnClickListener() {
 				@Override
@@ -246,13 +246,13 @@ public class CAndroidPlugin {
 	//! 진동 메세지를 처리한다
 	private void handleVibrateMsg(String a_oMsg) throws Exception {
 		Log.d(KGlobalDefine.TAG, String.format("CAndroidPlugin.handleVibrateMsg: %s", a_oMsg));
-		JSONObject oJSONObject = new JSONObject(a_oMsg);
+		JSONObject oJSONObj = new JSONObject(a_oMsg);
 		
-		String oDurationString = oJSONObject.getString(KGlobalDefine.KEY_VIBRATE_DURATION);
-		String oIntensityString = oJSONObject.getString(KGlobalDefine.KEY_VIBRATE_INTENSITY);
+		String oDuration = oJSONObj.getString(KGlobalDefine.KEY_VIBRATE_DURATION);
+		String oIntensity = oJSONObj.getString(KGlobalDefine.KEY_VIBRATE_INTENSITY);
 		
-		float fDuration = Math.abs(Float.parseFloat(oDurationString));
-		float fIntensity = Math.abs(Float.parseFloat(oIntensityString));
+		float fDuration = Math.abs(Float.parseFloat(oDuration));
+		float fIntensity = Math.abs(Float.parseFloat(oIntensity));
 		
 		Context oAppContext = UnityPlayer.currentActivity.getApplicationContext();
 		Vibrator oVibrator = (Vibrator)oAppContext.getSystemService(Context.VIBRATOR_SERVICE);

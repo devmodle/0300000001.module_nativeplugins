@@ -47,11 +47,11 @@ public class CDeviceMsgSender {
 		try {
 			String oResult = GlobalFunc.convertBoolToString(a_bIsSuccess);
 			
-			JSONObject oJSONObject = new JSONObject();
-			oJSONObject.put(KGlobalDefine.KEY_DEVICE_MS_VERSION, a_oVersion);
-			oJSONObject.put(KGlobalDefine.KEY_DEVICE_MS_RESULT, oResult);
+			JSONObject oJSONObj = new JSONObject();
+			oJSONObj.put(KGlobalDefine.KEY_DEVICE_MS_VERSION, a_oVersion);
+			oJSONObj.put(KGlobalDefine.KEY_DEVICE_MS_RESULT, oResult);
 			
-			this.sendMsg(KGlobalDefine.CMD_GET_STORE_VERSION, oJSONObject.toString());
+			this.sendMsg(KGlobalDefine.CMD_GET_STORE_VERSION, oJSONObj.toString());
 		} catch(Exception oException) {
 			oException.printStackTrace();
 			Log.e(KGlobalDefine.TAG, String.format("CAndroidPlugin.sendGetStoreVersionMsg Exception: %s", oException.getMessage()));
@@ -71,11 +71,11 @@ public class CDeviceMsgSender {
 	
 	//! 메세지를 전송한다
 	private void sendMsg(String a_oCmd, String a_oMsg) throws Exception {
-		JSONObject oJSONObject = new JSONObject();
-		oJSONObject.put(KGlobalDefine.KEY_CMD, a_oCmd);
-		oJSONObject.put(KGlobalDefine.KEY_MSG, a_oMsg);
+		JSONObject oJSONObj = new JSONObject();
+		oJSONObj.put(KGlobalDefine.KEY_CMD, a_oCmd);
+		oJSONObj.put(KGlobalDefine.KEY_MSG, a_oMsg);
 		
 		UnityPlayer.UnitySendMessage(KGlobalDefine.OBJ_NAME_DEVICE_MSG_RECEIVER,
-				KGlobalDefine.FUNC_NAME_DEVICE_MSG_HANDLER, oJSONObject.toString());
+				KGlobalDefine.FUNC_NAME_DEVICE_MSG_HANDLER, oJSONObj.toString());
 	}
 }

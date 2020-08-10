@@ -28,12 +28,12 @@ static CDeviceMsgSender *g_pInstance = nil;
 #pragma mark - instance method
 //! 디바이스 식별자 반환 메세지를 전송한다
 - (void)sendGetDeviceIDMsg:(NSString *)a_oDeviceID {
-	[self send:@(CMD_GET_DEVICE_ID) withMsg:a_oDeviceID];
+	[self send:@(CMD_GET_DEVICE_ID) withDeviceMsg:a_oDeviceID];
 }
 
 //! 국가 코드 반환 메세지를 전송한다
 - (void)sendGetCountryCodeMsg:(NSString *)a_pCountryCode {
-	[self send:@(CMD_GET_COUNTRY_CODE) withMsg:a_pCountryCode];
+	[self send:@(CMD_GET_COUNTRY_CODE) withDeviceMsg:a_pCountryCode];
 }
 
 //! 스토어 버전 반환 메세지를 전송한다
@@ -44,17 +44,17 @@ static CDeviceMsgSender *g_pInstance = nil;
 					  pString, @(KEY_DEVICE_MS_RESULT), nil];
 	
 	auto pMsg = Func::ConvertObjToJSONString(pDataList, NULL);
-	[self send:@(CMD_GET_STORE_VERSION) withMsg:pMsg];
+	[self send:@(CMD_GET_STORE_VERSION) withDeviceMsg:pMsg];
 }
 
 //! 알림 창 출력 메세지를 전송한다
 - (void)sendShowAlertMsg:(BOOL)a_bIsTrue {
 	auto pMsg = Func::ConvertBoolToString(a_bIsTrue);
-	[self send:@(CMD_SHOW_ALERT) withMsg:pMsg];
+	[self send:@(CMD_SHOW_ALERT) withDeviceMsg:pMsg];
 }
 
-//! 메세지를 전송한다
-- (void)send:(NSString *)a_pCmd withMsg:(NSString *)a_pMsg {
+//! 디바이스 메세지를 전송한다
+- (void)send:(NSString *)a_pCmd withDeviceMsg:(NSString *)a_pMsg {
 	auto pDictionary = [NSDictionary dictionaryWithObjectsAndKeys:a_pCmd, @(KEY_CMD),
 						a_pMsg, @(KEY_MSG), nil];
 	

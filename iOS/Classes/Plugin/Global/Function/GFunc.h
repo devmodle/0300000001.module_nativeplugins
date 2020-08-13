@@ -1,11 +1,11 @@
 //
-//  Func+Global.h
+//  GFunc.h
 //  Unity-iPhone
 //
 //  Created by 이상동 on 2020/01/11.
 //
 
-#import "../Define/KDefine+Global.h"
+#import "../Define/KGDefine.h"
 
 //! 전역 함수
 namespace Func {

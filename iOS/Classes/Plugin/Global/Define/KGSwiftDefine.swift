@@ -1,5 +1,5 @@
 //
-//  KDefine+Swift.swift
+//  KGSwiftDefine.swift
 //  Unity-iPhone
 //
 //  Created by 이상동 on 2020/07/15.

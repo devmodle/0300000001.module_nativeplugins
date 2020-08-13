@@ -5,7 +5,7 @@
 //  Created by 이상동 on 2020/02/26.
 //
 
-#import "Global/Define/KDefine+Global.h"
+#import "Global/Define/KGDefine.h"
 #import "Global/Utility/External/Keychain/KeychainItemWrapper.h"
 #import "UnityAppController.h"
 

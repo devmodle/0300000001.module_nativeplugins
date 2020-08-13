@@ -1,5 +1,5 @@
 //
-//  KDefine+Global.h
+//  KGDefine.h
 //  Unity-iPhone
 //
 //  Created by 이상동 on 2020/01/10.

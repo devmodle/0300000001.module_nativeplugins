@@ -33,13 +33,13 @@ import java.nio.charset.StandardCharsets;
 import java.util.Locale;
 import java.util.UUID;
 
-import dante.distribution.plugin.Global.Define.KGlobalDefine;
+import dante.distribution.plugin.Global.Define.KGDefine;
 import dante.distribution.plugin.Global.Function.GlobalFunc;
 import dante.distribution.plugin.Global.Utility.Platform.CDeviceMsgSender;
 
 //! 안드로이드 플러그인
 public class CAndroidPlugin {
-	private String m_oBuildMode = KGlobalDefine.EMPTY_STRING;
+	private String m_oBuildMode = KGDefine.EMPTY_STRING;
 	private ProgressBar m_oProgressBar = null;
 	
 	private static CAndroidPlugin m_oInstance = null;
@@ -50,10 +50,10 @@ public class CAndroidPlugin {
 		UnityPlayer.currentActivity.getWindowManager().getDefaultDisplay().getSize(oPoint);
 		
 		int nSize = Math.min(oPoint.x, oPoint.y);
-		nSize = (int)(nSize * KGlobalDefine.SCALE_PROGRESS_BAR);
+		nSize = (int)(nSize * KGDefine.SCALE_PROGRESS_BAR);
 		
 		int nOffset = Math.min(oPoint.x, oPoint.y);
-		nOffset = (int)(nOffset * KGlobalDefine.SCALE_PROGRESS_BAR_OFFSET);
+		nOffset = (int)(nOffset * KGDefine.SCALE_PROGRESS_BAR_OFFSET);
 		
 		// 프로그레스 바를 설정한다 {
 		m_oProgressBar = new ProgressBar(UnityPlayer.currentActivity, null, android.R.attr.progressBarStyleLarge);
@@ -88,25 +88,25 @@ public class CAndroidPlugin {
 	
 	//! 유니티 메세지를 처리한다
 	public static void handleUnityMsg(final String a_oCmd, final String a_oMsg) {
-		Log.d(KGlobalDefine.TAG, String.format("CAndroidPlugin.handleUnityMsg: %s, %s", a_oCmd, a_oMsg));
+		Log.d(KGDefine.TAG, String.format("CAndroidPlugin.handleUnityMsg: %s, %s", a_oCmd, a_oMsg));
 		
 		UnityPlayer.currentActivity.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
 				try {
 					switch(a_oCmd) {
-						case KGlobalDefine.CMD_GET_DEVICE_ID: CAndroidPlugin.getInstance().handleGetDeviceIDMsg(a_oMsg); break;
-						case KGlobalDefine.CMD_GET_COUNTRY_CODE: CAndroidPlugin.getInstance().handleGetCountryCodeMsg(a_oMsg); break;
-						case KGlobalDefine.CMD_GET_STORE_VERSION: CAndroidPlugin.getInstance().handleGetStoreVersionMsg(a_oMsg); break;
-						case KGlobalDefine.CMD_SET_BUILD_MODE: CAndroidPlugin.getInstance().handleSetBuildModeMsg(a_oMsg); break;
-						case KGlobalDefine.CMD_SHOW_TOAST: CAndroidPlugin.getInstance().handleShowToastMsg(a_oMsg); break;
-						case KGlobalDefine.CMD_SHOW_ALERT: CAndroidPlugin.getInstance().handleShowAlertMsg(a_oMsg); break;
-						case KGlobalDefine.CMD_VIBRATE: CAndroidPlugin.getInstance().handleVibrateMsg(a_oMsg); break;
-						case KGlobalDefine.CMD_ACTIVITY_INDICATOR: CAndroidPlugin.getInstance().handleActivityIndicatorMsg(a_oMsg); break;
+						case KGDefine.CMD_GET_DEVICE_ID: CAndroidPlugin.getInstance().handleGetDeviceIDMsg(a_oMsg); break;
+						case KGDefine.CMD_GET_COUNTRY_CODE: CAndroidPlugin.getInstance().handleGetCountryCodeMsg(a_oMsg); break;
+						case KGDefine.CMD_GET_STORE_VERSION: CAndroidPlugin.getInstance().handleGetStoreVersionMsg(a_oMsg); break;
+						case KGDefine.CMD_SET_BUILD_MODE: CAndroidPlugin.getInstance().handleSetBuildModeMsg(a_oMsg); break;
+						case KGDefine.CMD_SHOW_TOAST: CAndroidPlugin.getInstance().handleShowToastMsg(a_oMsg); break;
+						case KGDefine.CMD_SHOW_ALERT: CAndroidPlugin.getInstance().handleShowAlertMsg(a_oMsg); break;
+						case KGDefine.CMD_VIBRATE: CAndroidPlugin.getInstance().handleVibrateMsg(a_oMsg); break;
+						case KGDefine.CMD_ACTIVITY_INDICATOR: CAndroidPlugin.getInstance().handleActivityIndicatorMsg(a_oMsg); break;
 					}
 				} catch(Exception oException) {
 					oException.printStackTrace();
-					Log.e(KGlobalDefine.TAG, String.format("CAndroidPlugin.handleUnityMsg Exception: %s", oException.getMessage()));
+					Log.e(KGDefine.TAG, String.format("CAndroidPlugin.handleUnityMsg Exception: %s", oException.getMessage()));
 				}
 			}
 		});
@@ -114,13 +114,13 @@ public class CAndroidPlugin {
 	
 	//! 디바이스 식별자 반환 메세지를 처리한다
 	private void handleGetDeviceIDMsg(String a_oMsg) {
-		Log.d(KGlobalDefine.TAG, String.format("CAndroidPlugin.handleGetDeviceIDMsg: %s", a_oMsg));
+		Log.d(KGDefine.TAG, String.format("CAndroidPlugin.handleGetDeviceIDMsg: %s", a_oMsg));
 		
 		UUID oUUID = null;
 		Context oAppContext = UnityPlayer.currentActivity.getApplicationContext();
 		
 		// 안드로이드 식별자가 유효하지 않을 경우
-		if(Settings.Secure.ANDROID_ID.equals(KGlobalDefine.INVALID_ANDROID_ID)) {
+		if(Settings.Secure.ANDROID_ID.equals(KGDefine.INVALID_ANDROID_ID)) {
 			oUUID = UUID.randomUUID();
 		} else {
 			ContentResolver oResolver = oAppContext.getContentResolver();
@@ -134,7 +134,7 @@ public class CAndroidPlugin {
 	
 	//! 국가 코드 반환 메세지를 처리한다
 	private void handleGetCountryCodeMsg(String a_oMsg) {
-		Log.d(KGlobalDefine.TAG, String.format("CAndroidPlugin.handleGetCountryCodeMsg: %s", a_oMsg));
+		Log.d(KGDefine.TAG, String.format("CAndroidPlugin.handleGetCountryCodeMsg: %s", a_oMsg));
 		
 		Locale oLocale = Locale.getDefault();
 		CDeviceMsgSender.getInstance().sendGetCountryCodeMsg(oLocale.getCountry());
@@ -142,19 +142,19 @@ public class CAndroidPlugin {
 	
 	//! 스토어 버전 반환 메세지를 처리한다
 	private void handleGetStoreVersionMsg(String a_oMsg) throws Exception {
-		Log.d(KGlobalDefine.TAG, String.format("CAndroidPlugin.handleGetStoreVersionMsg: %s", a_oMsg));
+		Log.d(KGDefine.TAG, String.format("CAndroidPlugin.handleGetStoreVersionMsg: %s", a_oMsg));
 		
 		JSONObject oJSONObj = new JSONObject(a_oMsg);
-		final String oVersion = oJSONObj.getString(KGlobalDefine.KEY_VERSION);
+		final String oVersion = oJSONObj.getString(KGDefine.KEY_VERSION);
 		
 		// 앱 업데이트 관리자를 지원하지 않을 경우
-		if(Build.VERSION.SDK_INT < KGlobalDefine.MIN_VERSION_APP_UPDATE_MANAGER) {
+		if(Build.VERSION.SDK_INT < KGDefine.MIN_VERSION_APP_UPDATE_MANAGER) {
 			CDeviceMsgSender.getInstance().sendGetStoreVersionMsg(oVersion, false);
 		} else {
 			Task<AppUpdateInfo> oTask = null;
 			
 			// 디버그 모드 일 경우
-			if(m_oBuildMode.equals(KGlobalDefine.BUILD_MODE_DEBUG)) {
+			if(m_oBuildMode.equals(KGDefine.BUILD_MODE_DEBUG)) {
 				FakeAppUpdateManager oFakeUpdateManager = new FakeAppUpdateManager(UnityPlayer.currentActivity);
 				oFakeUpdateManager.setUpdateAvailable(Integer.parseInt(oVersion));
 				
@@ -168,7 +168,7 @@ public class CAndroidPlugin {
 			oTask.addOnSuccessListener(new OnSuccessListener<AppUpdateInfo>() {
 				@Override
 				public void onSuccess(AppUpdateInfo a_oUpdateInfo) {
-					Log.d(KGlobalDefine.TAG, String.format("CAndroidPlugin.onHandleGetStoreVersionMsg Success: %d", a_oUpdateInfo.updateAvailability()));
+					Log.d(KGDefine.TAG, String.format("CAndroidPlugin.onHandleGetStoreVersionMsg Success: %d", a_oUpdateInfo.updateAvailability()));
 					
 					int nVersion = Integer.parseInt(oVersion);
 					boolean bIsSuccess = a_oUpdateInfo.updateAvailability() != UpdateAvailability.UNKNOWN;
@@ -187,7 +187,7 @@ public class CAndroidPlugin {
 				@Override
 				public void onFailure(Exception a_oException) {
 					a_oException.printStackTrace();
-					Log.d(KGlobalDefine.TAG, String.format("CAndroidPlugin.onHandleGetStoreVersionMsg Fail: %s", a_oException.getMessage()));
+					Log.d(KGDefine.TAG, String.format("CAndroidPlugin.onHandleGetStoreVersionMsg Fail: %s", a_oException.getMessage()));
 					
 					CDeviceMsgSender.getInstance().sendGetStoreVersionMsg(oVersion, false);
 				}
@@ -197,25 +197,25 @@ public class CAndroidPlugin {
 	
 	//! 빌드 모드 변경 메세지를 처리한다
 	private void handleSetBuildModeMsg(String a_oMsg) {
-		Log.d(KGlobalDefine.TAG, String.format("CAndroidPlugin.handleSetBuildModeMsg: %s", a_oMsg));
+		Log.d(KGDefine.TAG, String.format("CAndroidPlugin.handleSetBuildModeMsg: %s", a_oMsg));
 		m_oBuildMode = a_oMsg;
 	}
 	
 	//! 토스트 출력 메세지를 처리한다
 	private void handleShowToastMsg(String a_oMsg) {
-		Log.d(KGlobalDefine.TAG, String.format("CAndroidPlugin.handleShowToastMsg: %s", a_oMsg));
+		Log.d(KGDefine.TAG, String.format("CAndroidPlugin.handleShowToastMsg: %s", a_oMsg));
 		Toast.makeText(UnityPlayer.currentActivity, a_oMsg, Toast.LENGTH_LONG);
 	}
 	
 	//! 알림 창 출력 메세지를 처리한다
 	private void handleShowAlertMsg(String a_oMsg) throws Exception {
 		JSONObject oJSONObj = new JSONObject(a_oMsg);
-		Log.d(KGlobalDefine.TAG, String.format("CAndroidPlugin.handleShowAlertMsg: %s", a_oMsg));
+		Log.d(KGDefine.TAG, String.format("CAndroidPlugin.handleShowAlertMsg: %s", a_oMsg));
 		
-		String oTitle = oJSONObj.getString(KGlobalDefine.KEY_ALERT_TITLE);
-		String oMsg = oJSONObj.getString(KGlobalDefine.KEY_ALERT_MSG);
-		String oOKBtnTitle = oJSONObj.getString(KGlobalDefine.KEY_ALERT_OK_BTN_TEXT);
-		String oCancelBtnTitle = oJSONObj.getString(KGlobalDefine.KEY_ALERT_CANCEL_BTN_TEXT);
+		String oTitle = oJSONObj.getString(KGDefine.KEY_ALERT_TITLE);
+		String oMsg = oJSONObj.getString(KGDefine.KEY_ALERT_MSG);
+		String oOKBtnTitle = oJSONObj.getString(KGDefine.KEY_ALERT_OK_BTN_TEXT);
+		String oCancelBtnTitle = oJSONObj.getString(KGDefine.KEY_ALERT_CANCEL_BTN_TEXT);
 		
 		AlertDialog.Builder oBuilder = new AlertDialog.Builder(UnityPlayer.currentActivity);
 		oBuilder.setTitle(GlobalFunc.isValid(oTitle) ? oTitle : null);
@@ -245,11 +245,11 @@ public class CAndroidPlugin {
 	
 	//! 진동 메세지를 처리한다
 	private void handleVibrateMsg(String a_oMsg) throws Exception {
-		Log.d(KGlobalDefine.TAG, String.format("CAndroidPlugin.handleVibrateMsg: %s", a_oMsg));
+		Log.d(KGDefine.TAG, String.format("CAndroidPlugin.handleVibrateMsg: %s", a_oMsg));
 		JSONObject oJSONObj = new JSONObject(a_oMsg);
 		
-		String oDuration = oJSONObj.getString(KGlobalDefine.KEY_VIBRATE_DURATION);
-		String oIntensity = oJSONObj.getString(KGlobalDefine.KEY_VIBRATE_INTENSITY);
+		String oDuration = oJSONObj.getString(KGDefine.KEY_VIBRATE_DURATION);
+		String oIntensity = oJSONObj.getString(KGDefine.KEY_VIBRATE_INTENSITY);
 		
 		float fDuration = Math.abs(Float.parseFloat(oDuration));
 		float fIntensity = Math.abs(Float.parseFloat(oIntensity));
@@ -258,7 +258,7 @@ public class CAndroidPlugin {
 		Vibrator oVibrator = (Vibrator)oAppContext.getSystemService(Context.VIBRATOR_SERVICE);
 		
 		// 햅틱 진동을 지원하지 않을 경우
-		if(Build.VERSION.SDK_INT < KGlobalDefine.MIN_VERSION_FEEDBACK_GENERATOR) {
+		if(Build.VERSION.SDK_INT < KGDefine.MIN_VERSION_FEEDBACK_GENERATOR) {
 			oVibrator.vibrate((int)(fDuration * 1000.0f));
 		} else {
 			VibrationEffect oEffect = VibrationEffect.createOneShot((int)(fDuration * 1000.0f), (int)(fIntensity * 255.0f));
@@ -268,7 +268,7 @@ public class CAndroidPlugin {
 	
 	//! 액티비티 인디게이터 메세지를 처리한다
 	private void handleActivityIndicatorMsg(String a_oMsg) {
-		Log.d(KGlobalDefine.TAG, String.format("CAndroidPlugin.handleActivityIndicatorMsg: %s", a_oMsg));
+		Log.d(KGDefine.TAG, String.format("CAndroidPlugin.handleActivityIndicatorMsg: %s", a_oMsg));
 		
 		if(GlobalFunc.convertStringToBool(a_oMsg)) {
 			m_oProgressBar.setVisibility(View.VISIBLE);

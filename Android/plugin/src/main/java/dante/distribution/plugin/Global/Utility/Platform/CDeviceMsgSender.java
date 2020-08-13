@@ -6,7 +6,7 @@ import com.unity3d.player.UnityPlayer;
 
 import org.json.JSONObject;
 
-import dante.distribution.plugin.Global.Define.KGlobalDefine;
+import dante.distribution.plugin.Global.Define.KGDefine;
 import dante.distribution.plugin.Global.Function.GlobalFunc;
 
 //! 디바이스 메세지 전송자
@@ -25,20 +25,20 @@ public class CDeviceMsgSender {
 	//! 디바이스 식별자 반환 메세지를 전송한다
 	public void sendGetDeviceIDMsg(String a_oDeviceID) {
 		try {
-			this.sendDeviceMsg(KGlobalDefine.CMD_GET_DEVICE_ID, a_oDeviceID);
+			this.sendDeviceMsg(KGDefine.CMD_GET_DEVICE_ID, a_oDeviceID);
 		} catch(Exception oException) {
 			oException.printStackTrace();
-			Log.e(KGlobalDefine.TAG, String.format("CAndroidPlugin.sendGetDeviceIDMsg Exception: %s", oException.getMessage()));
+			Log.e(KGDefine.TAG, String.format("CAndroidPlugin.sendGetDeviceIDMsg Exception: %s", oException.getMessage()));
 		}
 	}
 	
 	//! 국가 코드 반환 메세지를 전송한다
 	public void sendGetCountryCodeMsg(String a_oCountryCode) {
 		try {
-			this.sendDeviceMsg(KGlobalDefine.CMD_GET_COUNTRY_CODE, a_oCountryCode);
+			this.sendDeviceMsg(KGDefine.CMD_GET_COUNTRY_CODE, a_oCountryCode);
 		} catch(Exception oException) {
 			oException.printStackTrace();
-			Log.e(KGlobalDefine.TAG, String.format("CAndroidPlugin.sendGetCountryCodeMsg Exception: %s", oException.getMessage()));
+			Log.e(KGDefine.TAG, String.format("CAndroidPlugin.sendGetCountryCodeMsg Exception: %s", oException.getMessage()));
 		}
 	}
 	
@@ -48,13 +48,13 @@ public class CDeviceMsgSender {
 			String oResult = GlobalFunc.convertBoolToString(a_bIsSuccess);
 			
 			JSONObject oJSONObj = new JSONObject();
-			oJSONObj.put(KGlobalDefine.KEY_DEVICE_MS_VERSION, a_oVersion);
-			oJSONObj.put(KGlobalDefine.KEY_DEVICE_MS_RESULT, oResult);
+			oJSONObj.put(KGDefine.KEY_DEVICE_MS_VERSION, a_oVersion);
+			oJSONObj.put(KGDefine.KEY_DEVICE_MS_RESULT, oResult);
 			
-			this.sendDeviceMsg(KGlobalDefine.CMD_GET_STORE_VERSION, oJSONObj.toString());
+			this.sendDeviceMsg(KGDefine.CMD_GET_STORE_VERSION, oJSONObj.toString());
 		} catch(Exception oException) {
 			oException.printStackTrace();
-			Log.e(KGlobalDefine.TAG, String.format("CAndroidPlugin.sendGetStoreVersionMsg Exception: %s", oException.getMessage()));
+			Log.e(KGDefine.TAG, String.format("CAndroidPlugin.sendGetStoreVersionMsg Exception: %s", oException.getMessage()));
 		}
 	}
 	
@@ -62,20 +62,20 @@ public class CDeviceMsgSender {
 	public void sendShowAlertMsg(boolean a_bIsTrue) {
 		try {
 			String oResult = GlobalFunc.convertBoolToString(a_bIsTrue);
-			this.sendDeviceMsg(KGlobalDefine.CMD_SHOW_ALERT, oResult);
+			this.sendDeviceMsg(KGDefine.CMD_SHOW_ALERT, oResult);
 		} catch(Exception oException) {
 			oException.printStackTrace();
-			Log.e(KGlobalDefine.TAG, String.format("CAndroidPlugin.sendShowAlertMsg Exception: %s", oException.getMessage()));
+			Log.e(KGDefine.TAG, String.format("CAndroidPlugin.sendShowAlertMsg Exception: %s", oException.getMessage()));
 		}
 	}
 	
 	//! 디바이스 메세지를 전송한다
 	private void sendDeviceMsg(String a_oCmd, String a_oMsg) throws Exception {
 		JSONObject oJSONObj = new JSONObject();
-		oJSONObj.put(KGlobalDefine.KEY_CMD, a_oCmd);
-		oJSONObj.put(KGlobalDefine.KEY_MSG, a_oMsg);
+		oJSONObj.put(KGDefine.KEY_CMD, a_oCmd);
+		oJSONObj.put(KGDefine.KEY_MSG, a_oMsg);
 		
-		UnityPlayer.UnitySendMessage(KGlobalDefine.OBJ_NAME_DEVICE_MSG_RECEIVER,
-				KGlobalDefine.FUNC_NAME_DEVICE_MSG_HANDLER, oJSONObj.toString());
+		UnityPlayer.UnitySendMessage(KGDefine.OBJ_NAME_DEVICE_MSG_RECEIVER,
+				KGDefine.FUNC_NAME_DEVICE_MSG_HANDLER, oJSONObj.toString());
 	}
 }

@@ -6,7 +6,7 @@
 //
 
 #import "CDeviceMsgSender.h"
-#import "../../Function/Func+Global.h"
+#import "../../Function/GFunc.h"
 
 //! 전역 변수
 static CDeviceMsgSender *g_pInstance = nil;

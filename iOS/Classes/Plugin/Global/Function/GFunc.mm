@@ -1,11 +1,11 @@
 //
-//  Func+Global.m
+//  GFunc.mm
 //  Unity-iPhone
 //
 //  Created by 이상동 on 2020/01/11.
 //
 
-#import "Func+Global.h"
+#import "GFunc.h"
 
 namespace Func {
 	//! 유효 여부를 검사한다

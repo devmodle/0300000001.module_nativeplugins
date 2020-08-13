@@ -5,7 +5,7 @@
 //  Created by 이상동 on 2020/01/11.
 //
 
-#import "../../Define/KDefine+Global.h"
+#import "../../Define/KGDefine.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

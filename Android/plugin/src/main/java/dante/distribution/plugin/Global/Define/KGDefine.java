@@ -3,7 +3,7 @@ package dante.distribution.plugin.Global.Define;
 import android.os.Build;
 
 //! 전역 상수
-public abstract class KGlobalDefine {
+public abstract class KGDefine {
 	public static final String TAG = "Plugin";
 	public static final String EMPTY_STRING = "";
 	public static final String INVALID_ANDROID_ID = "9774d56d682e549c";

@@ -57,7 +57,7 @@ namespace Func {
 	//! URL 요청을 생성한다
 	NSMutableURLRequest * MakeURLRequest(NSString *a_pURL, NSString *a_pMethod, double a_dblTimeout) {
 		auto pRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:a_pURL]
-												cachePolicy:NSURLRequestUseProtocolCachePolicy
+												cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData
 											timeoutInterval:a_dblTimeout];
 		
 		pRequest.HTTPMethod = a_pMethod;

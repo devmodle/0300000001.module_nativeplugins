@@ -44,19 +44,32 @@ extern "C" {
 	void HandleUnityMsg(const char *a_pszCmd, const char *a_pszMsg) {
 		NSLog(@"CiOSPlugin.HandleUnityMsg: %@, %@", @(a_pszCmd), @(a_pszMsg));
 		
+		// 디바이스 식별자 반환 메세지 일 경우
 		if(strcmp(a_pszCmd, CMD_GET_DEVICE_ID) == 0) {
 			[CiOSPlugin.sharedInstance handleGetDeviceIDMsg:a_pszMsg];
-		} else if(strcmp(a_pszCmd, CMD_GET_COUNTRY_CODE) == 0) {
+		}
+		// 국가 코드 반환 메세지 일 경우
+		else if(strcmp(a_pszCmd, CMD_GET_COUNTRY_CODE) == 0) {
 			[CiOSPlugin.sharedInstance handleGetCountryCodeMsg:a_pszMsg];
-		} else if(strcmp(a_pszCmd, CMD_GET_STORE_VERSION) == 0) {
+		}
+		// 스토어 버전 반환 메세지 일 경우
+		else if(strcmp(a_pszCmd, CMD_GET_STORE_VERSION) == 0) {
 			[CiOSPlugin.sharedInstance handleGetStoreVersionMsg:a_pszMsg];
-		} else if(strcmp(a_pszCmd, CMD_SET_BUILD_MODE) == 0) {
+		}
+		// 빌드 모드 변경 메세지 일 경우
+		else if(strcmp(a_pszCmd, CMD_SET_BUILD_MODE) == 0) {
 			[CiOSPlugin.sharedInstance handleSetBuildModeMsg:a_pszMsg];
-		} else if(strcmp(a_pszCmd, CMD_SHOW_ALERT) == 0) {
+		}
+		// 알림 창 출력 메세지 일 경우
+		else if(strcmp(a_pszCmd, CMD_SHOW_ALERT) == 0) {
 			[CiOSPlugin.sharedInstance handleShowAlertMsg:a_pszMsg];
-		} else if(strcmp(a_pszCmd, CMD_VIBRATE) == 0) {
+		}
+		// 진동 메세지 일 경우
+		else if(strcmp(a_pszCmd, CMD_VIBRATE) == 0) {
 			[CiOSPlugin.sharedInstance handleVibrateMsg:a_pszMsg];
-		} else if(strcmp(a_pszCmd, CMD_ACTIVITY_INDICATOR) == 0) {
+		}
+		// 액티비티 인디게이터 메세지 일 경우
+		else if(strcmp(a_pszCmd, CMD_ACTIVITY_INDICATOR) == 0) {
 			[CiOSPlugin.sharedInstance handleActivityIndicatorMsg:a_pszMsg];
 		}
 	}
@@ -79,6 +92,7 @@ extern "C" {
 //! 객체를 생성한다
 + (id)alloc {
 	@synchronized(CiOSPlugin.class) {
+		// 인스턴스가 없을 경우
 		if(g_pInstance == nil) {
 			g_pInstance = [[super alloc] init];
 		}
@@ -90,6 +104,7 @@ extern "C" {
 #pragma mark - instance method
 //! 디바이스 식별자를 반환한다
 - (NSString *)deviceID {
+	// 디바이스 식별자가 유효하지 않을 경우
 	if(!Func::IsValid(m_pDeviceID)) {
 		m_pDeviceID = (NSString *)[self.keychainItemWrapper objectForKey:(__bridge id)kSecAttrAccount];
 	}
@@ -99,6 +114,7 @@ extern "C" {
 
 //! 키체인 아이템 래퍼를 반환한다
 - (KeychainItemWrapper *)keychainItemWrapper {
+	// 키체인 아이템 래퍼가 없을 경우
 	if(m_pKeychainItemWrapper == nil) {
 		m_pKeychainItemWrapper = [[KeychainItemWrapper alloc] initWithIdentifier:@(ID_KEYCHAIN_DEVICE)
 																	 accessGroup:nil];
@@ -109,9 +125,11 @@ extern "C" {
 
 //! 액티비티 인디게이터 뷰를 반환한다
 - (UIActivityIndicatorView *)activityIndicatorView {
+	// 액티비티 인디게이터가 없을 경우
 	if(m_pActivityIndicatorView == nil) {
 		auto eIndicatorViewStyle = UIActivityIndicatorViewStyleWhiteLarge;
 		
+		// 새로운 액티비티 인디게이터를 지원 할 경우
 		if(@available(iOS MIN_VERSION_ACTIVITY_INDICATOR, *)) {
 			eIndicatorViewStyle = UIActivityIndicatorViewStyleLarge;
 		}
@@ -148,6 +166,7 @@ extern "C" {
 
 //! 충격 피드백 생성자 리스트를 반환한다
 - (NSArray *)impactGeneratorList {
+	// 충격 피드백 생성자 리스트가 없을 경우
 	if(m_pImpactGeneratorList == nil) {
 		auto pLightGenerator = [[UIImpactFeedbackGenerator alloc] initWithStyle:UIImpactFeedbackStyleLight];
 		auto pMediumGenerator = [[UIImpactFeedbackGenerator alloc] initWithStyle:UIImpactFeedbackStyleMedium];
@@ -161,6 +180,7 @@ extern "C" {
 
 //! 선택 피드백 생성자를 반환한다
 - (UISelectionFeedbackGenerator *)selectionGenerator {
+	// 선택 피드백 생성자가 없을 경우
 	if(m_pSelectionGenerator == nil) {
 		m_pSelectionGenerator = [[UISelectionFeedbackGenerator alloc] init];
 	}
@@ -170,6 +190,7 @@ extern "C" {
 
 //! 알림 피드백 생성자를 반환한다
 - (UINotificationFeedbackGenerator *)notificationGenerator {
+	// 알림 피드백 생성자가 없을 경우
 	if(m_pNotificationGenerator == nil) {
 		m_pNotificationGenerator = [[UINotificationFeedbackGenerator alloc] init];
 	}
@@ -191,7 +212,9 @@ extern "C" {
 - (void)handleGetDeviceIDMsg:(const char *)a_pszMsg {
 	NSLog(@"CiOSPlugin.handleGetDeviceIDMsg: %@", @(a_pszMsg));
 	
+	// 디바이스 식별자가 유효하지 않을 경우
 	if(!Func::IsValid(self.deviceID)) {
+		// UUID 를 지원 할 경우
 		if(@available(iOS MIN_VERSION_DEVICE_ID_FOR_VENDOR, *)) {
 			self.deviceID = UIDevice.currentDevice.identifierForVendor.UUIDString;
 		} else {
@@ -233,6 +256,7 @@ extern "C" {
 		if([self.buildMode isEqualToString:@(BUILD_MODE_DEBUG)]) {
 			[CDeviceMsgSender.sharedInstance sendGetStoreVersionMsg:pVersion withResult:YES];
 		} else {
+			// 스토어 버전 로드에 실패했을 경우
 			if(a_pError != nil || (a_pData == nil || a_pResponse == nil)) {
 				NSLog(@"CiOSPlugin.onHandleGetStoreVersionMsg Fail: %@", a_pError);
 				[CDeviceMsgSender.sharedInstance sendGetStoreVersionMsg:pVersion withResult:NO];
@@ -246,6 +270,7 @@ extern "C" {
 				auto pStoreVersion = (NSString *)[pVersionInfo objectForKey:@(KEY_STORE_VERSION)];
 				NSLog(@"CiOSPlugin.onHandleGetStoreVersionMsg Success: %@", pStoreVersion);
 				
+				// 스토어 버전이 유효 할 경우
 				if(Func::IsValid(pStoreVersion)) {
 					[CDeviceMsgSender.sharedInstance sendGetStoreVersionMsg:pStoreVersion withResult:YES];
 				} else {
@@ -269,24 +294,25 @@ extern "C" {
 	
 	auto pTitle = (NSString *)[pDataList objectForKey:@(KEY_ALERT_TITLE)];
 	auto pMsg = (NSString *)[pDataList objectForKey:@(KEY_ALERT_MSG)];
-	auto pOKBtnTitle = (NSString *)[pDataList objectForKey:@(KEY_ALERT_OK_BTN_TEXT)];
-	auto pCancelBtnTitle = (NSString *)[pDataList objectForKey:@(KEY_ALERT_CANCEL_BTN_TEXT)];
+	auto pOKBtnText = (NSString *)[pDataList objectForKey:@(KEY_ALERT_OK_BTN_TEXT)];
+	auto pCancelBtnText = (NSString *)[pDataList objectForKey:@(KEY_ALERT_CANCEL_BTN_TEXT)];
 	
 	auto pAlertController = [UIAlertController alertControllerWithTitle:Func::IsValid(pTitle) ? pTitle : nil
 																message:pMsg
 														 preferredStyle:UIAlertControllerStyleAlert];
 	
 	// 확인 버튼을 눌렀을 경우
-	[pAlertController addAction:[UIAlertAction actionWithTitle:pOKBtnTitle
+	[pAlertController addAction:[UIAlertAction actionWithTitle:pOKBtnText
 														 style:UIAlertActionStyleDefault
 													   handler:^void(UIAlertAction *a_pSender)
 	{
 		[CDeviceMsgSender.sharedInstance sendShowAlertMsg:YES];
 	}]];
 	
-	if(Func::IsValid(pCancelBtnTitle)) {
+	// 취소 버튼 텍스트가 유효 할 경우
+	if(Func::IsValid(pCancelBtnText)) {
 		// 취소 버튼을 눌렀을 경우
-		[pAlertController addAction:[UIAlertAction actionWithTitle:pCancelBtnTitle
+		[pAlertController addAction:[UIAlertAction actionWithTitle:pCancelBtnText
 															 style:UIAlertActionStyleCancel
 														   handler:^void(UIAlertAction *a_pSender)
 		{
@@ -309,13 +335,17 @@ extern "C" {
 	auto eVibrateType = (EVibrateType)pType.intValue;
 	auto eVibrateStyle = (EVibrateStyle)pStyle.intValue;
 	
+	// 진동 타입이 유효 할 경우
 	if(Func::IsValid(eVibrateType)) {
 		// 햅틱 진동을 지원 할 경우
 		if(@available(iOS MIN_VERSION_FEEDBACK_GENERATOR, *)) {
+			// 선택 진동 모드 일 경우
 			if(eVibrateType == EVibrateType::SELECTION) {
 				[self.selectionGenerator prepare];
 				[self.selectionGenerator selectionChanged];
-			} else if(eVibrateType == EVibrateType::NOTIFICATION) {
+			}
+			// 알림 진동 모드 일 경우
+			else if(eVibrateType == EVibrateType::NOTIFICATION) {
 				[self.notificationGenerator prepare];
 				[self.notificationGenerator notificationOccurred:(UINotificationFeedbackType)eVibrateStyle];
 			} else {
@@ -335,9 +365,12 @@ extern "C" {
 		} else {
 			SystemSoundID nSndID = SYSTEM_SND_ID_LIGHT;
 			
+			// 중간 세기 일 경우
 			if(eVibrateStyle == EVibrateStyle::MEDIUM) {
 				nSndID = SYSTEM_SND_ID_MEDIUM;
-			} else if(eVibrateStyle == EVibrateStyle::HEAVY) {
+			}
+			// 최대 세기 일 경우
+			else if(eVibrateStyle == EVibrateStyle::HEAVY) {
 				nSndID = SYSTEM_SND_ID_HEAVY;
 			}
 			
@@ -350,6 +383,7 @@ extern "C" {
 - (void)handleActivityIndicatorMsg:(const char *)a_pszMsg {
 	NSLog(@"CiOSPlugin.handleStartActivityIndicatorMsg: %@", @(a_pszMsg));
 	
+	// 출력 상태 일 경우
 	if(Func::ConvertStringToBool(@(a_pszMsg))) {
 		[self.activityIndicatorView startAnimating];
 	} else {
@@ -361,6 +395,7 @@ extern "C" {
 //! 인스턴스를 반환한다
 + (instancetype)sharedInstance {
 	@synchronized(CiOSPlugin.class) {
+		// 인스턴스가 없을 경우
 		if(g_pInstance == nil) {
 			g_pInstance = [[CiOSPlugin alloc] init];
 		}

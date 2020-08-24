@@ -2,8 +2,11 @@
 //  KGDefine.h
 //  Unity-iPhone
 //
-//  Created by 이상동 on 2020/01/10.
+//  Created by 이상동 on 2020/08/24.
 //
+
+#ifndef KGDefine_h
+#define KGDefine_h
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
@@ -101,3 +104,5 @@ enum class EVibrateStyle {
 	HEAVY,
 	MAX_VALUE
 };
+
+#endif /* KGDefine_h */

@@ -15,6 +15,7 @@ public class CDeviceMsgSender {
 	
 	//! 인스턴스를 반환한다
 	public static CDeviceMsgSender getInstance() {
+		// 인스턴스가 없을 경우
 		if(CDeviceMsgSender.m_pInstance == null) {
 			CDeviceMsgSender.m_pInstance = new CDeviceMsgSender();
 		}

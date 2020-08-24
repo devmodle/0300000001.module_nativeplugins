@@ -143,7 +143,6 @@
 		B55F44149CCED20C3FAA8EDF /* mscorlib13.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E8ED485EB63BD7D3C2F9E8FC /* mscorlib13.cpp */; };
 		B9C8428E9EA847E69E03572A /* mscorlib4.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 17D64E36ACA70A54F26E2BB2 /* mscorlib4.cpp */; };
 		C2064C94A39B069FE1676885 /* Generics3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1C0743EF9750D3D9603F4EDF /* Generics3.cpp */; };
-		C32AB1B624BEE42F00A9AAAD /* KGSwiftDefine.swift in Sources */ = {isa = PBXBuildFile; fileRef = C32AB1B524BEE42F00A9AAAD /* KGSwiftDefine.swift */; };
 		C83D4F7C8057950582373314 /* Il2CppTypeDefinitions.c in Sources */ = {isa = PBXBuildFile; fileRef = CF5D4B58AB506BBC4A72AD21 /* Il2CppTypeDefinitions.c */; };
 		CB664F7AB312D46DF094FB2F /* IUnityGraphicsMetal.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CA341789E33C78F6D0D4399 /* IUnityGraphicsMetal.h */; };
 		CB9E4992B8BCAD402D5BF12C /* System.Configuration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67514311A041881A2B0FC3B0 /* System.Configuration.cpp */; };
@@ -164,7 +163,7 @@
 		FE4C0AD824B3209600F792E6 /* CiOSPlugin.mm in Sources */ = {isa = PBXBuildFile; fileRef = FE4C0AC824B3209500F792E6 /* CiOSPlugin.mm */; };
 		FE4C0AD924B3209600F792E6 /* GFunc.mm in Sources */ = {isa = PBXBuildFile; fileRef = FE4C0ACE24B3209600F792E6 /* GFunc.mm */; };
 		FE4C0ADA24B3209600F792E6 /* CDeviceMsgSender.mm in Sources */ = {isa = PBXBuildFile; fileRef = FE4C0AD324B3209600F792E6 /* CDeviceMsgSender.mm */; };
-		FE4C0ADB24B3209600F792E6 /* KeychainItemWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = FE4C0AD624B3209600F792E6 /* KeychainItemWrapper.m */; };
+		FE4C0ADB24B3209600F792E6 /* KeychainItemWrapper.mm in Sources */ = {isa = PBXBuildFile; fileRef = FE4C0AD624B3209600F792E6 /* KeychainItemWrapper.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -381,8 +380,6 @@
 		B75840F8B7876F06C24421BD /* Il2CppGenericInstDefinitions.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = Il2CppGenericInstDefinitions.c; path = Classes/Native/Il2CppGenericInstDefinitions.c; sourceTree = SOURCE_ROOT; };
 		B7FF423B81268B038A8FF4B0 /* UnityEngine.CoreModule1.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = UnityEngine.CoreModule1.cpp; path = Classes/Native/UnityEngine.CoreModule1.cpp; sourceTree = SOURCE_ROOT; };
 		C02B4DD388A109113DF66EF7 /* System1.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = System1.cpp; path = Classes/Native/System1.cpp; sourceTree = SOURCE_ROOT; };
-		C32AB1B424BEE42F00A9AAAD /* Unity-iPhone-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Unity-iPhone-Bridging-Header.h"; sourceTree = "<group>"; };
-		C32AB1B524BEE42F00A9AAAD /* KGSwiftDefine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KGSwiftDefine.swift; sourceTree = "<group>"; };
 		C3B390BA24BDA6EE00A5ABE0 /* AuthenticationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AuthenticationServices.framework; path = System/Library/Frameworks/AuthenticationServices.framework; sourceTree = SDKROOT; };
 		C52642178ABFD9AB43418782 /* IUnityGraphics.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = IUnityGraphics.h; path = Classes/Unity/IUnityGraphics.h; sourceTree = SOURCE_ROOT; };
 		C5DE4C748D138BC49526C999 /* System.Xml.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = System.Xml.cpp; path = Classes/Native/System.Xml.cpp; sourceTree = SOURCE_ROOT; };
@@ -410,13 +407,13 @@
 		FC85CCBA16C3ED8000BAF7C7 /* PLCrashReporter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLCrashReporter.h; sourceTree = "<group>"; };
 		FE4C0AC824B3209500F792E6 /* CiOSPlugin.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CiOSPlugin.mm; sourceTree = "<group>"; };
 		FE4C0AC924B3209600F792E6 /* CiOSPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CiOSPlugin.h; sourceTree = "<group>"; };
-		FE4C0ACC24B3209600F792E6 /* KGDefine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGDefine.h; sourceTree = "<group>"; };
 		FE4C0ACE24B3209600F792E6 /* GFunc.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GFunc.mm; sourceTree = "<group>"; };
 		FE4C0ACF24B3209600F792E6 /* GFunc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GFunc.h; sourceTree = "<group>"; };
 		FE4C0AD224B3209600F792E6 /* CDeviceMsgSender.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDeviceMsgSender.h; sourceTree = "<group>"; };
 		FE4C0AD324B3209600F792E6 /* CDeviceMsgSender.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CDeviceMsgSender.mm; sourceTree = "<group>"; };
-		FE4C0AD624B3209600F792E6 /* KeychainItemWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeychainItemWrapper.m; sourceTree = "<group>"; };
+		FE4C0AD624B3209600F792E6 /* KeychainItemWrapper.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = KeychainItemWrapper.mm; sourceTree = "<group>"; };
 		FE4C0AD724B3209600F792E6 /* KeychainItemWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeychainItemWrapper.h; sourceTree = "<group>"; };
+		FE8E4BD124F3C964006DAEA3 /* KGDefine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KGDefine.h; sourceTree = "<group>"; };
 		FFD140AAA51C266C87A48A65 /* libil2cpp.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libil2cpp.a; path = Libraries/libil2cpp.a; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
@@ -803,9 +800,7 @@
 		FE4C0ACB24B3209600F792E6 /* Define */ = {
 			isa = PBXGroup;
 			children = (
-				FE4C0ACC24B3209600F792E6 /* KGDefine.h */,
-				C32AB1B524BEE42F00A9AAAD /* KGSwiftDefine.swift */,
-				C32AB1B424BEE42F00A9AAAD /* Unity-iPhone-Bridging-Header.h */,
+				FE8E4BD124F3C964006DAEA3 /* KGDefine.h */,
 			);
 			path = Define;
 			sourceTree = "<group>";
@@ -849,7 +844,7 @@
 			isa = PBXGroup;
 			children = (
 				FE4C0AD724B3209600F792E6 /* KeychainItemWrapper.h */,
-				FE4C0AD624B3209600F792E6 /* KeychainItemWrapper.m */,
+				FE4C0AD624B3209600F792E6 /* KeychainItemWrapper.mm */,
 			);
 			path = Keychain;
 			sourceTree = "<group>";
@@ -1042,9 +1037,8 @@
 			files = (
 				FE4C0AD824B3209600F792E6 /* CiOSPlugin.mm in Sources */,
 				FE4C0AD924B3209600F792E6 /* GFunc.mm in Sources */,
-				C32AB1B624BEE42F00A9AAAD /* KGSwiftDefine.swift in Sources */,
 				FE4C0ADA24B3209600F792E6 /* CDeviceMsgSender.mm in Sources */,
-				FE4C0ADB24B3209600F792E6 /* KeychainItemWrapper.m in Sources */,
+				FE4C0ADB24B3209600F792E6 /* KeychainItemWrapper.mm in Sources */,
 				9DA3B0442174CB96001678C7 /* main.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1243,7 +1237,7 @@
 				PROVISIONING_PROFILE_SPECIFIER = "$(PROVISIONING_PROFILE_SPECIFIER_APP)";
 				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = iphoneos;
-				SWIFT_OBJC_BRIDGING_HEADER = "Classes/Plugin/Global/Define/Unity-iPhone-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1292,7 +1286,7 @@
 				PROVISIONING_PROFILE_SPECIFIER = "$(PROVISIONING_PROFILE_SPECIFIER_APP)";
 				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = iphoneos;
-				SWIFT_OBJC_BRIDGING_HEADER = "Classes/Plugin/Global/Define/Unity-iPhone-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				UNITY_RUNTIME_VERSION = 2019.4.2f1;
@@ -1303,7 +1297,6 @@
 		5623C58317FDCB0900090B9E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = (
 					armv7,
@@ -1353,7 +1346,6 @@
 		5623C58417FDCB0900090B9E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = (
 					armv7,
@@ -1467,7 +1459,7 @@
 				PROVISIONING_PROFILE_SPECIFIER = "$(PROVISIONING_PROFILE_SPECIFIER_APP)";
 				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = iphoneos;
-				SWIFT_OBJC_BRIDGING_HEADER = "Classes/Plugin/Global/Define/Unity-iPhone-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				UNITY_RUNTIME_VERSION = 2019.4.2f1;
@@ -1478,7 +1470,6 @@
 		56E860821D6757FF00A1AB2B /* ReleaseForRunning */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = (
 					armv7,
@@ -1585,7 +1576,7 @@
 				PROVISIONING_PROFILE_SPECIFIER = "$(PROVISIONING_PROFILE_SPECIFIER_APP)";
 				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = iphoneos;
-				SWIFT_OBJC_BRIDGING_HEADER = "Classes/Plugin/Global/Define/Unity-iPhone-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				UNITY_RUNTIME_VERSION = 2019.4.2f1;
@@ -1596,7 +1587,6 @@
 		56E860851D67581C00A1AB2B /* ReleaseForProfiling */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = (
 					armv7,

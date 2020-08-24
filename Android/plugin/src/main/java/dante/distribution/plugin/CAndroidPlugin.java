@@ -79,6 +79,7 @@ public class CAndroidPlugin {
 	
 	//! 인스턴스를 반환한다
 	public static CAndroidPlugin getInstance() {
+		// 인스턴스가 없을 경우
 		if(CAndroidPlugin.m_oInstance == null) {
 			CAndroidPlugin.m_oInstance = new CAndroidPlugin();
 		}
@@ -173,6 +174,7 @@ public class CAndroidPlugin {
 					int nVersion = Integer.parseInt(oVersion);
 					boolean bIsSuccess = a_oUpdateInfo.updateAvailability() != UpdateAvailability.UNKNOWN;
 					
+					// 업데이트 가능 할 경우
 					if(a_oUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE) {
 						nVersion = a_oUpdateInfo.availableVersionCode();
 					}
@@ -214,24 +216,25 @@ public class CAndroidPlugin {
 		
 		String oTitle = oJSONObj.getString(KGDefine.KEY_ALERT_TITLE);
 		String oMsg = oJSONObj.getString(KGDefine.KEY_ALERT_MSG);
-		String oOKBtnTitle = oJSONObj.getString(KGDefine.KEY_ALERT_OK_BTN_TEXT);
-		String oCancelBtnTitle = oJSONObj.getString(KGDefine.KEY_ALERT_CANCEL_BTN_TEXT);
+		String oOKBtnText = oJSONObj.getString(KGDefine.KEY_ALERT_OK_BTN_TEXT);
+		String oCancelBtnText = oJSONObj.getString(KGDefine.KEY_ALERT_CANCEL_BTN_TEXT);
 		
 		AlertDialog.Builder oBuilder = new AlertDialog.Builder(UnityPlayer.currentActivity);
 		oBuilder.setTitle(GlobalFunc.isValid(oTitle) ? oTitle : null);
 		oBuilder.setMessage(oMsg);
 		
 		// 확인 버튼을 눌렀을 경우
-		oBuilder.setPositiveButton(oOKBtnTitle, new DialogInterface.OnClickListener() {
+		oBuilder.setPositiveButton(oOKBtnText, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface a_oSender, int a_nIndex) {
 				CDeviceMsgSender.getInstance().sendShowAlertMsg(true);
 			}
 		});
 		
-		if(GlobalFunc.isValid(oCancelBtnTitle)) {
+		// 취소 버튼 텍스트가 유효 할 경우
+		if(GlobalFunc.isValid(oCancelBtnText)) {
 			// 취소 버튼을 눌렀을 경우
-			oBuilder.setNegativeButton(oCancelBtnTitle, new DialogInterface.OnClickListener() {
+			oBuilder.setNegativeButton(oCancelBtnText, new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface a_oSender, int a_nIndex) {
 					CDeviceMsgSender.getInstance().sendShowAlertMsg(false);
@@ -270,6 +273,7 @@ public class CAndroidPlugin {
 	private void handleActivityIndicatorMsg(String a_oMsg) {
 		Log.d(KGDefine.TAG, String.format("CAndroidPlugin.handleActivityIndicatorMsg: %s", a_oMsg));
 		
+		// 출력 상태 일 경우
 		if(GlobalFunc.convertStringToBool(a_oMsg)) {
 			m_oProgressBar.setVisibility(View.VISIBLE);
 		} else {

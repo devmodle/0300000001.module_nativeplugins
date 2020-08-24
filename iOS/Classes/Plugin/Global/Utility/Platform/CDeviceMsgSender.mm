@@ -17,6 +17,7 @@ static CDeviceMsgSender *g_pInstance = nil;
 //! 객체를 생성한다
 + (id)alloc {
 	@synchronized(CDeviceMsgSender.class) {
+		// 인스턴스가 없을 경우
 		if(g_pInstance == nil) {
 			g_pInstance = [[super alloc] init];
 		}
@@ -66,6 +67,7 @@ static CDeviceMsgSender *g_pInstance = nil;
 //! 인스턴스를 반환한다
 + (instancetype)sharedInstance {
 	@synchronized(CDeviceMsgSender.class) {
+		// 인스턴스가 없을 경우
 		if(g_pInstance == nil) {
 			g_pInstance = [[CDeviceMsgSender alloc] init];
 		}

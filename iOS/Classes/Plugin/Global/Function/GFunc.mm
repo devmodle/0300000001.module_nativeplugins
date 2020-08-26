@@ -30,7 +30,7 @@ namespace Func {
 
 	//! 객체 -> JSON 문자열로 변환한다
 	NSString * ConvertObjToJSONString(NSObject *a_pObj, NSError **a_pError) {
-		auto pData = [NSJSONSerialization dataWithJSONObject:a_pObj
+		NSData *pData = [NSJSONSerialization dataWithJSONObject:a_pObj
 													 options:NSJSONWritingPrettyPrinted
 													   error:a_pError];
 		
@@ -39,26 +39,18 @@ namespace Func {
 
 	//! JSON 문자열 -> 객체로 변환한다
 	NSObject * ConvertJSONStringToObj(NSString *a_pString, NSError **a_pError) {
-		auto pData = [a_pString dataUsingEncoding:NSUTF8StringEncoding];
+		NSData *pData = [a_pString dataUsingEncoding:NSUTF8StringEncoding];
 		
 		return [NSJSONSerialization JSONObjectWithData:pData
 											   options:NSJSONReadingMutableContainers
 												 error:a_pError];
 	}
-
-	//! URL 요청을 전송한다
-	void SendURLRequest(NSURLRequest *a_pRequest, void (^a_pfnCallback)(NSData *, NSURLResponse *, NSError *)) {
-		auto pDataTask = [NSURLSession.sharedSession dataTaskWithRequest:a_pRequest
-													   completionHandler:a_pfnCallback];
-		
-		[pDataTask resume];
-	}
-
+	
 	//! URL 요청을 생성한다
 	NSMutableURLRequest * MakeURLRequest(NSString *a_pURL, NSString *a_pMethod, double a_dblTimeout) {
-		auto pRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:a_pURL]
-												cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData
-											timeoutInterval:a_dblTimeout];
+		NSMutableURLRequest *pRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:a_pURL]
+																cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData
+															timeoutInterval:a_dblTimeout];
 		
 		pRequest.HTTPMethod = a_pMethod;
 		return pRequest;

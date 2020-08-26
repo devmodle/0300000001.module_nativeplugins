@@ -127,7 +127,7 @@ extern "C" {
 - (UIActivityIndicatorView *)activityIndicatorView {
 	// 액티비티 인디게이터가 없을 경우
 	if(m_pActivityIndicatorView == nil) {
-		auto eIndicatorViewStyle = UIActivityIndicatorViewStyleWhiteLarge;
+		UIActivityIndicatorViewStyle eIndicatorViewStyle = UIActivityIndicatorViewStyleWhiteLarge;
 		
 		// 새로운 액티비티 인디게이터를 지원 할 경우
 		if(@available(iOS MIN_VERSION_ACTIVITY_INDICATOR, *)) {
@@ -146,7 +146,7 @@ extern "C" {
 		float fScaleX = fSize / m_pActivityIndicatorView.bounds.size.width;
 		float fScaleY = fSize / m_pActivityIndicatorView.bounds.size.height;
 		
-		auto stTransform = m_pActivityIndicatorView.transform;
+		CGAffineTransform stTransform = m_pActivityIndicatorView.transform;
 		m_pActivityIndicatorView.transform = CGAffineTransformScale(stTransform, fScaleX, fScaleY);
 		// 크기를 설정한다 }
 		
@@ -168,9 +168,9 @@ extern "C" {
 - (NSArray *)impactGeneratorList {
 	// 충격 피드백 생성자 리스트가 없을 경우
 	if(m_pImpactGeneratorList == nil) {
-		auto pLightGenerator = [[UIImpactFeedbackGenerator alloc] initWithStyle:UIImpactFeedbackStyleLight];
-		auto pMediumGenerator = [[UIImpactFeedbackGenerator alloc] initWithStyle:UIImpactFeedbackStyleMedium];
-		auto pHeavyGenerator = [[UIImpactFeedbackGenerator alloc] initWithStyle:UIImpactFeedbackStyleHeavy];
+		UIImpactFeedbackGenerator *pLightGenerator = [[UIImpactFeedbackGenerator alloc] initWithStyle:UIImpactFeedbackStyleLight];
+		UIImpactFeedbackGenerator *pMediumGenerator = [[UIImpactFeedbackGenerator alloc] initWithStyle:UIImpactFeedbackStyleMedium];
+		UIImpactFeedbackGenerator *pHeavyGenerator = [[UIImpactFeedbackGenerator alloc] initWithStyle:UIImpactFeedbackStyleHeavy];
 		
 		m_pImpactGeneratorList = [NSArray arrayWithObjects:pLightGenerator, pMediumGenerator, pHeavyGenerator, nil];
 	}
@@ -218,7 +218,7 @@ extern "C" {
 		if(@available(iOS MIN_VERSION_DEVICE_ID_FOR_VENDOR, *)) {
 			self.deviceID = UIDevice.currentDevice.identifierForVendor.UUIDString;
 		} else {
-			auto pUUID = CFUUIDCreate(kCFAllocatorDefault);
+			CFUUIDRef pUUID = CFUUIDCreate(kCFAllocatorDefault);
 			self.deviceID = (__bridge NSString *)CFUUIDCreateString(kCFAllocatorDefault, pUUID);
 		}
 		
@@ -232,42 +232,42 @@ extern "C" {
 - (void)handleGetCountryCodeMsg:(const char *)a_pszMsg {
 	NSLog(@"CiOSPlugin.handleGetCountryCodeMsg: %@", @(a_pszMsg));
 	
-	auto pLocale = NSLocale.currentLocale;
+	NSLocale *pLocale = NSLocale.currentLocale;
 	[CDeviceMsgSender.sharedInstance sendGetCountryCodeMsg:pLocale.countryCode];
 }
 
 //! 스토어 버전 반환 메세지를 처리한다
 - (void)handleGetStoreVersionMsg:(const char *)a_pszMsg {
 	NSLog(@"CiOSPlugin.handleGetStoreVersionMsg: %@", @(a_pszMsg));
-	auto pDataList = (NSDictionary *)Func::ConvertJSONStringToObj(@(a_pszMsg), NULL);
+	NSDictionary *pDataList = (NSDictionary *)Func::ConvertJSONStringToObj(@(a_pszMsg), NULL);
 	
-	auto pAppID = (NSString *)[pDataList objectForKey:@(KEY_APP_ID)];
-	auto pVersion = (NSString *)[pDataList objectForKey:@(KEY_VERSION)];
-	auto pTimeout = (NSString *)[pDataList objectForKey:@(KEY_TIMEOUT)];
+	NSString *pAppID = (NSString *)[pDataList objectForKey:@(KEY_APP_ID)];
+	NSString *pVersion = (NSString *)[pDataList objectForKey:@(KEY_VERSION)];
+	NSString *pTimeout = (NSString *)[pDataList objectForKey:@(KEY_TIMEOUT)];
 	
-	auto pURL = [NSString stringWithFormat:@(URL_FORMAT_STORE_VERSION), pAppID];
-	auto pRequest = Func::MakeURLRequest(pURL, @(HTTP_METHOD_GET), pTimeout.doubleValue);
-	
-	// 데이터를 수신했을 경우
-	Func::SendURLRequest(pRequest, ^void(NSData *a_pData, NSURLResponse *a_pResponse, NSError *a_pError) {
-		NSLog(@"CiOSPlugin.onHandleGetStoreVersionMsg: %@", a_pData);
+	// 디버그 모드 일 경우
+	if([self.buildMode isEqualToString:@(BUILD_MODE_DEBUG)]) {
+		[CDeviceMsgSender.sharedInstance sendGetStoreVersionMsg:pVersion withResult:YES];
+	} else {
+		NSString *pURL = [NSString stringWithFormat:@(URL_FORMAT_STORE_VERSION), pAppID];
+		NSMutableURLRequest * pURLRequest = Func::MakeURLRequest(pURL, @(HTTP_METHOD_GET), pTimeout.doubleValue);
 		
-		// 디버그 모드 일 경우
-		if([self.buildMode isEqualToString:@(BUILD_MODE_DEBUG)]) {
-			[CDeviceMsgSender.sharedInstance sendGetStoreVersionMsg:pVersion withResult:YES];
-		} else {
+		// 데이터를 수신했을 경우
+		[NSURLSession.sharedSession dataTaskWithRequest:pURLRequest completionHandler:^void(NSData *a_pData, NSURLResponse *a_pResponse, NSError *a_pError) {
+			NSLog(@"CiOSPlugin.onHandleGetStoreVersionMsg: %@", a_pData);
+			
 			// 스토어 버전 로드에 실패했을 경우
 			if(a_pError != nil || (a_pData == nil || a_pResponse == nil)) {
 				NSLog(@"CiOSPlugin.onHandleGetStoreVersionMsg Fail: %@", a_pError);
 				[CDeviceMsgSender.sharedInstance sendGetStoreVersionMsg:pVersion withResult:NO];
 			} else {
-				auto pString = [[NSString alloc] initWithData:a_pData encoding:NSUTF8StringEncoding];
-				auto pResponseDataList = (NSDictionary *)Func::ConvertJSONStringToObj(pString, NULL);
+				NSString *pString = [[NSString alloc] initWithData:a_pData encoding:NSUTF8StringEncoding];
+				NSDictionary *pResponseDataList = (NSDictionary *)Func::ConvertJSONStringToObj(pString, NULL);
 				
-				auto pVersionInfoList = (NSArray *)[pResponseDataList objectForKey:@(KEY_STORE_VERSION_RESULT)];
-				auto pVersionInfo = (NSDictionary *)[pVersionInfoList lastObject];
+				NSArray *pVersionInfoList = (NSArray *)[pResponseDataList objectForKey:@(KEY_STORE_VERSION_RESULT)];
+				NSDictionary *pVersionInfo = (NSDictionary *)[pVersionInfoList lastObject];
 				
-				auto pStoreVersion = (NSString *)[pVersionInfo objectForKey:@(KEY_STORE_VERSION)];
+				NSString *pStoreVersion = (NSString *)[pVersionInfo objectForKey:@(KEY_STORE_VERSION)];
 				NSLog(@"CiOSPlugin.onHandleGetStoreVersionMsg Success: %@", pStoreVersion);
 				
 				// 스토어 버전이 유효 할 경우
@@ -277,8 +277,8 @@ extern "C" {
 					[CDeviceMsgSender.sharedInstance sendGetStoreVersionMsg:pVersion withResult:NO];
 				}
 			}
-		}
-	});
+		}];
+	}
 }
 
 //! 빌드 모드 변경 메세지를 처리한다
@@ -290,16 +290,16 @@ extern "C" {
 //! 알림 창 출력 메세지를 처리한다
 - (void)handleShowAlertMsg:(const char *)a_pszMsg {
 	NSLog(@"CiOSPlugin.handleShowAlertMsg: %@", @(a_pszMsg));
-	auto pDataList = (NSDictionary *)Func::ConvertJSONStringToObj(@(a_pszMsg), NULL);
+	NSDictionary *pDataList = (NSDictionary *)Func::ConvertJSONStringToObj(@(a_pszMsg), NULL);
 	
-	auto pTitle = (NSString *)[pDataList objectForKey:@(KEY_ALERT_TITLE)];
-	auto pMsg = (NSString *)[pDataList objectForKey:@(KEY_ALERT_MSG)];
-	auto pOKBtnText = (NSString *)[pDataList objectForKey:@(KEY_ALERT_OK_BTN_TEXT)];
-	auto pCancelBtnText = (NSString *)[pDataList objectForKey:@(KEY_ALERT_CANCEL_BTN_TEXT)];
+	NSString *pTitle = (NSString *)[pDataList objectForKey:@(KEY_ALERT_TITLE)];
+	NSString *pMsg = (NSString *)[pDataList objectForKey:@(KEY_ALERT_MSG)];
+	NSString *pOKBtnText = (NSString *)[pDataList objectForKey:@(KEY_ALERT_OK_BTN_TEXT)];
+	NSString *pCancelBtnText = (NSString *)[pDataList objectForKey:@(KEY_ALERT_CANCEL_BTN_TEXT)];
 	
-	auto pAlertController = [UIAlertController alertControllerWithTitle:Func::IsValid(pTitle) ? pTitle : nil
-																message:pMsg
-														 preferredStyle:UIAlertControllerStyleAlert];
+	UIAlertController *pAlertController = [UIAlertController alertControllerWithTitle:Func::IsValid(pTitle) ? pTitle : nil
+																			  message:pMsg
+																	   preferredStyle:UIAlertControllerStyleAlert];
 	
 	// 확인 버튼을 눌렀을 경우
 	[pAlertController addAction:[UIAlertAction actionWithTitle:pOKBtnText
@@ -327,13 +327,13 @@ extern "C" {
 //! 진동 메세지를 처리한다
 - (void)handleVibrateMsg:(const char *)a_pszMsg {
 	NSLog(@"CiOSPlugin.handleVibrateMsg: %@", @(a_pszMsg));
-	auto pDataList = (NSDictionary *)Func::ConvertJSONStringToObj(@(a_pszMsg), NULL);
+	NSDictionary *pDataList = (NSDictionary *)Func::ConvertJSONStringToObj(@(a_pszMsg), NULL);
 	
-	auto pType = (NSString *)[pDataList objectForKey:@(KEY_VIBRATE_TYPE)];
-	auto pStyle = (NSString *)[pDataList objectForKey:@(KEY_VIBRATE_STYLE)];
+	NSString *pType = (NSString *)[pDataList objectForKey:@(KEY_VIBRATE_TYPE)];
+	NSString *pStyle = (NSString *)[pDataList objectForKey:@(KEY_VIBRATE_STYLE)];
 	
-	auto eVibrateType = (EVibrateType)pType.intValue;
-	auto eVibrateStyle = (EVibrateStyle)pStyle.intValue;
+	EVibrateType eVibrateType = (EVibrateType)pType.intValue;
+	EVibrateStyle eVibrateStyle = (EVibrateStyle)pStyle.intValue;
 	
 	// 진동 타입이 유효 할 경우
 	if(Func::IsValid(eVibrateType)) {
@@ -349,14 +349,14 @@ extern "C" {
 				[self.notificationGenerator prepare];
 				[self.notificationGenerator notificationOccurred:(UINotificationFeedbackType)eVibrateStyle];
 			} else {
-				auto eFeedbackStyle = (UIImpactFeedbackStyle)eVibrateStyle;
-				auto pImpactGenerator = (UIImpactFeedbackGenerator *)[self.impactGeneratorList objectAtIndex:eFeedbackStyle];
+				UIImpactFeedbackStyle eFeedbackStyle = (UIImpactFeedbackStyle)eVibrateStyle;
+				UIImpactFeedbackGenerator *pImpactGenerator = (UIImpactFeedbackGenerator *)[self.impactGeneratorList objectAtIndex:eFeedbackStyle];
 				
 				[pImpactGenerator prepare];
 				
 				// 진동 세기를 지원 할 경우
 				if(@available(iOS MIN_VERSION_IMPACT_INTENSITY, *)) {
-					auto pIntensity = (NSString *)[pDataList objectForKey:@(KEY_VIBRATE_INTENSITY)];
+					NSString *pIntensity = (NSString *)[pDataList objectForKey:@(KEY_VIBRATE_INTENSITY)];
 					[pImpactGenerator impactOccurredWithIntensity:pIntensity.floatValue];
 				} else {
 					[pImpactGenerator impactOccurred];

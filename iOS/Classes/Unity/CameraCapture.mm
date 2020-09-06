@@ -302,6 +302,7 @@ static NSMutableArray<CameraCaptureController*> *activeColorAndDepthCameraContro
 - (void)dataOutputSynchronizer:(AVCaptureDataOutputSynchronizer *)synchronizer didOutputSynchronizedDataCollection:(AVCaptureSynchronizedDataCollection *)synchronizedDataCollection
 {
     AVCaptureSynchronizedSampleBufferData *sampleData = (AVCaptureSynchronizedSampleBufferData*)[synchronizedDataCollection synchronizedDataForCaptureOutput: self.captureOutput];
+
     if (CMSampleBufferGetImageBuffer(sampleData.sampleBuffer) != nil)
     {
         CameraCaptureController* colorController = !self->_isDepth ? self : [CameraCaptureController findColorAndDepthCameraController: self.captureDevice isDepth: false];
@@ -451,6 +452,8 @@ static NSMutableArray<CameraCaptureDevice*> *videoCaptureDevices = nil;
 {
     if ([self->_device.localizedName containsString: @"Telephoto"])
         return kWebCamTelephoto;
+    if ([self->_device.localizedName containsString: @"Ultra Wide"])
+        return kWebCamUltraWideAngle;
     if ([self->_device.localizedName containsString: @"Dual"] && [self isColorAndDepthCaptureDevice])
         return kWebCamColorAndDepth;
     if ([self->_device.localizedName containsString: @"TrueDepth"] && [self isColorAndDepthCaptureDevice])
@@ -591,42 +594,52 @@ static NSMutableArray<CameraCaptureDevice*> *videoCaptureDevices = nil;
 
 extern "C" void UnityEnumVideoCaptureDevices(void* udata, void(*callback)(void* udata, const char* name, int frontFacing, int autoFocusPointSupported, int kind, const int* resolutions, int resCount))
 {
-    AVCaptureDevice* device;
     if (![CameraCaptureDevice initialized])
     {
         [CameraCaptureDevice createCameraCaptureDevicesArray];
 
-        for (device in [AVCaptureDevice devicesWithMediaType:AVMediaTypeVideo])
-        {
-            [CameraCaptureDevice addCameraCaptureDevice: device];
-        }
+        NSMutableArray<AVCaptureDeviceType>* captureDevices = [NSMutableArray arrayWithObjects: AVCaptureDeviceTypeBuiltInWideAngleCamera, AVCaptureDeviceTypeBuiltInTelephotoCamera, nil];
 
-        device = [AVCaptureDevice defaultDeviceWithDeviceType: AVCaptureDeviceTypeBuiltInTelephotoCamera mediaType: AVMediaTypeVideo position: AVCaptureDevicePositionBack];
-        if (device != nil)
-            [CameraCaptureDevice addCameraCaptureDevice: device];
-
+#if UNITY_HAS_COLORANDDEPTH_CAMERA
         if (UnityiOS102orNewer())
         {
-            device = [AVCaptureDevice defaultDeviceWithDeviceType: AVCaptureDeviceTypeBuiltInDualCamera mediaType: AVMediaTypeVideo position: AVCaptureDevicePositionBack];
-            if (device != nil)
-                [CameraCaptureDevice addCameraCaptureDevice: device];
+            [captureDevices addObject: AVCaptureDeviceTypeBuiltInDualCamera];
         }
-
+#endif
+#if UNITY_HAS_IOSSDK_11_1
         if (UnityiOS111orNewer())
         {
-            device = [AVCaptureDevice defaultDeviceWithDeviceType: AVCaptureDeviceTypeBuiltInTrueDepthCamera mediaType: AVMediaTypeVideo position: AVCaptureDevicePositionFront];
-            if (device != nil)
-                [CameraCaptureDevice addCameraCaptureDevice: device];
+            [captureDevices addObject: AVCaptureDeviceTypeBuiltInTrueDepthCamera];
+        }
+#endif
+#if UNITY_HAS_IOSSDK_13_0
+        if (UnityiOS130orNewer())
+        {
+            [captureDevices addObject: AVCaptureDeviceTypeBuiltInUltraWideCamera];
+            [captureDevices addObject: AVCaptureDeviceTypeBuiltInDualWideCamera];
+            [captureDevices addObject: AVCaptureDeviceTypeBuiltInTripleCamera];
+        }
+#endif
+        AVCaptureDeviceDiscoverySession *captureDeviceDiscoverySession = [AVCaptureDeviceDiscoverySession discoverySessionWithDeviceTypes: captureDevices mediaType: AVMediaTypeVideo position: AVCaptureDevicePositionUnspecified];
+        for (AVCaptureDevice* device in [captureDeviceDiscoverySession devices])
+        {
+            [CameraCaptureDevice addCameraCaptureDevice: device];
         }
     }
+
+    // we should not provide camera devices information while access has not been granted
+    // but we need to try to enumerate camera devices anyway to trigger permission request dialog
+    if ([AVCaptureDevice authorizationStatusForMediaType: AVMediaTypeVideo] != AVAuthorizationStatusAuthorized)
+        return;
+
     for (CameraCaptureDevice *cameraCaptureDevice in videoCaptureDevices)
     {
-        int resCount = [cameraCaptureDevice->_resolutions count];
+        int resCount = (int)[cameraCaptureDevice->_resolutions count];
         int *resolutions = new int[resCount * 2];
         for (int i = 0; i < resCount; ++i)
         {
-            resolutions[i * 2] = [cameraCaptureDevice->_resolutions[i] CGSizeValue].width;
-            resolutions[i * 2 + 1] = [cameraCaptureDevice->_resolutions[i] CGSizeValue].height;
+            resolutions[i * 2] = (int)[cameraCaptureDevice->_resolutions[i] CGSizeValue].width;
+            resolutions[i * 2 + 1] = (int)[cameraCaptureDevice->_resolutions[i] CGSizeValue].height;
         }
         callback(udata, [cameraCaptureDevice->_device.localizedName UTF8String], cameraCaptureDevice->_frontFacing, cameraCaptureDevice->_autoFocusPointSupported, cameraCaptureDevice->_kind, resolutions, resCount);
         delete[] resolutions;

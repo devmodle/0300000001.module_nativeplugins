@@ -37,6 +37,8 @@ namespace vm
         static void InitializeGCSafe();
         static void InitializeAllMethodMetadata();
 
+        static void Clear();
+
         static Il2CppClass* GetGenericInstanceType(Il2CppClass* genericTypeDefinition, const il2cpp::metadata::Il2CppTypeVector& genericArgumentTypes);
         static const MethodInfo* GetGenericInstanceMethod(const MethodInfo* genericMethodDefinition, const Il2CppGenericContext* context);
         static const MethodInfo* GetGenericInstanceMethod(const MethodInfo* genericMethodDefinition, const il2cpp::metadata::Il2CppTypeVector& genericArgumentTypes);
@@ -122,6 +124,9 @@ namespace vm
         typedef void(*WalkTypesCallback)(Il2CppClass* type, void* context);
         static void WalkPointerTypes(WalkTypesCallback callback, void* context);
 
+        static bool StructLayoutPackIsDefault(TypeDefinitionIndex index);
+        static int32_t StructLayoutPack(TypeDefinitionIndex index);
+        static bool StructLayoutSizeIsDefault(TypeDefinitionIndex index);
     private:
         static void InitializeUnresolvedSignatureTable();
         static void InitializeStringLiteralTable();

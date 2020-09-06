@@ -64,6 +64,7 @@ UnityExternCall(void,                       UnityPrepareScreenshot);
 // Unity/MetalHelper.mm
 UnityExternCall(MTLTextureRef,    AcquireDrawableMTL, UnityDisplaySurfaceMTL*);
 UnityExternCall(int,              UnityCommandQueueMaxCommandBufferCountMTL);
+UnityExternCall(void,             SetDrawableSizeMTL, UnityDisplaySurfaceMTL*, int, int);
 
 // EAGLContextHelper.mm
 UnityExternCall(void,             UnityMakeCurrentContextEAGL, EAGLContext*);

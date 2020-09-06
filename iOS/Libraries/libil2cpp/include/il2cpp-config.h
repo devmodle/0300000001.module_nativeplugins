@@ -1,11 +1,6 @@
 #pragma once
 
-#include <assert.h>
-#include <stddef.h>
-#include <stdlib.h>
-#include <stdio.h>
 #include <string.h>
-#include <stdint.h>
 
 /* first setup platform defines*/
 #include "os/c-api/il2cpp-config-platforms.h"
@@ -31,7 +26,6 @@
 #endif
 
 #if defined(__ARMCC_VERSION)
-    #include <assert.h>
     #include <wchar.h>
     #include <ctype.h>
     #define INTPTR_MAX 2147483647
@@ -103,11 +97,13 @@ typedef void (STDCALL *SynchronizationContextCallback)(intptr_t arg);
 
 #define IL2CPP_ENABLE_MONO_BUG_EMULATION 1
 
+#ifndef ALIGN_OF // Baselib header can also define this - if so use their definition.
 #if defined(__GNUC__) || defined(__SNC__) || defined(__clang__)
     #define ALIGN_OF(T) __alignof__(T)
     #define ALIGN_TYPE(val) __attribute__((aligned(val)))
     #define ALIGN_FIELD(val) ALIGN_TYPE(val)
     #define IL2CPP_FORCE_INLINE inline __attribute__ ((always_inline))
+    #define IL2CPP_MANAGED_FORCE_INLINE IL2CPP_FORCE_INLINE
 #elif defined(_MSC_VER)
     #define ALIGN_OF(T) __alignof(T)
 #if _MSC_VER >= 1900 && defined(__cplusplus)
@@ -117,10 +113,13 @@ typedef void (STDCALL *SynchronizationContextCallback)(intptr_t arg);
 #endif
     #define ALIGN_FIELD(val) __declspec(align(val))
     #define IL2CPP_FORCE_INLINE __forceinline
+    #define IL2CPP_MANAGED_FORCE_INLINE inline
 #else
     #define ALIGN_TYPE(size)
     #define ALIGN_FIELD(size)
     #define IL2CPP_FORCE_INLINE inline
+    #define IL2CPP_MANAGED_FORCE_INLINE IL2CPP_FORCE_INLINE
+#endif
 #endif
 
 #define IL2CPP_PAGE_SIZE 4096
@@ -165,6 +164,11 @@ typedef void (STDCALL *SynchronizationContextCallback)(intptr_t arg);
 /* Platforms which use OS specific implementation to extract stracktrace */
 #if !defined(IL2CPP_ENABLE_NATIVE_STACKTRACES)
 #define IL2CPP_ENABLE_NATIVE_STACKTRACES (IL2CPP_TARGET_WINDOWS || IL2CPP_TARGET_LINUX || IL2CPP_TARGET_DARWIN || IL2CPP_TARGET_IOS || IL2CPP_TARGET_ANDROID || IL2CPP_TARGET_LUMIN)
+#endif
+
+/* Platforms which support native IP emission to crash reporting to enable server-side reconstruction of C# exception stack trace line numbers */
+#if !defined(IL2CPP_ENABLE_NATIVE_INSTRUCTION_POINTER_EMISSION)
+#define IL2CPP_ENABLE_NATIVE_INSTRUCTION_POINTER_EMISSION (IL2CPP_TARGET_WINDOWS || IL2CPP_TARGET_LINUX || IL2CPP_TARGET_DARWIN || IL2CPP_TARGET_IOS || IL2CPP_TARGET_ANDROID)
 #endif
 
 #if IL2CPP_ENABLE_STACKTRACES
@@ -226,8 +230,8 @@ typedef void (STDCALL *SynchronizationContextCallback)(intptr_t arg);
 #define IL2CPP_UNREACHABLE
 #endif
 
-typedef uint32_t Il2CppMethodSlot;
-static const uint32_t kInvalidIl2CppMethodSlot = 65535;
+typedef uint16_t Il2CppMethodSlot;
+static const uint16_t kInvalidIl2CppMethodSlot = 65535;
 
 /* Debug macros */
 
@@ -279,6 +283,7 @@ static const uint32_t kInvalidIl2CppMethodSlot = 65535;
 
 #else
 
+#include <stdio.h>
 #include <emscripten/emscripten.h>
 // emscripten's assert will throw an exception in js.
 // For now, we don't want that, so just printf and move on.
@@ -534,4 +539,15 @@ char(*il2cpp_array_size_helper(Type(&array)[Size]))[Size];
 
 #ifndef IL2CPP_MUTATE_METHOD_POINTERS
 #define IL2CPP_MUTATE_METHOD_POINTERS !IL2CPP_TARGET_PS4
+#endif
+
+#if !IL2CPP_DEBUG
+#define IL2CPP_ASSERT(expr) void(0)
+#else
+#if defined(__cplusplus)
+#define IL2CPP_ASSERT(expr) (static_cast<bool>(expr) ? void(0) : il2cpp_assert(#expr, __FILE__, __LINE__))
+#else
+#define IL2CPP_ASSERT(expr) (expr) ? void(0) : il2cpp_assert(#expr, __FILE__, __LINE__))
+#endif
+extern void il2cpp_assert(const char* assertion, const char* file, unsigned int line);
 #endif

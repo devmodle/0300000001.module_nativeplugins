@@ -69,6 +69,7 @@ intptr_t CMVideoSampling_ImageBuffer(CMVideoSampling* sampling, CVImageBufferRef
     if (sampling->cvTextureCacheTexture)
         retTex = GetTextureFromCVTextureCache(sampling->cvTextureCacheTexture);
 
+#if UNITY_USES_GLES
     if (UnitySelectedRenderingAPI() == apiOpenGLES2 || UnitySelectedRenderingAPI() == apiOpenGLES3)
     {
         GLint oldTexBinding = 0;
@@ -81,6 +82,7 @@ intptr_t CMVideoSampling_ImageBuffer(CMVideoSampling* sampling, CVImageBufferRef
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
         glBindTexture(GL_TEXTURE_2D, oldTexBinding);
     }
+#endif
 
     return retTex;
 }

@@ -4,10 +4,12 @@
   <dict>
     <key>CADisableMinimumFrameDuration</key>
     <false />
+    <key>CFBundleAllowMixedLocalizations</key>
+    <true />
     <key>CFBundleDevelopmentRegion</key>
     <string>en</string>
     <key>CFBundleDisplayName</key>
-    <string>New Unity Project</string>
+    <string>Plugin</string>
     <key>CFBundleExecutable</key>
     <string>${EXECUTABLE_NAME}</string>
     <key>CFBundleIdentifier</key>
@@ -41,7 +43,7 @@
     <false />
     <key>UIRequiredDeviceCapabilities</key>
     <array>
-      <string>armv7</string>
+      <string>arm64</string>
       <string>metal</string>
     </array>
     <key>UIRequiresFullScreen</key>

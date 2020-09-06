@@ -1,6 +1,8 @@
 #include "EAGLContextHelper.h"
 #include "UnityRendering.h"
 
+#if UNITY_USES_GLES
+
 #import <QuartzCore/QuartzCore.h>
 #import <OpenGLES/EAGL.h>
 #import <OpenGLES/ES2/gl.h>
@@ -72,3 +74,18 @@ EAGLContextSetCurrentAutoRestore::~EAGLContextSetCurrentAutoRestore()
             UnityOnSetCurrentGLContext(old);
     }
 }
+
+#else // UNITY_USES_GLES
+
+extern "C" bool AllocateRenderBufferStorageFromEAGLLayer(void*, void*)      { return false; }
+extern "C" void DeallocateRenderBufferStorageFromEAGLLayer(void*)           {}
+
+extern "C" EAGLContext* UnityCreateContextEAGL(EAGLContext*, int)           { return NULL; }
+extern "C" void         UnityMakeCurrentContextEAGL(EAGLContext*)           {}
+extern "C" EAGLContext* UnityGetCurrentContextEAGL()                        { return NULL; }
+
+EAGLContextSetCurrentAutoRestore::EAGLContextSetCurrentAutoRestore(EAGLContext*)                {}
+EAGLContextSetCurrentAutoRestore::EAGLContextSetCurrentAutoRestore(UnityDisplaySurfaceBase*)    {}
+EAGLContextSetCurrentAutoRestore::~EAGLContextSetCurrentAutoRestore()                           {}
+
+#endif

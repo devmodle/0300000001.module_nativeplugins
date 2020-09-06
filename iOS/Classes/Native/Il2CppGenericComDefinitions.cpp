@@ -1,4 +1,4 @@
-﻿#include "il2cpp-config.h"
+﻿#include "pch-cpp.hpp"
 
 #ifndef _MSC_VER
 # include <alloca.h>
@@ -8,7 +8,6 @@
 
 
 
-#include "codegen/il2cpp-codegen.h"
 
 
 

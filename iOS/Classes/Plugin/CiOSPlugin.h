@@ -15,6 +15,8 @@ NS_ASSUME_NONNULL_BEGIN
 //! iOS 플러그인
 @interface CiOSPlugin : NSObject {
 	NSString *m_pDeviceID;
+	NSString *m_pBuildMode;
+	
 	KeychainItemWrapper *m_pKeychainItemWrapper;
 	UIActivityIndicatorView *m_pActivityIndicatorView;
 	
@@ -26,6 +28,7 @@ NS_ASSUME_NONNULL_BEGIN
 // 프로퍼티 {
 @property (nonatomic, copy) NSString *deviceID;
 @property (nonatomic, copy) NSString *buildMode;
+
 @property (nonatomic, strong, readonly) KeychainItemWrapper *keychainItemWrapper;
 @property (nonatomic, strong, readonly) UIActivityIndicatorView *activityIndicatorView;
 

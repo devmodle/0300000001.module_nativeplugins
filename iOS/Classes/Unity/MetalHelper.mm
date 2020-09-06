@@ -26,7 +26,7 @@ extern "C" void InitRenderingMTL()
     extern bool _supportsMSAA;
     _supportsMSAA = true;
 
-    MTLTextureDescriptorClass = [UnityGetMetalBundle() classNamed: @"MTLTextureDescriptor"];
+    MTLTextureDescriptorClass = NSClassFromString(@"MTLTextureDescriptor");
 #endif
 }
 
@@ -37,7 +37,14 @@ static MTLPixelFormat GetColorFormatForSurface(const UnityDisplaySurfaceMTL* sur
     if (surface->wideColor && UnityIsWideColorSupported())
         colorFormat = surface->srgb ? MTLPixelFormatBGR10_XR_sRGB : MTLPixelFormatBGR10_XR;
 #elif PLATFORM_OSX
-    if (surface->wideColor)
+    if (surface->hdr)
+    {
+        if (@available(macOS 10.15, *))
+        {
+            colorFormat = UnityHDRSurfaceDepth() == 0 ? MTLPixelFormatBGR10A2Unorm : MTLPixelFormatRGBA16Float;
+        }
+    }
+    else if (surface->wideColor)
         colorFormat = MTLPixelFormatRGBA16Float;
 #endif
     return colorFormat;
@@ -72,7 +79,9 @@ extern "C" void CreateSystemRenderingSurfaceMTL(UnityDisplaySurfaceMTL* surface)
 
 #if PLATFORM_OSX
     CGColorSpaceRef colorSpaceRef = nil;
-    if (surface->wideColor)
+    if (surface->hdr)
+        colorSpaceRef = UnityHDRSurfaceDepth() == 0 ? CGColorSpaceCreateWithName(CFSTR("kCGColorSpaceITUR_2020_PQ_EOTF")) : CGColorSpaceCreateWithName(CFSTR("kCGColorSpaceITUR_709"));
+    else if (surface->wideColor)
         colorSpaceRef = CGColorSpaceCreateWithName(surface->srgb ? kCGColorSpaceExtendedLinearSRGB : kCGColorSpaceExtendedSRGB);
     else
         colorSpaceRef = CGColorSpaceCreateWithName(kCGColorSpaceSRGB);
@@ -163,7 +172,7 @@ extern "C" void CreateRenderingSurfaceMTL(UnityDisplaySurfaceMTL* surface)
         txDesc.arrayLength = 1;
         txDesc.mipmapLevelCount = 1;
         txDesc.sampleCount = surface->msaaSamples;
-#if PLATFORM_OSX
+#if PLATFORM_OSX || (TARGET_IPHONE_SIMULATOR || TARGET_TVOS_SIMULATOR)
         txDesc.resourceOptions = MTLResourceCPUCacheModeDefaultCache | MTLResourceStorageModePrivate;
 #endif
         txDesc.usage = MTLTextureUsageRenderTarget | MTLTextureUsageShaderRead;
@@ -197,7 +206,7 @@ extern "C" void CreateSharedDepthbufferMTL(UnityDisplaySurfaceMTL* surface)
     MTLPixelFormat pixelFormat = MTLPixelFormatDepth32Float_Stencil8;
 
     MTLTextureDescriptor* depthTexDesc = [MTLTextureDescriptorClass texture2DDescriptorWithPixelFormat: pixelFormat width: surface->targetW height: surface->targetH mipmapped: NO];
-#if PLATFORM_OSX
+#if PLATFORM_OSX || (TARGET_IPHONE_SIMULATOR || TARGET_TVOS_SIMULATOR)
     depthTexDesc.resourceOptions = MTLResourceCPUCacheModeDefaultCache | MTLResourceStorageModePrivate;
 #endif
 
@@ -294,12 +303,9 @@ extern "C" void PresentMTL(UnityDisplaySurfaceMTL* surface)
     if (surface->drawable)
     {
     #if PLATFORM_IOS || PLATFORM_TVOS
-        if (@available(iOS 10.3, tvOS 10.2, *))
-        {
-            const int targetFPS = UnityGetTargetFPS(); assert(targetFPS > 0);
-            [UnityCurrentMTLCommandBuffer() presentDrawable: surface->drawable afterMinimumDuration: 1.0 / targetFPS];
-            return;
-        }
+        const int targetFPS = UnityGetTargetFPS(); assert(targetFPS > 0);
+        [UnityCurrentMTLCommandBuffer() presentDrawable: surface->drawable afterMinimumDuration: 1.0 / targetFPS];
+        return;
     #endif
 
         // note that we end up here if presentDrawable: afterMinimumDuration: is not supported

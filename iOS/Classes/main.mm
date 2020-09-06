@@ -102,6 +102,7 @@ if([obj respondsToSelector:sel])                        \
     {
         // initialize from partial unload ( sceneLessMode & onPause )
         UnityLoadApplicationFromSceneLessState();
+        UnitySuppressPauseMessage();
         [self pause: false];
         [self showUnityWindow];
     }

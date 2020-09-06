@@ -1,4 +1,4 @@
-﻿#include "il2cpp-config.h"
+﻿#include "pch-cpp.hpp"
 
 #ifndef _MSC_VER
 # include <alloca.h>
@@ -7,15 +7,7 @@
 #endif
 
 
-#include <cstring>
-#include <string.h>
-#include <stdio.h>
-#include <cmath>
-#include <limits>
-#include <assert.h>
 
-#include "il2cpp-class-internals.h"
-#include "codegen/il2cpp-codegen.h"
 
 
 
@@ -23,7 +15,6 @@
 
 IL2CPP_EXTERN_C_BEGIN
 IL2CPP_EXTERN_C_END
-
 
 
 
@@ -65,15 +56,15 @@ const Il2CppCodeRegistration g_CodeRegistration =
 {
 	1,
 	g_ReversePInvokeWrapperPointers,
-	2619,
+	2610,
 	g_Il2CppGenericMethodPointers,
-	1401,
+	1399,
 	g_Il2CppInvokerPointers,
-	2018,
+	2041,
 	g_AttributeGenerators,
-	181,
+	182,
 	g_UnresolvedVirtualMethodPointers,
-	126,
+	127,
 	g_Il2CppInteropData,
 	0,
 	NULL,
@@ -90,5 +81,6 @@ void s_Il2CppCodegenRegistration()
 	il2cpp_codegen_register (&g_CodeRegistration, &g_MetadataRegistration, &s_Il2CppCodeGenOptions);
 }
 #if RUNTIME_IL2CPP
-static il2cpp::utils::RegisterRuntimeInitializeAndCleanup s_Il2CppCodegenRegistrationVariable (&s_Il2CppCodegenRegistration, NULL);
+typedef void (*CodegenRegistrationFunction)();
+CodegenRegistrationFunction g_CodegenRegistration = s_Il2CppCodegenRegistration;
 #endif

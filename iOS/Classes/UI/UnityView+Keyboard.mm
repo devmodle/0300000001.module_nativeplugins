@@ -60,6 +60,10 @@ static double GetTimeInSeconds()
         [commands addObject: [UIKeyCommand keyCommandWithInput: input modifierFlags: UIKeyModifierShift action: @selector(handleCommand:)]];
     }
 
+    // pageUp, pageDown
+    [commands addObject: [UIKeyCommand keyCommandWithInput: @"UIKeyInputPageUp" modifierFlags: kNilOptions action: @selector(handleCommand:)]];
+    [commands addObject: [UIKeyCommand keyCommandWithInput: @"UIKeyInputPageDown" modifierFlags: kNilOptions action: @selector(handleCommand:)]];
+
     // up, down, left, right, esc
     [commands addObject: [UIKeyCommand keyCommandWithInput: UIKeyInputUpArrow modifierFlags: kNilOptions action: @selector(handleCommand:)]];
     [commands addObject: [UIKeyCommand keyCommandWithInput: UIKeyInputDownArrow modifierFlags: kNilOptions action: @selector(handleCommand:)]];
@@ -192,6 +196,10 @@ static double GetTimeInSeconds()
         code = UnityStringToKey("left");
     else if (input == UIKeyInputEscape)
         code = UnityStringToKey("escape");
+    else if ([input isEqualToString: @"UIKeyInputPageUp"])
+        code = UnityStringToKey("page up");
+    else if ([input isEqualToString: @"UIKeyInputPageDown"])
+        code = UnityStringToKey("page down");
 
     KeyMap::iterator item = GetKeyMap().find(code);
     if (item == GetKeyMap().end())

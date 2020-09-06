@@ -93,6 +93,7 @@ typedef struct UnityDisplaySurfaceBase
     int                 useCVTextureCache;      // [bool]
     int                 srgb;                   // [bool]
     int                 wideColor;              // [bool]
+    int                 hdr;                    // [bool]
     int                 disableDepthAndStencil; // [bool]
     int                 allowScreenshot;        // [bool] currently we allow screenshots (from script) only on main display
     int                 memorylessDepth;        // [bool]
@@ -175,8 +176,7 @@ typedef enum UnityRenderingAPI
     apiMetal        = 4,
 } UnityRenderingAPI;
 
-typedef struct
-    RenderingSurfaceParams
+typedef struct RenderingSurfaceParams
 {
     // rendering setup
     int msaaSampleCount;
@@ -184,14 +184,14 @@ typedef struct
     int renderH;
     int srgb;
     int wideColor;
+    int hdr;
     int metalFramebufferOnly;
     int metalMemorylessDepth;
 
     // unity setup
     int disableDepthAndStencil;
     int useCVTextureCache;
-}
-RenderingSurfaceParams;
+} RenderingSurfaceParams;
 
 #ifdef __cplusplus
 extern "C" {
@@ -247,6 +247,8 @@ void PresentMTL(UnityDisplaySurfaceMTL* surface);
 
 // Acquires CAMetalDrawable resource for the surface and returns the drawable texture
 MTLTextureRef AcquireDrawableMTL(UnityDisplaySurfaceMTL* surface);
+
+unsigned UnityHDRSurfaceDepth();
 
 // starting with ios11 apple insists on having just one presentDrawable per command buffer
 // hence we keep normal processing for main screen, but when airplay is used we will create extra command buffers

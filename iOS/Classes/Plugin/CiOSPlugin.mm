@@ -78,9 +78,9 @@ extern "C" {
 //! iOS 플러그인
 @implementation CiOSPlugin
 #pragma mark - Property
-@synthesize buildMode;
-
 @synthesize deviceID = m_pDeviceID;
+@synthesize buildMode = m_pBuildMode;
+
 @synthesize keychainItemWrapper = m_pKeychainItemWrapper;
 @synthesize activityIndicatorView = m_pActivityIndicatorView;
 

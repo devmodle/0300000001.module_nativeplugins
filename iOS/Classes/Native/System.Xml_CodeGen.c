@@ -1,5 +1,4 @@
-﻿#include "il2cpp-config.h"
-
+﻿#include "pch-c.h"
 #ifndef _MSC_VER
 # include <alloca.h>
 #else
@@ -21,10 +20,10 @@ IL2CPP_EXTERN_C_END
 
 
 // 0x00000001 System.Void System.Xml.XmlReader::.cctor()
-extern void XmlReader__cctor_m3EF2489C81E4EEF249A34242FC130A861972991E ();
+extern void XmlReader__cctor_m8C939FA4F60E046BCAEDF0969A6E3B89D9CB0A4E ();
 static Il2CppMethodPointer s_methodPointers[1] = 
 {
-	XmlReader__cctor_m3EF2489C81E4EEF249A34242FC130A861972991E,
+	XmlReader__cctor_m8C939FA4F60E046BCAEDF0969A6E3B89D9CB0A4E,
 };
 static const int32_t s_InvokerIndices[1] = 
 {

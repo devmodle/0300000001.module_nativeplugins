@@ -1,3 +1,7 @@
+#include "UnityRendering.h"
+
+#if UNITY_USES_GLES
+
 #include <QuartzCore/QuartzCore.h>
 #include <stdio.h>
 
@@ -386,3 +390,23 @@ extern "C" void CheckGLESError(const char* file, int line)
     if (e)
         ::printf("OpenGLES error 0x%04X in %s:%i\n", e, file, line);
 }
+
+#else // UNITY_USES_GLES
+
+extern "C" void InitRenderingGLES()                                         {}
+
+extern "C" void CreateSystemRenderingSurfaceGLES(UnityDisplaySurfaceGLES*)  {}
+extern "C" void CreateRenderingSurfaceGLES(UnityDisplaySurfaceGLES*)        {}
+extern "C" void DestroyRenderingSurfaceGLES(UnityDisplaySurfaceGLES*)       {}
+extern "C" void CreateSharedDepthbufferGLES(UnityDisplaySurfaceGLES*)       {}
+extern "C" void DestroySharedDepthbufferGLES(UnityDisplaySurfaceGLES*)      {}
+extern "C" void CreateUnityRenderBuffersGLES(UnityDisplaySurfaceGLES*)      {}
+extern "C" void DestroySystemRenderingSurfaceGLES(UnityDisplaySurfaceGLES*) {}
+extern "C" void DestroyUnityRenderBuffersGLES(UnityDisplaySurfaceGLES*)     {}
+extern "C" void StartFrameRenderingGLES(UnityDisplaySurfaceGLES*)           {}
+extern "C" void EndFrameRenderingGLES(UnityDisplaySurfaceGLES*)             {}
+extern "C" void PreparePresentGLES(UnityDisplaySurfaceGLES*)                {}
+extern "C" void PresentGLES(UnityDisplaySurfaceGLES*)                       {}
+extern "C" void CheckGLESError(const char*, int)                            {}
+
+#endif

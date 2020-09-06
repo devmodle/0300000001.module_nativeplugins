@@ -48,6 +48,7 @@ void    UnityBatchPlayerLoop();             // batch mode like player loop, with
 void    UnitySetPlayerFocus(int focused);   // send OnApplicationFocus() message to scripts
 void    UnityLowMemory();
 void    UnityPause(int pause);
+void    UnitySuppressPauseMessage();
 int     UnityIsPaused();                    // 0 if player is running, 1 if paused
 void    UnityWillPause();                   // send the message that app will pause
 void    UnityWillResume();                  // send the message that app will resume
@@ -135,6 +136,7 @@ int     UnityUseAnimatedAutorotation();
 int     UnityGetDesiredMSAASampleCount(int defaultSampleCount);
 int     UnityGetSRGBRequested();
 int     UnityGetWideColorRequested();
+int     UnityGetHDRModeRequested();
 int     UnityGetShowActivityIndicatorOnLoading();
 int     UnityGetAccelerometerFrequency();
 int     UnityGetTargetFPS();
@@ -192,6 +194,7 @@ void    UnityReportWebRequestResponseHeader(void* udata, const char* headerName,
 void    UnityReportWebRequestReceivedResponse(void* udata, unsigned expectedDataLength);
 void    UnityReportWebRequestReceivedData(void* udata, const void* buffer, unsigned totalRead, unsigned expectedTotal);
 void    UnityReportWebRequestFinishedLoadingData(void* udata);
+void    UnityWebRequestRelease(void* udata);
 void    UnityReportWebRequestSentData(void* udata, unsigned totalWritten, unsigned expectedTotal);
 int     UnityReportWebRequestValidateCertificate(void* udata, const void* certificateData, unsigned certificateSize);
 const void*   UnityWebRequestGetUploadData(void* udata, unsigned* bufferSize);

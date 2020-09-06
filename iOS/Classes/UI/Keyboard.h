@@ -12,6 +12,7 @@ typedef struct
     BOOL multiline;
     BOOL secure;
     int characterLimit;
+    BOOL oneTimeCode;
 }
 KeyboardShowParam;
 

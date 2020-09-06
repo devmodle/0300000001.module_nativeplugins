@@ -12,8 +12,7 @@ static id QueryASIdentifierManager()
     if (bundle)
     {
         [bundle load];
-        Class retClass = [bundle classNamed: @"ASIdentifierManager"];
-        return [retClass performSelector: @selector(sharedManager)];
+        return [NSClassFromString(@"ASIdentifierManager") performSelector: @selector(sharedManager)];
     }
 
     return nil;
@@ -238,6 +237,7 @@ DeviceTableEntry DeviceTable[] =
     { iPad, 4, 4, 6, deviceiPadMini2Gen },
     { iPad, 4, 7, 9, deviceiPadMini3Gen },
     { iPad, 5, 1, 2, deviceiPadMini4Gen },
+    { iPad, 11, 1, 2, deviceiPadMini5Gen },
     { iPad, 2, 1, 4, deviceiPad2Gen },
     { iPad, 3, 1, 3, deviceiPad3Gen },
     { iPad, 3, 4, 6, deviceiPad4Gen },
@@ -246,6 +246,7 @@ DeviceTableEntry DeviceTable[] =
     { iPad, 7, 11, 12, deviceiPad7Gen },
     { iPad, 4, 1, 3, deviceiPadAir1 },
     { iPad, 5, 3, 4, deviceiPadAir2 },
+    { iPad, 11, 3, 4, deviceiPadAir3Gen },
     { iPad, 6, 7, 8, deviceiPadPro1Gen },
     { iPad, 7, 1, 2, deviceiPadPro2Gen },
     { iPad, 6, 3, 4, deviceiPadPro10Inch1Gen },
@@ -409,6 +410,7 @@ extern "C" float UnityDeviceDPI()
             case deviceiPad4Gen:        // iPad retina
             case deviceiPadAir1:
             case deviceiPadAir2:
+            case deviceiPadAir3Gen:
             case deviceiPadPro1Gen:
             case deviceiPadPro10Inch1Gen:
             case deviceiPadPro2Gen:
@@ -427,6 +429,7 @@ extern "C" float UnityDeviceDPI()
             case deviceiPadMini2Gen:
             case deviceiPadMini3Gen:
             case deviceiPadMini4Gen:
+            case deviceiPadMini5Gen:
                 _DeviceDPI = 326.0f; break;
 
             // iPod

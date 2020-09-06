@@ -338,6 +338,13 @@ extern "C" void UnityKeyboard_LayoutChanged(NSString* layout);
     else
     {
         textField.text = initialText;
+#if UNITY_HAS_IOSSDK_12_0
+        if (@available(iOS 12.0, *))
+        {
+            if (param.oneTimeCode)
+                textField.textContentType = UITextContentTypeOneTimeCode;
+        }
+#endif
         [self setTextInputTraits: textField withParam: param withCap: capitalization];
         textField.placeholder = [NSString stringWithUTF8String: param.placeholder];
 
@@ -448,14 +455,8 @@ extern "C" void UnityKeyboard_LayoutChanged(NSString* layout);
 #if PLATFORM_IOS
 - (void)positionInput:(CGRect)kbRect x:(float)x y:(float)y
 {
-    float safeAreaInsetLeft = 0;
-    float safeAreaInsetRight = 0;
-
-    if (@available(iOS 11.0, *))
-    {
-        safeAreaInsetLeft = [UnityGetGLView() safeAreaInsets].left;
-        safeAreaInsetRight = [UnityGetGLView() safeAreaInsets].right;
-    }
+    const float safeAreaInsetLeft = [UnityGetGLView() safeAreaInsets].left;
+    const float safeAreaInsetRight = [UnityGetGLView() safeAreaInsets].right;
 
     if (_multiline)
     {
@@ -729,14 +730,17 @@ extern "C" void UnityKeyboard_Create(unsigned keyboardType, int autocorrection, 
         UIKeyboardAppearanceAlert,
     };
 
+    // Note: TouchScreenKeyboard with value 12 is OneTimeCode and does not directly translate to a UIKeyboardType.
+    // We show a number pad but change the content type so that codes can be autofilled when received in Messages.
     KeyboardShowParam param =
     {
         text, placeholder,
-        keyboardTypes[keyboardType],
+        keyboardTypes[keyboardType == 12 ? UIKeyboardTypeNumberPad : keyboardType],
         autocorrectionTypes[autocorrection],
         keyboardAppearances[alert],
         (BOOL)multiline, (BOOL)secure,
-        characterLimit
+        characterLimit,
+        keyboardType == 12
     };
 
     [[KeyboardDelegate Instance] setKeyboardParams: param];

@@ -1,5 +1,4 @@
-﻿#include "il2cpp-config.h"
-
+﻿#include "pch-c.h"
 #ifndef _MSC_VER
 # include <alloca.h>
 #else
@@ -31,20 +30,20 @@ extern void** const g_MetadataUsages[];
 extern const Il2CppMetadataRegistration g_MetadataRegistration;
 const Il2CppMetadataRegistration g_MetadataRegistration = 
 {
-	2734,
-	s_Il2CppGenericTypes,
 	520,
+	s_Il2CppGenericTypes,
+	365,
 	g_Il2CppGenericInstTable,
-	3039,
+	3033,
 	s_Il2CppGenericMethodFunctions,
-	8424,
+	6212,
 	g_Il2CppTypeTable,
-	3427,
+	3418,
 	g_Il2CppMethodSpecTable,
-	1837,
+	1843,
 	g_FieldOffsetTable,
-	1837,
+	1843,
 	g_Il2CppTypeDefinitionSizesTable,
-	5688,
+	5697,
 	g_MetadataUsages,
 };

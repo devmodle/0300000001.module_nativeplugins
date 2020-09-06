@@ -60,6 +60,7 @@ enum WebCamKind
     kWebCamWideAngle = 1,
     kWebCamTelephoto = 2,
     kWebCamColorAndDepth = 3,
+    kWebCamUltraWideAngle = 4,
 };
 
 @interface CameraCaptureDevice : NSObject

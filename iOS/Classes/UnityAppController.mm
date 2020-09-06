@@ -195,6 +195,11 @@ extern "C" void UnityCleanupTrampoline()
 
 - (NSUInteger)application:(UIApplication*)application supportedInterfaceOrientationsForWindow:(UIWindow*)window
 {
+    // Durring splash screen show phase only unity rootViewController orientations are allowed.
+    // This will prevent unwanted rotation while splash screen is on (Ex. Fogbugz case: 1190428).
+    if ([SplashScreenController Instance] != nil)
+        return [[_UnityAppController rootViewController] supportedInterfaceOrientations];
+
     // No rootViewController is set because we are switching from one view controller to another, all orientations should be enabled
     if ([window rootViewController] == nil)
         return UIInterfaceOrientationMaskAll;
@@ -587,7 +592,6 @@ void UnityInitTrampoline()
     _ios100orNewer = CHECK_VER(@"10.0"), _ios101orNewer = CHECK_VER(@"10.1"), _ios102orNewer = CHECK_VER(@"10.2"), _ios103orNewer = CHECK_VER(@"10.3");
     _ios110orNewer = CHECK_VER(@"11.0"), _ios111orNewer = CHECK_VER(@"11.1"), _ios112orNewer = CHECK_VER(@"11.2");
     _ios130orNewer  = CHECK_VER(@"13.0");
-
 #undef CHECK_VER
 
     AddNewAPIImplIfNeeded();
@@ -632,3 +636,17 @@ static void AddNewAPIImplIfNeeded()
         class_replaceMethod([UIView class], @selector(safeAreaInsets), UIView_SafeAreaInsets_IMP, UIView_safeAreaInsets_Enc);
     }
 }
+
+// xcode11 uses new compiler-rt lib
+// if we build unity player lib with xcode11 and then user links final project with older xcode
+//   the link fails with Undefined Symbol ___isPlatformVersionAtLeast
+// hence we add this as a temporary hack until we start requiring xcode11
+
+#if __clang_major__ < 11
+extern "C" int32_t __isOSVersionAtLeast(int32_t Major, int32_t Minor, int32_t Subminor);
+extern "C" int32_t __isPlatformVersionAtLeast(uint32_t Platform, uint32_t Major, uint32_t Minor, uint32_t Subminor)
+{
+    return __isOSVersionAtLeast(Major, Minor, Subminor);
+}
+
+#endif

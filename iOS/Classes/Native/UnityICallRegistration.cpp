@@ -154,6 +154,10 @@ void RegisterAllStrippedInternalCalls()
 		void Register_UnityEngine_Light_get_bounceIntensity();
 		Register_UnityEngine_Light_get_bounceIntensity();
 
+		//System.Single UnityEngine.Light::get_cookieSize()
+		void Register_UnityEngine_Light_get_cookieSize();
+		Register_UnityEngine_Light_get_cookieSize();
+
 		//System.Single UnityEngine.Light::get_intensity()
 		void Register_UnityEngine_Light_get_intensity();
 		Register_UnityEngine_Light_get_intensity();
@@ -166,6 +170,10 @@ void RegisterAllStrippedInternalCalls()
 		void Register_UnityEngine_Light_get_spotAngle();
 		Register_UnityEngine_Light_get_spotAngle();
 
+		//System.Void UnityEngine.Light::get_bakingOutput_Injected(UnityEngine.LightBakingOutput&)
+		void Register_UnityEngine_Light_get_bakingOutput_Injected();
+		Register_UnityEngine_Light_get_bakingOutput_Injected();
+
 		//System.Void UnityEngine.Light::get_color_Injected(UnityEngine.Color&)
 		void Register_UnityEngine_Light_get_color_Injected();
 		Register_UnityEngine_Light_get_color_Injected();
@@ -177,6 +185,10 @@ void RegisterAllStrippedInternalCalls()
 		//UnityEngine.LightType UnityEngine.Light::get_type()
 		void Register_UnityEngine_Light_get_type();
 		Register_UnityEngine_Light_get_type();
+
+		//UnityEngine.Texture UnityEngine.Light::get_cookie()
+		void Register_UnityEngine_Light_get_cookie();
+		Register_UnityEngine_Light_get_cookie();
 
 	//End Registrations for type : UnityEngine.Light
 
@@ -336,19 +348,7 @@ void RegisterAllStrippedInternalCalls()
 
 	//End Registrations for type : UnityEngine.QualitySettings
 
-	//Start Registrations for type : UnityEngine.Quaternion
-
-		//System.Void UnityEngine.Quaternion::LookRotation_Injected(UnityEngine.Vector3&,UnityEngine.Vector3&,UnityEngine.Quaternion&)
-		void Register_UnityEngine_Quaternion_LookRotation_Injected();
-		Register_UnityEngine_Quaternion_LookRotation_Injected();
-
-	//End Registrations for type : UnityEngine.Quaternion
-
 	//Start Registrations for type : UnityEngine.Rendering.GraphicsSettings
-
-		//System.Boolean UnityEngine.Rendering.GraphicsSettings::AllowEnlightenSupportForUpgradedProject()
-		void Register_UnityEngine_Rendering_GraphicsSettings_AllowEnlightenSupportForUpgradedProject();
-		Register_UnityEngine_Rendering_GraphicsSettings_AllowEnlightenSupportForUpgradedProject();
 
 		//System.Boolean UnityEngine.Rendering.GraphicsSettings::get_lightsUseLinearIntensity()
 		void Register_UnityEngine_Rendering_GraphicsSettings_get_lightsUseLinearIntensity();
@@ -534,9 +534,9 @@ void RegisterAllStrippedInternalCalls()
 
 	//Start Registrations for type : UnityEngine.TextAsset
 
-		//System.String UnityEngine.TextAsset::get_text()
-		void Register_UnityEngine_TextAsset_get_text();
-		Register_UnityEngine_TextAsset_get_text();
+		//System.Byte[] UnityEngine.TextAsset::get_bytes()
+		void Register_UnityEngine_TextAsset_get_bytes();
+		Register_UnityEngine_TextAsset_get_bytes();
 
 	//End Registrations for type : UnityEngine.TextAsset
 

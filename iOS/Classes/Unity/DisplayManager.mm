@@ -181,6 +181,7 @@ static DisplayManager* _DisplayManager = nil;
     _surface->msaaSamples = _supportsMSAA ? params.msaaSampleCount : 0;
     _surface->srgb = params.srgb;
     _surface->wideColor = params.wideColor;
+    _surface->hdr = params.hdr;
     _surface->useCVTextureCache = params.useCVTextureCache;
     _surface->memorylessDepth = params.metalMemorylessDepth;
 
@@ -251,6 +252,7 @@ static DisplayManager* _DisplayManager = nil;
             .renderH                = (int)_requestedRenderingSize.height,
             .srgb                   = _surface->srgb,
             .wideColor              = _surface->wideColor,
+            .hdr                    = _surface->hdr,
             .metalFramebufferOnly   = 0,
             .metalMemorylessDepth   = 0,
             .disableDepthAndStencil = _surface->disableDepthAndStencil,
@@ -480,6 +482,7 @@ static void EnsureDisplayIsInited(DisplayConnection* conn)
             .renderH                = -1,   // native resolution at first (can be changed later)
             .srgb                   = UnityGetSRGBRequested(),
             .wideColor              = 0,    // i am not sure how to handle wide color here (and if it is even supported for airplay)
+            .hdr                    = 0,
             .metalFramebufferOnly   = UnityMetalFramebufferOnly(),
             .metalMemorylessDepth   = UnityMetalMemorylessDepth(),
             .disableDepthAndStencil = UnityDisableDepthAndStencilBuffers(),
@@ -490,8 +493,10 @@ static void EnsureDisplayIsInited(DisplayConnection* conn)
         {
             DisplayConnection* main = [DisplayManager Instance].mainDisplay;
 
+        #if UNITY_USES_GLES
             if (api != apiMetal)
                 [EAGLContext setCurrentContext: UnityGetMainScreenContextGLES()];
+        #endif
 
             StartFrameRendering(main.surface);
         }
@@ -631,11 +636,7 @@ extern "C" float UnityScreenScaleFactor(UIScreen* screen)
 
 extern "C" int UnityMainScreenRefreshRate()
 {
-    if (@available(iOS 10.3, tvOS 10.3, *))
-        return (int)[UIScreen mainScreen].maximumFramesPerSecond;
-
-    // this is backwards-compatible value
-    return 30;
+    return (int)[UIScreen mainScreen].maximumFramesPerSecond;
 }
 
 extern "C" void UnityStartFrameRendering()

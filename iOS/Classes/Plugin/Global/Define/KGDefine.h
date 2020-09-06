@@ -10,6 +10,7 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+#import <StoreKit/StoreKit.h>
 #import <AudioToolbox/AudioToolbox.h>
 
 #import "UnityInterface.h"

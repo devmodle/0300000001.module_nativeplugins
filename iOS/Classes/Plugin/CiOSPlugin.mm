@@ -35,7 +35,7 @@ static CiOSPlugin *g_pInstance = nil;
 //! 진동 메세지를 처리한다
 - (void)handleVibrateMsg:(const char *)a_pszMsg;
 
-//! 액티비티 인디게이터 메세지를 처리한다
+//! 액티비티 인디케이터 메세지를 처리한다
 - (void)handleActivityIndicatorMsg:(const char *)a_pszMsg;
 @end			// CiOSPlugin (Private)
 
@@ -68,7 +68,7 @@ extern "C" {
 		else if(strcmp(a_pszCmd, CMD_VIBRATE) == 0) {
 			[CiOSPlugin.sharedInstance handleVibrateMsg:a_pszMsg];
 		}
-		// 액티비티 인디게이터 메세지 일 경우
+		// 액티비티 인디케이터 메세지 일 경우
 		else if(strcmp(a_pszCmd, CMD_ACTIVITY_INDICATOR) == 0) {
 			[CiOSPlugin.sharedInstance handleActivityIndicatorMsg:a_pszMsg];
 		}
@@ -123,13 +123,13 @@ extern "C" {
 	return m_pKeychainItemWrapper;
 }
 
-//! 액티비티 인디게이터 뷰를 반환한다
+//! 액티비티 인디케이터 뷰를 반환한다
 - (UIActivityIndicatorView *)activityIndicatorView {
-	// 액티비티 인디게이터가 없을 경우
+	// 액티비티 인디케이터가 없을 경우
 	if(m_pActivityIndicatorView == nil) {
 		UIActivityIndicatorViewStyle eIndicatorViewStyle = UIActivityIndicatorViewStyleWhiteLarge;
 		
-		// 새로운 액티비티 인디게이터를 지원 할 경우
+		// 새로운 액티비티 인디케이터를 지원 할 경우
 		if(@available(iOS MIN_VERSION_ACTIVITY_INDICATOR, *)) {
 			eIndicatorViewStyle = UIActivityIndicatorViewStyleLarge;
 		}
@@ -379,7 +379,7 @@ extern "C" {
 	}
 }
 
-//! 액티비티 인디게이터 메세지를 처리한다
+//! 액티비티 인디케이터 메세지를 처리한다
 - (void)handleActivityIndicatorMsg:(const char *)a_pszMsg {
 	NSLog(@"CiOSPlugin.handleStartActivityIndicatorMsg: %@", @(a_pszMsg));
 	

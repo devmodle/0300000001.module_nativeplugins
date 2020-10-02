@@ -269,7 +269,7 @@ public class CAndroidPlugin {
 		}
 	}
 	
-	//! 액티비티 인디게이터 메세지를 처리한다
+	//! 액티비티 인디케이터 메세지를 처리한다
 	private void handleActivityIndicatorMsg(String a_oMsg) {
 		Log.d(KGDefine.TAG, String.format("CAndroidPlugin.handleActivityIndicatorMsg: %s", a_oMsg));
 		

@@ -56,7 +56,9 @@ public class CAndroidPlugin {
 		nOffset = (int)(nOffset * KGDefine.SCALE_PROGRESS_BAR_OFFSET);
 		
 		// 프로그레스 바를 설정한다 {
-		m_oProgressBar = new ProgressBar(UnityPlayer.currentActivity, null, android.R.attr.progressBarStyleLarge);
+		m_oProgressBar = new ProgressBar(UnityPlayer.currentActivity,
+				null, android.R.attr.progressBarStyleLarge);
+		
 		m_oProgressBar.setIndeterminate(true);
 		m_oProgressBar.setVisibility(View.GONE);
 		
@@ -125,7 +127,9 @@ public class CAndroidPlugin {
 			oUUID = UUID.randomUUID();
 		} else {
 			ContentResolver oResolver = oAppContext.getContentResolver();
-			@SuppressLint("HardwareIds") String oDeviceID = Settings.Secure.getString(oResolver, Settings.Secure.ANDROID_ID);
+			
+			@SuppressLint("HardwareIds") String oDeviceID = Settings.Secure.getString(oResolver,
+					Settings.Secure.ANDROID_ID);
 			
 			oUUID = UUID.nameUUIDFromBytes(oDeviceID.getBytes(StandardCharsets.UTF_8));
 		}
@@ -169,7 +173,8 @@ public class CAndroidPlugin {
 			oTask.addOnSuccessListener(new OnSuccessListener<AppUpdateInfo>() {
 				@Override
 				public void onSuccess(AppUpdateInfo a_oUpdateInfo) {
-					Log.d(KGDefine.TAG, String.format("CAndroidPlugin.onHandleGetStoreVersionMsg Success: %d", a_oUpdateInfo.updateAvailability()));
+					Log.d(KGDefine.TAG, String.format("CAndroidPlugin.onHandleGetStoreVersionMsg Success: %d",
+							a_oUpdateInfo.updateAvailability()));
 					
 					int nVersion = Integer.parseInt(oVersion);
 					boolean bIsSuccess = a_oUpdateInfo.updateAvailability() != UpdateAvailability.UNKNOWN;
@@ -189,7 +194,9 @@ public class CAndroidPlugin {
 				@Override
 				public void onFailure(Exception a_oException) {
 					a_oException.printStackTrace();
-					Log.d(KGDefine.TAG, String.format("CAndroidPlugin.onHandleGetStoreVersionMsg Fail: %s", a_oException.getMessage()));
+					
+					Log.d(KGDefine.TAG, String.format("CAndroidPlugin.onHandleGetStoreVersionMsg Fail: %s",
+							a_oException.getMessage()));
 					
 					CDeviceMsgSender.getInstance().sendGetStoreVersionMsg(oVersion, false);
 				}
@@ -262,9 +269,11 @@ public class CAndroidPlugin {
 		
 		// 햅틱 진동을 지원하지 않을 경우
 		if(Build.VERSION.SDK_INT < KGDefine.MIN_VERSION_FEEDBACK_GENERATOR) {
-			oVibrator.vibrate((int)(fDuration * 1000.0f));
+			oVibrator.vibrate((int)(fDuration * KGDefine.UNIT_SEC_TO_MILLISEC));
 		} else {
-			VibrationEffect oEffect = VibrationEffect.createOneShot((int)(fDuration * 1000.0f), (int)(fIntensity * 255.0f));
+			VibrationEffect oEffect = VibrationEffect.createOneShot((int)(fDuration * KGDefine.UNIT_SEC_TO_MILLISEC),
+					(int)(fIntensity * KGDefine.UNIT_NORM_VALUE_TO_BYTE));
+			
 			oVibrator.vibrate(oEffect);
 		}
 	}

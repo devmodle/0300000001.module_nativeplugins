@@ -143,7 +143,6 @@
 		B55F44149CCED20C3FAA8EDF /* mscorlib13.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E8ED485EB63BD7D3C2F9E8FC /* mscorlib13.cpp */; };
 		B9C8428E9EA847E69E03572A /* mscorlib4.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 17D64E36ACA70A54F26E2BB2 /* mscorlib4.cpp */; };
 		C2064C94A39B069FE1676885 /* Generics3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1C0743EF9750D3D9603F4EDF /* Generics3.cpp */; };
-		C32AB1B624BEE42F00A9AAAD /* KDefine+Swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = C32AB1B524BEE42F00A9AAAD /* KDefine+Swift.swift */; };
 		C83D4F7C8057950582373314 /* Il2CppTypeDefinitions.c in Sources */ = {isa = PBXBuildFile; fileRef = CF5D4B58AB506BBC4A72AD21 /* Il2CppTypeDefinitions.c */; };
 		CB664F7AB312D46DF094FB2F /* IUnityGraphicsMetal.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CA341789E33C78F6D0D4399 /* IUnityGraphicsMetal.h */; };
 		CB9E4992B8BCAD402D5BF12C /* System.Configuration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67514311A041881A2B0FC3B0 /* System.Configuration.cpp */; };
@@ -382,7 +381,6 @@
 		B7FF423B81268B038A8FF4B0 /* UnityEngine.CoreModule1.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = UnityEngine.CoreModule1.cpp; path = Classes/Native/UnityEngine.CoreModule1.cpp; sourceTree = SOURCE_ROOT; };
 		C02B4DD388A109113DF66EF7 /* System1.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = System1.cpp; path = Classes/Native/System1.cpp; sourceTree = SOURCE_ROOT; };
 		C32AB1B424BEE42F00A9AAAD /* Unity-iPhone-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Unity-iPhone-Bridging-Header.h"; sourceTree = "<group>"; };
-		C32AB1B524BEE42F00A9AAAD /* KDefine+Swift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "KDefine+Swift.swift"; sourceTree = "<group>"; };
 		C3B390BA24BDA6EE00A5ABE0 /* AuthenticationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AuthenticationServices.framework; path = System/Library/Frameworks/AuthenticationServices.framework; sourceTree = SDKROOT; };
 		C52642178ABFD9AB43418782 /* IUnityGraphics.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = IUnityGraphics.h; path = Classes/Unity/IUnityGraphics.h; sourceTree = SOURCE_ROOT; };
 		C5DE4C748D138BC49526C999 /* System.Xml.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = System.Xml.cpp; path = Classes/Native/System.Xml.cpp; sourceTree = SOURCE_ROOT; };
@@ -804,7 +802,6 @@
 			isa = PBXGroup;
 			children = (
 				FE4C0ACC24B3209600F792E6 /* KDefine+Global.h */,
-				C32AB1B524BEE42F00A9AAAD /* KDefine+Swift.swift */,
 				C32AB1B424BEE42F00A9AAAD /* Unity-iPhone-Bridging-Header.h */,
 			);
 			path = Define;
@@ -1042,7 +1039,6 @@
 			files = (
 				FE4C0AD824B3209600F792E6 /* CiOSPlugin.mm in Sources */,
 				FE4C0AD924B3209600F792E6 /* Func+Global.mm in Sources */,
-				C32AB1B624BEE42F00A9AAAD /* KDefine+Swift.swift in Sources */,
 				FE4C0ADA24B3209600F792E6 /* CDeviceMsgSender.mm in Sources */,
 				FE4C0ADB24B3209600F792E6 /* KeychainItemWrapper.m in Sources */,
 				9DA3B0442174CB96001678C7 /* main.mm in Sources */,
@@ -1303,7 +1299,6 @@
 		5623C58317FDCB0900090B9E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = (
 					armv7,
@@ -1353,7 +1348,6 @@
 		5623C58417FDCB0900090B9E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = (
 					armv7,
@@ -1478,7 +1472,6 @@
 		56E860821D6757FF00A1AB2B /* ReleaseForRunning */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = (
 					armv7,
@@ -1596,7 +1589,6 @@
 		56E860851D67581C00A1AB2B /* ReleaseForProfiling */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = (
 					armv7,

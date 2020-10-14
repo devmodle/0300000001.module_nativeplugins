@@ -59,7 +59,7 @@ public class CDeviceMsgSender {
 		}
 	}
 	
-	//! 알림 창 출력 메세지를 전송한다
+	//! 경고 창 출력 메세지를 전송한다
 	public void sendShowAlertMsg(boolean a_bIsTrue) {
 		try {
 			String oResult = GlobalFunc.convertBoolToString(a_bIsTrue);

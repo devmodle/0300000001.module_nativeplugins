@@ -29,7 +29,7 @@ static CiOSPlugin *g_pInstance = nil;
 //! 빌드 모드 변경 메세지를 처리한다
 - (void)handleSetBuildModeMsg:(const char *)a_pszMsg;
 
-//! 알림 창 출력 메세지를 처리한다
+//! 경고 창 출력 메세지를 처리한다
 - (void)handleShowAlertMsg:(const char *)a_pszMsg;
 
 //! 진동 메세지를 처리한다
@@ -60,7 +60,7 @@ extern "C" {
 		else if(strcmp(a_pszCmd, CMD_SET_BUILD_MODE) == 0) {
 			[CiOSPlugin.sharedInstance handleSetBuildModeMsg:a_pszMsg];
 		}
-		// 알림 창 출력 메세지 일 경우
+		// 경고 창 출력 메세지 일 경우
 		else if(strcmp(a_pszCmd, CMD_SHOW_ALERT) == 0) {
 			[CiOSPlugin.sharedInstance handleShowAlertMsg:a_pszMsg];
 		}
@@ -188,9 +188,9 @@ extern "C" {
 	return m_pSelectionGenerator;
 }
 
-//! 알림 피드백 생성자를 반환한다
+//! 경고 피드백 생성자를 반환한다
 - (UINotificationFeedbackGenerator *)notificationGenerator {
-	// 알림 피드백 생성자가 없을 경우
+	// 경고 피드백 생성자가 없을 경우
 	if(m_pNotificationGenerator == nil) {
 		m_pNotificationGenerator = [[UINotificationFeedbackGenerator alloc] init];
 	}
@@ -287,7 +287,7 @@ extern "C" {
 	self.buildMode = @(a_pszMsg);
 }
 
-//! 알림 창 출력 메세지를 처리한다
+//! 경고 창 출력 메세지를 처리한다
 - (void)handleShowAlertMsg:(const char *)a_pszMsg {
 	NSLog(@"CiOSPlugin.handleShowAlertMsg: %@", @(a_pszMsg));
 	NSDictionary *pDataList = (NSDictionary *)Func::ConvertJSONStringToObj(@(a_pszMsg), NULL);
@@ -320,7 +320,7 @@ extern "C" {
 		}]];
 	}
 	
-	// 알림 창을 출력한다
+	// 경고 창을 출력한다
 	[self.rootViewController presentViewController:pAlertController animated:YES completion:NULL];
 }
 
@@ -344,7 +344,7 @@ extern "C" {
 				[self.selectionGenerator prepare];
 				[self.selectionGenerator selectionChanged];
 			}
-			// 알림 진동 모드 일 경우
+			// 경고 진동 모드 일 경우
 			else if(eVibrateType == EVibrateType::NOTIFICATION) {
 				[self.notificationGenerator prepare];
 				[self.notificationGenerator notificationOccurred:(UINotificationFeedbackType)eVibrateStyle];

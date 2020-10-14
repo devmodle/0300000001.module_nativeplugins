@@ -23,7 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 //! 스토어 버전 반환 메세지를 전송한다
 - (void)sendGetStoreVersionMsg:(NSString *)a_pVersion withResult:(BOOL)a_bIsSuccess;
 
-//! 알림 창 출력 메세지를 전송한다
+//! 경고 창 출력 메세지를 전송한다
 - (void)sendShowAlertMsg:(BOOL)a_bIsTrue;
 
 //! 인스턴스를 반환한다

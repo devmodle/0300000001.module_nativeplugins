@@ -216,7 +216,7 @@ public class CAndroidPlugin {
 		Toast.makeText(UnityPlayer.currentActivity, a_oMsg, Toast.LENGTH_LONG);
 	}
 	
-	//! 알림 창 출력 메세지를 처리한다
+	//! 경고 창 출력 메세지를 처리한다
 	private void handleShowAlertMsg(String a_oMsg) throws Exception {
 		JSONObject oJSONObj = new JSONObject(a_oMsg);
 		Log.d(KGDefine.TAG, String.format("CAndroidPlugin.handleShowAlertMsg: %s", a_oMsg));
@@ -249,7 +249,7 @@ public class CAndroidPlugin {
 			});
 		}
 		
-		// 알림 창을 출력한다
+		// 경고 창을 출력한다
 		oBuilder.create().show();
 	}
 	

@@ -48,7 +48,7 @@ static CDeviceMsgSender *g_pInstance = nil;
 	[self send:@(CMD_GET_STORE_VERSION) withDeviceMsg:pMsg];
 }
 
-//! 알림 창 출력 메세지를 전송한다
+//! 경고 창 출력 메세지를 전송한다
 - (void)sendShowAlertMsg:(BOOL)a_bIsTrue {
 	NSString *pMsg = Func::ConvertBoolToString(a_bIsTrue);
 	[self send:@(CMD_SHOW_ALERT) withDeviceMsg:pMsg];

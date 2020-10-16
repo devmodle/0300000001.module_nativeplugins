@@ -10,7 +10,7 @@
 namespace Func {
 	//! 유효 여부를 검사한다
 	BOOL IsValid(NSString *a_pString) {
-		return a_pString != nil && a_pString.length >= 1;
+		return a_pString != nil && a_pString.length > G_VALUE_INT_0;
 	}
 	
 	//! 유효 여부를 검사한다
@@ -20,12 +20,12 @@ namespace Func {
 
 	//! 문자열 -> 논리로 변화한다
 	BOOL ConvertStringToBool(NSString *a_pString) {
-		return [a_pString isEqualToString:@(RESULT_TRUE)];
+		return [a_pString isEqualToString:@(G_RESULT_TRUE)];
 	}
 
 	//! 논리 -> 문자열로 변환한다
 	NSString * ConvertBoolToString(BOOL a_bIsTrue) {
-		return a_bIsTrue ? @(RESULT_TRUE) : @(RESULT_FALSE);
+		return a_bIsTrue ? @(G_RESULT_TRUE) : @(G_RESULT_FALSE);
 	}
 
 	//! 객체 -> JSON 문자열로 변환한다

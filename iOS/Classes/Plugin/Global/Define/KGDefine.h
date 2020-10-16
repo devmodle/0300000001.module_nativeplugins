@@ -16,77 +16,81 @@
 #import "UnityInterface.h"
 
 // 기타
-#define EMPTY_STRING			("")
+#define G_EMPTY_STRING			("")
+#define G_INDEX_INVALID			(-1)
+
+// 값 {
+#define G_VALUE_INT_0			(0)
+#define G_VALUE_INT_1			(1)
+
+#define G_MIN_VALUE_NORM			(0.0f)
+#define G_MAX_VALUE_NORM			(1.0f)
+// 값 }
 
 // 결과
-#define RESULT_TRUE				("True")
-#define RESULT_FALSE			("False")
+#define G_RESULT_TRUE			("True")
+#define G_RESULT_FALSE			("False")
 
 // 빌드 모드
-#define BUILD_MODE_DEBUG			("Debug")
-#define BUILD_MODE_RELEASE			("Release")
+#define G_BUILD_MODE_DEBUG				("Debug")
+#define G_BUILD_MODE_RELEASE			("Release")
 
-// 식별자 {
-#define ID_KEYCHAIN_DEVICE			("KeychainDeviceID")
-
-#define SYSTEM_SND_ID_LIGHT				(1519)
-#define SYSTEM_SND_ID_MEDIUM			(1102)
-#define SYSTEM_SND_ID_HEAVY				(1520)
-// 식별자 }
+// 식별자
+#define G_ID_KEYCHAIN_DEVICE			("KeychainDeviceID")
 
 // 비율
-#define SCALE_ACTIVITY_INDICATOR				(0.25f)
-#define SCALE_ACTIVITY_INDICATOR_OFFSET			(0.01f)
+#define G_SCALE_ACTIVITY_INDICATOR					(0.25f)
+#define G_SCALE_ACTIVITY_INDICATOR_OFFSET			(0.01f)
 
 // 버전
-#define MIN_VERSION_DEVICE_ID_FOR_VENDOR			6.0
-#define MIN_VERSION_FEEDBACK_GENERATOR				10.0
-#define MIN_VERSION_IMPACT_INTENSITY				13.0
-#define MIN_VERSION_ACTIVITY_INDICATOR				13.0
+#define G_MIN_VERSION_DEVICE_ID_FOR_VENDOR			6.0
+#define G_MIN_VERSION_FEEDBACK_GENERATOR			10.0
+#define G_MIN_VERSION_IMPACT_INTENSITY				13.0
+#define G_MIN_VERSION_ACTIVITY_INDICATOR			13.0
 
 // 명령어
-#define CMD_GET_DEVICE_ID				("GetDeviceID")
-#define CMD_GET_COUNTRY_CODE			("GetCountryCode")
-#define CMD_GET_STORE_VERSION			("GetStoreVersion")
-#define CMD_SET_BUILD_MODE				("SetBuildMode")
-#define CMD_SHOW_ALERT					("ShowAlert")
-#define CMD_VIBRATE						("Vibrate")
-#define CMD_ACTIVITY_INDICATOR			("ActivityIndicator")
+#define G_CMD_GET_DEVICE_ID					("GetDeviceID")
+#define G_CMD_GET_COUNTRY_CODE				("GetCountryCode")
+#define G_CMD_GET_STORE_VERSION				("GetStoreVersion")
+#define G_CMD_SET_BUILD_MODE				("SetBuildMode")
+#define G_CMD_SHOW_ALERT					("ShowAlert")
+#define G_CMD_VIBRATE						("Vibrate")
+#define G_CMD_ACTIVITY_INDICATOR			("ActivityIndicator")
 
 // 키 {
-#define KEY_CMD			("Cmd")
-#define KEY_MSG			("Msg")
+#define G_KEY_CMD			("Cmd")
+#define G_KEY_MSG			("Msg")
 
-#define KEY_APP_ID			("AppID")
-#define KEY_VERSION			("Version")
-#define KEY_TIMEOUT			("Timeout")
+#define G_KEY_APP_ID			("AppID")
+#define G_KEY_VERSION			("Version")
+#define G_KEY_TIMEOUT			("Timeout")
 
-#define KEY_ALERT_TITLE						("Title")
-#define KEY_ALERT_MSG						("Msg")
-#define KEY_ALERT_OK_BTN_TEXT				("OKBtnText")
-#define KEY_ALERT_CANCEL_BTN_TEXT			("CancelBtnText")
+#define G_KEY_ALERT_TITLE					("Title")
+#define G_KEY_ALERT_MSG						("Msg")
+#define G_KEY_ALERT_OK_BTN_TEXT				("OKBtnText")
+#define G_KEY_ALERT_CANCEL_BTN_TEXT			("CancelBtnText")
 
-#define KEY_STORE_VERSION					("version")
-#define KEY_STORE_VERSION_RESULT			("results")
+#define G_KEY_STORE_VERSION					("version")
+#define G_KEY_STORE_VERSION_RESULT			("results")
 
-#define KEY_VIBRATE_TYPE				("Type")
-#define KEY_VIBRATE_STYLE				("Style")
-#define KEY_VIBRATE_INTENSITY			("Intensity")
+#define G_KEY_VIBRATE_TYPE				("Type")
+#define G_KEY_VIBRATE_STYLE				("Style")
+#define G_KEY_VIBRATE_INTENSITY			("Intensity")
 
-#define KEY_DEVICE_MS_RESULT			("Result")
-#define KEY_DEVICE_MS_VERSION			("Version")
+#define G_KEY_DEVICE_MS_RESULT			("Result")
+#define G_KEY_DEVICE_MS_VERSION			("Version")
 // 키 }
 
 // 네트워크 {
-#define HTTP_METHOD_GET				("GET")
-#define HTTP_METHOD_POST			("POST")
+#define G_HTTP_METHOD_GET			("GET")
+#define G_HTTP_METHOD_POST			("POST")
 
-#define URL_FORMAT_STORE_VERSION			("http://itunes.apple.com/lookup?bundleId=%@")
+#define G_URL_FORMAT_STORE_VERSION			("http://itunes.apple.com/lookup?bundleId=%@")
 // 네트워크 }
 
 // 이름
-#define OBJ_NAME_DEVICE_MSG_RECEIVER				("CDeviceMsgReceiver")
-#define FUNC_NAME_DEVICE_MSG_HANDLE_METHOD			("HandleDeviceMsg")
+#define G_OBJ_NAME_DEVICE_MSG_RECEIVER					("CDeviceMsgReceiver")
+#define G_FUNC_NAME_DEVICE_MSG_HANDLE_METHOD			("HandleDeviceMsg")
 
 //! 진동 타입
 enum class EVibrateType {

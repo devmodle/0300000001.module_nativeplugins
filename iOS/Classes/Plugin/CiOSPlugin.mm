@@ -135,7 +135,7 @@ extern "C" {
 		}
 		
 		m_pActivityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:eIndicatorViewStyle];
-		m_pActivityIndicatorView.color = [UIColor colorWithWhite:G_MAX_VALUE_NORM alpha:G_MAX_VALUE_NORM];
+		m_pActivityIndicatorView.color = [UIColor colorWithWhite:G_VALUE_FLOAT_1 alpha:G_VALUE_FLOAT_1];
 		m_pActivityIndicatorView.center = self.rootViewController.view.center;
 		m_pActivityIndicatorView.hidesWhenStopped = YES;
 		
@@ -155,7 +155,7 @@ extern "C" {
 		fOffset *= G_SCALE_ACTIVITY_INDICATOR_OFFSET;
 		
 		stTransform = m_pActivityIndicatorView.transform;
-		m_pActivityIndicatorView.transform = CGAffineTransformTranslate(stTransform, G_MIN_VALUE_NORM, -fOffset);
+		m_pActivityIndicatorView.transform = CGAffineTransformTranslate(stTransform, G_VALUE_FLOAT_0, -fOffset);
 		// 위치를 설정한다 }
 		
 		[self.rootViewController.view addSubview:m_pActivityIndicatorView];

@@ -23,8 +23,8 @@
 #define G_VALUE_INT_0			(0)
 #define G_VALUE_INT_1			(1)
 
-#define G_MIN_VALUE_NORM			(0.0f)
-#define G_MAX_VALUE_NORM			(1.0f)
+#define G_VALUE_FLOAT_0			(0.0f)
+#define G_VALUE_FLOAT_1			(1.0f)
 // 값 }
 
 // 결과

@@ -4,14 +4,6 @@ import android.os.Build;
 
 //! 전역 상수
 public abstract class KGDefine {
-	// 디바이스 타입
-	public class EDeviceType {
-		public static final int NONE = -1;
-		public static final int PHONE = 0;
-		public static final int TABLET = 1;
-		public static final int MAX_VALUE = 2;
-	}
-	
 	// 기타
 	public static final String TAG = "Plugin";
 	public static final String EMPTY_STRING = "";
@@ -39,7 +31,6 @@ public abstract class KGDefine {
 	
 	// 명령어
 	public static final String CMD_GET_DEVICE_ID = "GetDeviceID";
-	public static final String CMD_GET_DEVICE_TYPE = "GetDeviceType";
 	public static final String CMD_GET_COUNTRY_CODE = "GetCountryCode";
 	public static final String CMD_GET_STORE_VERSION = "GetStoreVersion";
 	public static final String CMD_SET_BUILD_MODE = "SetBuildMode";

@@ -33,16 +33,6 @@ public class CDeviceMsgSender {
 		}
 	}
 	
-	//! 디바이스 타입 반환 메세지를 전송한다
-	public void sendGetDeviceTypeMsg(String a_oDeviceType) {
-		try {
-			this.sendDeviceMsg(KGDefine.CMD_GET_DEVICE_TYPE, a_oDeviceType);
-		} catch(Exception oException) {
-			oException.printStackTrace();
-			Log.e(KGDefine.TAG, String.format("CAndroidPlugin.sendGetDeviceTypeMsg Exception: %s", oException.getMessage()));
-		}
-	}
-	
 	//! 국가 코드 반환 메세지를 전송한다
 	public void sendGetCountryCodeMsg(String a_oCountryCode) {
 		try {

@@ -99,6 +99,7 @@ public class CAndroidPlugin {
 				try {
 					switch(a_oCmd) {
 						case KGDefine.CMD_GET_DEVICE_ID: CAndroidPlugin.getInstance().handleGetDeviceIDMsg(a_oMsg); break;
+						case KGDefine.CMD_GET_DEVICE_TYPE: CAndroidPlugin.getInstance().handleGetDeviceTypeMsg(a_oMsg); break;
 						case KGDefine.CMD_GET_COUNTRY_CODE: CAndroidPlugin.getInstance().handleGetCountryCodeMsg(a_oMsg); break;
 						case KGDefine.CMD_GET_STORE_VERSION: CAndroidPlugin.getInstance().handleGetStoreVersionMsg(a_oMsg); break;
 						case KGDefine.CMD_SET_BUILD_MODE: CAndroidPlugin.getInstance().handleSetBuildModeMsg(a_oMsg); break;
@@ -135,6 +136,11 @@ public class CAndroidPlugin {
 		}
 		
 		CDeviceMsgSender.getInstance().sendGetDeviceIDMsg(oUUID.toString());
+	}
+	
+	//! 디바이스 타입 반환 메세지를 처리한다
+	private void handleGetDeviceTypeMsg(String a_oMsg) {
+		Log.d(KGDefine.TAG, String.format("CAndroidPlugin.handleGetDeviceTypeMsg: %s", a_oMsg));
 	}
 	
 	//! 국가 코드 반환 메세지를 처리한다

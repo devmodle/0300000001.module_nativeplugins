@@ -27,21 +27,25 @@ import com.google.android.play.core.tasks.OnSuccessListener;
 import com.google.android.play.core.tasks.Task;
 import com.unity3d.player.UnityPlayer;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Locale;
 import java.util.UUID;
 
 import dante.distribution.android.Global.Define.KGDefine;
 import dante.distribution.android.Global.Function.GlobalFunc;
+import dante.distribution.android.Global.Utility.Ads.CAdsManager;
 import dante.distribution.android.Global.Utility.Platform.CDeviceMsgSender;
 
 //! 안드로이드 플러그인
 public class CAndroidPlugin {
+	private int m_nOrientation = 0;
 	private String m_oBuildMode = KGDefine.EMPTY_STRING;
-	private ProgressBar m_oProgressBar = null;
 	
+	private ProgressBar m_oProgressBar = null;
 	private static CAndroidPlugin m_oInstance = null;
 	
 	//! 생성자
@@ -79,6 +83,11 @@ public class CAndroidPlugin {
 		// 레이아웃을 설정한다 }
 	}
 	
+	//! 방향을 반환한다
+	public int getOrientation() {
+		return m_nOrientation;
+	}
+	
 	//! 인스턴스를 반환한다
 	public static CAndroidPlugin getInstance() {
 		// 인스턴스가 없을 경우
@@ -98,27 +107,43 @@ public class CAndroidPlugin {
 			public void run() {
 				try {
 					switch(a_oCmd) {
+						case KGDefine.CMD_INIT: CAndroidPlugin.getInstance().handleInitMsg(a_oMsg); break;
+						
 						case KGDefine.CMD_GET_DEVICE_ID: CAndroidPlugin.getInstance().handleGetDeviceIDMsg(a_oMsg); break;
 						case KGDefine.CMD_GET_COUNTRY_CODE: CAndroidPlugin.getInstance().handleGetCountryCodeMsg(a_oMsg); break;
 						case KGDefine.CMD_GET_STORE_VERSION: CAndroidPlugin.getInstance().handleGetStoreVersionMsg(a_oMsg); break;
-						case KGDefine.CMD_SET_BUILD_MODE: CAndroidPlugin.getInstance().handleSetBuildModeMsg(a_oMsg); break;
+						
 						case KGDefine.CMD_SHOW_TOAST: CAndroidPlugin.getInstance().handleShowToastMsg(a_oMsg); break;
 						case KGDefine.CMD_SHOW_ALERT: CAndroidPlugin.getInstance().handleShowAlertMsg(a_oMsg); break;
+						
 						case KGDefine.CMD_VIBRATE: CAndroidPlugin.getInstance().handleVibrateMsg(a_oMsg); break;
 						case KGDefine.CMD_ACTIVITY_INDICATOR: CAndroidPlugin.getInstance().handleActivityIndicatorMsg(a_oMsg); break;
+						
+						case KGDefine.CMD_SETUP_ADS: CAndroidPlugin.getInstance().handleSetupAds(a_oMsg); break;
+						case KGDefine.CMD_LOAD_RESUME_ADS: CAndroidPlugin.getInstance().handleLoadResumeAdsMsg(a_oMsg); break;
+						case KGDefine.CMD_SHOW_RESUME_ADS: CAndroidPlugin.getInstance().handleShowResumeAdsMsg(a_oMsg); break;
 					}
 				} catch(Exception oException) {
 					oException.printStackTrace();
-					Log.e(KGDefine.TAG, String.format("CAndroidPlugin.handleUnityMsg Exception: %s", oException.getMessage()));
+					Log.e(KGDefine.TAG, String.format("CAndroidPlugin.handleUnityMsg Exception: %s, %s", a_oCmd, oException.getMessage()));
 				}
 			}
 		});
 	}
 	
+	//! 초기화 메세지를 처리한다
+	private void handleInitMsg(String a_oMsg) throws Exception {
+		JSONObject oJSONObj = new JSONObject(a_oMsg);
+		
+		String oBuildMode = oJSONObj.getString(KGDefine.KEY_BUILD_MODE);
+		String oOrientation = oJSONObj.getString(KGDefine.KEY_ORIENTATION);
+		
+		m_oBuildMode = oBuildMode;
+		m_nOrientation = Integer.parseInt(oOrientation) + 1;
+	}
+	
 	//! 디바이스 식별자 반환 메세지를 처리한다
 	private void handleGetDeviceIDMsg(String a_oMsg) {
-		Log.d(KGDefine.TAG, String.format("CAndroidPlugin.handleGetDeviceIDMsg: %s", a_oMsg));
-		
 		UUID oUUID = null;
 		Context oAppContext = UnityPlayer.currentActivity.getApplicationContext();
 		
@@ -139,16 +164,12 @@ public class CAndroidPlugin {
 	
 	//! 국가 코드 반환 메세지를 처리한다
 	private void handleGetCountryCodeMsg(String a_oMsg) {
-		Log.d(KGDefine.TAG, String.format("CAndroidPlugin.handleGetCountryCodeMsg: %s", a_oMsg));
-		
 		Locale oLocale = Locale.getDefault();
 		CDeviceMsgSender.getInstance().sendGetCountryCodeMsg(oLocale.getCountry());
 	}
 	
 	//! 스토어 버전 반환 메세지를 처리한다
 	private void handleGetStoreVersionMsg(String a_oMsg) throws Exception {
-		Log.d(KGDefine.TAG, String.format("CAndroidPlugin.handleGetStoreVersionMsg: %s", a_oMsg));
-		
 		JSONObject oJSONObj = new JSONObject(a_oMsg);
 		final String oVersion = oJSONObj.getString(KGDefine.KEY_VERSION);
 		
@@ -204,22 +225,14 @@ public class CAndroidPlugin {
 		}
 	}
 	
-	//! 빌드 모드 변경 메세지를 처리한다
-	private void handleSetBuildModeMsg(String a_oMsg) {
-		Log.d(KGDefine.TAG, String.format("CAndroidPlugin.handleSetBuildModeMsg: %s", a_oMsg));
-		m_oBuildMode = a_oMsg;
-	}
-	
 	//! 토스트 출력 메세지를 처리한다
 	private void handleShowToastMsg(String a_oMsg) {
-		Log.d(KGDefine.TAG, String.format("CAndroidPlugin.handleShowToastMsg: %s", a_oMsg));
 		Toast.makeText(UnityPlayer.currentActivity, a_oMsg, Toast.LENGTH_LONG);
 	}
 	
 	//! 경고 창 출력 메세지를 처리한다
 	private void handleShowAlertMsg(String a_oMsg) throws Exception {
 		JSONObject oJSONObj = new JSONObject(a_oMsg);
-		Log.d(KGDefine.TAG, String.format("CAndroidPlugin.handleShowAlertMsg: %s", a_oMsg));
 		
 		String oTitle = oJSONObj.getString(KGDefine.KEY_ALERT_TITLE);
 		String oMsg = oJSONObj.getString(KGDefine.KEY_ALERT_MSG);
@@ -255,7 +268,6 @@ public class CAndroidPlugin {
 	
 	//! 진동 메세지를 처리한다
 	private void handleVibrateMsg(String a_oMsg) throws Exception {
-		Log.d(KGDefine.TAG, String.format("CAndroidPlugin.handleVibrateMsg: %s", a_oMsg));
 		JSONObject oJSONObj = new JSONObject(a_oMsg);
 		
 		String oDuration = oJSONObj.getString(KGDefine.KEY_VIBRATE_DURATION);
@@ -264,8 +276,8 @@ public class CAndroidPlugin {
 		float fDuration = Math.abs(Float.parseFloat(oDuration));
 		float fIntensity = Math.abs(Float.parseFloat(oIntensity));
 		
-		Context oAppContext = UnityPlayer.currentActivity.getApplicationContext();
-		Vibrator oVibrator = (Vibrator)oAppContext.getSystemService(Context.VIBRATOR_SERVICE);
+		Context oContext = UnityPlayer.currentActivity.getApplicationContext();
+		Vibrator oVibrator = (Vibrator)oContext.getSystemService(Context.VIBRATOR_SERVICE);
 		
 		// 햅틱 진동을 지원하지 않을 경우
 		if(Build.VERSION.SDK_INT < KGDefine.MIN_VERSION_FEEDBACK_GENERATOR) {
@@ -280,13 +292,38 @@ public class CAndroidPlugin {
 	
 	//! 액티비티 인디케이터 메세지를 처리한다
 	private void handleActivityIndicatorMsg(String a_oMsg) {
-		Log.d(KGDefine.TAG, String.format("CAndroidPlugin.handleActivityIndicatorMsg: %s", a_oMsg));
-		
 		// 출력 상태 일 경우
 		if(GlobalFunc.convertStringToBool(a_oMsg)) {
 			m_oProgressBar.setVisibility(View.VISIBLE);
 		} else {
 			m_oProgressBar.setVisibility(View.GONE);
 		}
+	}
+	
+	//! 광고를 설정한다
+	private void handleSetupAds(String a_oMsg) throws Exception {
+		JSONObject oJSONObj = new JSONObject(a_oMsg);
+		
+		String oResumeAdsID = oJSONObj.getString(KGDefine.KEY_RESUME_ADS_ID);
+		String oAdmobIDsString = oJSONObj.getString(KGDefine.KEY_ADMOB_IDS);
+		
+		JSONArray oAdmobIDs = new JSONArray(oAdmobIDsString);
+		ArrayList<String> oAdmobIDList = new ArrayList<String>();
+		
+		for(int i = 0; i < oAdmobIDs.length(); ++i) {
+			oAdmobIDList.add(oAdmobIDs.getString(i));
+		}
+		
+		CAdsManager.getInstance().init(oResumeAdsID, oAdmobIDList);
+	}
+	
+	//! 복귀 광고 로드 메세지를 처리한다
+	private void handleLoadResumeAdsMsg(String a_oMsg) throws Exception {
+		CAdsManager.getInstance().loadResumeAds();
+	}
+	
+	//! 복귀 광고 출력 메세지를 처리한다
+	private void handleShowResumeAdsMsg(String a_oMsg) throws Exception {
+		CAdsManager.getInstance().showResumeAds();
 	}
 }

@@ -9,6 +9,9 @@ public abstract class KGDefine {
 	public static final String EMPTY_STRING = "";
 	public static final String INVALID_ANDROID_ID = "9774d56d682e549c";
 	
+	// 시간
+	public static final int MAX_DELTA_TIME_ADS_LOAD = 60;
+	
 	// 유닛
 	public static final int UNIT_SEC_TO_MILLISEC = 1000;
 	public static final int UNIT_NORM_VALUE_TO_BYTE = 255;
@@ -29,21 +32,31 @@ public abstract class KGDefine {
 	public static final String BUILD_MODE_DEBUG = "Debug";
 	public static final String BUILD_MODE_RELEASE = "Release";
 	
-	// 명령어
+	// 명령어 {
+	public static final String CMD_INIT = "Init";
+	
 	public static final String CMD_GET_DEVICE_ID = "GetDeviceID";
 	public static final String CMD_GET_COUNTRY_CODE = "GetCountryCode";
 	public static final String CMD_GET_STORE_VERSION = "GetStoreVersion";
-	public static final String CMD_SET_BUILD_MODE = "SetBuildMode";
+	
 	public static final String CMD_SHOW_ALERT = "ShowAlert";
 	public static final String CMD_SHOW_TOAST = "ShowToast";
+	
 	public static final String CMD_VIBRATE = "Vibrate";
 	public static final String CMD_ACTIVITY_INDICATOR = "ActivityIndicator";
+	
+	public static final String CMD_SETUP_ADS = "SetupAds";
+	public static final String CMD_LOAD_RESUME_ADS = "LoadResumeAds";
+	public static final String CMD_SHOW_RESUME_ADS = "ShowResumeAds";
+	// 명령어 }
 	
 	// 키 {
 	public static final String KEY_CMD = "Cmd";
 	public static final String KEY_MSG = "Msg";
 	
 	public static final String KEY_VERSION = "Version";
+	public static final String KEY_BUILD_MODE = "BuildMode";
+	public static final String KEY_ORIENTATION = "Orientation";
 	
 	public static final String KEY_ALERT_TITLE = "Title";
 	public static final String KEY_ALERT_MSG = "Msg";
@@ -52,6 +65,9 @@ public abstract class KGDefine {
 	
 	public static final String KEY_VIBRATE_DURATION = "Duration";
 	public static final String KEY_VIBRATE_INTENSITY = "Intensity";
+	
+	public static final String KEY_ADMOB_IDS = "AdmobIDs";
+	public static final String KEY_RESUME_ADS_ID = "ResumeAdsID";
 	
 	public static final String KEY_DEVICE_MS_RESULT = "Result";
 	public static final String KEY_DEVICE_MS_VERSION = "Version";

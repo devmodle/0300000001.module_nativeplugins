@@ -36,7 +36,7 @@ import java.util.Locale;
 import java.util.UUID;
 
 import dante.distribution.android.Global.Define.KGDefine;
-import dante.distribution.android.Global.Function.GlobalFunc;
+import dante.distribution.android.Global.Function.GFunc;
 import dante.distribution.android.Global.Utility.Ads.CAdsManager;
 import dante.distribution.android.Global.Utility.Platform.CDeviceMsgSender;
 
@@ -240,7 +240,7 @@ public class CAndroidPlugin {
 		String oCancelBtnText = oJSONObj.getString(KGDefine.KEY_ALERT_CANCEL_BTN_TEXT);
 		
 		AlertDialog.Builder oBuilder = new AlertDialog.Builder(UnityPlayer.currentActivity);
-		oBuilder.setTitle(GlobalFunc.isValid(oTitle) ? oTitle : null);
+		oBuilder.setTitle(GFunc.isValid(oTitle) ? oTitle : null);
 		oBuilder.setMessage(oMsg);
 		
 		// 확인 버튼을 눌렀을 경우
@@ -252,7 +252,7 @@ public class CAndroidPlugin {
 		});
 		
 		// 취소 버튼 텍스트가 유효 할 경우
-		if(GlobalFunc.isValid(oCancelBtnText)) {
+		if(GFunc.isValid(oCancelBtnText)) {
 			// 취소 버튼을 눌렀을 경우
 			oBuilder.setNegativeButton(oCancelBtnText, new DialogInterface.OnClickListener() {
 				@Override
@@ -293,7 +293,7 @@ public class CAndroidPlugin {
 	//! 액티비티 인디케이터 메세지를 처리한다
 	private void handleActivityIndicatorMsg(String a_oMsg) {
 		// 출력 상태 일 경우
-		if(GlobalFunc.convertStringToBool(a_oMsg)) {
+		if(GFunc.convertStringToBool(a_oMsg)) {
 			m_oProgressBar.setVisibility(View.VISIBLE);
 		} else {
 			m_oProgressBar.setVisibility(View.GONE);
@@ -317,12 +317,12 @@ public class CAndroidPlugin {
 		CAdsManager.getInstance().init(oResumeAdsID, oAdmobIDList);
 	}
 	
-	//! 복귀 광고 로드 메세지를 처리한다
+	//! 재개 광고 로드 메세지를 처리한다
 	private void handleLoadResumeAdsMsg(String a_oMsg) throws Exception {
 		CAdsManager.getInstance().loadResumeAds();
 	}
 	
-	//! 복귀 광고 출력 메세지를 처리한다
+	//! 재개 광고 출력 메세지를 처리한다
 	private void handleShowResumeAdsMsg(String a_oMsg) throws Exception {
 		CAdsManager.getInstance().showResumeAds();
 	}

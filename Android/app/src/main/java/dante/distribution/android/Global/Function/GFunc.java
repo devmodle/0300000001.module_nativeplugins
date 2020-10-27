@@ -3,7 +3,7 @@ package dante.distribution.android.Global.Function;
 import dante.distribution.android.Global.Define.KGDefine;
 
 //! 전역 함수
-public abstract class GlobalFunc {
+public abstract class GFunc {
 	//! 문자열 유효 여부를 검사한다
 	public static boolean isValid(String a_oString) {
 		return a_oString != null && a_oString.length() >= 1;

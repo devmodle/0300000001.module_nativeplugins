@@ -7,7 +7,7 @@ import com.unity3d.player.UnityPlayer;
 import org.json.JSONObject;
 
 import dante.distribution.android.Global.Define.KGDefine;
-import dante.distribution.android.Global.Function.GlobalFunc;
+import dante.distribution.android.Global.Function.GFunc;
 
 //! 디바이스 메세지 전송자
 public class CDeviceMsgSender {
@@ -29,7 +29,7 @@ public class CDeviceMsgSender {
 			this.sendDeviceMsg(KGDefine.CMD_GET_DEVICE_ID, a_oDeviceID);
 		} catch(Exception oException) {
 			oException.printStackTrace();
-			Log.e(KGDefine.TAG, String.format("CAndroidPlugin.sendGetDeviceIDMsg Exception: %s", oException.getMessage()));
+			Log.e(KGDefine.TAG, String.format("CDeviceMsgSender.sendGetDeviceIDMsg Exception: %s", oException.getMessage()));
 		}
 	}
 	
@@ -39,14 +39,14 @@ public class CDeviceMsgSender {
 			this.sendDeviceMsg(KGDefine.CMD_GET_COUNTRY_CODE, a_oCountryCode);
 		} catch(Exception oException) {
 			oException.printStackTrace();
-			Log.e(KGDefine.TAG, String.format("CAndroidPlugin.sendGetCountryCodeMsg Exception: %s", oException.getMessage()));
+			Log.e(KGDefine.TAG, String.format("CDeviceMsgSender.sendGetCountryCodeMsg Exception: %s", oException.getMessage()));
 		}
 	}
 	
 	//! 스토어 버전 반환 메세지를 전송한다
 	public void sendGetStoreVersionMsg(String a_oVersion, boolean a_bIsSuccess) {
 		try {
-			String oResult = GlobalFunc.convertBoolToString(a_bIsSuccess);
+			String oResult = GFunc.convertBoolToString(a_bIsSuccess);
 			
 			JSONObject oJSONObj = new JSONObject();
 			oJSONObj.put(KGDefine.KEY_DEVICE_MS_VERSION, a_oVersion);
@@ -55,18 +55,29 @@ public class CDeviceMsgSender {
 			this.sendDeviceMsg(KGDefine.CMD_GET_STORE_VERSION, oJSONObj.toString());
 		} catch(Exception oException) {
 			oException.printStackTrace();
-			Log.e(KGDefine.TAG, String.format("CAndroidPlugin.sendGetStoreVersionMsg Exception: %s", oException.getMessage()));
+			Log.e(KGDefine.TAG, String.format("CDeviceMsgSender.sendGetStoreVersionMsg Exception: %s", oException.getMessage()));
 		}
 	}
 	
 	//! 경고 창 출력 메세지를 전송한다
 	public void sendShowAlertMsg(boolean a_bIsTrue) {
 		try {
-			String oResult = GlobalFunc.convertBoolToString(a_bIsTrue);
+			String oResult = GFunc.convertBoolToString(a_bIsTrue);
 			this.sendDeviceMsg(KGDefine.CMD_SHOW_ALERT, oResult);
 		} catch(Exception oException) {
 			oException.printStackTrace();
-			Log.e(KGDefine.TAG, String.format("CAndroidPlugin.sendShowAlertMsg Exception: %s", oException.getMessage()));
+			Log.e(KGDefine.TAG, String.format("CDeviceMsgSender.sendShowAlertMsg Exception: %s", oException.getMessage()));
+		}
+	}
+	
+	//! 광고 설정 메세지를 전송한다
+	public void sendSetupAdsMsg(boolean a_bIsSuccess) {
+		try {
+			String oResult = GFunc.convertBoolToString(a_bIsSuccess);
+			this.sendDeviceMsg(KGDefine.CMD_SETUP_ADS, oResult);
+		} catch(Exception oException) {
+			oException.printStackTrace();
+			Log.e(KGDefine.TAG, String.format("CDeviceMsgSender.SendSetupAdsMsg Exception: %s", oException.getMessage()));
 		}
 	}
 	

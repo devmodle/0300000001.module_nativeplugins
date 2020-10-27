@@ -20,12 +20,17 @@ import java.util.ArrayList;
 
 import dante.distribution.android.CAndroidPlugin;
 import dante.distribution.android.Global.Define.KGDefine;
+import dante.distribution.android.Global.Utility.Platform.CDeviceMsgSender;
 
 import static androidx.lifecycle.Lifecycle.Event.ON_START;
 
 //! 광고 관리자
-public class CAdsManager implements LifecycleObserver, Application.ActivityLifecycleCallbacks {
+public class CAdsManager implements LifecycleObserver,
+		Application.ActivityLifecycleCallbacks
+{
+	private boolean m_bIsInit = false;
 	private boolean m_bIsLoadResumeAds = false;
+	
 	private int m_nOrientation = 0;
 	
 	private String m_oResumeAdsID = "";
@@ -76,6 +81,13 @@ public class CAdsManager implements LifecycleObserver, Application.ActivityLifec
 		Log.d(KGDefine.TAG, "CAdsManager.onActivityDestroyed");
 	}
 	
+	//! 앱이 시작 되었을 경우
+	@OnLifecycleEvent(ON_START)
+	public void onStart() {
+		Log.d(KGDefine.TAG, "CAdsManager.onStart");
+		this.showResumeAds();
+	}
+	
 	//! 인스턴스를 반환한다
 	public static CAdsManager getInstance() {
 		// 인스턴스가 없을 경우
@@ -99,47 +111,48 @@ public class CAdsManager implements LifecycleObserver, Application.ActivityLifec
 		
 		UnityPlayer.currentActivity.getApplication().registerActivityLifecycleCallbacks(this);
 		ProcessLifecycleOwner.get().getLifecycle().addObserver(this);
+		
+		m_bIsInit = true;
+		CDeviceMsgSender.getInstance().sendSetupAdsMsg(true);
 	}
 	
-	/** LifecycleObserver methods */
-	@OnLifecycleEvent(ON_START)
-	public void onStart() {
-		this.showResumeAds();
-	}
-	
-	// 복귀 광고를 로드한다
+	// 재개 광고를 로드한다
 	public void loadResumeAds() {
 		Log.d(KGDefine.TAG, "CAdsManager.loadResumeAds");
-		int nOrientation = CAndroidPlugin.getInstance().getOrientation();
 		
-		AppOpenAd.AppOpenAdLoadCallback oCallback = new AppOpenAd.AppOpenAdLoadCallback() {
-			// 광고가 로드 되었을 경우
-			@Override
-			public void onAppOpenAdLoaded(AppOpenAd a_oAds) {
-				Log.d(KGDefine.TAG, "CAdsManager.onAppOpenAdLoaded");
-				
-				CAdsManager.getInstance().m_oResumeAds = a_oAds;
-				CAdsManager.getInstance().m_bIsLoadResumeAds = true;
-			}
+		// 초기화 되었을 경우
+		if(m_bIsInit) {
+			int nOrientation = CAndroidPlugin.getInstance().getOrientation();
 			
-			// 광고 로드에 실패했을 경우
-			@Override
-			public void onAppOpenAdFailedToLoad(LoadAdError a_oError) {
-				Log.d(KGDefine.TAG, String.format("CAdsManager.onAppOpenAdFailedToLoad: %s", a_oError.getMessage()));
-				CAdsManager.getInstance().loadResumeAds();
-			}
-		};
-		
-		AppOpenAd.load(UnityPlayer.currentActivity.getApplication(),
-				m_oResumeAdsID, m_oRequestBuilder.build(), nOrientation,  oCallback);
+			AppOpenAd.AppOpenAdLoadCallback oCallback = new AppOpenAd.AppOpenAdLoadCallback() {
+				// 광고가 로드 되었을 경우
+				@Override
+				public void onAppOpenAdLoaded(AppOpenAd a_oAds) {
+					Log.d(KGDefine.TAG, "CAdsManager.onAppOpenAdLoaded");
+					
+					CAdsManager.getInstance().m_oResumeAds = a_oAds;
+					CAdsManager.getInstance().m_bIsLoadResumeAds = true;
+				}
+				
+				// 광고 로드에 실패했을 경우
+				@Override
+				public void onAppOpenAdFailedToLoad(LoadAdError a_oError) {
+					Log.d(KGDefine.TAG, String.format("CAdsManager.onAppOpenAdFailedToLoad: %s", a_oError.getMessage()));
+					CAdsManager.getInstance().loadResumeAds();
+				}
+			};
+			
+			AppOpenAd.load(UnityPlayer.currentActivity.getApplication(),
+					m_oResumeAdsID, m_oRequestBuilder.build(), nOrientation,  oCallback);
+		}
 	}
 	
-	// 복귀 광고를 출력한다
+	// 재개 광고를 출력한다
 	public void showResumeAds() {
 		Log.d(KGDefine.TAG, "CAdsManager.showResumeAds");
 		
-		// 복귀 광고가 로드 되었을 경우
-		if(m_bIsLoadResumeAds && m_oResumeAds != null) {
+		// 재개 광고가 로드 되었을 경우
+		if(m_bIsInit && m_bIsLoadResumeAds && m_oResumeAds != null) {
 			FullScreenContentCallback oCallback = new FullScreenContentCallback() {
 				// 전면 광고를 출력했을 경우
 				@Override

@@ -28,8 +28,10 @@ public class CDeviceMsgSender {
 		try {
 			this.sendDeviceMsg(KGDefine.CMD_GET_DEVICE_ID, a_oDeviceID);
 		} catch(Exception oException) {
+			Log.e(KGDefine.TAG, String.format("CDeviceMsgSender.sendGetDeviceIDMsg Exception: %s",
+					oException.getMessage()));
+			
 			oException.printStackTrace();
-			Log.e(KGDefine.TAG, String.format("CDeviceMsgSender.sendGetDeviceIDMsg Exception: %s", oException.getMessage()));
 		}
 	}
 	
@@ -38,8 +40,10 @@ public class CDeviceMsgSender {
 		try {
 			this.sendDeviceMsg(KGDefine.CMD_GET_COUNTRY_CODE, a_oCountryCode);
 		} catch(Exception oException) {
+			Log.e(KGDefine.TAG, String.format("CDeviceMsgSender.sendGetCountryCodeMsg Exception: %s",
+					oException.getMessage()));
+			
 			oException.printStackTrace();
-			Log.e(KGDefine.TAG, String.format("CDeviceMsgSender.sendGetCountryCodeMsg Exception: %s", oException.getMessage()));
 		}
 	}
 	
@@ -54,8 +58,10 @@ public class CDeviceMsgSender {
 			
 			this.sendDeviceMsg(KGDefine.CMD_GET_STORE_VERSION, oJSONObj.toString());
 		} catch(Exception oException) {
+			Log.e(KGDefine.TAG, String.format("CDeviceMsgSender.sendGetStoreVersionMsg Exception: %s",
+					oException.getMessage()));
+			
 			oException.printStackTrace();
-			Log.e(KGDefine.TAG, String.format("CDeviceMsgSender.sendGetStoreVersionMsg Exception: %s", oException.getMessage()));
 		}
 	}
 	
@@ -65,19 +71,49 @@ public class CDeviceMsgSender {
 			String oResult = GFunc.convertBoolToString(a_bIsTrue);
 			this.sendDeviceMsg(KGDefine.CMD_SHOW_ALERT, oResult);
 		} catch(Exception oException) {
+			Log.e(KGDefine.TAG, String.format("CDeviceMsgSender.sendShowAlertMsg Exception: %s",
+					oException.getMessage()));
+			
 			oException.printStackTrace();
-			Log.e(KGDefine.TAG, String.format("CDeviceMsgSender.sendShowAlertMsg Exception: %s", oException.getMessage()));
 		}
 	}
 	
-	//! 광고 설정 메세지를 전송한다
-	public void sendSetupAdsMsg(boolean a_bIsSuccess) {
+	//! 광고 초기화 메세지를 전송한다
+	public void sendInitAdsMsg(boolean a_bIsSuccess) {
 		try {
 			String oResult = GFunc.convertBoolToString(a_bIsSuccess);
-			this.sendDeviceMsg(KGDefine.CMD_SETUP_ADS, oResult);
+			this.sendDeviceMsg(KGDefine.CMD_INIT_ADS, oResult);
 		} catch(Exception oException) {
+			Log.e(KGDefine.TAG, String.format("CDeviceMsgSender.sendInitAdsMsg Exception: %s",
+					oException.getMessage()));
+			
 			oException.printStackTrace();
-			Log.e(KGDefine.TAG, String.format("CDeviceMsgSender.SendSetupAdsMsg Exception: %s", oException.getMessage()));
+		}
+	}
+	
+	//! 재개 광고 로드 메세지를 전송한다
+	public void sendLoadResumeAdsMsg(boolean a_bIsSuccess) {
+		try {
+			String oResult = GFunc.convertBoolToString(a_bIsSuccess);
+			this.sendDeviceMsg(KGDefine.CMD_LOAD_RESUME_ADS, oResult);
+		} catch(Exception oException) {
+			Log.e(KGDefine.TAG, String.format("CDeviceMsgSender.sendLoadResumeAdsMsg Exception: %s",
+					oException.getMessage()));
+			
+			oException.printStackTrace();
+		}
+	}
+	
+	//! 재개 광고 출력 메세지를 전송한다
+	public void sendShowResumeAdsMsg(boolean a_bIsSuccess) {
+		try {
+			String oResult = GFunc.convertBoolToString(a_bIsSuccess);
+			this.sendDeviceMsg(KGDefine.CMD_SHOW_RESUME_ADS, oResult);
+		} catch(Exception oException) {
+			Log.e(KGDefine.TAG, String.format("CDeviceMsgSender.sendShowResumeAdsMsg Exception: %s",
+					oException.getMessage()));
+			
+			oException.printStackTrace();
 		}
 	}
 	

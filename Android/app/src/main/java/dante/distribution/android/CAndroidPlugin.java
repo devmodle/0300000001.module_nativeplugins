@@ -119,13 +119,15 @@ public class CAndroidPlugin {
 						case KGDefine.CMD_VIBRATE: CAndroidPlugin.getInstance().handleVibrateMsg(a_oMsg); break;
 						case KGDefine.CMD_ACTIVITY_INDICATOR: CAndroidPlugin.getInstance().handleActivityIndicatorMsg(a_oMsg); break;
 						
-						case KGDefine.CMD_SETUP_ADS: CAndroidPlugin.getInstance().handleSetupAds(a_oMsg); break;
+						case KGDefine.CMD_INIT_ADS: CAndroidPlugin.getInstance().handleInitAdsMsg(a_oMsg); break;
 						case KGDefine.CMD_LOAD_RESUME_ADS: CAndroidPlugin.getInstance().handleLoadResumeAdsMsg(a_oMsg); break;
 						case KGDefine.CMD_SHOW_RESUME_ADS: CAndroidPlugin.getInstance().handleShowResumeAdsMsg(a_oMsg); break;
 					}
 				} catch(Exception oException) {
+					Log.e(KGDefine.TAG, String.format("CAndroidPlugin.handleUnityMsg Exception: %s, %s",
+							a_oCmd, oException.getMessage()));
+					
 					oException.printStackTrace();
-					Log.e(KGDefine.TAG, String.format("CAndroidPlugin.handleUnityMsg Exception: %s, %s", a_oCmd, oException.getMessage()));
 				}
 			}
 		});
@@ -214,11 +216,10 @@ public class CAndroidPlugin {
 			oTask.addOnFailureListener(new OnFailureListener() {
 				@Override
 				public void onFailure(Exception a_oException) {
-					a_oException.printStackTrace();
-					
 					Log.d(KGDefine.TAG, String.format("CAndroidPlugin.onHandleGetStoreVersionMsg Fail: %s",
 							a_oException.getMessage()));
 					
+					a_oException.printStackTrace();
 					CDeviceMsgSender.getInstance().sendGetStoreVersionMsg(oVersion, false);
 				}
 			});
@@ -300,8 +301,8 @@ public class CAndroidPlugin {
 		}
 	}
 	
-	//! 광고를 설정한다
-	private void handleSetupAds(String a_oMsg) throws Exception {
+	//! 광고 초기화 메세지를 처리한다
+	private void handleInitAdsMsg(String a_oMsg) throws Exception {
 		JSONObject oJSONObj = new JSONObject(a_oMsg);
 		
 		String oResumeAdsID = oJSONObj.getString(KGDefine.KEY_RESUME_ADS_ID);
@@ -318,12 +319,12 @@ public class CAndroidPlugin {
 	}
 	
 	//! 재개 광고 로드 메세지를 처리한다
-	private void handleLoadResumeAdsMsg(String a_oMsg) throws Exception {
+	private void handleLoadResumeAdsMsg(String a_oMsg) {
 		CAdsManager.getInstance().loadResumeAds();
 	}
 	
 	//! 재개 광고 출력 메세지를 처리한다
-	private void handleShowResumeAdsMsg(String a_oMsg) throws Exception {
+	private void handleShowResumeAdsMsg(String a_oMsg) {
 		CAdsManager.getInstance().showResumeAds();
 	}
 }

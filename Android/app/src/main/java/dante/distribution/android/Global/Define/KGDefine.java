@@ -9,9 +9,6 @@ public abstract class KGDefine {
 	public static final String EMPTY_STRING = "";
 	public static final String INVALID_ANDROID_ID = "9774d56d682e549c";
 	
-	// 시간
-	public static final int MAX_DELTA_TIME_ADS_LOAD = 60;
-	
 	// 유닛
 	public static final int UNIT_SEC_TO_MILLISEC = 1000;
 	public static final int UNIT_NORM_VALUE_TO_BYTE = 255;

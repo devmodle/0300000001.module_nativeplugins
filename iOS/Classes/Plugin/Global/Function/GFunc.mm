@@ -7,7 +7,7 @@
 
 #import "GFunc.h"
 
-namespace Func {
+namespace GFunc {
 	//! 유효 여부를 검사한다
 	BOOL IsValid(NSString *a_pString) {
 		return a_pString != nil && a_pString.length > G_VALUE_INT_0;

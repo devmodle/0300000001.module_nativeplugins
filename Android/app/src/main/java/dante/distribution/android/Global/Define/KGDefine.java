@@ -50,10 +50,11 @@ public abstract class KGDefine {
 	// 키 {
 	public static final String KEY_CMD = "Cmd";
 	public static final String KEY_MSG = "Msg";
-	
-	public static final String KEY_VERSION = "Version";
+
 	public static final String KEY_BUILD_MODE = "BuildMode";
 	public static final String KEY_ORIENTATION = "Orientation";
+	
+	public static final String KEY_VERSION = "Version";
 	
 	public static final String KEY_ALERT_TITLE = "Title";
 	public static final String KEY_ALERT_MSG = "Msg";

@@ -15,6 +15,14 @@
 
 #import "UnityInterface.h"
 
+#ifdef ADMOB_ENABLE
+#import <GoogleMobileAds/GoogleMobileAds.h>
+#endif			// #ifdef ADMOB_ENABLE
+
+#ifdef FIREBASE_ENABLE
+#import <Firebase/Firebase.h>
+#endif			// #ifdef FIREBASE_ENABLE
+
 // 기타
 #define G_EMPTY_STRING			("")
 #define G_INDEX_INVALID			(-1)
@@ -26,6 +34,10 @@
 #define G_VALUE_FLOAT_0			(0.0f)
 #define G_VALUE_FLOAT_1			(1.0f)
 // 값 }
+
+// 방향
+#define G_ORIENTATION_PORTRAIT			(0)
+#define G_ORIENTATION_LANDSCAPE			(1)
 
 // 결과
 #define G_RESULT_TRUE			("True")
@@ -48,18 +60,29 @@
 #define G_MIN_VERSION_IMPACT_INTENSITY				13.0
 #define G_MIN_VERSION_ACTIVITY_INDICATOR			13.0
 
-// 명령어
-#define G_CMD_GET_DEVICE_ID					("GetDeviceID")
-#define G_CMD_GET_COUNTRY_CODE				("GetCountryCode")
-#define G_CMD_GET_STORE_VERSION				("GetStoreVersion")
-#define G_CMD_SET_BUILD_MODE				("SetBuildMode")
-#define G_CMD_SHOW_ALERT					("ShowAlert")
+// 명령어 {
+#define G_CMD_INIT			("Init")
+
+#define G_CMD_GET_DEVICE_ID				("GetDeviceID")
+#define G_CMD_GET_COUNTRY_CODE			("GetCountryCode")
+#define G_CMD_GET_STORE_VERSION			("GetStoreVersion")
+
+#define G_CMD_SHOW_ALERT			("ShowAlert")
+
 #define G_CMD_VIBRATE						("Vibrate")
 #define G_CMD_ACTIVITY_INDICATOR			("ActivityIndicator")
+
+#define G_CMD_INIT_ADS					("InitAds")
+#define G_CMD_LOAD_RESUME_ADS			("LoadResumeAds")
+#define G_CMD_SHOW_RESUME_ADS			("ShowResumeAds")
+// 명령어 }
 
 // 키 {
 #define G_KEY_CMD			("Cmd")
 #define G_KEY_MSG			("Msg")
+
+#define G_KEY_BUILD_MODE			("BuildMode")
+#define G_KEY_ORIENTATION			("Orientation")
 
 #define G_KEY_APP_ID			("AppID")
 #define G_KEY_VERSION			("Version")
@@ -76,6 +99,9 @@
 #define G_KEY_VIBRATE_TYPE				("Type")
 #define G_KEY_VIBRATE_STYLE				("Style")
 #define G_KEY_VIBRATE_INTENSITY			("Intensity")
+
+#define G_KEY_ADMOB_IDS 			("AdmobIDs")
+#define G_KEY_RESUME_ADS_ID			("ResumeAdsID")
 
 #define G_KEY_DEVICE_MS_RESULT			("Result")
 #define G_KEY_DEVICE_MS_VERSION			("Version")

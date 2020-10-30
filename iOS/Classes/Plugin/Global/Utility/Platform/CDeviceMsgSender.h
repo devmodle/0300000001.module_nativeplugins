@@ -26,6 +26,15 @@ NS_ASSUME_NONNULL_BEGIN
 //! 경고 창 출력 메세지를 전송한다
 - (void)sendShowAlertMsg:(BOOL)a_bIsTrue;
 
+//! 광고 초기화 메세지를 전송한다
+- (void)sendInitAdsMsg:(BOOL)a_bIsSuccess;
+
+//! 재개 광고 로드 메세지를 전송한다
+- (void)sendLoadResumeAdsMsg:(BOOL)a_bIsSuccess;
+		
+//! 재개 광고 출력 메세지를 전송한다
+- (void)sendShowResumeAdsMsg:(BOOL)a_bIsSuccess;
+				
 //! 인스턴스를 반환한다
 + (instancetype)sharedInstance;
 @end			// CDeviceMsgSender

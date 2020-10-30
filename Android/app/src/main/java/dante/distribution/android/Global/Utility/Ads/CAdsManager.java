@@ -97,6 +97,8 @@ public class CAdsManager implements LifecycleObserver,
 	
 	//! 초기화
 	public void init(String a_oResumeAdsID, ArrayList<String> a_oDeviceIDList) {
+		Log.d(KGDefine.TAG, String.format("CAdsManager.init: %s, %s", a_oResumeAdsID, a_oDeviceIDList));
+
 		m_oResumeAdsID = a_oResumeAdsID;
 		m_oRequestBuilder = new AdRequest.Builder();
 		
@@ -153,20 +155,20 @@ public class CAdsManager implements LifecycleObserver,
 		// 재개 광고가 로드 되었을 경우
 		if(m_bIsInit && m_bIsLoadResumeAds && m_oResumeAds != null) {
 			FullScreenContentCallback oCallback = new FullScreenContentCallback() {
-				// 전면 광고를 출력했을 경우
+				// 재개 광고를 출력했을 경우
 				@Override
 				public void onAdShowedFullScreenContent() {
 					Log.d(KGDefine.TAG, "CAdsManager.onAdShowedFullScreenContent");
 				}
 				
-				// 전면 광고 출력에 실패했을 경우
+				// 재개 광고 출력에 실패했을 경우
 				@Override
 				public void onAdFailedToShowFullScreenContent(AdError a_oError) {
 					Log.d(KGDefine.TAG, String.format("CAdsManager.onAdFailedToShowFullScreenContent: %s", a_oError.getMessage()));
 					CDeviceMsgSender.getInstance().sendShowResumeAdsMsg(false);
 				}
 				
-				// 전면 광고가 닫혔을 경우
+				// 재개 광고가 닫혔을 경우
 				@Override
 				public void onAdDismissedFullScreenContent() {
 					Log.d(KGDefine.TAG, "CAdsManager.onAdDismissedFullScreenContent");

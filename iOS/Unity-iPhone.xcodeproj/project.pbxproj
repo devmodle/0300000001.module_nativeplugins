@@ -143,6 +143,7 @@
 		C002478C85BA3D43A51C8013 /* LaunchScreen-iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AF24435FA46427BC9B5CC3E3 /* LaunchScreen-iPhone.storyboard */; };
 		C0E2444F9408EFD465761A61 /* IUnityGraphicsMetal.h in Headers */ = {isa = PBXBuildFile; fileRef = F3124CC9814E2DA1C7263536 /* IUnityGraphicsMetal.h */; };
 		C12F4C779F367298FD8F8AC3 /* mscorlib.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AE31461EBFBB74A2B2F5F7DC /* mscorlib.cpp */; };
+		C31AD248254BB3CA007A9B04 /* CAdsManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = C31AD247254BB3CA007A9B04 /* CAdsManager.mm */; };
 		C71C44228CCADB985533FA16 /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4C948C89B179DC959CCF019 /* GameController.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		C9B44CC1A267FCDF7FEB559A /* UnityClassRegistration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 98DD4CA69D9C2B88C312D203 /* UnityClassRegistration.cpp */; };
 		CFE049E4ADB2026CABBC15A3 /* profile.json in Resources */ = {isa = PBXBuildFile; fileRef = 38E645AEBB1F3CB567627C86 /* profile.json */; };
@@ -376,6 +377,8 @@
 		B22749AFBCEF3CB5622DF617 /* IUnityGraphics.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = IUnityGraphics.h; path = Classes/Unity/IUnityGraphics.h; sourceTree = SOURCE_ROOT; };
 		BC5542118EA2A6F66829A314 /* System1.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = System1.cpp; path = Classes/Native/System1.cpp; sourceTree = SOURCE_ROOT; };
 		C1434B9EBA04A353FB7097ED /* mscorlib2.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = mscorlib2.cpp; path = Classes/Native/mscorlib2.cpp; sourceTree = SOURCE_ROOT; };
+		C31AD246254BB3CA007A9B04 /* CAdsManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CAdsManager.h; sourceTree = "<group>"; };
+		C31AD247254BB3CA007A9B04 /* CAdsManager.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = CAdsManager.mm; sourceTree = "<group>"; };
 		C5004616A3A798B50BB4AD89 /* mscorlib15.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = mscorlib15.cpp; path = Classes/Native/mscorlib15.cpp; sourceTree = SOURCE_ROOT; };
 		C69A4D10BBFDC11557906A68 /* System.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = System.cpp; path = Classes/Native/System.cpp; sourceTree = SOURCE_ROOT; };
 		CBC045D6B8889D6CE5A406F6 /* System.Configuration.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = System.Configuration.cpp; path = Classes/Native/System.Configuration.cpp; sourceTree = SOURCE_ROOT; };
@@ -731,6 +734,15 @@
 			path = MainApp;
 			sourceTree = SOURCE_ROOT;
 		};
+		C31AD245254BB396007A9B04 /* Ads */ = {
+			isa = PBXGroup;
+			children = (
+				C31AD246254BB3CA007A9B04 /* CAdsManager.h */,
+				C31AD247254BB3CA007A9B04 /* CAdsManager.mm */,
+			);
+			path = Ads;
+			sourceTree = "<group>";
+		};
 		D82DCFB50E8000A5005D6AD8 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
@@ -815,6 +827,7 @@
 		FEF9BB702504EFC2008DBC20 /* Utility */ = {
 			isa = PBXGroup;
 			children = (
+				C31AD245254BB396007A9B04 /* Ads */,
 				FEF9BB712504EFC2008DBC20 /* Platform */,
 				FEF9BB742504EFC2008DBC20 /* External */,
 			);
@@ -1035,6 +1048,7 @@
 			files = (
 				FEF9BB782504EFC2008DBC20 /* CiOSPlugin.mm in Sources */,
 				FEF9BB792504EFC2008DBC20 /* GFunc.mm in Sources */,
+				C31AD248254BB3CA007A9B04 /* CAdsManager.mm in Sources */,
 				FEF9BB7A2504EFC2008DBC20 /* CDeviceMsgSender.mm in Sources */,
 				9DA3B0442174CB96001678C7 /* main.mm in Sources */,
 				FEF9BB7B2504EFC2008DBC20 /* KeychainItemWrapper.mm in Sources */,

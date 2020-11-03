@@ -7,7 +7,6 @@ import android.util.Log;
 
 import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.OnLifecycleEvent;
-import androidx.lifecycle.ProcessLifecycleOwner;
 
 import com.google.android.gms.ads.AdError;
 import com.google.android.gms.ads.AdRequest;
@@ -100,14 +99,14 @@ public class CAdsManager implements LifecycleObserver,
 		Log.d(KGDefine.TAG, String.format("CAdsManager.init: %s, %s", a_oResumeAdsID, a_oDeviceIDList));
 
 		m_oResumeAdsID = a_oResumeAdsID;
-		m_oRequestBuilder = new AdRequest.Builder();
+//		m_oRequestBuilder = new AdRequest.Builder();
+//
+//		for(int i = 0; i < a_oDeviceIDList.size(); ++i) {
+//			m_oRequestBuilder.addTestDevice(a_oDeviceIDList.get(i));
+//		}
 		
-		for(int i = 0; i < a_oDeviceIDList.size(); ++i) {
-			m_oRequestBuilder.addTestDevice(a_oDeviceIDList.get(i));
-		}
-		
-		UnityPlayer.currentActivity.getApplication().registerActivityLifecycleCallbacks(this);
-		ProcessLifecycleOwner.get().getLifecycle().addObserver(this);
+//		ProcessLifecycleOwner.get().getLifecycle().addObserver(this);
+//		UnityPlayer.currentActivity.getApplication().registerActivityLifecycleCallbacks(this);
 		
 		m_bIsInit = true;
 		CDeviceMsgSender.getInstance().sendInitAdsMsg(true);
@@ -142,7 +141,10 @@ public class CAdsManager implements LifecycleObserver,
 			};
 			
 			AppOpenAd.load(UnityPlayer.currentActivity.getApplicationContext(),
-					m_oResumeAdsID, m_oRequestBuilder.build(), nOrientation, oCallback);
+					m_oResumeAdsID, new AdRequest.Builder().build(), nOrientation, oCallback);
+			
+//			AppOpenAd.load(UnityPlayer.currentActivity.getApplicationContext(),
+//					m_oResumeAdsID, m_oRequestBuilder.build(), nOrientation, oCallback);
 		} else {
 			CDeviceMsgSender.getInstance().sendLoadResumeAdsMsg(false);
 		}

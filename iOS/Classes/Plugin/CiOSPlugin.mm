@@ -99,7 +99,7 @@ extern "C" {
 
 //! iOS 플러그인
 @implementation CiOSPlugin
-#pragma mark - Property
+#pragma mark - 프로퍼티
 @synthesize deviceID = m_pDeviceID;
 
 @synthesize keychainItemWrapper = m_pKeychainItemWrapper;
@@ -109,7 +109,7 @@ extern "C" {
 @synthesize selectionGenerator = m_pSelectionGenerator;
 @synthesize notificationGenerator = m_pNotificationGenerator;
 
-#pragma mark - init
+#pragma mark - 초기화
 //! 객체를 생성한다
 + (id)alloc {
 	@synchronized(CiOSPlugin.class) {
@@ -122,7 +122,7 @@ extern "C" {
 	return g_pInstance;
 }
 
-#pragma mark - instance method
+#pragma mark - 인스턴스 메서드
 //! 디바이스 식별자를 반환한다
 - (NSString *)deviceID {
 	// 디바이스 식별자가 유효하지 않을 경우
@@ -424,7 +424,7 @@ extern "C" {
 	[CAdsManager.sharedInstance showResumeAds];
 }
 
-#pragma mark - class method
+#pragma mark - 클래스 메서드
 //! 인스턴스를 반환한다
 + (instancetype)sharedInstance {
 	@synchronized(CiOSPlugin.class) {

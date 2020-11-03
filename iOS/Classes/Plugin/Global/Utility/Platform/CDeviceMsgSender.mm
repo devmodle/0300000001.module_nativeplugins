@@ -13,7 +13,7 @@ static CDeviceMsgSender *g_pInstance = nil;
 
 //! 디바이스 메세지 전송자
 @implementation CDeviceMsgSender
-#pragma mark - init
+#pragma mark - 초기화
 //! 객체를 생성한다
 + (id)alloc {
 	@synchronized(CDeviceMsgSender.class) {
@@ -26,7 +26,7 @@ static CDeviceMsgSender *g_pInstance = nil;
 	return g_pInstance;
 }
 
-#pragma mark - instance method
+#pragma mark - 인스턴스 메서드
 //! 디바이스 식별자 반환 메세지를 전송한다
 - (void)sendGetDeviceIDMsg:(NSString *)a_oDeviceID {
 	[self send:@(G_CMD_GET_DEVICE_ID) withDeviceMsg:a_oDeviceID];
@@ -81,7 +81,7 @@ static CDeviceMsgSender *g_pInstance = nil;
 	UnitySendMessage(G_OBJ_NAME_DEVICE_MSG_RECEIVER, G_FUNC_NAME_DEVICE_MSG_HANDLE_METHOD, pString.UTF8String);
 }
 
-#pragma mark - class method
+#pragma mark - 클래스 메서드
 //! 인스턴스를 반환한다
 + (instancetype)sharedInstance {
 	@synchronized(CDeviceMsgSender.class) {

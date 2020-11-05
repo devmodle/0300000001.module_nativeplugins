@@ -7,6 +7,7 @@ import android.util.Log;
 
 import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.OnLifecycleEvent;
+import androidx.lifecycle.ProcessLifecycleOwner;
 
 import com.google.android.gms.ads.AdError;
 import com.google.android.gms.ads.AdRequest;
@@ -33,6 +34,52 @@ public class CAdsManager implements LifecycleObserver,
 	private String m_oResumeAdsID = "";
 	private AppOpenAd m_oResumeAds = null;
 	private AdRequest.Builder m_oRequestBuilder = null;
+	
+	private final AppOpenAd.AppOpenAdLoadCallback m_oResumeAdsLoadCallback = new AppOpenAd.AppOpenAdLoadCallback() {
+		// 광고가 로드 되었을 경우
+		@Override
+		public void onAppOpenAdLoaded(AppOpenAd a_oAds) {
+			Log.d(KGDefine.TAG, "CAdsManager.onAppOpenAdLoaded");
+			
+			CAdsManager.getInstance().m_oResumeAds = a_oAds;
+			CAdsManager.getInstance().m_bIsLoadResumeAds = true;
+			
+			CDeviceMsgSender.getInstance().sendLoadResumeAdsMsg(true);
+		}
+		
+		// 광고 로드에 실패했을 경우
+		@Override
+		public void onAppOpenAdFailedToLoad(LoadAdError a_oError) {
+			Log.d(KGDefine.TAG, String.format("CAdsManager.onAppOpenAdFailedToLoad: %s", a_oError.getMessage()));
+			CDeviceMsgSender.getInstance().sendLoadResumeAdsMsg(false);
+		}
+	};
+	
+	private final FullScreenContentCallback m_oResumeAdsShowCallback = new FullScreenContentCallback() {
+		// 재개 광고를 출력했을 경우
+		@Override
+		public void onAdShowedFullScreenContent() {
+			Log.d(KGDefine.TAG, "CAdsManager.onAdShowedFullScreenContent");
+		}
+		
+		// 재개 광고 출력에 실패했을 경우
+		@Override
+		public void onAdFailedToShowFullScreenContent(AdError a_oError) {
+			Log.d(KGDefine.TAG, String.format("CAdsManager.onAdFailedToShowFullScreenContent: %s", a_oError.getMessage()));
+			CDeviceMsgSender.getInstance().sendShowResumeAdsMsg(false);
+		}
+		
+		// 재개 광고가 닫혔을 경우
+		@Override
+		public void onAdDismissedFullScreenContent() {
+			Log.d(KGDefine.TAG, "CAdsManager.onAdDismissedFullScreenContent");
+			
+			CAdsManager.getInstance().m_oResumeAds = null;
+			CAdsManager.getInstance().m_bIsLoadResumeAds = false;
+			
+			CDeviceMsgSender.getInstance().sendShowResumeAdsMsg(true);
+		}
+	};
 	
 	private static CAdsManager m_oInstance = null;
 	
@@ -78,12 +125,6 @@ public class CAdsManager implements LifecycleObserver,
 		Log.d(KGDefine.TAG, "CAdsManager.onActivityDestroyed");
 	}
 	
-	//! 앱이 시작 되었을 경우
-	@OnLifecycleEvent(ON_START)
-	public void onStart() {
-		Log.d(KGDefine.TAG, "CAdsManager.onStart");
-	}
-	
 	//! 인스턴스를 반환한다
 	public static CAdsManager getInstance() {
 		// 인스턴스가 없을 경우
@@ -99,14 +140,14 @@ public class CAdsManager implements LifecycleObserver,
 		Log.d(KGDefine.TAG, String.format("CAdsManager.init: %s, %s", a_oResumeAdsID, a_oDeviceIDList));
 
 		m_oResumeAdsID = a_oResumeAdsID;
-//		m_oRequestBuilder = new AdRequest.Builder();
-//
-//		for(int i = 0; i < a_oDeviceIDList.size(); ++i) {
-//			m_oRequestBuilder.addTestDevice(a_oDeviceIDList.get(i));
-//		}
+		m_oRequestBuilder = new AdRequest.Builder();
+
+		for(int i = 0; i < a_oDeviceIDList.size(); ++i) {
+			m_oRequestBuilder.addTestDevice(a_oDeviceIDList.get(i));
+		}
 		
-//		ProcessLifecycleOwner.get().getLifecycle().addObserver(this);
-//		UnityPlayer.currentActivity.getApplication().registerActivityLifecycleCallbacks(this);
+		ProcessLifecycleOwner.get().getLifecycle().addObserver(this);
+		UnityPlayer.currentActivity.getApplication().registerActivityLifecycleCallbacks(this);
 		
 		m_bIsInit = true;
 		CDeviceMsgSender.getInstance().sendInitAdsMsg(true);
@@ -120,31 +161,8 @@ public class CAdsManager implements LifecycleObserver,
 		if(m_bIsInit && !m_bIsLoadResumeAds && m_oResumeAds == null) {
 			int nOrientation = CAndroidPlugin.getInstance().getOrientation();
 			
-			AppOpenAd.AppOpenAdLoadCallback oCallback = new AppOpenAd.AppOpenAdLoadCallback() {
-				// 광고가 로드 되었을 경우
-				@Override
-				public void onAppOpenAdLoaded(AppOpenAd a_oAds) {
-					Log.d(KGDefine.TAG, "CAdsManager.onAppOpenAdLoaded");
-					
-					CAdsManager.getInstance().m_oResumeAds = a_oAds;
-					CAdsManager.getInstance().m_bIsLoadResumeAds = true;
-					
-					CDeviceMsgSender.getInstance().sendLoadResumeAdsMsg(true);
-				}
-				
-				// 광고 로드에 실패했을 경우
-				@Override
-				public void onAppOpenAdFailedToLoad(LoadAdError a_oError) {
-					Log.d(KGDefine.TAG, String.format("CAdsManager.onAppOpenAdFailedToLoad: %s", a_oError.getMessage()));
-					CDeviceMsgSender.getInstance().sendLoadResumeAdsMsg(false);
-				}
-			};
-			
 			AppOpenAd.load(UnityPlayer.currentActivity.getApplicationContext(),
-					m_oResumeAdsID, new AdRequest.Builder().build(), nOrientation, oCallback);
-			
-//			AppOpenAd.load(UnityPlayer.currentActivity.getApplicationContext(),
-//					m_oResumeAdsID, m_oRequestBuilder.build(), nOrientation, oCallback);
+					m_oResumeAdsID, m_oRequestBuilder.build(), nOrientation, m_oResumeAdsLoadCallback);
 		} else {
 			CDeviceMsgSender.getInstance().sendLoadResumeAdsMsg(false);
 		}
@@ -156,33 +174,7 @@ public class CAdsManager implements LifecycleObserver,
 		
 		// 재개 광고가 로드 되었을 경우
 		if(m_bIsInit && m_bIsLoadResumeAds && m_oResumeAds != null) {
-			FullScreenContentCallback oCallback = new FullScreenContentCallback() {
-				// 재개 광고를 출력했을 경우
-				@Override
-				public void onAdShowedFullScreenContent() {
-					Log.d(KGDefine.TAG, "CAdsManager.onAdShowedFullScreenContent");
-				}
-				
-				// 재개 광고 출력에 실패했을 경우
-				@Override
-				public void onAdFailedToShowFullScreenContent(AdError a_oError) {
-					Log.d(KGDefine.TAG, String.format("CAdsManager.onAdFailedToShowFullScreenContent: %s", a_oError.getMessage()));
-					CDeviceMsgSender.getInstance().sendShowResumeAdsMsg(false);
-				}
-				
-				// 재개 광고가 닫혔을 경우
-				@Override
-				public void onAdDismissedFullScreenContent() {
-					Log.d(KGDefine.TAG, "CAdsManager.onAdDismissedFullScreenContent");
-					
-					CAdsManager.getInstance().m_oResumeAds = null;
-					CAdsManager.getInstance().m_bIsLoadResumeAds = false;
-					
-					CDeviceMsgSender.getInstance().sendShowResumeAdsMsg(true);
-				}
-			};
-			
-			m_oResumeAds.show(UnityPlayer.currentActivity, oCallback);
+			m_oResumeAds.show(UnityPlayer.currentActivity, m_oResumeAdsShowCallback);
 		} else {
 			CDeviceMsgSender.getInstance().sendShowResumeAdsMsg(false);
 		}

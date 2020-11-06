@@ -40,6 +40,7 @@ public abstract class KGDefine {
 	public static final String CMD_SHOW_TOAST = "ShowToast";
 	
 	public static final String CMD_VIBRATE = "Vibrate";
+	public static final String CMD_TRACKING = "Tracking";
 	public static final String CMD_ACTIVITY_INDICATOR = "ActivityIndicator";
 	
 	public static final String CMD_INIT_ADS = "InitAds";
@@ -63,6 +64,10 @@ public abstract class KGDefine {
 	
 	public static final String KEY_VIBRATE_DURATION = "Duration";
 	public static final String KEY_VIBRATE_INTENSITY = "Intensity";
+	
+	public static final String KEY_TRACKING_NAME = "Name";
+	public static final String KEY_TRACKING_DATAS = "Datas";
+	public static final String KEY_TRACKING_IS_START = "IsStart";
 	
 	public static final String KEY_ADMOB_IDS = "AdmobIDs";
 	public static final String KEY_RESUME_ADS_ID = "ResumeAdsID";

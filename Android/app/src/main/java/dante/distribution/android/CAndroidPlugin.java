@@ -25,6 +25,8 @@ import com.google.android.play.core.install.model.UpdateAvailability;
 import com.google.android.play.core.tasks.OnFailureListener;
 import com.google.android.play.core.tasks.OnSuccessListener;
 import com.google.android.play.core.tasks.Task;
+import com.google.firebase.perf.FirebasePerformance;
+import com.google.firebase.perf.metrics.Trace;
 import com.unity3d.player.UnityPlayer;
 
 import org.json.JSONArray;
@@ -32,6 +34,7 @@ import org.json.JSONObject;
 
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Locale;
 import java.util.UUID;
 
@@ -46,6 +49,8 @@ public class CAndroidPlugin {
 	private String m_oBuildMode = KGDefine.EMPTY_STRING;
 	
 	private ProgressBar m_oProgressBar = null;
+	private HashMap<String, Trace> m_oTrackingList = new HashMap<String, Trace>();
+	
 	private static CAndroidPlugin m_oInstance = null;
 	
 	//! 생성자
@@ -117,6 +122,7 @@ public class CAndroidPlugin {
 						case KGDefine.CMD_SHOW_ALERT: CAndroidPlugin.getInstance().handleShowAlertMsg(a_oMsg); break;
 						
 						case KGDefine.CMD_VIBRATE: CAndroidPlugin.getInstance().handleVibrateMsg(a_oMsg); break;
+						case KGDefine.CMD_TRACKING: CAndroidPlugin.getInstance().handleTrackingMsg(a_oMsg); break;
 						case KGDefine.CMD_ACTIVITY_INDICATOR: CAndroidPlugin.getInstance().handleActivityIndicatorMsg(a_oMsg); break;
 						
 						case KGDefine.CMD_INIT_ADS: CAndroidPlugin.getInstance().handleInitAdsMsg(a_oMsg); break;
@@ -291,9 +297,47 @@ public class CAndroidPlugin {
 		}
 	}
 	
+	//! 추적 메세지를 처리한다
+	private void handleTrackingMsg(String a_oMsg) throws Exception {
+		JSONObject oJSONObj = new JSONObject(a_oMsg);
+		
+		String oName = oJSONObj.getString(KGDefine.KEY_TRACKING_NAME);
+		String oIsStartString = oJSONObj.getString(KGDefine.KEY_TRACKING_IS_START);
+		
+		boolean bIsStart = GFunc.convertStringToBool(oIsStartString);
+		boolean bIsContainsTracking = m_oTrackingList.containsKey(oName);
+		
+		// 시작 모드 일 경우
+		if(bIsStart && !bIsContainsTracking) {
+			Trace oTracking = FirebasePerformance.getInstance().newTrace(oName);
+			String oDatasString = oJSONObj.getString(KGDefine.KEY_TRACKING_DATAS);
+			
+			// 데이터가 존재 할 경우
+			if(GFunc.isValid(oDatasString)) {
+				JSONObject oDataList = new JSONObject(oDatasString);
+				JSONArray oKeyList = oDataList.names();
+				
+				for(int i = 0; i < oKeyList.length(); ++i) {
+					String oKey = oKeyList.getString(i);
+					oTracking.putAttribute(oKey, oDataList.getString(oKey));
+				}
+			}
+			
+			oTracking.start();
+			m_oTrackingList.put(oName, oTracking);
+		}
+		// 중지 모드 일 경우
+		else if(!bIsStart && bIsContainsTracking) {
+			Trace oTracking = m_oTrackingList.get(oName);
+			oTracking.stop();
+			
+			m_oTrackingList.remove(oName);
+		}
+	}
+	
 	//! 액티비티 인디케이터 메세지를 처리한다
 	private void handleActivityIndicatorMsg(String a_oMsg) {
-		// 출력 상태 일 경우
+		// 출력 모드 일 경우
 		if(GFunc.convertStringToBool(a_oMsg)) {
 			m_oProgressBar.setVisibility(View.VISIBLE);
 		} else {

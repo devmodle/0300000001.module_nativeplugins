@@ -22,6 +22,10 @@ NS_ASSUME_NONNULL_BEGIN
 	NSArray *m_pImpactGeneratorList;
 	UISelectionFeedbackGenerator *m_pSelectionGenerator;
 	UINotificationFeedbackGenerator *m_pNotificationGenerator;
+	
+#ifdef FIREBASE_ENABLE
+	NSMutableDictionary *m_pTrackingList;
+#endif			// #ifdef FIREBASE_ENABLE
 }
 
 // 프로퍼티 {
@@ -39,6 +43,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong, readonly) UIViewController *rootViewController;
 @property (nonatomic, strong, readonly) UnityAppController *unityAppController;
+
+#ifdef FIREBASE_ENABLE
+@property (nonatomic, strong) NSMutableDictionary *trackingList;
+#endif			// #ifdef FIREBASE_ENABLE
 // 프로퍼티 }
 
 //! 인스턴스를 반환한다

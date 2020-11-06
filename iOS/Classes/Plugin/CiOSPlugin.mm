@@ -36,6 +36,9 @@ static CiOSPlugin *g_pInstance = nil;
 //! 진동 메세지를 처리한다
 - (void)handleVibrateMsg:(const char *)a_pszMsg;
 
+//! 추적 메세지를 처리한다
+- (void)handleTrackingMsg:(const char *)a_pszMsg;
+
 //! 액티비티 인디케이터 메세지를 처리한다
 - (void)handleActivityIndicatorMsg:(const char *)a_pszMsg;
 
@@ -78,6 +81,10 @@ extern "C" {
 		else if(strcmp(a_pszCmd, G_CMD_VIBRATE) == G_VALUE_INT_0) {
 			[CiOSPlugin.sharedInstance handleVibrateMsg:a_pszMsg];
 		}
+		// 추적 메세지 일 경우
+		else if(strcmp(a_pszCmd, G_CMD_TRACKING) == G_VALUE_INT_0) {
+			[CiOSPlugin.sharedInstance handleTrackingMsg:a_pszMsg];
+		}
 		// 액티비티 인디케이터 메세지 일 경우
 		else if(strcmp(a_pszCmd, G_CMD_ACTIVITY_INDICATOR) == G_VALUE_INT_0) {
 			[CiOSPlugin.sharedInstance handleActivityIndicatorMsg:a_pszMsg];
@@ -108,6 +115,10 @@ extern "C" {
 @synthesize impactGeneratorList = m_pImpactGeneratorList;
 @synthesize selectionGenerator = m_pSelectionGenerator;
 @synthesize notificationGenerator = m_pNotificationGenerator;
+
+#ifdef FIREBASE_ENABLE
+@synthesize trackingList = m_pTrackingList;
+#endif			// #ifdef FIREBASE_ENABLE
 
 #pragma mark - 초기화
 //! 객체를 생성한다
@@ -393,9 +404,51 @@ extern "C" {
 	}
 }
 
+//! 추적 메세지를 처리한다
+- (void)handleTrackingMsg:(const char *)a_pszMsg {
+#ifdef FIREBASE_ENABLE
+	NSDictionary *pDataList = (NSDictionary *)GFunc::ConvertJSONStringToObj(@(a_pszMsg), NULL);
+	
+	NSString *pName = (NSString *)[pDataList objectForKey:@(G_KEY_TRACKING_NAME)];
+	NSString *pIsStartString = (NSString *)[pDataList objectForKey:@(G_KEY_TRACKING_IS_START)];
+	
+	BOOL bIsStart = GFunc::ConvertStringToBool(pIsStartString);
+	BOOL bIsContainsTracking = [self.trackingList objectForKey:pName] != nil;
+	
+	// 시작 모드 일 경우
+	if(bIsStart && !bIsContainsTracking) {
+		FIRTrace *pTracking = [FIRPerformance startTraceWithName:pName];
+		NSString *pDatasString = (NSString *)[pDataList objectForKey:@(G_KEY_TRACKING_DATAS)];
+		
+		// 데이터가 존재 할 경우
+		if(pDatasString != nil) {
+			NSDictionary *pTrackingDataList = (NSDictionary *)GFunc::ConvertJSONStringToObj(@(pDatasString), NULL);
+			NSArray *pKeyList = pTrackingDataList.allKeys;
+			
+			for(int i = 0; i < pKeyList.count; ++i) {
+				NSString *pKey = (NSString *)[pKeyList objectAtIndex:i];
+				NSString *pValue = (NSString *)[pTrackingDataList objectForKey:pKey];
+				
+				[pTracking setValue:pKey forAttribute:pValue];
+			}
+		}
+		
+		[pTracking start];
+		[self.trackingList setObject:pName forKey:pTracking];
+	}
+	// 중지 모드 일 경우
+	if(!bIsStart && bIsContainsTracking) {
+		FIRTrace *pTracking = (FIRTrace *)[self.trackingList objectForKey:pName];
+		
+		[pTracking stop];
+		[self.trackingList removeObjectForKey:pName];
+	}
+#endif			// #ifdef FIREBASE_ENABLE
+}
+
 //! 액티비티 인디케이터 메세지를 처리한다
 - (void)handleActivityIndicatorMsg:(const char *)a_pszMsg {
-	// 출력 상태 일 경우
+	// 출력 모드 일 경우
 	if(GFunc::ConvertStringToBool(@(a_pszMsg))) {
 		[self.activityIndicatorView startAnimating];
 	} else {
@@ -423,6 +476,17 @@ extern "C" {
 - (void)handleShowResumeAdsMsg:(const char *)a_pszMsg {
 	[CAdsManager.sharedInstance showResumeAds];
 }
+
+#ifdef FIREBASE_ENABLE
+- (NSMutableDictionary *)trackingList {
+	// 추적 리스트가 없을 경우
+	if(m_pTrackingList == nil) {
+		m_pTrackingList = [[NSMutableDictionary alloc] init];
+	}
+	
+	return m_pTrackingList;
+}
+#endif			// #ifdef FIREBASE_ENABLE
 
 #pragma mark - 클래스 메서드
 //! 인스턴스를 반환한다

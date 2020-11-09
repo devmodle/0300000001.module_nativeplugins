@@ -116,9 +116,9 @@ extern "C" {
 @synthesize selectionGenerator = m_pSelectionGenerator;
 @synthesize notificationGenerator = m_pNotificationGenerator;
 
-#ifdef FIREBASE_ENABLE
+#ifdef FIREBASE_MODULE_ENABLE
 @synthesize trackingList = m_pTrackingList;
-#endif			// #ifdef FIREBASE_ENABLE
+#endif			// #ifdef FIREBASE_MODULE_ENABLE
 
 #pragma mark - 초기화
 //! 객체를 생성한다
@@ -406,7 +406,7 @@ extern "C" {
 
 //! 추적 메세지를 처리한다
 - (void)handleTrackingMsg:(const char *)a_pszMsg {
-#ifdef FIREBASE_ENABLE
+#ifdef FIREBASE_MODULE_ENABLE
 	NSDictionary *pDataList = (NSDictionary *)GFunc::ConvertJSONStringToObj(@(a_pszMsg), NULL);
 	
 	NSString *pName = (NSString *)[pDataList objectForKey:@(G_KEY_TRACKING_NAME)];
@@ -443,7 +443,7 @@ extern "C" {
 		[pTracking stop];
 		[self.trackingList removeObjectForKey:pName];
 	}
-#endif			// #ifdef FIREBASE_ENABLE
+#endif			// #ifdef FIREBASE_MODULE_ENABLE
 }
 
 //! 액티비티 인디케이터 메세지를 처리한다
@@ -477,7 +477,7 @@ extern "C" {
 	[CAdsManager.sharedInstance showResumeAds];
 }
 
-#ifdef FIREBASE_ENABLE
+#ifdef FIREBASE_MODULE_ENABLE
 - (NSMutableDictionary *)trackingList {
 	// 추적 리스트가 없을 경우
 	if(m_pTrackingList == nil) {
@@ -486,7 +486,7 @@ extern "C" {
 	
 	return m_pTrackingList;
 }
-#endif			// #ifdef FIREBASE_ENABLE
+#endif			// #ifdef FIREBASE_MODULE_ENABLE
 
 #pragma mark - 클래스 메서드
 //! 인스턴스를 반환한다

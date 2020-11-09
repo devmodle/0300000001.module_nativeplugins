@@ -19,9 +19,9 @@
 #import <GoogleMobileAds/GoogleMobileAds.h>
 #endif			// #ifdef ADMOB_ENABLE
 
-#ifdef FIREBASE_ENABLE
+#ifdef FIREBASE_MODULE_ENABLE
 #import <Firebase/Firebase.h>
-#endif			// #ifdef FIREBASE_ENABLE
+#endif			// #ifdef FIREBASE_MODULE_ENABLE
 
 // 기타
 #define G_EMPTY_STRING			("")

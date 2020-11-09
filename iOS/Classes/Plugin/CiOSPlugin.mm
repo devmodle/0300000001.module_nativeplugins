@@ -413,10 +413,10 @@ extern "C" {
 	NSString *pIsStartString = (NSString *)[pDataList objectForKey:@(G_KEY_TRACKING_IS_START)];
 	
 	BOOL bIsStart = GFunc::ConvertStringToBool(pIsStartString);
-	BOOL bIsContainsTracking = [self.trackingList objectForKey:pName] != nil;
+	BOOL bIsContains = [self.trackingList objectForKey:pName] != nil;
 	
 	// 시작 모드 일 경우
-	if(bIsStart && !bIsContainsTracking) {
+	if(bIsStart && !bIsContains) {
 		FIRTrace *pTracking = [FIRPerformance startTraceWithName:pName];
 		NSString *pDatasString = (NSString *)[pDataList objectForKey:@(G_KEY_TRACKING_DATAS)];
 		
@@ -437,7 +437,7 @@ extern "C" {
 		[self.trackingList setObject:pTracking forKey:pName];
 	}
 	// 중지 모드 일 경우
-	if(!bIsStart && bIsContainsTracking) {
+	else if(!bIsStart && bIsContains) {
 		FIRTrace *pTracking = (FIRTrace *)[self.trackingList objectForKey:pName];
 		
 		[pTracking stop];

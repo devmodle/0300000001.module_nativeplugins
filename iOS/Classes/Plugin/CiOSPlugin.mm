@@ -434,7 +434,7 @@ extern "C" {
 		}
 		
 		[pTracking start];
-		[self.trackingList setObject:pName forKey:pTracking];
+		[self.trackingList setObject:pTracking forKey:pName];
 	}
 	// 중지 모드 일 경우
 	if(!bIsStart && bIsContainsTracking) {

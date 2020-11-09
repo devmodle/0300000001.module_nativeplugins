@@ -422,7 +422,7 @@ extern "C" {
 		
 		// 데이터가 존재 할 경우
 		if(pDatasString != nil) {
-			NSDictionary *pTrackingDataList = (NSDictionary *)GFunc::ConvertJSONStringToObj(@(pDatasString), NULL);
+			NSDictionary *pTrackingDataList = (NSDictionary *)GFunc::ConvertJSONStringToObj(pDatasString, NULL);
 			NSArray *pKeyList = pTrackingDataList.allKeys;
 			
 			for(int i = 0; i < pKeyList.count; ++i) {

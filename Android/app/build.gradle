@@ -40,13 +40,13 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 }
 
-// 이전 라이브러리 파일을 제거한다
-task removePrevLibrary(type: Delete) {
+// 이전 플러그인을 제거한다
+task removePrevPlugin(type: Delete) {
     delete '../../../Assets/Plugins/Android/CustomAndroidPlugin.aar'
 }
 
-// 라이브러리 파일을 생성한다
-task exportLibrary(type: Copy) {
+// 플러그인을 생성한다
+task exportPlugin(type: Copy) {
     from('build/outputs/aar/')
     into('../../../Assets/Plugins/Android/')
 
@@ -54,4 +54,4 @@ task exportLibrary(type: Copy) {
     rename('app-release.aar', 'CustomAndroidPlugin.aar')
 }
 
-exportLibrary.dependsOn(removePrevLibrary, assemble, build)
+exportPlugin.dependsOn(removePrevPlugin, assemble, build)

@@ -66,9 +66,9 @@ public class CDeviceMsgSender {
 	}
 	
 	//! 경고 창 출력 메세지를 전송한다
-	public void sendShowAlertMsg(boolean a_bIsTrue) {
+	public void sendShowAlertMsg(boolean a_bIsOK) {
 		try {
-			String oResult = GFunc.convertBoolToString(a_bIsTrue);
+			String oResult = GFunc.convertBoolToString(a_bIsOK);
 			this.sendDeviceMsg(KGDefine.CMD_SHOW_ALERT, oResult);
 		} catch(Exception oException) {
 			Log.e(KGDefine.TAG, String.format("CDeviceMsgSender.sendShowAlertMsg Exception: %s",

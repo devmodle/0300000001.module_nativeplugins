@@ -305,10 +305,10 @@ public class CAndroidPlugin {
 		String oIsStartString = oJSONObj.getString(KGDefine.KEY_TRACKING_IS_START);
 		
 		boolean bIsStart = GFunc.convertStringToBool(oIsStartString);
-		boolean bIsContainsTracking = m_oTrackingList.containsKey(oName);
+		boolean bIsContains = m_oTrackingList.containsKey(oName);
 		
 		// 시작 모드 일 경우
-		if(bIsStart && !bIsContainsTracking) {
+		if(bIsStart && !bIsContains) {
 			Trace oTracking = FirebasePerformance.getInstance().newTrace(oName);
 			String oDatasString = oJSONObj.getString(KGDefine.KEY_TRACKING_DATAS);
 			
@@ -327,7 +327,7 @@ public class CAndroidPlugin {
 			m_oTrackingList.put(oName, oTracking);
 		}
 		// 중지 모드 일 경우
-		else if(!bIsStart && bIsContainsTracking) {
+		else if(!bIsStart && bIsContains) {
 			Trace oTracking = m_oTrackingList.get(oName);
 			oTracking.stop();
 			

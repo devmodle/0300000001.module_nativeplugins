@@ -13,6 +13,11 @@ import dante.distribution.android.Global.Function.GFunc;
 public class CDeviceMsgSender {
 	private static CDeviceMsgSender m_oInstance = null;
 	
+	//! 생성자
+	private CDeviceMsgSender() {
+		// Do Nothing
+	}
+	
 	//! 인스턴스를 반환한다
 	public static CDeviceMsgSender getInstance() {
 		// 인스턴스가 없을 경우
@@ -28,7 +33,8 @@ public class CDeviceMsgSender {
 		try {
 			this.sendDeviceMsg(KGDefine.CMD_GET_DEVICE_ID, a_oDeviceID);
 		} catch(Exception oException) {
-			Log.e(KGDefine.TAG, String.format("CDeviceMsgSender.sendGetDeviceIDMsg Exception: %s",
+			Log.e(KGDefine.TAG, String.format("CDeviceMsgSender.sendGetDeviceIDMsg Exception: %s, %s",
+					a_oDeviceID,
 					oException.getMessage()));
 			
 			oException.printStackTrace();
@@ -40,7 +46,8 @@ public class CDeviceMsgSender {
 		try {
 			this.sendDeviceMsg(KGDefine.CMD_GET_COUNTRY_CODE, a_oCountryCode);
 		} catch(Exception oException) {
-			Log.e(KGDefine.TAG, String.format("CDeviceMsgSender.sendGetCountryCodeMsg Exception: %s",
+			Log.e(KGDefine.TAG, String.format("CDeviceMsgSender.sendGetCountryCodeMsg Exception: %s, %s",
+					a_oCountryCode,
 					oException.getMessage()));
 			
 			oException.printStackTrace();
@@ -49,16 +56,18 @@ public class CDeviceMsgSender {
 	
 	//! 스토어 버전 반환 메세지를 전송한다
 	public void sendGetStoreVersionMsg(String a_oVersion, boolean a_bIsSuccess) {
+		String oResult = GFunc.convertBoolToString(a_bIsSuccess);
+		
 		try {
-			String oResult = GFunc.convertBoolToString(a_bIsSuccess);
-			
 			JSONObject oJSONObj = new JSONObject();
 			oJSONObj.put(KGDefine.KEY_DEVICE_MS_VERSION, a_oVersion);
 			oJSONObj.put(KGDefine.KEY_DEVICE_MS_RESULT, oResult);
 			
 			this.sendDeviceMsg(KGDefine.CMD_GET_STORE_VERSION, oJSONObj.toString());
 		} catch(Exception oException) {
-			Log.e(KGDefine.TAG, String.format("CDeviceMsgSender.sendGetStoreVersionMsg Exception: %s",
+			Log.e(KGDefine.TAG, String.format("CDeviceMsgSender.sendGetStoreVersionMsg Exception: %s, %s, %s",
+					a_oVersion,
+					oResult,
 					oException.getMessage()));
 			
 			oException.printStackTrace();
@@ -67,11 +76,13 @@ public class CDeviceMsgSender {
 	
 	//! 경고 창 출력 메세지를 전송한다
 	public void sendShowAlertMsg(boolean a_bIsOK) {
+		String oResult = GFunc.convertBoolToString(a_bIsOK);
+		
 		try {
-			String oResult = GFunc.convertBoolToString(a_bIsOK);
 			this.sendDeviceMsg(KGDefine.CMD_SHOW_ALERT, oResult);
 		} catch(Exception oException) {
-			Log.e(KGDefine.TAG, String.format("CDeviceMsgSender.sendShowAlertMsg Exception: %s",
+			Log.e(KGDefine.TAG, String.format("CDeviceMsgSender.sendShowAlertMsg Exception: %s, %s",
+					oResult,
 					oException.getMessage()));
 			
 			oException.printStackTrace();
@@ -80,11 +91,13 @@ public class CDeviceMsgSender {
 	
 	//! 광고 초기화 메세지를 전송한다
 	public void sendInitAdsMsg(boolean a_bIsSuccess) {
+		String oResult = GFunc.convertBoolToString(a_bIsSuccess);
+		
 		try {
-			String oResult = GFunc.convertBoolToString(a_bIsSuccess);
 			this.sendDeviceMsg(KGDefine.CMD_INIT_ADS, oResult);
 		} catch(Exception oException) {
-			Log.e(KGDefine.TAG, String.format("CDeviceMsgSender.sendInitAdsMsg Exception: %s",
+			Log.e(KGDefine.TAG, String.format("CDeviceMsgSender.sendInitAdsMsg Exception: %s, %s",
+					oResult,
 					oException.getMessage()));
 			
 			oException.printStackTrace();
@@ -93,11 +106,13 @@ public class CDeviceMsgSender {
 	
 	//! 재개 광고 로드 메세지를 전송한다
 	public void sendLoadResumeAdsMsg(boolean a_bIsSuccess) {
+		String oResult = GFunc.convertBoolToString(a_bIsSuccess);
+		
 		try {
-			String oResult = GFunc.convertBoolToString(a_bIsSuccess);
 			this.sendDeviceMsg(KGDefine.CMD_LOAD_RESUME_ADS, oResult);
 		} catch(Exception oException) {
-			Log.e(KGDefine.TAG, String.format("CDeviceMsgSender.sendLoadResumeAdsMsg Exception: %s",
+			Log.e(KGDefine.TAG, String.format("CDeviceMsgSender.sendLoadResumeAdsMsg Exception: %s, %s",
+					oResult,
 					oException.getMessage()));
 			
 			oException.printStackTrace();
@@ -106,11 +121,13 @@ public class CDeviceMsgSender {
 	
 	//! 재개 광고 출력 메세지를 전송한다
 	public void sendShowResumeAdsMsg(boolean a_bIsSuccess) {
+		String oResult = GFunc.convertBoolToString(a_bIsSuccess);
+		
 		try {
-			String oResult = GFunc.convertBoolToString(a_bIsSuccess);
 			this.sendDeviceMsg(KGDefine.CMD_SHOW_RESUME_ADS, oResult);
 		} catch(Exception oException) {
-			Log.e(KGDefine.TAG, String.format("CDeviceMsgSender.sendShowResumeAdsMsg Exception: %s",
+			Log.e(KGDefine.TAG, String.format("CDeviceMsgSender.sendShowResumeAdsMsg Exception: %s, %s",
+					oResult,
 					oException.getMessage()));
 			
 			oException.printStackTrace();
@@ -124,6 +141,7 @@ public class CDeviceMsgSender {
 		oJSONObj.put(KGDefine.KEY_MSG, a_oMsg);
 		
 		UnityPlayer.UnitySendMessage(KGDefine.OBJ_NAME_DEVICE_MSG_RECEIVER,
-				KGDefine.FUNC_NAME_DEVICE_MSG_HANDLER, oJSONObj.toString());
+				KGDefine.FUNC_NAME_DEVICE_MSG_HANDLER,
+				oJSONObj.toString());
 	}
 }

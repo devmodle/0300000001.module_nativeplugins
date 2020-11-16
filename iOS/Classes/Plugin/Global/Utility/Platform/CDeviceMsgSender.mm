@@ -78,7 +78,10 @@ static CDeviceMsgSender *g_pInstance = nil;
 								 a_pMsg, @(G_KEY_MSG), nil];
 	
 	NSString *pString = GFunc::ConvertObjToJSONString(pDictionary, NULL);
-	UnitySendMessage(G_OBJ_NAME_DEVICE_MSG_RECEIVER, G_FUNC_NAME_DEVICE_MSG_HANDLE_METHOD, pString.UTF8String);
+	
+	UnitySendMessage(G_OBJ_NAME_DEVICE_MSG_RECEIVER,
+					 G_FUNC_NAME_DEVICE_MSG_HANDLE_METHOD,
+					 pString.UTF8String);
 }
 
 #pragma mark - 클래스 메서드

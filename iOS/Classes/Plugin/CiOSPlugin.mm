@@ -172,22 +172,26 @@ extern "C" {
 		m_pActivityIndicatorView.hidesWhenStopped = YES;
 		
 		// 크기를 설정한다 {
-		float fSize = MIN(self.rootViewController.view.bounds.size.width, self.rootViewController.view.bounds.size.height);
+		float fSize = MIN(self.rootViewController.view.bounds.size.width,
+						  self.rootViewController.view.bounds.size.height);
+		
 		fSize *= G_SCALE_ACTIVITY_INDICATOR;
 		
 		float fScaleX = fSize / m_pActivityIndicatorView.bounds.size.width;
 		float fScaleY = fSize / m_pActivityIndicatorView.bounds.size.height;
 		
 		CGAffineTransform stTransform = m_pActivityIndicatorView.transform;
-		m_pActivityIndicatorView.transform = CGAffineTransformScale(stTransform, fScaleX, fScaleY);
+		stTransform = CGAffineTransformScale(stTransform, fScaleX, fScaleY);
 		// 크기를 설정한다 }
 		
 		// 위치를 설정한다 {
-		float fOffset = MIN(self.rootViewController.view.bounds.size.width, self.rootViewController.view.bounds.size.height);
+		float fOffset = MIN(self.rootViewController.view.bounds.size.width,
+							self.rootViewController.view.bounds.size.height);
+		
 		fOffset *= G_SCALE_ACTIVITY_INDICATOR_OFFSET;
 		
-		stTransform = m_pActivityIndicatorView.transform;
-		m_pActivityIndicatorView.transform = CGAffineTransformTranslate(stTransform, G_VALUE_FLOAT_0, -fOffset);
+		stTransform = CGAffineTransformTranslate(stTransform, G_VALUE_FLOAT_0, -fOffset);
+		m_pActivityIndicatorView.transform = stTransform;
 		// 위치를 설정한다 }
 		
 		[self.rootViewController.view addSubview:m_pActivityIndicatorView];
@@ -204,7 +208,10 @@ extern "C" {
 		UIImpactFeedbackGenerator *pMediumGenerator = [[UIImpactFeedbackGenerator alloc] initWithStyle:UIImpactFeedbackStyleMedium];
 		UIImpactFeedbackGenerator *pHeavyGenerator = [[UIImpactFeedbackGenerator alloc] initWithStyle:UIImpactFeedbackStyleHeavy];
 		
-		m_pImpactGeneratorList = [NSArray arrayWithObjects:pLightGenerator, pMediumGenerator, pHeavyGenerator, nil];
+		m_pImpactGeneratorList = [NSArray arrayWithObjects:pLightGenerator,
+								  pMediumGenerator,
+								  pHeavyGenerator,
+								  nil];
 	}
 	
 	return m_pImpactGeneratorList;
@@ -294,10 +301,15 @@ extern "C" {
 		[CDeviceMsgSender.sharedInstance sendGetStoreVersionMsg:pVersion withResult:YES];
 	} else {
 		NSString *pURL = [NSString stringWithFormat:@(G_URL_FORMAT_STORE_VERSION), pAppID];
-		NSMutableURLRequest * pURLRequest = GFunc::MakeURLRequest(pURL, @(G_HTTP_METHOD_GET), pTimeout.doubleValue);
+		
+		NSMutableURLRequest * pURLRequest = GFunc::MakeURLRequest(pURL,
+																  @(G_HTTP_METHOD_GET),
+																  pTimeout.doubleValue);
 		
 		// 데이터를 수신했을 경우
-		[NSURLSession.sharedSession dataTaskWithRequest:pURLRequest completionHandler:^void(NSData *a_pData, NSURLResponse *a_pResponse, NSError *a_pError) {
+		[NSURLSession.sharedSession dataTaskWithRequest:pURLRequest
+									  completionHandler:^void(NSData *a_pData, NSURLResponse *a_pResponse, NSError *a_pError)
+		{
 			NSLog(@"CiOSPlugin.onHandleGetStoreVersionMsg: %@", a_pData);
 			
 			// 스토어 버전 로드에 실패했을 경우

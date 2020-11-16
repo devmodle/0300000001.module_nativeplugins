@@ -66,7 +66,8 @@ public class CAndroidPlugin {
 		
 		// 프로그레스 바를 설정한다 {
 		m_oProgressBar = new ProgressBar(UnityPlayer.currentActivity,
-				null, android.R.attr.progressBarStyleLarge);
+				null,
+				android.R.attr.progressBarStyleLarge);
 		
 		m_oProgressBar.setIndeterminate(true);
 		m_oProgressBar.setVisibility(View.GONE);
@@ -77,8 +78,13 @@ public class CAndroidPlugin {
 		
 		// 레이아웃을 설정한다 {
 		RelativeLayout oLayout = new RelativeLayout(UnityPlayer.currentActivity);
-		oLayout.setPadding(0, 0, 0, nOffset);
 		oLayout.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
+		
+		oLayout.setPadding(KGDefine.VALUE_INT_0,
+				KGDefine.VALUE_INT_0,
+				KGDefine.VALUE_INT_0,
+				nOffset);
+		
 		oLayout.addView(m_oProgressBar, oParams);
 		
 		RelativeLayout.LayoutParams oLayoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,
@@ -105,33 +111,67 @@ public class CAndroidPlugin {
 	
 	//! 유니티 메세지를 처리한다
 	public static void handleUnityMsg(final String a_oCmd, final String a_oMsg) {
-		Log.d(KGDefine.TAG, String.format("CAndroidPlugin.handleUnityMsg: %s, %s", a_oCmd, a_oMsg));
+		Log.d(KGDefine.TAG, String.format("CAndroidPlugin.handleUnityMsg: %s, %s",
+				a_oCmd,
+				a_oMsg));
 		
 		UnityPlayer.currentActivity.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
 				try {
 					switch(a_oCmd) {
-						case KGDefine.CMD_INIT: CAndroidPlugin.getInstance().handleInitMsg(a_oMsg); break;
+						case KGDefine.CMD_INIT: {
+							CAndroidPlugin.getInstance().handleInitMsg(a_oMsg);
+						} break;
 						
-						case KGDefine.CMD_GET_DEVICE_ID: CAndroidPlugin.getInstance().handleGetDeviceIDMsg(a_oMsg); break;
-						case KGDefine.CMD_GET_COUNTRY_CODE: CAndroidPlugin.getInstance().handleGetCountryCodeMsg(a_oMsg); break;
-						case KGDefine.CMD_GET_STORE_VERSION: CAndroidPlugin.getInstance().handleGetStoreVersionMsg(a_oMsg); break;
-						
-						case KGDefine.CMD_SHOW_TOAST: CAndroidPlugin.getInstance().handleShowToastMsg(a_oMsg); break;
-						case KGDefine.CMD_SHOW_ALERT: CAndroidPlugin.getInstance().handleShowAlertMsg(a_oMsg); break;
-						
-						case KGDefine.CMD_VIBRATE: CAndroidPlugin.getInstance().handleVibrateMsg(a_oMsg); break;
-						case KGDefine.CMD_TRACKING: CAndroidPlugin.getInstance().handleTrackingMsg(a_oMsg); break;
-						case KGDefine.CMD_ACTIVITY_INDICATOR: CAndroidPlugin.getInstance().handleActivityIndicatorMsg(a_oMsg); break;
-						
-						case KGDefine.CMD_INIT_ADS: CAndroidPlugin.getInstance().handleInitAdsMsg(a_oMsg); break;
-						case KGDefine.CMD_LOAD_RESUME_ADS: CAndroidPlugin.getInstance().handleLoadResumeAdsMsg(a_oMsg); break;
-						case KGDefine.CMD_SHOW_RESUME_ADS: CAndroidPlugin.getInstance().handleShowResumeAdsMsg(a_oMsg); break;
+						case KGDefine.CMD_GET_DEVICE_ID: {
+							CAndroidPlugin.getInstance().handleGetDeviceIDMsg(a_oMsg);
+						} break;
+							
+						case KGDefine.CMD_GET_COUNTRY_CODE: {
+							CAndroidPlugin.getInstance().handleGetCountryCodeMsg(a_oMsg);
+						} break;
+							
+						case KGDefine.CMD_GET_STORE_VERSION: {
+							CAndroidPlugin.getInstance().handleGetStoreVersionMsg(a_oMsg);
+						} break;
+							
+						case KGDefine.CMD_SHOW_TOAST: {
+							CAndroidPlugin.getInstance().handleShowToastMsg(a_oMsg);
+						} break;
+							
+						case KGDefine.CMD_SHOW_ALERT: {
+							CAndroidPlugin.getInstance().handleShowAlertMsg(a_oMsg);
+						} break;
+							
+						case KGDefine.CMD_VIBRATE: {
+							CAndroidPlugin.getInstance().handleVibrateMsg(a_oMsg);
+						} break;
+							
+						case KGDefine.CMD_TRACKING: {
+							CAndroidPlugin.getInstance().handleTrackingMsg(a_oMsg);
+						} break;
+							
+						case KGDefine.CMD_ACTIVITY_INDICATOR: {
+							CAndroidPlugin.getInstance().handleActivityIndicatorMsg(a_oMsg);
+						} break;
+							
+						case KGDefine.CMD_INIT_ADS: {
+							CAndroidPlugin.getInstance().handleInitAdsMsg(a_oMsg);
+						} break;
+							
+						case KGDefine.CMD_LOAD_RESUME_ADS: {
+							CAndroidPlugin.getInstance().handleLoadResumeAdsMsg(a_oMsg);
+						} break;
+							
+						case KGDefine.CMD_SHOW_RESUME_ADS: {
+							CAndroidPlugin.getInstance().handleShowResumeAdsMsg(a_oMsg);
+						} break;
 					}
 				} catch(Exception oException) {
 					Log.e(KGDefine.TAG, String.format("CAndroidPlugin.handleUnityMsg Exception: %s, %s",
-							a_oCmd, oException.getMessage()));
+							a_oCmd,
+							oException.getMessage()));
 					
 					oException.printStackTrace();
 				}
@@ -183,7 +223,8 @@ public class CAndroidPlugin {
 		
 		// 앱 업데이트 관리자를 지원하지 않을 경우
 		if(Build.VERSION.SDK_INT < KGDefine.MIN_VERSION_APP_UPDATE_MANAGER) {
-			CDeviceMsgSender.getInstance().sendGetStoreVersionMsg(oVersion, false);
+			CDeviceMsgSender.getInstance().sendGetStoreVersionMsg(oVersion,
+					false);
 		} else {
 			Task<AppUpdateInfo> oTask = null;
 			
@@ -214,7 +255,9 @@ public class CAndroidPlugin {
 					}
 					
 					String oVersion = String.valueOf(nVersion);
-					CDeviceMsgSender.getInstance().sendGetStoreVersionMsg(oVersion, bIsSuccess);
+					
+					CDeviceMsgSender.getInstance().sendGetStoreVersionMsg(oVersion,
+							bIsSuccess);
 				}
 			});
 			
@@ -226,7 +269,9 @@ public class CAndroidPlugin {
 							a_oException.getMessage()));
 					
 					a_oException.printStackTrace();
-					CDeviceMsgSender.getInstance().sendGetStoreVersionMsg(oVersion, false);
+					
+					CDeviceMsgSender.getInstance().sendGetStoreVersionMsg(oVersion,
+							false);
 				}
 			});
 		}

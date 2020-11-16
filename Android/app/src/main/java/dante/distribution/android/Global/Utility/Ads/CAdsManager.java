@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.util.Log;
 
 import androidx.lifecycle.LifecycleObserver;
-import androidx.lifecycle.OnLifecycleEvent;
 import androidx.lifecycle.ProcessLifecycleOwner;
 
 import com.google.android.gms.ads.AdError;
@@ -21,8 +20,6 @@ import java.util.ArrayList;
 import dante.distribution.android.CAndroidPlugin;
 import dante.distribution.android.Global.Define.KGDefine;
 import dante.distribution.android.Global.Utility.Platform.CDeviceMsgSender;
-
-import static androidx.lifecycle.Lifecycle.Event.ON_START;
 
 //! 광고 관리자
 public class CAdsManager implements LifecycleObserver,
@@ -51,7 +48,9 @@ public class CAdsManager implements LifecycleObserver,
 		// 광고 로드에 실패했을 경우
 		@Override
 		public void onAppOpenAdFailedToLoad(LoadAdError a_oError) {
-			Log.d(KGDefine.TAG, String.format("CAdsManager.onAppOpenAdFailedToLoad: %s", a_oError.getMessage()));
+			Log.d(KGDefine.TAG, String.format("CAdsManager.onAppOpenAdFailedToLoad: %s",
+					a_oError.getMessage()));
+			
 			CDeviceMsgSender.getInstance().sendLoadResumeAdsMsg(false);
 		}
 	};
@@ -66,7 +65,9 @@ public class CAdsManager implements LifecycleObserver,
 		// 재개 광고 출력에 실패했을 경우
 		@Override
 		public void onAdFailedToShowFullScreenContent(AdError a_oError) {
-			Log.d(KGDefine.TAG, String.format("CAdsManager.onAdFailedToShowFullScreenContent: %s", a_oError.getMessage()));
+			Log.d(KGDefine.TAG, String.format("CAdsManager.onAdFailedToShowFullScreenContent: %s",
+					a_oError.getMessage()));
+			
 			CDeviceMsgSender.getInstance().sendShowResumeAdsMsg(false);
 		}
 		
@@ -138,7 +139,9 @@ public class CAdsManager implements LifecycleObserver,
 	
 	//! 초기화
 	public void init(String a_oResumeAdsID, ArrayList<String> a_oDeviceIDList) {
-		Log.d(KGDefine.TAG, String.format("CAdsManager.init: %s, %s", a_oResumeAdsID, a_oDeviceIDList));
+		Log.d(KGDefine.TAG, String.format("CAdsManager.init: %s, %s",
+				a_oResumeAdsID,
+				a_oDeviceIDList));
 
 		m_oResumeAdsID = a_oResumeAdsID;
 		m_oRequestBuilder = new AdRequest.Builder();
@@ -163,7 +166,10 @@ public class CAdsManager implements LifecycleObserver,
 			int nOrientation = CAndroidPlugin.getInstance().getOrientation();
 			
 			AppOpenAd.load(UnityPlayer.currentActivity.getApplicationContext(),
-					m_oResumeAdsID, m_oRequestBuilder.build(), nOrientation, m_oResumeAdsLoadCallback);
+					m_oResumeAdsID,
+					m_oRequestBuilder.build(),
+					nOrientation,
+					m_oResumeAdsLoadCallback);
 		} else {
 			CDeviceMsgSender.getInstance().sendLoadResumeAdsMsg(false);
 		}

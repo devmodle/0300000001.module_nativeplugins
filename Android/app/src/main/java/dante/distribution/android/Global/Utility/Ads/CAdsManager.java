@@ -140,8 +140,7 @@ public class CAdsManager implements LifecycleObserver,
 	//! 초기화
 	public void init(String a_oResumeAdsID, ArrayList<String> a_oDeviceIDList) {
 		Log.d(KGDefine.TAG, String.format("CAdsManager.init: %s, %s",
-				a_oResumeAdsID,
-				a_oDeviceIDList));
+				a_oResumeAdsID, a_oDeviceIDList));
 
 		m_oResumeAdsID = a_oResumeAdsID;
 		m_oRequestBuilder = new AdRequest.Builder();

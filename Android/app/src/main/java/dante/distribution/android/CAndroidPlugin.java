@@ -112,8 +112,7 @@ public class CAndroidPlugin {
 	//! 유니티 메세지를 처리한다
 	public static void handleUnityMsg(final String a_oCmd, final String a_oMsg) {
 		Log.d(KGDefine.TAG, String.format("CAndroidPlugin.handleUnityMsg: %s, %s",
-				a_oCmd,
-				a_oMsg));
+				a_oCmd, a_oMsg));
 		
 		UnityPlayer.currentActivity.runOnUiThread(new Runnable() {
 			@Override
@@ -123,55 +122,43 @@ public class CAndroidPlugin {
 						case KGDefine.CMD_INIT: {
 							CAndroidPlugin.getInstance().handleInitMsg(a_oMsg);
 						} break;
-						
 						case KGDefine.CMD_GET_DEVICE_ID: {
 							CAndroidPlugin.getInstance().handleGetDeviceIDMsg(a_oMsg);
 						} break;
-							
 						case KGDefine.CMD_GET_COUNTRY_CODE: {
 							CAndroidPlugin.getInstance().handleGetCountryCodeMsg(a_oMsg);
-						} break;
-							
+						} break;							
 						case KGDefine.CMD_GET_STORE_VERSION: {
 							CAndroidPlugin.getInstance().handleGetStoreVersionMsg(a_oMsg);
 						} break;
-							
 						case KGDefine.CMD_SHOW_TOAST: {
 							CAndroidPlugin.getInstance().handleShowToastMsg(a_oMsg);
 						} break;
-							
 						case KGDefine.CMD_SHOW_ALERT: {
 							CAndroidPlugin.getInstance().handleShowAlertMsg(a_oMsg);
-						} break;
-							
+						} break;	
 						case KGDefine.CMD_VIBRATE: {
 							CAndroidPlugin.getInstance().handleVibrateMsg(a_oMsg);
 						} break;
-							
 						case KGDefine.CMD_TRACKING: {
 							CAndroidPlugin.getInstance().handleTrackingMsg(a_oMsg);
 						} break;
-							
 						case KGDefine.CMD_ACTIVITY_INDICATOR: {
 							CAndroidPlugin.getInstance().handleActivityIndicatorMsg(a_oMsg);
 						} break;
-							
 						case KGDefine.CMD_INIT_ADS: {
 							CAndroidPlugin.getInstance().handleInitAdsMsg(a_oMsg);
 						} break;
-							
 						case KGDefine.CMD_LOAD_RESUME_ADS: {
 							CAndroidPlugin.getInstance().handleLoadResumeAdsMsg(a_oMsg);
 						} break;
-							
 						case KGDefine.CMD_SHOW_RESUME_ADS: {
 							CAndroidPlugin.getInstance().handleShowResumeAdsMsg(a_oMsg);
 						} break;
 					}
 				} catch(Exception oException) {
 					Log.e(KGDefine.TAG, String.format("CAndroidPlugin.handleUnityMsg Exception: %s, %s",
-							a_oCmd,
-							oException.getMessage()));
+							a_oCmd, oException.getMessage()));
 					
 					oException.printStackTrace();
 				}

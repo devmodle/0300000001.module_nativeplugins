@@ -51,7 +51,7 @@ public class CAndroidPlugin {
 	private ProgressBar m_oProgressBar = null;
 	private HashMap<String, Trace> m_oTrackingList = new HashMap<String, Trace>();
 	
-	private static CAndroidPlugin m_oInstance = null;
+	private static CAndroidPlugin m_oInst = null;
 	
 	//! 생성자
 	private CAndroidPlugin() {
@@ -62,12 +62,11 @@ public class CAndroidPlugin {
 		nSize = (int)(nSize * KGDefine.SCALE_PROGRESS_BAR);
 		
 		int nOffset = Math.min(oPoint.x, oPoint.y);
-		nOffset = (int)(nOffset * KGDefine.SCALE_PROGRESS_BAR_OFFSET);
+		nOffset = (int)(nOffset * KGDefine.OFFSET_SCALE_PROGRESS_BAR);
 		
 		// 프로그레스 바를 설정한다 {
 		m_oProgressBar = new ProgressBar(UnityPlayer.currentActivity,
-				null,
-				android.R.attr.progressBarStyleLarge);
+				null, android.R.attr.progressBarStyleLarge);
 		
 		m_oProgressBar.setIndeterminate(true);
 		m_oProgressBar.setVisibility(View.GONE);
@@ -81,9 +80,7 @@ public class CAndroidPlugin {
 		oLayout.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
 		
 		oLayout.setPadding(KGDefine.VALUE_INT_0,
-				KGDefine.VALUE_INT_0,
-				KGDefine.VALUE_INT_0,
-				nOffset);
+				KGDefine.VALUE_INT_0, KGDefine.VALUE_INT_0, nOffset);
 		
 		oLayout.addView(m_oProgressBar, oParams);
 		
@@ -100,13 +97,13 @@ public class CAndroidPlugin {
 	}
 	
 	//! 인스턴스를 반환한다
-	public static CAndroidPlugin getInstance() {
+	public static CAndroidPlugin getInst() {
 		// 인스턴스가 없을 경우
-		if(CAndroidPlugin.m_oInstance == null) {
-			CAndroidPlugin.m_oInstance = new CAndroidPlugin();
+		if(CAndroidPlugin.m_oInst == null) {
+			CAndroidPlugin.m_oInst = new CAndroidPlugin();
 		}
 		
-		return CAndroidPlugin.m_oInstance;
+		return CAndroidPlugin.m_oInst;
 	}
 	
 	//! 유니티 메세지를 처리한다
@@ -120,40 +117,40 @@ public class CAndroidPlugin {
 				try {
 					switch(a_oCmd) {
 						case KGDefine.CMD_INIT: {
-							CAndroidPlugin.getInstance().handleInitMsg(a_oMsg);
+							CAndroidPlugin.getInst().handleInitMsg(a_oMsg);
 						} break;
 						case KGDefine.CMD_GET_DEVICE_ID: {
-							CAndroidPlugin.getInstance().handleGetDeviceIDMsg(a_oMsg);
+							CAndroidPlugin.getInst().handleGetDeviceIDMsg(a_oMsg);
 						} break;
 						case KGDefine.CMD_GET_COUNTRY_CODE: {
-							CAndroidPlugin.getInstance().handleGetCountryCodeMsg(a_oMsg);
+							CAndroidPlugin.getInst().handleGetCountryCodeMsg(a_oMsg);
 						} break;							
 						case KGDefine.CMD_GET_STORE_VERSION: {
-							CAndroidPlugin.getInstance().handleGetStoreVersionMsg(a_oMsg);
+							CAndroidPlugin.getInst().handleGetStoreVersionMsg(a_oMsg);
 						} break;
 						case KGDefine.CMD_SHOW_TOAST: {
-							CAndroidPlugin.getInstance().handleShowToastMsg(a_oMsg);
+							CAndroidPlugin.getInst().handleShowToastMsg(a_oMsg);
 						} break;
 						case KGDefine.CMD_SHOW_ALERT: {
-							CAndroidPlugin.getInstance().handleShowAlertMsg(a_oMsg);
+							CAndroidPlugin.getInst().handleShowAlertMsg(a_oMsg);
 						} break;	
 						case KGDefine.CMD_VIBRATE: {
-							CAndroidPlugin.getInstance().handleVibrateMsg(a_oMsg);
+							CAndroidPlugin.getInst().handleVibrateMsg(a_oMsg);
 						} break;
 						case KGDefine.CMD_TRACKING: {
-							CAndroidPlugin.getInstance().handleTrackingMsg(a_oMsg);
+							CAndroidPlugin.getInst().handleTrackingMsg(a_oMsg);
 						} break;
-						case KGDefine.CMD_ACTIVITY_INDICATOR: {
-							CAndroidPlugin.getInstance().handleActivityIndicatorMsg(a_oMsg);
+						case KGDefine.CMD_INDICATOR: {
+							CAndroidPlugin.getInst().handleIndicatorMsg(a_oMsg);
 						} break;
 						case KGDefine.CMD_INIT_ADS: {
-							CAndroidPlugin.getInstance().handleInitAdsMsg(a_oMsg);
+							CAndroidPlugin.getInst().handleInitAdsMsg(a_oMsg);
 						} break;
 						case KGDefine.CMD_LOAD_RESUME_ADS: {
-							CAndroidPlugin.getInstance().handleLoadResumeAdsMsg(a_oMsg);
+							CAndroidPlugin.getInst().handleLoadResumeAdsMsg(a_oMsg);
 						} break;
 						case KGDefine.CMD_SHOW_RESUME_ADS: {
-							CAndroidPlugin.getInstance().handleShowResumeAdsMsg(a_oMsg);
+							CAndroidPlugin.getInst().handleShowResumeAdsMsg(a_oMsg);
 						} break;
 					}
 				} catch(Exception oException) {
@@ -194,13 +191,13 @@ public class CAndroidPlugin {
 			oUUID = UUID.nameUUIDFromBytes(oDeviceID.getBytes(StandardCharsets.UTF_8));
 		}
 		
-		CDeviceMsgSender.getInstance().sendGetDeviceIDMsg(oUUID.toString());
+		CDeviceMsgSender.getInst().sendGetDeviceIDMsg(oUUID.toString());
 	}
 	
 	//! 국가 코드 반환 메세지를 처리한다
 	private void handleGetCountryCodeMsg(String a_oMsg) {
 		Locale oLocale = Locale.getDefault();
-		CDeviceMsgSender.getInstance().sendGetCountryCodeMsg(oLocale.getCountry());
+		CDeviceMsgSender.getInst().sendGetCountryCodeMsg(oLocale.getCountry());
 	}
 	
 	//! 스토어 버전 반환 메세지를 처리한다
@@ -210,7 +207,7 @@ public class CAndroidPlugin {
 		
 		// 앱 업데이트 관리자를 지원하지 않을 경우
 		if(Build.VERSION.SDK_INT < KGDefine.MIN_VERSION_APP_UPDATE_MANAGER) {
-			CDeviceMsgSender.getInstance().sendGetStoreVersionMsg(oVersion,
+			CDeviceMsgSender.getInst().sendGetStoreVersionMsg(oVersion,
 					false);
 		} else {
 			Task<AppUpdateInfo> oTask = null;
@@ -243,7 +240,7 @@ public class CAndroidPlugin {
 					
 					String oVersion = String.valueOf(nVersion);
 					
-					CDeviceMsgSender.getInstance().sendGetStoreVersionMsg(oVersion,
+					CDeviceMsgSender.getInst().sendGetStoreVersionMsg(oVersion,
 							bIsSuccess);
 				}
 			});
@@ -257,7 +254,7 @@ public class CAndroidPlugin {
 					
 					a_oException.printStackTrace();
 					
-					CDeviceMsgSender.getInstance().sendGetStoreVersionMsg(oVersion,
+					CDeviceMsgSender.getInst().sendGetStoreVersionMsg(oVersion,
 							false);
 				}
 			});
@@ -286,7 +283,7 @@ public class CAndroidPlugin {
 		oBuilder.setPositiveButton(oOKBtnText, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface a_oSender, int a_nIndex) {
-				CDeviceMsgSender.getInstance().sendShowAlertMsg(true);
+				CDeviceMsgSender.getInst().sendShowAlertMsg(true);
 			}
 		});
 		
@@ -296,7 +293,7 @@ public class CAndroidPlugin {
 			oBuilder.setNegativeButton(oCancelBtnText, new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface a_oSender, int a_nIndex) {
-					CDeviceMsgSender.getInstance().sendShowAlertMsg(false);
+					CDeviceMsgSender.getInst().sendShowAlertMsg(false);
 				}
 			});
 		}
@@ -367,8 +364,8 @@ public class CAndroidPlugin {
 		}
 	}
 	
-	//! 액티비티 인디케이터 메세지를 처리한다
-	private void handleActivityIndicatorMsg(String a_oMsg) {
+	//! 인디케이터 메세지를 처리한다
+	private void handleIndicatorMsg(String a_oMsg) {
 		// 출력 모드 일 경우
 		if(GFunc.convertStringToBool(a_oMsg)) {
 			m_oProgressBar.setVisibility(View.VISIBLE);
@@ -391,16 +388,16 @@ public class CAndroidPlugin {
 			oAdmobIDList.add(oAdmobIDs.getString(i));
 		}
 		
-		CAdsManager.getInstance().init(oResumeAdsID, oAdmobIDList);
+		CAdsManager.getInst().init(oResumeAdsID, oAdmobIDList);
 	}
 	
 	//! 재개 광고 로드 메세지를 처리한다
 	private void handleLoadResumeAdsMsg(String a_oMsg) {
-		CAdsManager.getInstance().loadResumeAds();
+		CAdsManager.getInst().loadResumeAds();
 	}
 	
 	//! 재개 광고 출력 메세지를 처리한다
 	private void handleShowResumeAdsMsg(String a_oMsg) {
-		CAdsManager.getInstance().showResumeAds();
+		CAdsManager.getInst().showResumeAds();
 	}
 }

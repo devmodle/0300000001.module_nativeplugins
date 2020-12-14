@@ -50,7 +50,7 @@ NS_ASSUME_NONNULL_BEGIN
 // 프로퍼티 }
 
 //! 인스턴스를 반환한다
-+ (instancetype)sharedInstance;
++ (instancetype)sharedInst;
 @end			// CiOSPlugin
 
 NS_ASSUME_NONNULL_END

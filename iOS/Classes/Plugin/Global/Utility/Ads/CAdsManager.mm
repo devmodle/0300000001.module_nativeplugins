@@ -10,7 +10,7 @@
 #import "../Platform/CDeviceMsgSender.h"
 
 //! 전역 변수
-static CAdsManager *g_pInstance = nil;
+static CAdsManager *g_pInst = nil;
 
 //! 광고 관리자
 @implementation CAdsManager
@@ -19,12 +19,12 @@ static CAdsManager *g_pInstance = nil;
 + (id)alloc {
 	@synchronized(CAdsManager.class) {
 		// 인스턴스가 없을 경우
-		if(g_pInstance == nil) {
-			g_pInstance = [[super alloc] init];
+		if(g_pInst == nil) {
+			g_pInst = [[super alloc] init];
 		}
 	}
 	
-	return g_pInstance;
+	return g_pInst;
 }
 
 #pragma mark - 인스턴스 메서드
@@ -37,7 +37,7 @@ static CAdsManager *g_pInstance = nil;
 	self.deviceIDList = a_pDeviceIDList;
 	
 	self.isInit = YES;
-	[CDeviceMsgSender.sharedInstance sendInitAdsMsg:YES];
+	[CDeviceMsgSender.sharedInst sendInitAdsMsg:YES];
 #endif			// #ifdef ADMOB_ENABLE
 }
 
@@ -50,27 +50,27 @@ static CAdsManager *g_pInstance = nil;
 	if(self.isInit && !self.isLoadResumeAds && self.resumeAds == nil) {
 		[GADAppOpenAd loadWithAdUnitID:self.resumeAdsID
 							   request:self.request
-						   orientation:CiOSPlugin.sharedInstance.orientation
+						   orientation:CiOSPlugin.sharedInst.orientation
 					 completionHandler:^void(GADAppOpenAd *a_pAds, NSError *a_pError)
 		{
 			NSLog(@"CAdsManager.onLoadResumeAds: %@", a_pError);
 			
 			// 광고 로드에 실패했을 경우
 			if(a_pError != nil) {
-				[CDeviceMsgSender.sharedInstance sendLoadResumeAdsMsg:NO];
+				[CDeviceMsgSender.sharedInst sendLoadResumeAdsMsg:NO];
 			} else {
 				self.resumeAds = a_pAds;
 				self.resumeAds.fullScreenContentDelegate = self;
 				
 				self.isLoadResumeAds = YES;
-				[CDeviceMsgSender.sharedInstance sendLoadResumeAdsMsg:YES];
+				[CDeviceMsgSender.sharedInst sendLoadResumeAdsMsg:YES];
 			}
 		}];
 	} else {
-		[CDeviceMsgSender.sharedInstance sendLoadResumeAdsMsg:NO];
+		[CDeviceMsgSender.sharedInst sendLoadResumeAdsMsg:NO];
 	}
 #else
-	[CDeviceMsgSender.sharedInstance sendLoadResumeAdsMsg:NO];
+	[CDeviceMsgSender.sharedInst sendLoadResumeAdsMsg:NO];
 #endif			// #ifdef ADMOB_ENABLE
 }
 
@@ -81,13 +81,13 @@ static CAdsManager *g_pInstance = nil;
 #ifdef ADMOB_ENABLE
 	// 재개 광고가 로드 되었을 경우
 	if(self.isInit && self.isLoadResumeAds && self.resumeAds != nil) {
-		UIViewController *pViewController = CiOSPlugin.sharedInstance.rootViewController;
+		UIViewController *pViewController = CiOSPlugin.sharedInst.rootViewController;
 		[self.resumeAds presentFromRootViewController:pViewController];
 	} else {
-		[CDeviceMsgSender.sharedInstance sendShowResumeAdsMsg:NO];
+		[CDeviceMsgSender.sharedInst sendShowResumeAdsMsg:NO];
 	}
 #else
-	[CDeviceMsgSender.sharedInstance sendShowResumeAdsMsg:NO];
+	[CDeviceMsgSender.sharedInst sendShowResumeAdsMsg:NO];
 #endif			// #ifdef ADMOB_ENABLE
 }
 
@@ -102,7 +102,7 @@ static CAdsManager *g_pInstance = nil;
 didFailToPresentFullScreenContentWithError:(NSError *)a_pError
 {
 	NSLog(@"CAdsManager.adDidFailToPresentFullScreenContentWithError: %@", a_pError);
-	[CDeviceMsgSender.sharedInstance sendShowResumeAdsMsg:NO];
+	[CDeviceMsgSender.sharedInst sendShowResumeAdsMsg:NO];
 }
 
 //! 재개 광고가 닫혔을 경우
@@ -112,7 +112,7 @@ didFailToPresentFullScreenContentWithError:(NSError *)a_pError
 	self.resumeAds = nil;
 	self.isLoadResumeAds = NO;
 	
-	[CDeviceMsgSender.sharedInstance sendShowResumeAdsMsg:YES];
+	[CDeviceMsgSender.sharedInst sendShowResumeAdsMsg:YES];
 }
 
 //! 광고 요청자를 반환한다
@@ -126,14 +126,14 @@ didFailToPresentFullScreenContentWithError:(NSError *)a_pError
 
 #pragma mark - 클래스 메서드
 //! 인스턴스를 반환한다
-+ (instancetype)sharedInstance {
++ (instancetype)sharedInst {
 	@synchronized(CAdsManager.class) {
 		// 인스턴스가 없을 경우
-		if(g_pInstance == nil) {
-			g_pInstance = [[CAdsManager alloc] init];
+		if(g_pInst == nil) {
+			g_pInst = [[CAdsManager alloc] init];
 		}
 	}
 	
-	return g_pInstance;
+	return g_pInst;
 }
 @end			// CAdsManager

@@ -11,7 +11,7 @@
 #import "Global/Utility/Platform/CDeviceMsgSender.h"
 
 //! 전역 변수
-static CiOSPlugin *g_pInstance = nil;
+static CiOSPlugin *g_pInst = nil;
 
 //! iOS 플러그인 - Private
 @interface CiOSPlugin (Private) {
@@ -39,8 +39,8 @@ static CiOSPlugin *g_pInstance = nil;
 //! 추적 메세지를 처리한다
 - (void)handleTrackingMsg:(const char *)a_pszMsg;
 
-//! 액티비티 인디케이터 메세지를 처리한다
-- (void)handleActivityIndicatorMsg:(const char *)a_pszMsg;
+//! 인디케이터 메세지를 처리한다
+- (void)handleIndicatorMsg:(const char *)a_pszMsg;
 
 //! 광고 초기화 메세지를 처리한다
 - (void)handleInitAdsMsg:(const char *)a_pszMsg;
@@ -59,47 +59,47 @@ extern "C" {
 		
 		// 초기화 메세지 일 경우
 		if(strcmp(a_pszCmd, G_CMD_INIT) == G_VALUE_INT_0) {
-			[CiOSPlugin.sharedInstance handleInitMsg:a_pszMsg];
+			[CiOSPlugin.sharedInst handleInitMsg:a_pszMsg];
 		}
 		// 디바이스 식별자 반환 메세지 일 경우
 		else if(strcmp(a_pszCmd, G_CMD_GET_DEVICE_ID) == G_VALUE_INT_0) {
-			[CiOSPlugin.sharedInstance handleGetDeviceIDMsg:a_pszMsg];
+			[CiOSPlugin.sharedInst handleGetDeviceIDMsg:a_pszMsg];
 		}
 		// 국가 코드 반환 메세지 일 경우
 		else if(strcmp(a_pszCmd, G_CMD_GET_COUNTRY_CODE) == G_VALUE_INT_0) {
-			[CiOSPlugin.sharedInstance handleGetCountryCodeMsg:a_pszMsg];
+			[CiOSPlugin.sharedInst handleGetCountryCodeMsg:a_pszMsg];
 		}
 		// 스토어 버전 반환 메세지 일 경우
 		else if(strcmp(a_pszCmd, G_CMD_GET_STORE_VERSION) == G_VALUE_INT_0) {
-			[CiOSPlugin.sharedInstance handleGetStoreVersionMsg:a_pszMsg];
+			[CiOSPlugin.sharedInst handleGetStoreVersionMsg:a_pszMsg];
 		}
 		// 경고 창 출력 메세지 일 경우
 		else if(strcmp(a_pszCmd, G_CMD_SHOW_ALERT) == G_VALUE_INT_0) {
-			[CiOSPlugin.sharedInstance handleShowAlertMsg:a_pszMsg];
+			[CiOSPlugin.sharedInst handleShowAlertMsg:a_pszMsg];
 		}
 		// 진동 메세지 일 경우
 		else if(strcmp(a_pszCmd, G_CMD_VIBRATE) == G_VALUE_INT_0) {
-			[CiOSPlugin.sharedInstance handleVibrateMsg:a_pszMsg];
+			[CiOSPlugin.sharedInst handleVibrateMsg:a_pszMsg];
 		}
 		// 추적 메세지 일 경우
 		else if(strcmp(a_pszCmd, G_CMD_TRACKING) == G_VALUE_INT_0) {
-			[CiOSPlugin.sharedInstance handleTrackingMsg:a_pszMsg];
+			[CiOSPlugin.sharedInst handleTrackingMsg:a_pszMsg];
 		}
-		// 액티비티 인디케이터 메세지 일 경우
-		else if(strcmp(a_pszCmd, G_CMD_ACTIVITY_INDICATOR) == G_VALUE_INT_0) {
-			[CiOSPlugin.sharedInstance handleActivityIndicatorMsg:a_pszMsg];
+		// 인디케이터 메세지 일 경우
+		else if(strcmp(a_pszCmd, G_CMD_INDICATOR) == G_VALUE_INT_0) {
+			[CiOSPlugin.sharedInst handleIndicatorMsg:a_pszMsg];
 		}
 		// 광고 초기화 메세지 일 경우
 		else if(strcmp(a_pszCmd, G_CMD_INIT_ADS) == G_VALUE_INT_0) {
-			[CiOSPlugin.sharedInstance handleInitAdsMsg:a_pszMsg];
+			[CiOSPlugin.sharedInst handleInitAdsMsg:a_pszMsg];
 		}
 		// 재개 광고 로드 메세지 일 경우
 		else if(strcmp(a_pszCmd, G_CMD_LOAD_RESUME_ADS) == G_VALUE_INT_0) {
-			[CiOSPlugin.sharedInstance handleLoadResumeAdsMsg:a_pszMsg];
+			[CiOSPlugin.sharedInst handleLoadResumeAdsMsg:a_pszMsg];
 		}
 		// 재개 광고 출력 메세지 일 경우
 		else if(strcmp(a_pszCmd, G_CMD_SHOW_RESUME_ADS) == G_VALUE_INT_0) {
-			[CiOSPlugin.sharedInstance handleShowResumeAdsMsg:a_pszMsg];
+			[CiOSPlugin.sharedInst handleShowResumeAdsMsg:a_pszMsg];
 		}
 	}
 }
@@ -125,12 +125,12 @@ extern "C" {
 + (id)alloc {
 	@synchronized(CiOSPlugin.class) {
 		// 인스턴스가 없을 경우
-		if(g_pInstance == nil) {
-			g_pInstance = [[super alloc] init];
+		if(g_pInst == nil) {
+			g_pInst = [[super alloc] init];
 		}
 	}
 	
-	return g_pInstance;
+	return g_pInst;
 }
 
 #pragma mark - 인스턴스 메서드
@@ -157,12 +157,12 @@ extern "C" {
 
 //! 액티비티 인디케이터 뷰를 반환한다
 - (UIActivityIndicatorView *)activityIndicatorView {
-	// 액티비티 인디케이터가 없을 경우
+	// 인디케이터가 없을 경우
 	if(m_pActivityIndicatorView == nil) {
 		UIActivityIndicatorViewStyle eIndicatorViewStyle = UIActivityIndicatorViewStyleWhiteLarge;
 		
-		// 새로운 액티비티 인디케이터를 지원 할 경우
-		if(@available(iOS G_MIN_VERSION_ACTIVITY_INDICATOR, *)) {
+		// 새로운 인디케이터를 지원 할 경우
+		if(@available(iOS G_MIN_VERSION_INDICATOR, *)) {
 			eIndicatorViewStyle = UIActivityIndicatorViewStyleLarge;
 		}
 		
@@ -188,7 +188,7 @@ extern "C" {
 		float fOffset = MIN(self.rootViewController.view.bounds.size.width,
 							self.rootViewController.view.bounds.size.height);
 		
-		fOffset *= G_SCALE_ACTIVITY_INDICATOR_OFFSET;
+		fOffset *= G_OFFSET_SCALE_ACTIVITY_INDICATOR;
 		
 		stTransform = CGAffineTransformTranslate(stTransform, G_VALUE_FLOAT_0, -fOffset);
 		m_pActivityIndicatorView.transform = stTransform;
@@ -279,13 +279,13 @@ extern "C" {
 		[self.keychainItemWrapper setObject:self.deviceID forKey:(__bridge id)kSecAttrAccount];
 	}
 	
-	[CDeviceMsgSender.sharedInstance sendGetDeviceIDMsg:self.deviceID];
+	[CDeviceMsgSender.sharedInst sendGetDeviceIDMsg:self.deviceID];
 }
 
 //! 국가 코드 반환 메세지를 처리한다
 - (void)handleGetCountryCodeMsg:(const char *)a_pszMsg {
 	NSLocale *pLocale = NSLocale.currentLocale;
-	[CDeviceMsgSender.sharedInstance sendGetCountryCodeMsg:pLocale.countryCode];
+	[CDeviceMsgSender.sharedInst sendGetCountryCodeMsg:pLocale.countryCode];
 }
 
 //! 스토어 버전 반환 메세지를 처리한다
@@ -298,7 +298,7 @@ extern "C" {
 	
 	// 디버그 모드 일 경우
 	if([self.buildMode isEqualToString:@(G_BUILD_MODE_DEBUG)]) {
-		[CDeviceMsgSender.sharedInstance sendGetStoreVersionMsg:pVersion withResult:YES];
+		[CDeviceMsgSender.sharedInst sendGetStoreVersionMsg:pVersion withResult:YES];
 	} else {
 		NSString *pURL = [NSString stringWithFormat:@(G_URL_FORMAT_STORE_VERSION), pAppID];
 		
@@ -315,7 +315,7 @@ extern "C" {
 			// 스토어 버전 로드에 실패했을 경우
 			if(a_pError != nil || (a_pData == nil || a_pResponse == nil)) {
 				NSLog(@"CiOSPlugin.onHandleGetStoreVersionMsg Fail: %@", a_pError);
-				[CDeviceMsgSender.sharedInstance sendGetStoreVersionMsg:pVersion withResult:NO];
+				[CDeviceMsgSender.sharedInst sendGetStoreVersionMsg:pVersion withResult:NO];
 			} else {
 				NSString *pString = [[NSString alloc] initWithData:a_pData encoding:NSUTF8StringEncoding];
 				NSDictionary *pResponseDataList = (NSDictionary *)GFunc::ConvertJSONStringToObj(pString, NULL);
@@ -328,9 +328,9 @@ extern "C" {
 				
 				// 스토어 버전이 유효 할 경우
 				if(GFunc::IsValid(pStoreVersion)) {
-					[CDeviceMsgSender.sharedInstance sendGetStoreVersionMsg:pStoreVersion withResult:YES];
+					[CDeviceMsgSender.sharedInst sendGetStoreVersionMsg:pStoreVersion withResult:YES];
 				} else {
-					[CDeviceMsgSender.sharedInstance sendGetStoreVersionMsg:pVersion withResult:NO];
+					[CDeviceMsgSender.sharedInst sendGetStoreVersionMsg:pVersion withResult:NO];
 				}
 			}
 		}];
@@ -355,7 +355,7 @@ extern "C" {
 														 style:UIAlertActionStyleDefault
 													   handler:^void(UIAlertAction *a_pSender)
 	{
-		[CDeviceMsgSender.sharedInstance sendShowAlertMsg:YES];
+		[CDeviceMsgSender.sharedInst sendShowAlertMsg:YES];
 	}]];
 	
 	// 취소 버튼 텍스트가 유효 할 경우
@@ -365,7 +365,7 @@ extern "C" {
 															 style:UIAlertActionStyleCancel
 														   handler:^void(UIAlertAction *a_pSender)
 		{
-			[CDeviceMsgSender.sharedInstance sendShowAlertMsg:NO];
+			[CDeviceMsgSender.sharedInst sendShowAlertMsg:NO];
 		}]];
 	}
 	
@@ -458,8 +458,8 @@ extern "C" {
 #endif			// #ifdef FIREBASE_MODULE_ENABLE
 }
 
-//! 액티비티 인디케이터 메세지를 처리한다
-- (void)handleActivityIndicatorMsg:(const char *)a_pszMsg {
+//! 인디케이터 메세지를 처리한다
+- (void)handleIndicatorMsg:(const char *)a_pszMsg {
 	// 출력 모드 일 경우
 	if(GFunc::ConvertStringToBool(@(a_pszMsg))) {
 		[self.activityIndicatorView startAnimating];
@@ -476,17 +476,17 @@ extern "C" {
 	NSString *pAdmobIDsString = (NSString *)[pDataList objectForKey:@(G_KEY_ADMOB_IDS)];
 	
 	NSArray *pAdmobIDList = (NSArray *)GFunc::ConvertJSONStringToObj(pAdmobIDsString, NULL);
-	[CAdsManager.sharedInstance init:pResumeAdsID withDeviceIDList:pAdmobIDList];
+	[CAdsManager.sharedInst init:pResumeAdsID withDeviceIDList:pAdmobIDList];
 }
 
 //! 재개 광고 로드 메세지를 처리한다
 - (void)handleLoadResumeAdsMsg:(const char *)a_pszMsg {
-	[CAdsManager.sharedInstance loadResumeAds];
+	[CAdsManager.sharedInst loadResumeAds];
 }
 
 //! 재개 광고 출력 메세지를 처리한다
 - (void)handleShowResumeAdsMsg:(const char *)a_pszMsg {
-	[CAdsManager.sharedInstance showResumeAds];
+	[CAdsManager.sharedInst showResumeAds];
 }
 
 #ifdef FIREBASE_MODULE_ENABLE
@@ -502,14 +502,14 @@ extern "C" {
 
 #pragma mark - 클래스 메서드
 //! 인스턴스를 반환한다
-+ (instancetype)sharedInstance {
++ (instancetype)sharedInst {
 	@synchronized(CiOSPlugin.class) {
 		// 인스턴스가 없을 경우
-		if(g_pInstance == nil) {
-			g_pInstance = [[CiOSPlugin alloc] init];
+		if(g_pInst == nil) {
+			g_pInst = [[CiOSPlugin alloc] init];
 		}
 	}
 	
-	return g_pInstance;
+	return g_pInst;
 }
 @end			// CiOSPlugin

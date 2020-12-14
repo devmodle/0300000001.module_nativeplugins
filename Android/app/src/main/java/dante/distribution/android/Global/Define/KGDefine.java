@@ -23,7 +23,7 @@ public abstract class KGDefine {
 	
 	// 비율
 	public static final float SCALE_PROGRESS_BAR = 0.25f;
-	public static final float SCALE_PROGRESS_BAR_OFFSET = 0.05f;
+	public static final float OFFSET_SCALE_PROGRESS_BAR = 0.05f;
 	
 	// 결과
 	public static final String RESULT_TRUE = "True";
@@ -45,7 +45,7 @@ public abstract class KGDefine {
 	
 	public static final String CMD_VIBRATE = "Vibrate";
 	public static final String CMD_TRACKING = "Tracking";
-	public static final String CMD_ACTIVITY_INDICATOR = "ActivityIndicator";
+	public static final String CMD_INDICATOR = "Indicator";
 	
 	public static final String CMD_INIT_ADS = "InitAds";
 	public static final String CMD_LOAD_RESUME_ADS = "LoadResumeAds";

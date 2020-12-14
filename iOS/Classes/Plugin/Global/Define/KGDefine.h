@@ -52,13 +52,13 @@
 
 // 비율
 #define G_SCALE_ACTIVITY_INDICATOR					(0.25f)
-#define G_SCALE_ACTIVITY_INDICATOR_OFFSET			(0.01f)
+#define G_OFFSET_SCALE_ACTIVITY_INDICATOR			(0.01f)
 
 // 버전
 #define G_MIN_VERSION_DEVICE_ID_FOR_VENDOR			6.0
 #define G_MIN_VERSION_FEEDBACK_GENERATOR			10.0
 #define G_MIN_VERSION_IMPACT_INTENSITY				13.0
-#define G_MIN_VERSION_ACTIVITY_INDICATOR			13.0
+#define G_MIN_VERSION_INDICATOR						13.0
 
 // 명령어 {
 #define G_CMD_INIT			("Init")
@@ -69,9 +69,9 @@
 
 #define G_CMD_SHOW_ALERT			("ShowAlert")
 
-#define G_CMD_VIBRATE						("Vibrate")
-#define G_CMD_TRACKING						("Tracking")
-#define G_CMD_ACTIVITY_INDICATOR			("ActivityIndicator")
+#define G_CMD_VIBRATE			("Vibrate")
+#define G_CMD_TRACKING			("Tracking")
+#define G_CMD_INDICATOR			("Indicator")
 
 #define G_CMD_INIT_ADS					("InitAds")
 #define G_CMD_LOAD_RESUME_ADS			("LoadResumeAds")

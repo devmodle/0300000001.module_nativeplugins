@@ -11,7 +11,7 @@ import dante.distribution.android.Global.Function.GFunc;
 
 //! 디바이스 메세지 전송자
 public class CDeviceMsgSender {
-	private static CDeviceMsgSender m_oInstance = null;
+	private static CDeviceMsgSender m_oInst = null;
 	
 	//! 생성자
 	private CDeviceMsgSender() {
@@ -19,13 +19,13 @@ public class CDeviceMsgSender {
 	}
 	
 	//! 인스턴스를 반환한다
-	public static CDeviceMsgSender getInstance() {
+	public static CDeviceMsgSender getInst() {
 		// 인스턴스가 없을 경우
-		if(CDeviceMsgSender.m_oInstance == null) {
-			CDeviceMsgSender.m_oInstance = new CDeviceMsgSender();
+		if(CDeviceMsgSender.m_oInst == null) {
+			CDeviceMsgSender.m_oInst = new CDeviceMsgSender();
 		}
 		
-		return CDeviceMsgSender.m_oInstance;
+		return CDeviceMsgSender.m_oInst;
 	}
 	
 	//! 디바이스 식별자 반환 메세지를 전송한다

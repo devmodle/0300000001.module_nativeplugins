@@ -42,7 +42,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)showResumeAds;
 
 //! 인스턴스를 반환한다
-+ (instancetype)sharedInstance;
++ (instancetype)sharedInst;
 @end			// CAdsManager
 
 NS_ASSUME_NONNULL_END

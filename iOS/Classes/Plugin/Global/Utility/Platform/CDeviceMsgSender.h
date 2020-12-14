@@ -36,7 +36,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)sendShowResumeAdsMsg:(BOOL)a_bIsSuccess;
 				
 //! 인스턴스를 반환한다
-+ (instancetype)sharedInstance;
++ (instancetype)sharedInst;
 @end			// CDeviceMsgSender
 
 NS_ASSUME_NONNULL_END

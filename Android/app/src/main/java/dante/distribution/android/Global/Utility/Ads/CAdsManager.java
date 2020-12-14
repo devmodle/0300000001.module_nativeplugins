@@ -39,10 +39,10 @@ public class CAdsManager implements LifecycleObserver,
 		public void onAppOpenAdLoaded(AppOpenAd a_oAds) {
 			Log.d(KGDefine.TAG, "CAdsManager.onAppOpenAdLoaded");
 			
-			CAdsManager.getInstance().m_oResumeAds = a_oAds;
-			CAdsManager.getInstance().m_bIsLoadResumeAds = true;
+			CAdsManager.getInst().m_oResumeAds = a_oAds;
+			CAdsManager.getInst().m_bIsLoadResumeAds = true;
 			
-			CDeviceMsgSender.getInstance().sendLoadResumeAdsMsg(true);
+			CDeviceMsgSender.getInst().sendLoadResumeAdsMsg(true);
 		}
 		
 		// 광고 로드에 실패했을 경우
@@ -51,7 +51,7 @@ public class CAdsManager implements LifecycleObserver,
 			Log.d(KGDefine.TAG, String.format("CAdsManager.onAppOpenAdFailedToLoad: %s",
 					a_oError.getMessage()));
 			
-			CDeviceMsgSender.getInstance().sendLoadResumeAdsMsg(false);
+			CDeviceMsgSender.getInst().sendLoadResumeAdsMsg(false);
 		}
 	};
 	
@@ -68,7 +68,7 @@ public class CAdsManager implements LifecycleObserver,
 			Log.d(KGDefine.TAG, String.format("CAdsManager.onAdFailedToShowFullScreenContent: %s",
 					a_oError.getMessage()));
 			
-			CDeviceMsgSender.getInstance().sendShowResumeAdsMsg(false);
+			CDeviceMsgSender.getInst().sendShowResumeAdsMsg(false);
 		}
 		
 		// 재개 광고가 닫혔을 경우
@@ -76,14 +76,14 @@ public class CAdsManager implements LifecycleObserver,
 		public void onAdDismissedFullScreenContent() {
 			Log.d(KGDefine.TAG, "CAdsManager.onAdDismissedFullScreenContent");
 			
-			CAdsManager.getInstance().m_oResumeAds = null;
-			CAdsManager.getInstance().m_bIsLoadResumeAds = false;
+			CAdsManager.getInst().m_oResumeAds = null;
+			CAdsManager.getInst().m_bIsLoadResumeAds = false;
 			
-			CDeviceMsgSender.getInstance().sendShowResumeAdsMsg(true);
+			CDeviceMsgSender.getInst().sendShowResumeAdsMsg(true);
 		}
 	};
 	
-	private static CAdsManager m_oInstance = null;
+	private static CAdsManager m_oInst = null;
 	
 	//! 액티비티가 생성 되었을 경우
 	@Override
@@ -128,13 +128,13 @@ public class CAdsManager implements LifecycleObserver,
 	}
 	
 	//! 인스턴스를 반환한다
-	public static CAdsManager getInstance() {
+	public static CAdsManager getInst() {
 		// 인스턴스가 없을 경우
-		if(CAdsManager.m_oInstance == null) {
-			CAdsManager.m_oInstance = new CAdsManager();
+		if(CAdsManager.m_oInst == null) {
+			CAdsManager.m_oInst = new CAdsManager();
 		}
 		
-		return CAdsManager.m_oInstance;
+		return CAdsManager.m_oInst;
 	}
 	
 	//! 초기화
@@ -153,7 +153,7 @@ public class CAdsManager implements LifecycleObserver,
 		UnityPlayer.currentActivity.getApplication().registerActivityLifecycleCallbacks(this);
 		
 		m_bIsInit = true;
-		CDeviceMsgSender.getInstance().sendInitAdsMsg(true);
+		CDeviceMsgSender.getInst().sendInitAdsMsg(true);
 	}
 	
 	// 재개 광고를 로드한다
@@ -162,7 +162,7 @@ public class CAdsManager implements LifecycleObserver,
 		
 		// 초기화 되었을 경우
 		if(m_bIsInit && !m_bIsLoadResumeAds && m_oResumeAds == null) {
-			int nOrientation = CAndroidPlugin.getInstance().getOrientation();
+			int nOrientation = CAndroidPlugin.getInst().getOrientation();
 			
 			AppOpenAd.load(UnityPlayer.currentActivity.getApplicationContext(),
 					m_oResumeAdsID,
@@ -170,7 +170,7 @@ public class CAdsManager implements LifecycleObserver,
 					nOrientation,
 					m_oResumeAdsLoadCallback);
 		} else {
-			CDeviceMsgSender.getInstance().sendLoadResumeAdsMsg(false);
+			CDeviceMsgSender.getInst().sendLoadResumeAdsMsg(false);
 		}
 	}
 	
@@ -182,7 +182,7 @@ public class CAdsManager implements LifecycleObserver,
 		if(m_bIsInit && m_bIsLoadResumeAds && m_oResumeAds != null) {
 			m_oResumeAds.show(UnityPlayer.currentActivity, m_oResumeAdsShowCallback);
 		} else {
-			CDeviceMsgSender.getInstance().sendShowResumeAdsMsg(false);
+			CDeviceMsgSender.getInst().sendShowResumeAdsMsg(false);
 		}
 	}
 }

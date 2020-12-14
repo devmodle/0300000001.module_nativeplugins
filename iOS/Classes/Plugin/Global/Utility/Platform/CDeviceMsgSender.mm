@@ -9,7 +9,7 @@
 #import "../../Function/GFunc.h"
 
 //! 전역 변수
-static CDeviceMsgSender *g_pInstance = nil;
+static CDeviceMsgSender *g_pInst = nil;
 
 //! 디바이스 메세지 전송자
 @implementation CDeviceMsgSender
@@ -18,12 +18,12 @@ static CDeviceMsgSender *g_pInstance = nil;
 + (id)alloc {
 	@synchronized(CDeviceMsgSender.class) {
 		// 인스턴스가 없을 경우
-		if(g_pInstance == nil) {
-			g_pInstance = [[super alloc] init];
+		if(g_pInst == nil) {
+			g_pInst = [[super alloc] init];
 		}
 	}
 	
-	return g_pInstance;
+	return g_pInst;
 }
 
 #pragma mark - 인스턴스 메서드
@@ -86,14 +86,14 @@ static CDeviceMsgSender *g_pInstance = nil;
 
 #pragma mark - 클래스 메서드
 //! 인스턴스를 반환한다
-+ (instancetype)sharedInstance {
++ (instancetype)sharedInst {
 	@synchronized(CDeviceMsgSender.class) {
 		// 인스턴스가 없을 경우
-		if(g_pInstance == nil) {
-			g_pInstance = [[CDeviceMsgSender alloc] init];
+		if(g_pInst == nil) {
+			g_pInst = [[CDeviceMsgSender alloc] init];
 		}
 	}
 	
-	return g_pInstance;
+	return g_pInst;
 }
 @end			// CDeviceMsgSender

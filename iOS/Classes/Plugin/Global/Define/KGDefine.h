@@ -47,9 +47,6 @@
 #define G_BUILD_MODE_DEBUG				("Debug")
 #define G_BUILD_MODE_RELEASE			("Release")
 
-// 식별자
-#define G_ID_KEYCHAIN_DEVICE			("KeychainDeviceID")
-
 // 비율
 #define G_SCALE_ACTIVITY_INDICATOR					(0.25f)
 #define G_OFFSET_SCALE_ACTIVITY_INDICATOR			(0.01f)
@@ -60,25 +57,9 @@
 #define G_MIN_VERSION_IMPACT_INTENSITY				13.0
 #define G_MIN_VERSION_INDICATOR						13.0
 
-// 명령어 {
-#define G_CMD_INIT			("Init")
+// 식별자 {
+#define G_ID_KEYCHAIN_DEVICE			("KeychainDeviceID")
 
-#define G_CMD_GET_DEVICE_ID				("GetDeviceID")
-#define G_CMD_GET_COUNTRY_CODE			("GetCountryCode")
-#define G_CMD_GET_STORE_VERSION			("GetStoreVersion")
-
-#define G_CMD_SHOW_ALERT			("ShowAlert")
-
-#define G_CMD_VIBRATE			("Vibrate")
-#define G_CMD_TRACKING			("Tracking")
-#define G_CMD_INDICATOR			("Indicator")
-
-#define G_CMD_INIT_ADS					("InitAds")
-#define G_CMD_LOAD_RESUME_ADS			("LoadResumeAds")
-#define G_CMD_SHOW_RESUME_ADS			("ShowResumeAds")
-// 명령어 }
-
-// 키 {
 #define G_KEY_CMD			("Cmd")
 #define G_KEY_MSG			("Msg")
 
@@ -110,7 +91,25 @@
 
 #define G_KEY_DEVICE_MS_RESULT			("Result")
 #define G_KEY_DEVICE_MS_VERSION			("Version")
-// 키 }
+// 식별자 }
+
+// 명령어 {
+#define G_CMD_INIT			("Init")
+
+#define G_CMD_GET_DEVICE_ID				("GetDeviceID")
+#define G_CMD_GET_COUNTRY_CODE			("GetCountryCode")
+#define G_CMD_GET_STORE_VERSION			("GetStoreVersion")
+
+#define G_CMD_SHOW_ALERT			("ShowAlert")
+
+#define G_CMD_VIBRATE			("Vibrate")
+#define G_CMD_TRACKING			("Tracking")
+#define G_CMD_INDICATOR			("Indicator")
+
+#define G_CMD_INIT_ADS					("InitAds")
+#define G_CMD_LOAD_RESUME_ADS			("LoadResumeAds")
+#define G_CMD_SHOW_RESUME_ADS			("ShowResumeAds")
+// 명령어 }
 
 // 네트워크 {
 #define G_HTTP_METHOD_GET			("GET")

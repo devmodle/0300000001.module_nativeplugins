@@ -52,7 +52,7 @@ public abstract class KGDefine {
 	public static final String CMD_SHOW_RESUME_ADS = "ShowResumeAds";
 	// 명령어 }
 	
-	// 키 {
+	// 식별자 {
 	public static final String KEY_CMD = "Cmd";
 	public static final String KEY_MSG = "Msg";
 
@@ -78,7 +78,7 @@ public abstract class KGDefine {
 	
 	public static final String KEY_DEVICE_MS_RESULT = "Result";
 	public static final String KEY_DEVICE_MS_VERSION = "Version";
-	// 키 }
+	// 식별자 }
 	
 	// 이름
 	public static final String OBJ_NAME_DEVICE_MSG_RECEIVER = "CDeviceMsgReceiver";

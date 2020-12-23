@@ -81,6 +81,6 @@ public abstract class KGDefine {
 	// 식별자 }
 	
 	// 이름
-	public static final String OBJ_NAME_DEVICE_MSG_RECEIVER = "CDeviceMsgReceiver";
-	public static final String FUNC_NAME_DEVICE_MSG_HANDLER = "HandleDeviceMsg";
+	public static final String OBJ_N_DEVICE_MSG_RECEIVER = "CDeviceMsgReceiver";
+	public static final String FUNC_N_DEVICE_MSG_HANDLER = "HandleDeviceMsg";
 }

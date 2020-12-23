@@ -132,8 +132,8 @@ public class CDeviceMsgSender {
 		oJSONObj.put(KGDefine.KEY_CMD, a_oCmd);
 		oJSONObj.put(KGDefine.KEY_MSG, a_oMsg);
 		
-		UnityPlayer.UnitySendMessage(KGDefine.OBJ_NAME_DEVICE_MSG_RECEIVER,
-				KGDefine.FUNC_NAME_DEVICE_MSG_HANDLER,
+		UnityPlayer.UnitySendMessage(KGDefine.OBJ_N_DEVICE_MSG_RECEIVER,
+				KGDefine.FUNC_N_DEVICE_MSG_HANDLER,
 				oJSONObj.toString());
 	}
 }

@@ -115,12 +115,12 @@
 #define G_HTTP_METHOD_GET			("GET")
 #define G_HTTP_METHOD_POST			("POST")
 
-#define G_URL_FORMAT_STORE_VERSION			("http://itunes.apple.com/lookup?bundleId=%@")
+#define G_URL_FMT_STORE_VERSION			("http://itunes.apple.com/lookup?bundleId=%@")
 // 네트워크 }
 
 // 이름
-#define G_OBJ_NAME_DEVICE_MSG_RECEIVER					("CDeviceMsgReceiver")
-#define G_FUNC_NAME_DEVICE_MSG_HANDLE_METHOD			("HandleDeviceMsg")
+#define G_OBJ_N_DEVICE_MSG_RECEIVER					("CDeviceMsgReceiver")
+#define G_FUNC_N_DEVICE_MSG_HANDLE_METHOD			("HandleDeviceMsg")
 
 //! 진동 타입
 enum class EVibrateType {

@@ -300,7 +300,7 @@ extern "C" {
 	if([self.buildMode isEqualToString:@(G_BUILD_MODE_DEBUG)]) {
 		[CDeviceMsgSender.sharedInst sendGetStoreVersionMsg:pVersion withResult:YES];
 	} else {
-		NSString *pURL = [NSString stringWithFormat:@(G_URL_FORMAT_STORE_VERSION), pAppID];
+		NSString *pURL = [NSString stringWithFormat:@(G_URL_FMT_STORE_VERSION), pAppID];
 		
 		NSMutableURLRequest * pURLRequest = GFunc::MakeURLRequest(pURL,
 																  @(G_HTTP_METHOD_GET),

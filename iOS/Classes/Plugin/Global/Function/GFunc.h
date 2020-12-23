@@ -15,16 +15,16 @@ namespace GFunc {
 	//! 진동 타입 유효 여부를 검사한다
 	BOOL IsValid(EVibrateType a_eType);
 	
-	//! 문자열 -> 논리로 변화한다
+	//! 문자열 => 논리로 변화한다
 	BOOL ConvertStringToBool(NSString *a_pString);
 	
-	//! 논리 -> 문자열로 변환한다
+	//! 논리 => 문자열로 변환한다
 	NSString * ConvertBoolToString(BOOL a_bIsTrue);
 	
-	//! 객체 -> JSON 문자열로 변환한다
+	//! 객체 => JSON 문자열로 변환한다
 	NSString * ConvertObjToJSONString(NSObject *a_pObj, NSError **a_pError);
 	
-	//! JSON 문자열 -> 객체로 변환한다
+	//! JSON 문자열 => 객체로 변환한다
 	NSObject * ConvertJSONStringToObj(NSString *a_pString, NSError **a_pError);
 	
 	//! URL 요청을 전송한다

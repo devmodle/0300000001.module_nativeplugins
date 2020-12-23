@@ -18,17 +18,17 @@ namespace GFunc {
 		return a_eType > EVibrateType::NONE && a_eType < EVibrateType::MAX_VALUE;
 	}
 
-	//! 문자열 -> 논리로 변화한다
+	//! 문자열 => 논리로 변화한다
 	BOOL ConvertStringToBool(NSString *a_pString) {
 		return [a_pString isEqualToString:@(G_RESULT_TRUE)];
 	}
 
-	//! 논리 -> 문자열로 변환한다
+	//! 논리 => 문자열로 변환한다
 	NSString * ConvertBoolToString(BOOL a_bIsTrue) {
 		return a_bIsTrue ? @(G_RESULT_TRUE) : @(G_RESULT_FALSE);
 	}
 
-	//! 객체 -> JSON 문자열로 변환한다
+	//! 객체 => JSON 문자열로 변환한다
 	NSString * ConvertObjToJSONString(NSObject *a_pObj, NSError **a_pError) {
 		NSData *pData = [NSJSONSerialization dataWithJSONObject:a_pObj
 													 options:NSJSONWritingPrettyPrinted
@@ -37,7 +37,7 @@ namespace GFunc {
 		return [[NSString alloc] initWithData:pData encoding:NSUTF8StringEncoding];
 	}
 
-	//! JSON 문자열 -> 객체로 변환한다
+	//! JSON 문자열 => 객체로 변환한다
 	NSObject * ConvertJSONStringToObj(NSString *a_pString, NSError **a_pError) {
 		NSData *pData = [a_pString dataUsingEncoding:NSUTF8StringEncoding];
 		

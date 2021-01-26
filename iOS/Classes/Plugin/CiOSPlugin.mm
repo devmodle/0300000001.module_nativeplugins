@@ -30,6 +30,9 @@ static CiOSPlugin *g_pInst = nil;
 //! 스토어 버전 반환 메세지를 처리한다
 - (void)handleGetStoreVersionMsg:(const char *)a_pszMsg;
 
+//! 광고 추적 여부 변경 메세지를 처리한다
+- (void)handleSetAdsTrackingEnableMsg:(const char *)a_pszMsg;
+
 //! 경고 창 출력 메세지를 처리한다
 - (void)handleShowAlertMsg:(const char *)a_pszMsg;
 
@@ -72,6 +75,10 @@ extern "C" {
 		// 스토어 버전 반환 메세지 일 경우
 		else if(strcmp(a_pszCmd, G_CMD_GET_STORE_VERSION) == G_VALUE_INT_0) {
 			[CiOSPlugin.sharedInst handleGetStoreVersionMsg:a_pszMsg];
+		}
+		// 광고 추적 여부 변경 메세지 일 경우
+		else if(strcmp(a_pszCmd, G_CMD_SET_ADS_TRACKING_ENABLE) == G_VALUE_INT_0) {
+			[CiOSPlugin.sharedInst handleSetAdsTrackingEnableMsg:a_pszMsg];
 		}
 		// 경고 창 출력 메세지 일 경우
 		else if(strcmp(a_pszCmd, G_CMD_SHOW_ALERT) == G_VALUE_INT_0) {
@@ -335,6 +342,14 @@ extern "C" {
 			}
 		}];
 	}
+}
+
+//! 광고 추적 여부 변경 메세지를 처리한다
+- (void)handleSetAdsTrackingEnableMsg:(const char *)a_pszMsg {
+#ifdef IRON_SRC_ENABLE
+	BOOL bIsEnable = GFunc::ConvertStringToBool(@(a_pszMsg));
+	[FBAdSettings setAdvertiserTrackingEnabled:bIsEnable];
+#endif			// #ifdef IRON_SRC_ENABLE
 }
 
 //! 경고 창 출력 메세지를 처리한다

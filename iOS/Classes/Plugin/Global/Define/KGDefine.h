@@ -19,6 +19,10 @@
 #import <GoogleMobileAds/GoogleMobileAds.h>
 #endif			// #ifdef ADMOB_ENABLE
 
+#ifdef IRON_SRC_ENABLE
+#import <FBAudienceNetwork/FBAdSettings.h>
+#endif			// #ifdef IRON_SRC_ENABLE
+
 #ifdef FIREBASE_MODULE_ENABLE
 #import <Firebase/Firebase.h>
 #endif			// #ifdef FIREBASE_MODULE_ENABLE
@@ -100,7 +104,8 @@
 #define G_CMD_GET_COUNTRY_CODE			("GetCountryCode")
 #define G_CMD_GET_STORE_VERSION			("GetStoreVersion")
 
-#define G_CMD_SHOW_ALERT			("ShowAlert")
+#define G_CMD_SET_ADS_TRACKING_ENABLE			("SetAdsTrackingEnable")
+#define G_CMD_SHOW_ALERT						("ShowAlert")
 
 #define G_CMD_VIBRATE			("Vibrate")
 #define G_CMD_TRACKING			("Tracking")

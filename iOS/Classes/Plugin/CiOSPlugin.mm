@@ -8,6 +8,7 @@
 #import "CiOSPlugin.h"
 #import "Global/Function/GFunc.h"
 #import "Global/Utility/Platform/CDeviceMsgSender.h"
+#import <FBAudienceNetwork/FBAdSettings.h>
 
 //! 전역 변수
 static CiOSPlugin *g_pInstance = nil;
@@ -95,6 +96,9 @@ extern "C" {
 		// 인스턴스가 없을 경우
 		if(g_pInstance == nil) {
 			g_pInstance = [[super alloc] init];
+            
+            // Facebook audience network flag
+            [FBAdSettings setAdvertiserTrackingEnabled:YES];
 		}
 	}
 	

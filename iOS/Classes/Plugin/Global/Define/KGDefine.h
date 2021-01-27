@@ -19,9 +19,9 @@
 #import <GoogleMobileAds/GoogleMobileAds.h>
 #endif			// #ifdef ADMOB_ENABLE
 
-#ifdef IRON_SRC_ENABLE
+#ifdef FACEBOOK_ADS_ENABLE
 #import <FBAudienceNetwork/FBAdSettings.h>
-#endif			// #ifdef IRON_SRC_ENABLE
+#endif			// #ifdef FACEBOOK_ADS_ENABLE
 
 #ifdef FIREBASE_MODULE_ENABLE
 #import <Firebase/Firebase.h>

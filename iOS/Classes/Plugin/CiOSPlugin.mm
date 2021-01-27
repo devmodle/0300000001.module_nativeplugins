@@ -346,10 +346,10 @@ extern "C" {
 
 //! 광고 추적 여부 변경 메세지를 처리한다
 - (void)handleSetAdsTrackingEnableMsg:(const char *)a_pszMsg {
-#ifdef IRON_SRC_ENABLE
+#ifdef FACEBOOK_ADS_ENABLE
 	BOOL bIsEnable = GFunc::ConvertStringToBool(@(a_pszMsg));
 	[FBAdSettings setAdvertiserTrackingEnabled:bIsEnable];
-#endif			// #ifdef IRON_SRC_ENABLE
+#endif			// #ifdef FACEBOOK_ADS_ENABLE
 }
 
 //! 경고 창 출력 메세지를 처리한다

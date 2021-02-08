@@ -33,9 +33,7 @@ public class CDeviceMsgSender {
 		try {
 			this.sendDeviceMsg(KGDefine.CMD_GET_DEVICE_ID, a_oDeviceID);
 		} catch(Exception oException) {
-			Log.e(KGDefine.TAG, String.format("CDeviceMsgSender.sendGetDeviceIDMsg Exception: %s, %s",
-					a_oDeviceID, oException.getMessage()));
-			
+			Log.e(KGDefine.TAG, String.format("CDeviceMsgSender.sendGetDeviceIDMsg Exception: %s, %s", a_oDeviceID, oException.getMessage()));
 			oException.printStackTrace();
 		}
 	}
@@ -45,9 +43,7 @@ public class CDeviceMsgSender {
 		try {
 			this.sendDeviceMsg(KGDefine.CMD_GET_COUNTRY_CODE, a_oCountryCode);
 		} catch(Exception oException) {
-			Log.e(KGDefine.TAG, String.format("CDeviceMsgSender.sendGetCountryCodeMsg Exception: %s, %s",
-					a_oCountryCode, oException.getMessage()));
-			
+			Log.e(KGDefine.TAG, String.format("CDeviceMsgSender.sendGetCountryCodeMsg Exception: %s, %s", a_oCountryCode, oException.getMessage()));
 			oException.printStackTrace();
 		}
 	}
@@ -63,9 +59,7 @@ public class CDeviceMsgSender {
 			
 			this.sendDeviceMsg(KGDefine.CMD_GET_STORE_VERSION, oJSONObj.toString());
 		} catch(Exception oException) {
-			Log.e(KGDefine.TAG, String.format("CDeviceMsgSender.sendGetStoreVersionMsg Exception: %s, %s, %s",
-					a_oVersion, oResult, oException.getMessage()));
-			
+			Log.e(KGDefine.TAG, String.format("CDeviceMsgSender.sendGetStoreVersionMsg Exception: %s, %s, %s", a_oVersion, oResult, oException.getMessage()));
 			oException.printStackTrace();
 		}
 	}
@@ -77,9 +71,7 @@ public class CDeviceMsgSender {
 		try {
 			this.sendDeviceMsg(KGDefine.CMD_SHOW_ALERT, oResult);
 		} catch(Exception oException) {
-			Log.e(KGDefine.TAG, String.format("CDeviceMsgSender.sendShowAlertMsg Exception: %s, %s",
-					oResult, oException.getMessage()));
-			
+			Log.e(KGDefine.TAG, String.format("CDeviceMsgSender.sendShowAlertMsg Exception: %s, %s", oResult, oException.getMessage()));
 			oException.printStackTrace();
 		}
 	}
@@ -91,9 +83,7 @@ public class CDeviceMsgSender {
 		try {
 			this.sendDeviceMsg(KGDefine.CMD_INIT_ADS, oResult);
 		} catch(Exception oException) {
-			Log.e(KGDefine.TAG, String.format("CDeviceMsgSender.sendInitAdsMsg Exception: %s, %s",
-					oResult, oException.getMessage()));
-			
+			Log.e(KGDefine.TAG, String.format("CDeviceMsgSender.sendInitAdsMsg Exception: %s, %s", oResult, oException.getMessage()));
 			oException.printStackTrace();
 		}
 	}
@@ -105,9 +95,7 @@ public class CDeviceMsgSender {
 		try {
 			this.sendDeviceMsg(KGDefine.CMD_LOAD_RESUME_ADS, oResult);
 		} catch(Exception oException) {
-			Log.e(KGDefine.TAG, String.format("CDeviceMsgSender.sendLoadResumeAdsMsg Exception: %s, %s",
-					oResult, oException.getMessage()));
-			
+			Log.e(KGDefine.TAG, String.format("CDeviceMsgSender.sendLoadResumeAdsMsg Exception: %s, %s", oResult, oException.getMessage()));
 			oException.printStackTrace();
 		}
 	}
@@ -119,9 +107,7 @@ public class CDeviceMsgSender {
 		try {
 			this.sendDeviceMsg(KGDefine.CMD_SHOW_RESUME_ADS, oResult);
 		} catch(Exception oException) {
-			Log.e(KGDefine.TAG, String.format("CDeviceMsgSender.sendShowResumeAdsMsg Exception: %s, %s",
-					oResult, oException.getMessage()));
-			
+			Log.e(KGDefine.TAG, String.format("CDeviceMsgSender.sendShowResumeAdsMsg Exception: %s, %s", oResult, oException.getMessage()));
 			oException.printStackTrace();
 		}
 	}
@@ -132,8 +118,6 @@ public class CDeviceMsgSender {
 		oJSONObj.put(KGDefine.KEY_CMD, a_oCmd);
 		oJSONObj.put(KGDefine.KEY_MSG, a_oMsg);
 		
-		UnityPlayer.UnitySendMessage(KGDefine.OBJ_N_DEVICE_MSG_RECEIVER,
-				KGDefine.FUNC_N_DEVICE_MSG_HANDLER,
-				oJSONObj.toString());
+		UnityPlayer.UnitySendMessage(KGDefine.OBJ_N_DEVICE_MSG_RECEIVER, KGDefine.FUNC_N_DEVICE_MSG_HANDLER, oJSONObj.toString());
 	}
 }

@@ -21,6 +21,7 @@ import com.google.android.play.core.appupdate.AppUpdateInfo;
 import com.google.android.play.core.appupdate.AppUpdateManager;
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory;
 import com.google.android.play.core.appupdate.testing.FakeAppUpdateManager;
+import com.google.android.play.core.install.model.AppUpdateType;
 import com.google.android.play.core.install.model.UpdateAvailability;
 import com.google.android.play.core.tasks.OnFailureListener;
 import com.google.android.play.core.tasks.OnSuccessListener;
@@ -65,9 +66,7 @@ public class CAndroidPlugin {
 		nOffset = (int)(nOffset * KGDefine.OFFSET_SCALE_PROGRESS_BAR);
 		
 		// 프로그레스 바를 설정한다 {
-		m_oProgressBar = new ProgressBar(UnityPlayer.currentActivity,
-				null, android.R.attr.progressBarStyleLarge);
-		
+		m_oProgressBar = new ProgressBar(UnityPlayer.currentActivity, null, android.R.attr.progressBarStyleLarge);
 		m_oProgressBar.setIndeterminate(true);
 		m_oProgressBar.setVisibility(View.GONE);
 		
@@ -78,15 +77,10 @@ public class CAndroidPlugin {
 		// 레이아웃을 설정한다 {
 		RelativeLayout oLayout = new RelativeLayout(UnityPlayer.currentActivity);
 		oLayout.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
-		
-		oLayout.setPadding(KGDefine.VALUE_INT_0,
-				KGDefine.VALUE_INT_0, KGDefine.VALUE_INT_0, nOffset);
-		
+		oLayout.setPadding(KGDefine.VALUE_INT_0, KGDefine.VALUE_INT_0, KGDefine.VALUE_INT_0, nOffset);
 		oLayout.addView(m_oProgressBar, oParams);
 		
-		RelativeLayout.LayoutParams oLayoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,
-				RelativeLayout.LayoutParams.MATCH_PARENT);
-		
+		RelativeLayout.LayoutParams oLayoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
 		UnityPlayer.currentActivity.addContentView(oLayout, oLayoutParams);
 		// 레이아웃을 설정한다 }
 	}
@@ -108,55 +102,28 @@ public class CAndroidPlugin {
 	
 	//! 유니티 메세지를 처리한다
 	public static void handleUnityMsg(final String a_oCmd, final String a_oMsg) {
-		Log.d(KGDefine.TAG, String.format("CAndroidPlugin.handleUnityMsg: %s, %s",
-				a_oCmd, a_oMsg));
+		Log.d(KGDefine.TAG, String.format("CAndroidPlugin.handleUnityMsg: %s, %s", a_oCmd, a_oMsg));
 		
 		UnityPlayer.currentActivity.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
 				try {
 					switch(a_oCmd) {
-						case KGDefine.CMD_INIT: {
-							CAndroidPlugin.getInst().handleInitMsg(a_oMsg);
-						} break;
-						case KGDefine.CMD_GET_DEVICE_ID: {
-							CAndroidPlugin.getInst().handleGetDeviceIDMsg(a_oMsg);
-						} break;
-						case KGDefine.CMD_GET_COUNTRY_CODE: {
-							CAndroidPlugin.getInst().handleGetCountryCodeMsg(a_oMsg);
-						} break;							
-						case KGDefine.CMD_GET_STORE_VERSION: {
-							CAndroidPlugin.getInst().handleGetStoreVersionMsg(a_oMsg);
-						} break;
-						case KGDefine.CMD_SHOW_TOAST: {
-							CAndroidPlugin.getInst().handleShowToastMsg(a_oMsg);
-						} break;
-						case KGDefine.CMD_SHOW_ALERT: {
-							CAndroidPlugin.getInst().handleShowAlertMsg(a_oMsg);
-						} break;	
-						case KGDefine.CMD_VIBRATE: {
-							CAndroidPlugin.getInst().handleVibrateMsg(a_oMsg);
-						} break;
-						case KGDefine.CMD_TRACKING: {
-							CAndroidPlugin.getInst().handleTrackingMsg(a_oMsg);
-						} break;
-						case KGDefine.CMD_INDICATOR: {
-							CAndroidPlugin.getInst().handleIndicatorMsg(a_oMsg);
-						} break;
-						case KGDefine.CMD_INIT_ADS: {
-							CAndroidPlugin.getInst().handleInitAdsMsg(a_oMsg);
-						} break;
-						case KGDefine.CMD_LOAD_RESUME_ADS: {
-							CAndroidPlugin.getInst().handleLoadResumeAdsMsg(a_oMsg);
-						} break;
-						case KGDefine.CMD_SHOW_RESUME_ADS: {
-							CAndroidPlugin.getInst().handleShowResumeAdsMsg(a_oMsg);
-						} break;
+						case KGDefine.CMD_INIT: CAndroidPlugin.getInst().handleInitMsg(a_oMsg); break;
+						case KGDefine.CMD_GET_DEVICE_ID: CAndroidPlugin.getInst().handleGetDeviceIDMsg(a_oMsg); break;
+						case KGDefine.CMD_GET_COUNTRY_CODE: CAndroidPlugin.getInst().handleGetCountryCodeMsg(a_oMsg); break;
+						case KGDefine.CMD_GET_STORE_VERSION: CAndroidPlugin.getInst().handleGetStoreVersionMsg(a_oMsg); break;
+						case KGDefine.CMD_SHOW_TOAST: CAndroidPlugin.getInst().handleShowToastMsg(a_oMsg); break;
+						case KGDefine.CMD_SHOW_ALERT: CAndroidPlugin.getInst().handleShowAlertMsg(a_oMsg); break;
+						case KGDefine.CMD_VIBRATE: CAndroidPlugin.getInst().handleVibrateMsg(a_oMsg); break;
+						case KGDefine.CMD_TRACKING: CAndroidPlugin.getInst().handleTrackingMsg(a_oMsg); break;
+						case KGDefine.CMD_INDICATOR: CAndroidPlugin.getInst().handleIndicatorMsg(a_oMsg); break;
+						case KGDefine.CMD_INIT_ADS: CAndroidPlugin.getInst().handleInitAdsMsg(a_oMsg); break;
+						case KGDefine.CMD_LOAD_RESUME_ADS: CAndroidPlugin.getInst().handleLoadResumeAdsMsg(a_oMsg); break;
+						case KGDefine.CMD_SHOW_RESUME_ADS: CAndroidPlugin.getInst().handleShowResumeAdsMsg(a_oMsg); break;
 					}
 				} catch(Exception oException) {
-					Log.e(KGDefine.TAG, String.format("CAndroidPlugin.handleUnityMsg Exception: %s, %s",
-							a_oCmd, oException.getMessage()));
-					
+					Log.e(KGDefine.TAG, String.format("CAndroidPlugin.handleUnityMsg Exception: %s, %s", a_oCmd, oException.getMessage()));
 					oException.printStackTrace();
 				}
 			}
@@ -184,9 +151,7 @@ public class CAndroidPlugin {
 			oUUID = UUID.randomUUID();
 		} else {
 			ContentResolver oResolver = oAppContext.getContentResolver();
-			
-			@SuppressLint("HardwareIds") String oDeviceID = Settings.Secure.getString(oResolver,
-					Settings.Secure.ANDROID_ID);
+			@SuppressLint("HardwareIds") String oDeviceID = Settings.Secure.getString(oResolver, Settings.Secure.ANDROID_ID);
 			
 			oUUID = UUID.nameUUIDFromBytes(oDeviceID.getBytes(StandardCharsets.UTF_8));
 		}
@@ -207,8 +172,7 @@ public class CAndroidPlugin {
 		
 		// 앱 업데이트 관리자를 지원하지 않을 경우
 		if(Build.VERSION.SDK_INT < KGDefine.MIN_VERSION_APP_UPDATE_MANAGER) {
-			CDeviceMsgSender.getInst().sendGetStoreVersionMsg(oVersion,
-					false);
+			CDeviceMsgSender.getInst().sendGetStoreVersionMsg(oVersion, false);
 		} else {
 			Task<AppUpdateInfo> oTask = null;
 			
@@ -227,21 +191,19 @@ public class CAndroidPlugin {
 			oTask.addOnSuccessListener(new OnSuccessListener<AppUpdateInfo>() {
 				@Override
 				public void onSuccess(AppUpdateInfo a_oUpdateInfo) {
-					Log.d(KGDefine.TAG, String.format("CAndroidPlugin.onHandleGetStoreVersionMsg Success: %d",
-							a_oUpdateInfo.updateAvailability()));
-					
+					Log.d(KGDefine.TAG, String.format("CAndroidPlugin.onHandleGetStoreVersionMsg Success: %d", a_oUpdateInfo.updateAvailability()));
 					int nVersion = Integer.parseInt(oVersion);
+					
 					boolean bIsSuccess = a_oUpdateInfo.updateAvailability() != UpdateAvailability.UNKNOWN;
+					boolean bIsEnableUpdate = a_oUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE);
 					
 					// 업데이트 가능 할 경우
-					if(a_oUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE) {
+					if(bIsEnableUpdate && a_oUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE) {
 						nVersion = a_oUpdateInfo.availableVersionCode();
 					}
 					
 					String oVersion = String.valueOf(nVersion);
-					
-					CDeviceMsgSender.getInst().sendGetStoreVersionMsg(oVersion,
-							bIsSuccess);
+					CDeviceMsgSender.getInst().sendGetStoreVersionMsg(oVersion, bIsSuccess);
 				}
 			});
 			
@@ -249,13 +211,10 @@ public class CAndroidPlugin {
 			oTask.addOnFailureListener(new OnFailureListener() {
 				@Override
 				public void onFailure(Exception a_oException) {
-					Log.d(KGDefine.TAG, String.format("CAndroidPlugin.onHandleGetStoreVersionMsg Fail: %s",
-							a_oException.getMessage()));
-					
+					Log.d(KGDefine.TAG, String.format("CAndroidPlugin.onHandleGetStoreVersionMsg Fail: %s", a_oException.getMessage()));
 					a_oException.printStackTrace();
 					
-					CDeviceMsgSender.getInst().sendGetStoreVersionMsg(oVersion,
-							false);
+					CDeviceMsgSender.getInst().sendGetStoreVersionMsg(oVersion, false);
 				}
 			});
 		}
@@ -319,9 +278,7 @@ public class CAndroidPlugin {
 		if(Build.VERSION.SDK_INT < KGDefine.MIN_VERSION_FEEDBACK_GENERATOR) {
 			oVibrator.vibrate((int)(fDuration * KGDefine.UNIT_SEC_TO_MILLISEC));
 		} else {
-			VibrationEffect oEffect = VibrationEffect.createOneShot((int)(fDuration * KGDefine.UNIT_SEC_TO_MILLISEC),
-					(int)(fIntensity * KGDefine.UNIT_NORM_VALUE_TO_BYTE));
-			
+			VibrationEffect oEffect = VibrationEffect.createOneShot((int)(fDuration * KGDefine.UNIT_SEC_TO_MILLISEC), (int)(fIntensity * KGDefine.UNIT_NORM_VALUE_TO_BYTE));
 			oVibrator.vibrate(oEffect);
 		}
 	}

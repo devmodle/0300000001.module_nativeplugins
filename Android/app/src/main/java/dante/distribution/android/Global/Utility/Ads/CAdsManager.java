@@ -22,9 +22,7 @@ import dante.distribution.android.Global.Define.KGDefine;
 import dante.distribution.android.Global.Utility.Platform.CDeviceMsgSender;
 
 //! 광고 관리자
-public class CAdsManager implements LifecycleObserver,
-		Application.ActivityLifecycleCallbacks
-{
+public class CAdsManager implements LifecycleObserver, Application.ActivityLifecycleCallbacks {
 	private boolean m_bIsInit = false;
 	private boolean m_bIsLoadResumeAds = false;
 	
@@ -48,9 +46,7 @@ public class CAdsManager implements LifecycleObserver,
 		// 광고 로드에 실패했을 경우
 		@Override
 		public void onAppOpenAdFailedToLoad(LoadAdError a_oError) {
-			Log.d(KGDefine.TAG, String.format("CAdsManager.onAppOpenAdFailedToLoad: %s",
-					a_oError.getMessage()));
-			
+			Log.d(KGDefine.TAG, String.format("CAdsManager.onAppOpenAdFailedToLoad: %s", a_oError.getMessage()));
 			CDeviceMsgSender.getInst().sendLoadResumeAdsMsg(false);
 		}
 	};
@@ -65,9 +61,7 @@ public class CAdsManager implements LifecycleObserver,
 		// 재개 광고 출력에 실패했을 경우
 		@Override
 		public void onAdFailedToShowFullScreenContent(AdError a_oError) {
-			Log.d(KGDefine.TAG, String.format("CAdsManager.onAdFailedToShowFullScreenContent: %s",
-					a_oError.getMessage()));
-			
+			Log.d(KGDefine.TAG, String.format("CAdsManager.onAdFailedToShowFullScreenContent: %s", a_oError.getMessage()));
 			CDeviceMsgSender.getInst().sendShowResumeAdsMsg(false);
 		}
 		
@@ -139,8 +133,7 @@ public class CAdsManager implements LifecycleObserver,
 	
 	//! 초기화
 	public void init(String a_oResumeAdsID, ArrayList<String> a_oDeviceIDList) {
-		Log.d(KGDefine.TAG, String.format("CAdsManager.init: %s, %s",
-				a_oResumeAdsID, a_oDeviceIDList));
+		Log.d(KGDefine.TAG, String.format("CAdsManager.init: %s, %s", a_oResumeAdsID, a_oDeviceIDList));
 
 		m_oResumeAdsID = a_oResumeAdsID;
 		m_oRequestBuilder = new AdRequest.Builder();
@@ -163,12 +156,7 @@ public class CAdsManager implements LifecycleObserver,
 		// 초기화 되었을 경우
 		if(m_bIsInit && !m_bIsLoadResumeAds && m_oResumeAds == null) {
 			int nOrientation = CAndroidPlugin.getInst().getOrientation();
-			
-			AppOpenAd.load(UnityPlayer.currentActivity.getApplicationContext(),
-					m_oResumeAdsID,
-					m_oRequestBuilder.build(),
-					nOrientation,
-					m_oResumeAdsLoadCallback);
+			AppOpenAd.load(UnityPlayer.currentActivity.getApplicationContext(), m_oResumeAdsID, m_oRequestBuilder.build(), nOrientation, m_oResumeAdsLoadCallback);
 		} else {
 			CDeviceMsgSender.getInst().sendLoadResumeAdsMsg(false);
 		}

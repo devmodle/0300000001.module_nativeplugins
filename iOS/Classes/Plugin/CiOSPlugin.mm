@@ -155,8 +155,7 @@ extern "C" {
 - (KeychainItemWrapper *)keychainItemWrapper {
 	// 키체인 아이템 래퍼가 없을 경우
 	if(m_pKeychainItemWrapper == nil) {
-		m_pKeychainItemWrapper = [[KeychainItemWrapper alloc] initWithIdentifier:@(G_ID_KEYCHAIN_DEVICE)
-																	 accessGroup:nil];
+		m_pKeychainItemWrapper = [[KeychainItemWrapper alloc] initWithIdentifier:@(G_ID_KEYCHAIN_DEVICE) accessGroup:nil];
 	}
 	
 	return m_pKeychainItemWrapper;
@@ -179,9 +178,7 @@ extern "C" {
 		m_pActivityIndicatorView.hidesWhenStopped = YES;
 		
 		// 크기를 설정한다 {
-		float fSize = MIN(self.rootViewController.view.bounds.size.width,
-						  self.rootViewController.view.bounds.size.height);
-		
+		float fSize = MIN(self.rootViewController.view.bounds.size.width, self.rootViewController.view.bounds.size.height);
 		fSize *= G_SCALE_ACTIVITY_INDICATOR;
 		
 		float fScaleX = fSize / m_pActivityIndicatorView.bounds.size.width;
@@ -192,9 +189,7 @@ extern "C" {
 		// 크기를 설정한다 }
 		
 		// 위치를 설정한다 {
-		float fOffset = MIN(self.rootViewController.view.bounds.size.width,
-							self.rootViewController.view.bounds.size.height);
-		
+		float fOffset = MIN(self.rootViewController.view.bounds.size.width, self.rootViewController.view.bounds.size.height);
 		fOffset *= G_OFFSET_SCALE_ACTIVITY_INDICATOR;
 		
 		stTransform = CGAffineTransformTranslate(stTransform, G_VALUE_FLOAT_0, -fOffset);
@@ -215,10 +210,7 @@ extern "C" {
 		UIImpactFeedbackGenerator *pMediumGenerator = [[UIImpactFeedbackGenerator alloc] initWithStyle:UIImpactFeedbackStyleMedium];
 		UIImpactFeedbackGenerator *pHeavyGenerator = [[UIImpactFeedbackGenerator alloc] initWithStyle:UIImpactFeedbackStyleHeavy];
 		
-		m_pImpactGeneratorList = [NSArray arrayWithObjects:pLightGenerator,
-								  pMediumGenerator,
-								  pHeavyGenerator,
-								  nil];
+		m_pImpactGeneratorList = [NSArray arrayWithObjects:pLightGenerator, pMediumGenerator, pHeavyGenerator, nil];
 	}
 	
 	return m_pImpactGeneratorList;
@@ -308,10 +300,7 @@ extern "C" {
 		[CDeviceMsgSender.sharedInst sendGetStoreVersionMsg:pVersion withResult:YES];
 	} else {
 		NSString *pURL = [NSString stringWithFormat:@(G_URL_FMT_STORE_VERSION), pAppID];
-		
-		NSMutableURLRequest * pURLRequest = GFunc::MakeURLRequest(pURL,
-																  @(G_HTTP_METHOD_GET),
-																  pTimeout.doubleValue);
+		NSMutableURLRequest * pURLRequest = GFunc::MakeURLRequest(pURL, @(G_HTTP_METHOD_GET), pTimeout.doubleValue);
 		
 		// 데이터를 수신했을 경우
 		[NSURLSession.sharedSession dataTaskWithRequest:pURLRequest

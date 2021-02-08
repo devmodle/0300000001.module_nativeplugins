@@ -98,9 +98,7 @@ static CAdsManager *g_pInst = nil;
 }
 
 //! 재개 광고 출력에 실패했을 경우
-- (void)ad:(id<GADFullScreenPresentingAd>)a_pSender
-didFailToPresentFullScreenContentWithError:(NSError *)a_pError
-{
+- (void)ad:(id<GADFullScreenPresentingAd>)a_pSender didFailToPresentFullScreenContentWithError:(NSError *)a_pError {
 	NSLog(@"CAdsManager.adDidFailToPresentFullScreenContentWithError: %@", a_pError);
 	[CDeviceMsgSender.sharedInst sendShowResumeAdsMsg:NO];
 }

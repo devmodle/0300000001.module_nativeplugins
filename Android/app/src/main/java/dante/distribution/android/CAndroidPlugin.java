@@ -195,10 +195,10 @@ public class CAndroidPlugin {
 					int nVersion = Integer.parseInt(oVersion);
 					
 					boolean bIsSuccess = a_oUpdateInfo.updateAvailability() != UpdateAvailability.UNKNOWN;
-					boolean bIsEnableUpdate = a_oUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE);
+					boolean bIsEnableUpdate = a_oUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE;
 					
 					// 업데이트 가능 할 경우
-					if(bIsEnableUpdate && a_oUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE) {
+					if(bIsEnableUpdate && a_oUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)) {
 						nVersion = a_oUpdateInfo.availableVersionCode();
 					}
 					

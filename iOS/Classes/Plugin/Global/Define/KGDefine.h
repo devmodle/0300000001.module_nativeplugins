@@ -11,6 +11,7 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 #import <AudioToolbox/AudioToolbox.h>
+#import <FBAudienceNetwork/FBAdSettings.h>
 
 #import "UnityInterface.h"
 

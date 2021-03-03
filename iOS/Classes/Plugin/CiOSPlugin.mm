@@ -95,6 +95,7 @@ extern "C" {
 		// 인스턴스가 없을 경우
 		if(g_pInstance == nil) {
 			g_pInstance = [[super alloc] init];
+			[FBAdSettings setAdvertiserTrackingEnabled:YES];
 		}
 	}
 	

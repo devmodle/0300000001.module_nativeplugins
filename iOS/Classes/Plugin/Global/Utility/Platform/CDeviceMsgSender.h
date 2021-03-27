@@ -21,7 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)sendGetCountryCodeMsg:(NSString *)a_pCountryCode;
 
 //! 스토어 버전 반환 메세지를 전송한다
-- (void)sendGetStoreVersionMsg:(NSString *)a_pVersion withResult:(BOOL)a_bIsSuccess;
+- (void)sendGetStoreVerMsg:(NSString *)a_pVer withResult:(BOOL)a_bIsSuccess;
 
 //! 경고 창 출력 메세지를 전송한다
 - (void)sendShowAlertMsg:(BOOL)a_bIsOK;

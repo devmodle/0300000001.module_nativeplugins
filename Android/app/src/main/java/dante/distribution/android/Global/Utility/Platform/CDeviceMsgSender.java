@@ -49,24 +49,24 @@ public class CDeviceMsgSender {
 	}
 	
 	//! 스토어 버전 반환 메세지를 전송한다
-	public void sendGetStoreVersionMsg(String a_oVersion, boolean a_bIsSuccess) {
-		String oResult = GFunc.convertBoolToString(a_bIsSuccess);
+	public void sendGetStoreVerMsg(String a_oVer, boolean a_bIsSuccess) {
+		String oResult = GFunc.convertBoolToStr(a_bIsSuccess);
 		
 		try {
 			JSONObject oJSONObj = new JSONObject();
-			oJSONObj.put(KGDefine.KEY_DEVICE_MS_VERSION, a_oVersion);
+			oJSONObj.put(KGDefine.KEY_DEVICE_MS_VER, a_oVer);
 			oJSONObj.put(KGDefine.KEY_DEVICE_MS_RESULT, oResult);
 			
-			this.sendDeviceMsg(KGDefine.CMD_GET_STORE_VERSION, oJSONObj.toString());
+			this.sendDeviceMsg(KGDefine.CMD_GET_STORE_VER, oJSONObj.toString());
 		} catch(Exception oException) {
-			Log.e(KGDefine.TAG, String.format("CDeviceMsgSender.sendGetStoreVersionMsg Exception: %s, %s, %s", a_oVersion, oResult, oException.getMessage()));
+			Log.e(KGDefine.TAG, String.format("CDeviceMsgSender.sendGetStoreVerMsg Exception: %s, %s, %s", a_oVer, oResult, oException.getMessage()));
 			oException.printStackTrace();
 		}
 	}
 	
 	//! 경고 창 출력 메세지를 전송한다
 	public void sendShowAlertMsg(boolean a_bIsOK) {
-		String oResult = GFunc.convertBoolToString(a_bIsOK);
+		String oResult = GFunc.convertBoolToStr(a_bIsOK);
 		
 		try {
 			this.sendDeviceMsg(KGDefine.CMD_SHOW_ALERT, oResult);
@@ -78,7 +78,7 @@ public class CDeviceMsgSender {
 	
 	//! 광고 초기화 메세지를 전송한다
 	public void sendInitAdsMsg(boolean a_bIsSuccess) {
-		String oResult = GFunc.convertBoolToString(a_bIsSuccess);
+		String oResult = GFunc.convertBoolToStr(a_bIsSuccess);
 		
 		try {
 			this.sendDeviceMsg(KGDefine.CMD_INIT_ADS, oResult);
@@ -90,7 +90,7 @@ public class CDeviceMsgSender {
 	
 	//! 재개 광고 로드 메세지를 전송한다
 	public void sendLoadResumeAdsMsg(boolean a_bIsSuccess) {
-		String oResult = GFunc.convertBoolToString(a_bIsSuccess);
+		String oResult = GFunc.convertBoolToStr(a_bIsSuccess);
 		
 		try {
 			this.sendDeviceMsg(KGDefine.CMD_LOAD_RESUME_ADS, oResult);
@@ -102,7 +102,7 @@ public class CDeviceMsgSender {
 	
 	//! 재개 광고 출력 메세지를 전송한다
 	public void sendShowResumeAdsMsg(boolean a_bIsSuccess) {
-		String oResult = GFunc.convertBoolToString(a_bIsSuccess);
+		String oResult = GFunc.convertBoolToStr(a_bIsSuccess);
 		
 		try {
 			this.sendDeviceMsg(KGDefine.CMD_SHOW_RESUME_ADS, oResult);

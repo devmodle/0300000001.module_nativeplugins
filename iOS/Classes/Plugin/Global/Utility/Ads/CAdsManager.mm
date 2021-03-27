@@ -48,11 +48,7 @@ static CAdsManager *g_pInst = nil;
 #ifdef ADMOB_ENABLE
 	// 초기화 되었을 경우
 	if(self.isInit && !self.isLoadResumeAds && self.resumeAds == nil) {
-		[GADAppOpenAd loadWithAdUnitID:self.resumeAdsID
-							   request:self.request
-						   orientation:CiOSPlugin.sharedInst.orientation
-					 completionHandler:^void(GADAppOpenAd *a_pAds, NSError *a_pError)
-		{
+		[GADAppOpenAd loadWithAdUnitID:self.resumeAdsID request:self.request orientation:CiOSPlugin.sharedInst.orientation completionHandler:^void(GADAppOpenAd *a_pAds, NSError *a_pError) {
 			NSLog(@"CAdsManager.onLoadResumeAds: %@", a_pError);
 			
 			// 광고 로드에 실패했을 경우

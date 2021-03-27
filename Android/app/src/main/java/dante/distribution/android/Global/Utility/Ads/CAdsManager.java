@@ -26,7 +26,7 @@ public class CAdsManager implements LifecycleObserver, Application.ActivityLifec
 	private boolean m_bIsInit = false;
 	private boolean m_bIsLoadResumeAds = false;
 	
-	private String m_oResumeAdsID = KGDefine.EMPTY_STRING;
+	private String m_oResumeAdsID = KGDefine.EMPTY_STR;
 	
 	private AppOpenAd m_oResumeAds = null;
 	private AdRequest.Builder m_oRequestBuilder = null;

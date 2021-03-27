@@ -28,15 +28,31 @@
 #endif			// #ifdef FIREBASE_MODULE_ENABLE
 
 // 기타
-#define G_EMPTY_STRING			("")
+#define G_EMPTY_STR				("")
 #define G_INDEX_INVALID			(-1)
 
 // 값 {
-#define G_VALUE_INT_0			(0)
-#define G_VALUE_INT_1			(1)
+#define G_VALUE_0_INT			(0)
+#define G_VALUE_1_INT			(1)
+#define G_VALUE_2_INT			(2)
+#define G_VALUE_3_INT			(3)
+#define G_VALUE_4_INT			(4)
+#define G_VALUE_5_INT			(5)
+#define G_VALUE_6_INT			(6)
+#define G_VALUE_7_INT			(7)
+#define G_VALUE_8_INT			(8)
+#define G_VALUE_9_INT			(9)
 
-#define G_VALUE_FLOAT_0			(0.0f)
-#define G_VALUE_FLOAT_1			(1.0f)
+#define G_VALUE_0_FLT			(0.0f)
+#define G_VALUE_1_FLT			(1.0f)
+#define G_VALUE_2_FLT			(2.0f)
+#define G_VALUE_3_FLT			(3.0f)
+#define G_VALUE_4_FLT			(4.0f)
+#define G_VALUE_5_FLT			(5.0f)
+#define G_VALUE_6_FLT			(6.0f)
+#define G_VALUE_7_FLT			(7.0f)
+#define G_VALUE_8_FLT			(8.0f)
+#define G_VALUE_9_FLT			(9.0f)
 // 값 }
 
 // 방향
@@ -56,10 +72,10 @@
 #define G_OFFSET_SCALE_ACTIVITY_INDICATOR			(0.01f)
 
 // 버전
-#define G_MIN_VERSION_DEVICE_ID_FOR_VENDOR			6.0
-#define G_MIN_VERSION_FEEDBACK_GENERATOR			10.0
-#define G_MIN_VERSION_IMPACT_INTENSITY				13.0
-#define G_MIN_VERSION_INDICATOR						13.0
+#define G_MIN_VER_DEVICE_ID_FOR_VENDOR			6.0
+#define G_MIN_VER_FEEDBACK_GENERATOR			10.0
+#define G_MIN_VER_IMPACT_INTENSITY				13.0
+#define G_MIN_VER_INDICATOR						13.0
 
 // 식별자 {
 #define G_ID_KEYCHAIN_DEVICE			("KeychainDeviceID")
@@ -71,7 +87,7 @@
 #define G_KEY_ORIENTATION			("Orientation")
 
 #define G_KEY_APP_ID			("AppID")
-#define G_KEY_VERSION			("Version")
+#define G_KEY_VER				("Ver")
 #define G_KEY_TIMEOUT			("Timeout")
 
 #define G_KEY_ALERT_TITLE					("Title")
@@ -79,8 +95,8 @@
 #define G_KEY_ALERT_OK_BTN_TEXT				("OKBtnText")
 #define G_KEY_ALERT_CANCEL_BTN_TEXT			("CancelBtnText")
 
-#define G_KEY_STORE_VERSION					("version")
-#define G_KEY_STORE_VERSION_RESULT			("results")
+#define G_KEY_STORE_VER					("Ver")
+#define G_KEY_STORE_VER_RESULT			("Results")
 
 #define G_KEY_VIBRATE_TYPE				("Type")
 #define G_KEY_VIBRATE_STYLE				("Style")
@@ -93,8 +109,8 @@
 #define G_KEY_ADMOB_IDS 			("AdmobIDs")
 #define G_KEY_RESUME_ADS_ID			("ResumeAdsID")
 
+#define G_KEY_DEVICE_MS_VER				("Ver")
 #define G_KEY_DEVICE_MS_RESULT			("Result")
-#define G_KEY_DEVICE_MS_VERSION			("Version")
 // 식별자 }
 
 // 명령어 {
@@ -102,9 +118,9 @@
 
 #define G_CMD_GET_DEVICE_ID				("GetDeviceID")
 #define G_CMD_GET_COUNTRY_CODE			("GetCountryCode")
-#define G_CMD_GET_STORE_VERSION			("GetStoreVersion")
+#define G_CMD_GET_STORE_VER				("GetStoreVer")
 
-#define G_CMD_SET_ADS_TRACKING_ENABLE			("SetAdsTrackingEnable")
+#define G_CMD_SET_ENABLE_ADS_TRACKING			("SetEnableAdsTracking")
 #define G_CMD_SHOW_ALERT						("ShowAlert")
 
 #define G_CMD_VIBRATE			("Vibrate")
@@ -120,7 +136,7 @@
 #define G_HTTP_METHOD_GET			("GET")
 #define G_HTTP_METHOD_POST			("POST")
 
-#define G_URL_FMT_STORE_VERSION			("http://itunes.apple.com/lookup?bundleId=%@")
+#define G_URL_FMT_STORE_VER			("http://itunes.apple.com/lookup?bundleId=%@")
 // 네트워크 }
 
 // 이름

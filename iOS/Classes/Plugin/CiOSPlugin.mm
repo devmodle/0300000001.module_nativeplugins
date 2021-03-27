@@ -28,10 +28,10 @@ static CiOSPlugin *g_pInst = nil;
 - (void)handleGetCountryCodeMsg:(const char *)a_pszMsg;
 
 //! 스토어 버전 반환 메세지를 처리한다
-- (void)handleGetStoreVersionMsg:(const char *)a_pszMsg;
+- (void)handleGetStoreVerMsg:(const char *)a_pszMsg;
 
 //! 광고 추적 여부 변경 메세지를 처리한다
-- (void)handleSetAdsTrackingEnableMsg:(const char *)a_pszMsg;
+- (void)handleSetEnableAdsTrackingMsg:(const char *)a_pszMsg;
 
 //! 경고 창 출력 메세지를 처리한다
 - (void)handleShowAlertMsg:(const char *)a_pszMsg;
@@ -61,51 +61,51 @@ extern "C" {
 		NSLog(@"CiOSPlugin.HandleUnityMsg: %@, %@", @(a_pszCmd), @(a_pszMsg));
 		
 		// 초기화 메세지 일 경우
-		if(strcmp(a_pszCmd, G_CMD_INIT) == G_VALUE_INT_0) {
+		if(strcmp(a_pszCmd, G_CMD_INIT) == G_VALUE_0_INT) {
 			[CiOSPlugin.sharedInst handleInitMsg:a_pszMsg];
 		}
 		// 디바이스 식별자 반환 메세지 일 경우
-		else if(strcmp(a_pszCmd, G_CMD_GET_DEVICE_ID) == G_VALUE_INT_0) {
+		else if(strcmp(a_pszCmd, G_CMD_GET_DEVICE_ID) == G_VALUE_0_INT) {
 			[CiOSPlugin.sharedInst handleGetDeviceIDMsg:a_pszMsg];
 		}
 		// 국가 코드 반환 메세지 일 경우
-		else if(strcmp(a_pszCmd, G_CMD_GET_COUNTRY_CODE) == G_VALUE_INT_0) {
+		else if(strcmp(a_pszCmd, G_CMD_GET_COUNTRY_CODE) == G_VALUE_0_INT) {
 			[CiOSPlugin.sharedInst handleGetCountryCodeMsg:a_pszMsg];
 		}
 		// 스토어 버전 반환 메세지 일 경우
-		else if(strcmp(a_pszCmd, G_CMD_GET_STORE_VERSION) == G_VALUE_INT_0) {
-			[CiOSPlugin.sharedInst handleGetStoreVersionMsg:a_pszMsg];
+		else if(strcmp(a_pszCmd, G_CMD_GET_STORE_VER) == G_VALUE_0_INT) {
+			[CiOSPlugin.sharedInst handleGetStoreVerMsg:a_pszMsg];
 		}
 		// 광고 추적 여부 변경 메세지 일 경우
-		else if(strcmp(a_pszCmd, G_CMD_SET_ADS_TRACKING_ENABLE) == G_VALUE_INT_0) {
-			[CiOSPlugin.sharedInst handleSetAdsTrackingEnableMsg:a_pszMsg];
+		else if(strcmp(a_pszCmd, G_CMD_SET_ENABLE_ADS_TRACKING) == G_VALUE_0_INT) {
+			[CiOSPlugin.sharedInst handleSetEnableAdsTrackingMsg:a_pszMsg];
 		}
 		// 경고 창 출력 메세지 일 경우
-		else if(strcmp(a_pszCmd, G_CMD_SHOW_ALERT) == G_VALUE_INT_0) {
+		else if(strcmp(a_pszCmd, G_CMD_SHOW_ALERT) == G_VALUE_0_INT) {
 			[CiOSPlugin.sharedInst handleShowAlertMsg:a_pszMsg];
 		}
 		// 진동 메세지 일 경우
-		else if(strcmp(a_pszCmd, G_CMD_VIBRATE) == G_VALUE_INT_0) {
+		else if(strcmp(a_pszCmd, G_CMD_VIBRATE) == G_VALUE_0_INT) {
 			[CiOSPlugin.sharedInst handleVibrateMsg:a_pszMsg];
 		}
 		// 추적 메세지 일 경우
-		else if(strcmp(a_pszCmd, G_CMD_TRACKING) == G_VALUE_INT_0) {
+		else if(strcmp(a_pszCmd, G_CMD_TRACKING) == G_VALUE_0_INT) {
 			[CiOSPlugin.sharedInst handleTrackingMsg:a_pszMsg];
 		}
 		// 인디케이터 메세지 일 경우
-		else if(strcmp(a_pszCmd, G_CMD_INDICATOR) == G_VALUE_INT_0) {
+		else if(strcmp(a_pszCmd, G_CMD_INDICATOR) == G_VALUE_0_INT) {
 			[CiOSPlugin.sharedInst handleIndicatorMsg:a_pszMsg];
 		}
 		// 광고 초기화 메세지 일 경우
-		else if(strcmp(a_pszCmd, G_CMD_INIT_ADS) == G_VALUE_INT_0) {
+		else if(strcmp(a_pszCmd, G_CMD_INIT_ADS) == G_VALUE_0_INT) {
 			[CiOSPlugin.sharedInst handleInitAdsMsg:a_pszMsg];
 		}
 		// 재개 광고 로드 메세지 일 경우
-		else if(strcmp(a_pszCmd, G_CMD_LOAD_RESUME_ADS) == G_VALUE_INT_0) {
+		else if(strcmp(a_pszCmd, G_CMD_LOAD_RESUME_ADS) == G_VALUE_0_INT) {
 			[CiOSPlugin.sharedInst handleLoadResumeAdsMsg:a_pszMsg];
 		}
 		// 재개 광고 출력 메세지 일 경우
-		else if(strcmp(a_pszCmd, G_CMD_SHOW_RESUME_ADS) == G_VALUE_INT_0) {
+		else if(strcmp(a_pszCmd, G_CMD_SHOW_RESUME_ADS) == G_VALUE_0_INT) {
 			[CiOSPlugin.sharedInst handleShowResumeAdsMsg:a_pszMsg];
 		}
 	}
@@ -167,13 +167,13 @@ extern "C" {
 	if(m_pActivityIndicatorView == nil) {
 		UIActivityIndicatorViewStyle eIndicatorViewStyle = UIActivityIndicatorViewStyleWhiteLarge;
 		
-		// 새로운 인디케이터를 지원 할 경우
-		if(@available(iOS G_MIN_VERSION_INDICATOR, *)) {
+		// 신규 버전 인디케이터를 지원 할 경우
+		if(@available(iOS G_MIN_VER_INDICATOR, *)) {
 			eIndicatorViewStyle = UIActivityIndicatorViewStyleLarge;
 		}
 		
 		m_pActivityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:eIndicatorViewStyle];
-		m_pActivityIndicatorView.color = [UIColor colorWithWhite:G_VALUE_FLOAT_1 alpha:G_VALUE_FLOAT_1];
+		m_pActivityIndicatorView.color = [UIColor colorWithWhite:G_VALUE_1_FLT alpha:G_VALUE_1_FLT];
 		m_pActivityIndicatorView.center = self.rootViewController.view.center;
 		m_pActivityIndicatorView.hidesWhenStopped = YES;
 		
@@ -192,7 +192,7 @@ extern "C" {
 		float fOffset = MIN(self.rootViewController.view.bounds.size.width, self.rootViewController.view.bounds.size.height);
 		fOffset *= G_OFFSET_SCALE_ACTIVITY_INDICATOR;
 		
-		stTransform = CGAffineTransformTranslate(stTransform, G_VALUE_FLOAT_0, -fOffset);
+		stTransform = CGAffineTransformTranslate(stTransform, G_VALUE_0_FLT, -fOffset);
 		m_pActivityIndicatorView.transform = stTransform;
 		// 위치를 설정한다 }
 		
@@ -248,7 +248,7 @@ extern "C" {
 
 //! 초기화 메세지를 처리한다
 - (void)handleInitMsg:(const char *)a_pszMsg {
-	NSDictionary *pDataList = (NSDictionary *)GFunc::ConvertJSONStringToObj(@(a_pszMsg), NULL);
+	NSDictionary *pDataList = (NSDictionary *)GFunc::ConvertJSONStrToObj(@(a_pszMsg), NULL);
 	
 	NSString *pBuildMode = (NSString *)[pDataList objectForKey:@(G_KEY_BUILD_MODE)];
 	NSString *pOrientation = (NSString *)[pDataList objectForKey:@(G_KEY_ORIENTATION)];
@@ -268,7 +268,7 @@ extern "C" {
 	// 디바이스 식별자가 유효하지 않을 경우
 	if(!GFunc::IsValid(self.deviceID)) {
 		// UUID 를 지원 할 경우
-		if(@available(iOS G_MIN_VERSION_DEVICE_ID_FOR_VENDOR, *)) {
+		if(@available(iOS G_MIN_VER_DEVICE_ID_FOR_VENDOR, *)) {
 			self.deviceID = UIDevice.currentDevice.identifierForVendor.UUIDString;
 		} else {
 			CFUUIDRef pUUID = CFUUIDCreate(kCFAllocatorDefault);
@@ -288,45 +288,43 @@ extern "C" {
 }
 
 //! 스토어 버전 반환 메세지를 처리한다
-- (void)handleGetStoreVersionMsg:(const char *)a_pszMsg {
-	NSDictionary *pDataList = (NSDictionary *)GFunc::ConvertJSONStringToObj(@(a_pszMsg), NULL);
+- (void)handleGetStoreVerMsg:(const char *)a_pszMsg {
+	NSDictionary *pDataList = (NSDictionary *)GFunc::ConvertJSONStrToObj(@(a_pszMsg), NULL);
 	
 	NSString *pAppID = (NSString *)[pDataList objectForKey:@(G_KEY_APP_ID)];
-	NSString *pVersion = (NSString *)[pDataList objectForKey:@(G_KEY_VERSION)];
+	NSString *pVer = (NSString *)[pDataList objectForKey:@(G_KEY_VER)];
 	NSString *pTimeout = (NSString *)[pDataList objectForKey:@(G_KEY_TIMEOUT)];
 	
 	// 디버그 모드 일 경우
 	if([self.buildMode isEqualToString:@(G_BUILD_MODE_DEBUG)]) {
-		[CDeviceMsgSender.sharedInst sendGetStoreVersionMsg:pVersion withResult:YES];
+		[CDeviceMsgSender.sharedInst sendGetStoreVerMsg:pVer withResult:YES];
 	} else {
-		NSString *pURL = [NSString stringWithFormat:@(G_URL_FMT_STORE_VERSION), pAppID];
+		NSString *pURL = [NSString stringWithFormat:@(G_URL_FMT_STORE_VER), pAppID];
 		NSMutableURLRequest * pURLRequest = GFunc::MakeURLRequest(pURL, @(G_HTTP_METHOD_GET), pTimeout.doubleValue);
 		
 		// 데이터를 수신했을 경우
-		[NSURLSession.sharedSession dataTaskWithRequest:pURLRequest
-									  completionHandler:^void(NSData *a_pData, NSURLResponse *a_pResponse, NSError *a_pError)
-		{
-			NSLog(@"CiOSPlugin.onHandleGetStoreVersionMsg: %@", a_pData);
+		[NSURLSession.sharedSession dataTaskWithRequest:pURLRequest completionHandler:^void(NSData *a_pData, NSURLResponse *a_pResponse, NSError *a_pError) {
+			NSLog(@"CiOSPlugin.onHandleGetStoreVerMsg: %@", a_pData);
 			
 			// 스토어 버전 로드에 실패했을 경우
 			if(a_pError != nil || (a_pData == nil || a_pResponse == nil)) {
-				NSLog(@"CiOSPlugin.onHandleGetStoreVersionMsg Fail: %@", a_pError);
-				[CDeviceMsgSender.sharedInst sendGetStoreVersionMsg:pVersion withResult:NO];
+				NSLog(@"CiOSPlugin.onHandleGetStoreVerMsg Fail: %@", a_pError);
+				[CDeviceMsgSender.sharedInst sendGetStoreVerMsg:pVer withResult:NO];
 			} else {
-				NSString *pString = [[NSString alloc] initWithData:a_pData encoding:NSUTF8StringEncoding];
-				NSDictionary *pResponseDataList = (NSDictionary *)GFunc::ConvertJSONStringToObj(pString, NULL);
+				NSString *pStr = [[NSString alloc] initWithData:a_pData encoding:NSUTF8StringEncoding];
+				NSDictionary *pResponseDataList = (NSDictionary *)GFunc::ConvertJSONStrToObj(pStr, NULL);
 				
-				NSArray *pVersionInfoList = (NSArray *)[pResponseDataList objectForKey:@(G_KEY_STORE_VERSION_RESULT)];
-				NSDictionary *pVersionInfo = (NSDictionary *)[pVersionInfoList lastObject];
+				NSArray *pVerInfoList = (NSArray *)[pResponseDataList objectForKey:@(G_KEY_STORE_VER_RESULT)];
+				NSDictionary *pVerInfo = (NSDictionary *)[pVerInfoList lastObject];
 				
-				NSString *pStoreVersion = (NSString *)[pVersionInfo objectForKey:@(G_KEY_STORE_VERSION)];
-				NSLog(@"CiOSPlugin.onHandleGetStoreVersionMsg Success: %@", pStoreVersion);
+				NSString *pStoreVer = (NSString *)[pVerInfo objectForKey:@(G_KEY_STORE_VER)];
+				NSLog(@"CiOSPlugin.onHandleGetStoreVerMsg Success: %@", pStoreVer);
 				
 				// 스토어 버전이 유효 할 경우
-				if(GFunc::IsValid(pStoreVersion)) {
-					[CDeviceMsgSender.sharedInst sendGetStoreVersionMsg:pStoreVersion withResult:YES];
+				if(GFunc::IsValid(pStoreVer)) {
+					[CDeviceMsgSender.sharedInst sendGetStoreVerMsg:pStoreVer withResult:YES];
 				} else {
-					[CDeviceMsgSender.sharedInst sendGetStoreVersionMsg:pVersion withResult:NO];
+					[CDeviceMsgSender.sharedInst sendGetStoreVerMsg:pVer withResult:NO];
 				}
 			}
 		}];
@@ -334,41 +332,34 @@ extern "C" {
 }
 
 //! 광고 추적 여부 변경 메세지를 처리한다
-- (void)handleSetAdsTrackingEnableMsg:(const char *)a_pszMsg {
+- (void)handleSetEnableAdsTrackingMsg:(const char *)a_pszMsg {
 #ifdef FACEBOOK_ADS_ENABLE
-	BOOL bIsEnable = GFunc::ConvertStringToBool(@(a_pszMsg));
+	BOOL bIsEnable = GFunc::ConvertStrToBool(@(a_pszMsg));
 	[FBAdSettings setAdvertiserTrackingEnabled:bIsEnable];
 #endif			// #ifdef FACEBOOK_ADS_ENABLE
 }
 
 //! 경고 창 출력 메세지를 처리한다
 - (void)handleShowAlertMsg:(const char *)a_pszMsg {
-	NSDictionary *pDataList = (NSDictionary *)GFunc::ConvertJSONStringToObj(@(a_pszMsg), NULL);
+	NSDictionary *pDataList = (NSDictionary *)GFunc::ConvertJSONStrToObj(@(a_pszMsg), NULL);
 	
 	NSString *pTitle = (NSString *)[pDataList objectForKey:@(G_KEY_ALERT_TITLE)];
 	NSString *pMsg = (NSString *)[pDataList objectForKey:@(G_KEY_ALERT_MSG)];
 	NSString *pOKBtnText = (NSString *)[pDataList objectForKey:@(G_KEY_ALERT_OK_BTN_TEXT)];
 	NSString *pCancelBtnText = (NSString *)[pDataList objectForKey:@(G_KEY_ALERT_CANCEL_BTN_TEXT)];
 	
-	UIAlertController *pAlertController = [UIAlertController alertControllerWithTitle:GFunc::IsValid(pTitle) ? pTitle : nil
-																			  message:pMsg
-																	   preferredStyle:UIAlertControllerStyleAlert];
+	NSString *pAlertTitle = GFunc::IsValid(pTitle) ? pTitle : nil;
+	UIAlertController *pAlertController = [UIAlertController alertControllerWithTitle:pAlertTitle message:pMsg preferredStyle:UIAlertControllerStyleAlert];
 	
 	// 확인 버튼을 눌렀을 경우
-	[pAlertController addAction:[UIAlertAction actionWithTitle:pOKBtnText
-														 style:UIAlertActionStyleDefault
-													   handler:^void(UIAlertAction *a_pSender)
-	{
+	[pAlertController addAction:[UIAlertAction actionWithTitle:pOKBtnText style:UIAlertActionStyleDefault handler:^void(UIAlertAction *a_pSender) {
 		[CDeviceMsgSender.sharedInst sendShowAlertMsg:YES];
 	}]];
 	
 	// 취소 버튼 텍스트가 유효 할 경우
 	if(GFunc::IsValid(pCancelBtnText)) {
 		// 취소 버튼을 눌렀을 경우
-		[pAlertController addAction:[UIAlertAction actionWithTitle:pCancelBtnText
-															 style:UIAlertActionStyleCancel
-														   handler:^void(UIAlertAction *a_pSender)
-		{
+		[pAlertController addAction:[UIAlertAction actionWithTitle:pCancelBtnText style:UIAlertActionStyleCancel handler:^void(UIAlertAction *a_pSender) {
 			[CDeviceMsgSender.sharedInst sendShowAlertMsg:NO];
 		}]];
 	}
@@ -379,7 +370,7 @@ extern "C" {
 
 //! 진동 메세지를 처리한다
 - (void)handleVibrateMsg:(const char *)a_pszMsg {
-	NSDictionary *pDataList = (NSDictionary *)GFunc::ConvertJSONStringToObj(@(a_pszMsg), NULL);
+	NSDictionary *pDataList = (NSDictionary *)GFunc::ConvertJSONStrToObj(@(a_pszMsg), NULL);
 	
 	NSString *pType = (NSString *)[pDataList objectForKey:@(G_KEY_VIBRATE_TYPE)];
 	NSString *pStyle = (NSString *)[pDataList objectForKey:@(G_KEY_VIBRATE_STYLE)];
@@ -390,24 +381,20 @@ extern "C" {
 	// 진동 타입이 유효 할 경우
 	if(GFunc::IsValid(eVibrateType)) {
 		// 햅틱 진동을 지원 할 경우
-		if(@available(iOS G_MIN_VERSION_FEEDBACK_GENERATOR, *)) {
+		if(@available(iOS G_MIN_VER_FEEDBACK_GENERATOR, *)) {
 			// 선택 진동 모드 일 경우
 			if(eVibrateType == EVibrateType::SELECTION) {
-				[self.selectionGenerator prepare];
 				[self.selectionGenerator selectionChanged];
 			}
 			// 경고 진동 모드 일 경우
 			else if(eVibrateType == EVibrateType::NOTIFICATION) {
-				[self.notificationGenerator prepare];
 				[self.notificationGenerator notificationOccurred:(UINotificationFeedbackType)eVibrateStyle];
 			} else {
 				UIImpactFeedbackStyle eFeedbackStyle = (UIImpactFeedbackStyle)eVibrateStyle;
 				UIImpactFeedbackGenerator *pImpactGenerator = (UIImpactFeedbackGenerator *)[self.impactGeneratorList objectAtIndex:eFeedbackStyle];
 				
-				[pImpactGenerator prepare];
-				
 				// 진동 세기를 지원 할 경우
-				if(@available(iOS G_MIN_VERSION_IMPACT_INTENSITY, *)) {
+				if(@available(iOS G_MIN_VER_IMPACT_INTENSITY, *)) {
 					NSString *pIntensity = (NSString *)[pDataList objectForKey:@(G_KEY_VIBRATE_INTENSITY)];
 					[pImpactGenerator impactOccurredWithIntensity:pIntensity.floatValue];
 				} else {
@@ -423,22 +410,22 @@ extern "C" {
 //! 추적 메세지를 처리한다
 - (void)handleTrackingMsg:(const char *)a_pszMsg {
 #ifdef FIREBASE_MODULE_ENABLE
-	NSDictionary *pDataList = (NSDictionary *)GFunc::ConvertJSONStringToObj(@(a_pszMsg), NULL);
+	NSDictionary *pDataList = (NSDictionary *)GFunc::ConvertJSONStrToObj(@(a_pszMsg), NULL);
 	
 	NSString *pName = (NSString *)[pDataList objectForKey:@(G_KEY_TRACKING_NAME)];
-	NSString *pIsStartString = (NSString *)[pDataList objectForKey:@(G_KEY_TRACKING_IS_START)];
+	NSString *pIsStartStr = (NSString *)[pDataList objectForKey:@(G_KEY_TRACKING_IS_START)];
 	
-	BOOL bIsStart = GFunc::ConvertStringToBool(pIsStartString);
+	BOOL bIsStart = GFunc::ConvertStrToBool(pIsStartStr);
 	BOOL bIsContains = [self.trackingList objectForKey:pName] != nil;
 	
 	// 시작 모드 일 경우
 	if(bIsStart && !bIsContains) {
 		FIRTrace *pTracking = [FIRPerformance startTraceWithName:pName];
-		NSString *pDatasString = (NSString *)[pDataList objectForKey:@(G_KEY_TRACKING_DATAS)];
+		NSString *pDatasStr = (NSString *)[pDataList objectForKey:@(G_KEY_TRACKING_DATAS)];
 		
 		// 데이터가 존재 할 경우
-		if(pDatasString != nil) {
-			NSDictionary *pTrackingDataList = (NSDictionary *)GFunc::ConvertJSONStringToObj(pDatasString, NULL);
+		if(pDatasStr != nil) {
+			NSDictionary *pTrackingDataList = (NSDictionary *)GFunc::ConvertJSONStrToObj(pDatasStr, NULL);
 			NSArray *pKeyList = pTrackingDataList.allKeys;
 			
 			for(int i = 0; i < pKeyList.count; ++i) {
@@ -465,7 +452,7 @@ extern "C" {
 //! 인디케이터 메세지를 처리한다
 - (void)handleIndicatorMsg:(const char *)a_pszMsg {
 	// 출력 모드 일 경우
-	if(GFunc::ConvertStringToBool(@(a_pszMsg))) {
+	if(GFunc::ConvertStrToBool(@(a_pszMsg))) {
 		[self.activityIndicatorView startAnimating];
 	} else {
 		[self.activityIndicatorView stopAnimating];
@@ -474,12 +461,12 @@ extern "C" {
 
 //! 광고 초기화 메세지를 처리한다
 - (void)handleInitAdsMsg:(const char *)a_pszMsg {
-	NSDictionary *pDataList = (NSDictionary *)GFunc::ConvertJSONStringToObj(@(a_pszMsg), NULL);
+	NSDictionary *pDataList = (NSDictionary *)GFunc::ConvertJSONStrToObj(@(a_pszMsg), NULL);
 	
 	NSString *pResumeAdsID = (NSString *)[pDataList objectForKey:@(G_KEY_RESUME_ADS_ID)];
-	NSString *pAdmobIDsString = (NSString *)[pDataList objectForKey:@(G_KEY_ADMOB_IDS)];
+	NSString *pAdmobIDsStr = (NSString *)[pDataList objectForKey:@(G_KEY_ADMOB_IDS)];
 	
-	NSArray *pAdmobIDList = (NSArray *)GFunc::ConvertJSONStringToObj(pAdmobIDsString, NULL);
+	NSArray *pAdmobIDList = (NSArray *)GFunc::ConvertJSONStrToObj(pAdmobIDsStr, NULL);
 	[CAdsManager.sharedInst init:pResumeAdsID withDeviceIDList:pAdmobIDList];
 }
 

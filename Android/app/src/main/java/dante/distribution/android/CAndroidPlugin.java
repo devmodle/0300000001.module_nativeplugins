@@ -77,7 +77,7 @@ public class CAndroidPlugin {
 		// 레이아웃을 설정한다 {
 		RelativeLayout oLayout = new RelativeLayout(UnityPlayer.currentActivity);
 		oLayout.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
-		oLayout.setPadding(KGDefine.VALUE_0_INT, KGDefine.VALUE_0_INT, KGDefine.VALUE_0_INT, nOffset);
+		oLayout.setPadding(KGDefine.VAL_0_INT, KGDefine.VAL_0_INT, KGDefine.VAL_0_INT, nOffset);
 		oLayout.addView(m_oProgressBar, oParams);
 		
 		RelativeLayout.LayoutParams oLayoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
@@ -278,7 +278,7 @@ public class CAndroidPlugin {
 		if(Build.VERSION.SDK_INT < KGDefine.MIN_VER_FEEDBACK_GENERATOR) {
 			oVibrator.vibrate((int)(fDuration * KGDefine.UNIT_SEC_TO_MILLISEC));
 		} else {
-			VibrationEffect oEffect = VibrationEffect.createOneShot((int)(fDuration * KGDefine.UNIT_SEC_TO_MILLISEC), (int)(fIntensity * KGDefine.UNIT_NORM_VALUE_TO_BYTE));
+			VibrationEffect oEffect = VibrationEffect.createOneShot((int)(fDuration * KGDefine.UNIT_SEC_TO_MILLISEC), (int)(fIntensity * KGDefine.UNIT_NORM_VAL_TO_BYTE));
 			oVibrator.vibrate(oEffect);
 		}
 	}

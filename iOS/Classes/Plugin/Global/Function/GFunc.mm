@@ -10,12 +10,12 @@
 namespace GFunc {
 	//! 유효 여부를 검사한다
 	BOOL IsValid(NSString *a_pStr) {
-		return a_pStr != nil && a_pStr.length > G_VALUE_0_INT;
+		return a_pStr != nil && a_pStr.length > G_VAL_0_INT;
 	}
 	
 	//! 유효 여부를 검사한다
 	BOOL IsValid(EVibrateType a_eType) {
-		return a_eType > EVibrateType::NONE && a_eType < EVibrateType::MAX_VALUE;
+		return a_eType > EVibrateType::NONE && a_eType < EVibrateType::MAX_VAL;
 	}
 
 	//! 문자열 => 논리로 변화한다

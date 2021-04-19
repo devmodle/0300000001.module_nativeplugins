@@ -9,21 +9,33 @@ public abstract class KGDefine {
 	public static final String EMPTY_STR = "";
 	public static final String INVALID_ANDROID_ID = "9774d56d682e549c";
 	
-	// 값
-	public static final int VALUE_0_INT = 0;
-	public static final int VALUE_1_INT = 1;
-	public static final int VALUE_2_INT = 2;
-	public static final int VALUE_3_INT = 3;
-	public static final int VALUE_4_INT = 4;
-	public static final int VALUE_5_INT = 5;
-	public static final int VALUE_6_INT = 6;
-	public static final int VALUE_7_INT = 7;
-	public static final int VALUE_8_INT = 8;
-	public static final int VALUE_9_INT = 9;
+	// 값 {
+	public static final int VAL_0_INT = 0;
+	public static final int VAL_1_INT = 1;
+	public static final int VAL_2_INT = 2;
+	public static final int VAL_3_INT = 3;
+	public static final int VAL_4_INT = 4;
+	public static final int VAL_5_INT = 5;
+	public static final int VAL_6_INT = 6;
+	public static final int VAL_7_INT = 7;
+	public static final int VAL_8_INT = 8;
+	public static final int VAL_9_INT = 9;
+	
+	public static final float VAL_0_FLT = 0.0f;
+	public static final float VAL_1_FLT = 1.0f;
+	public static final float VAL_2_FLT = 2.0f;
+	public static final float VAL_3_FLT = 3.0f;
+	public static final float VAL_4_FLT = 4.0f;
+	public static final float VAL_5_FLT = 5.0f;
+	public static final float VAL_6_FLT = 6.0f;
+	public static final float VAL_7_FLT = 7.0f;
+	public static final float VAL_8_FLT = 8.0f;
+	public static final float VAL_9_FLT = 9.0f;
+	// 값 }
 	
 	// 유닛
 	public static final int UNIT_SEC_TO_MILLISEC = 1000;
-	public static final int UNIT_NORM_VALUE_TO_BYTE = 255;
+	public static final int UNIT_NORM_VAL_TO_BYTE = 255;
 	
 	// 버전
 	public static final int MIN_VER_APP_UPDATE_MANAGER = Build.VERSION_CODES.LOLLIPOP;

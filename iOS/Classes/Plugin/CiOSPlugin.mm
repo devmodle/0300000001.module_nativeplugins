@@ -61,51 +61,51 @@ extern "C" {
 		NSLog(@"CiOSPlugin.HandleUnityMsg: %@, %@", @(a_pszCmd), @(a_pszMsg));
 		
 		// 초기화 메세지 일 경우
-		if(strcmp(a_pszCmd, G_CMD_INIT) == G_VALUE_0_INT) {
+		if(strcmp(a_pszCmd, G_CMD_INIT) == G_VAL_0_INT) {
 			[CiOSPlugin.sharedInst handleInitMsg:a_pszMsg];
 		}
 		// 디바이스 식별자 반환 메세지 일 경우
-		else if(strcmp(a_pszCmd, G_CMD_GET_DEVICE_ID) == G_VALUE_0_INT) {
+		else if(strcmp(a_pszCmd, G_CMD_GET_DEVICE_ID) == G_VAL_0_INT) {
 			[CiOSPlugin.sharedInst handleGetDeviceIDMsg:a_pszMsg];
 		}
 		// 국가 코드 반환 메세지 일 경우
-		else if(strcmp(a_pszCmd, G_CMD_GET_COUNTRY_CODE) == G_VALUE_0_INT) {
+		else if(strcmp(a_pszCmd, G_CMD_GET_COUNTRY_CODE) == G_VAL_0_INT) {
 			[CiOSPlugin.sharedInst handleGetCountryCodeMsg:a_pszMsg];
 		}
 		// 스토어 버전 반환 메세지 일 경우
-		else if(strcmp(a_pszCmd, G_CMD_GET_STORE_VER) == G_VALUE_0_INT) {
+		else if(strcmp(a_pszCmd, G_CMD_GET_STORE_VER) == G_VAL_0_INT) {
 			[CiOSPlugin.sharedInst handleGetStoreVerMsg:a_pszMsg];
 		}
 		// 광고 추적 여부 변경 메세지 일 경우
-		else if(strcmp(a_pszCmd, G_CMD_SET_ENABLE_ADS_TRACKING) == G_VALUE_0_INT) {
+		else if(strcmp(a_pszCmd, G_CMD_SET_ENABLE_ADS_TRACKING) == G_VAL_0_INT) {
 			[CiOSPlugin.sharedInst handleSetEnableAdsTrackingMsg:a_pszMsg];
 		}
 		// 경고 창 출력 메세지 일 경우
-		else if(strcmp(a_pszCmd, G_CMD_SHOW_ALERT) == G_VALUE_0_INT) {
+		else if(strcmp(a_pszCmd, G_CMD_SHOW_ALERT) == G_VAL_0_INT) {
 			[CiOSPlugin.sharedInst handleShowAlertMsg:a_pszMsg];
 		}
 		// 진동 메세지 일 경우
-		else if(strcmp(a_pszCmd, G_CMD_VIBRATE) == G_VALUE_0_INT) {
+		else if(strcmp(a_pszCmd, G_CMD_VIBRATE) == G_VAL_0_INT) {
 			[CiOSPlugin.sharedInst handleVibrateMsg:a_pszMsg];
 		}
 		// 추적 메세지 일 경우
-		else if(strcmp(a_pszCmd, G_CMD_TRACKING) == G_VALUE_0_INT) {
+		else if(strcmp(a_pszCmd, G_CMD_TRACKING) == G_VAL_0_INT) {
 			[CiOSPlugin.sharedInst handleTrackingMsg:a_pszMsg];
 		}
 		// 인디케이터 메세지 일 경우
-		else if(strcmp(a_pszCmd, G_CMD_INDICATOR) == G_VALUE_0_INT) {
+		else if(strcmp(a_pszCmd, G_CMD_INDICATOR) == G_VAL_0_INT) {
 			[CiOSPlugin.sharedInst handleIndicatorMsg:a_pszMsg];
 		}
 		// 광고 초기화 메세지 일 경우
-		else if(strcmp(a_pszCmd, G_CMD_INIT_ADS) == G_VALUE_0_INT) {
+		else if(strcmp(a_pszCmd, G_CMD_INIT_ADS) == G_VAL_0_INT) {
 			[CiOSPlugin.sharedInst handleInitAdsMsg:a_pszMsg];
 		}
 		// 재개 광고 로드 메세지 일 경우
-		else if(strcmp(a_pszCmd, G_CMD_LOAD_RESUME_ADS) == G_VALUE_0_INT) {
+		else if(strcmp(a_pszCmd, G_CMD_LOAD_RESUME_ADS) == G_VAL_0_INT) {
 			[CiOSPlugin.sharedInst handleLoadResumeAdsMsg:a_pszMsg];
 		}
 		// 재개 광고 출력 메세지 일 경우
-		else if(strcmp(a_pszCmd, G_CMD_SHOW_RESUME_ADS) == G_VALUE_0_INT) {
+		else if(strcmp(a_pszCmd, G_CMD_SHOW_RESUME_ADS) == G_VAL_0_INT) {
 			[CiOSPlugin.sharedInst handleShowResumeAdsMsg:a_pszMsg];
 		}
 	}
@@ -173,7 +173,7 @@ extern "C" {
 		}
 		
 		m_pActivityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:eIndicatorViewStyle];
-		m_pActivityIndicatorView.color = [UIColor colorWithWhite:G_VALUE_1_FLT alpha:G_VALUE_1_FLT];
+		m_pActivityIndicatorView.color = [UIColor colorWithWhite:G_VAL_1_FLT alpha:G_VAL_1_FLT];
 		m_pActivityIndicatorView.center = self.rootViewController.view.center;
 		m_pActivityIndicatorView.hidesWhenStopped = YES;
 		
@@ -192,7 +192,7 @@ extern "C" {
 		float fOffset = MIN(self.rootViewController.view.bounds.size.width, self.rootViewController.view.bounds.size.height);
 		fOffset *= G_OFFSET_SCALE_ACTIVITY_INDICATOR;
 		
-		stTransform = CGAffineTransformTranslate(stTransform, G_VALUE_0_FLT, -fOffset);
+		stTransform = CGAffineTransformTranslate(stTransform, G_VAL_0_FLT, -fOffset);
 		m_pActivityIndicatorView.transform = stTransform;
 		// 위치를 설정한다 }
 		

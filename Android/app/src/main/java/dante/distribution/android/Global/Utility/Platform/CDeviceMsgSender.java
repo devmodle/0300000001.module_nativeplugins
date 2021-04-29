@@ -48,22 +48,6 @@ public class CDeviceMsgSender {
 		}
 	}
 	
-	//! 스토어 버전 반환 메세지를 전송한다
-	public void sendGetStoreVerMsg(String a_oVer, boolean a_bIsSuccess) {
-		String oResult = GFunc.convertBoolToStr(a_bIsSuccess);
-		
-		try {
-			JSONObject oJSONObj = new JSONObject();
-			oJSONObj.put(KGDefine.KEY_DEVICE_MS_VER, a_oVer);
-			oJSONObj.put(KGDefine.KEY_DEVICE_MS_RESULT, oResult);
-			
-			this.sendDeviceMsg(KGDefine.CMD_GET_STORE_VER, oJSONObj.toString());
-		} catch(Exception oException) {
-			Log.e(KGDefine.TAG, String.format("CDeviceMsgSender.sendGetStoreVerMsg Exception: %s, %s, %s", a_oVer, oResult, oException.getMessage()));
-			oException.printStackTrace();
-		}
-	}
-	
 	//! 경고 창 출력 메세지를 전송한다
 	public void sendShowAlertMsg(boolean a_bIsOK) {
 		String oResult = GFunc.convertBoolToStr(a_bIsOK);

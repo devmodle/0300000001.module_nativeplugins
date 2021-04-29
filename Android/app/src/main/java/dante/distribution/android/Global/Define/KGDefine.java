@@ -58,7 +58,6 @@ public abstract class KGDefine {
 	
 	public static final String CMD_GET_DEVICE_ID = "GetDeviceID";
 	public static final String CMD_GET_COUNTRY_CODE = "GetCountryCode";
-	public static final String CMD_GET_STORE_VER = "GetStoreVer";
 	
 	public static final String CMD_SHOW_ALERT = "ShowAlert";
 	public static final String CMD_SHOW_TOAST = "ShowToast";

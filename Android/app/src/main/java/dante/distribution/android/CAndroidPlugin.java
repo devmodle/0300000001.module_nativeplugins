@@ -17,15 +17,6 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import com.google.android.play.core.appupdate.AppUpdateInfo;
-import com.google.android.play.core.appupdate.AppUpdateManager;
-import com.google.android.play.core.appupdate.AppUpdateManagerFactory;
-import com.google.android.play.core.appupdate.testing.FakeAppUpdateManager;
-import com.google.android.play.core.install.model.AppUpdateType;
-import com.google.android.play.core.install.model.UpdateAvailability;
-import com.google.android.play.core.tasks.OnFailureListener;
-import com.google.android.play.core.tasks.OnSuccessListener;
-import com.google.android.play.core.tasks.Task;
 import com.google.firebase.perf.FirebasePerformance;
 import com.google.firebase.perf.metrics.Trace;
 import com.unity3d.player.UnityPlayer;
@@ -112,7 +103,6 @@ public class CAndroidPlugin {
 						case KGDefine.CMD_INIT: CAndroidPlugin.getInst().handleInitMsg(a_oMsg); break;
 						case KGDefine.CMD_GET_DEVICE_ID: CAndroidPlugin.getInst().handleGetDeviceIDMsg(a_oMsg); break;
 						case KGDefine.CMD_GET_COUNTRY_CODE: CAndroidPlugin.getInst().handleGetCountryCodeMsg(a_oMsg); break;
-						case KGDefine.CMD_GET_STORE_VER: CAndroidPlugin.getInst().handleGetStoreVerMsg(a_oMsg); break;
 						case KGDefine.CMD_SHOW_TOAST: CAndroidPlugin.getInst().handleShowToastMsg(a_oMsg); break;
 						case KGDefine.CMD_SHOW_ALERT: CAndroidPlugin.getInst().handleShowAlertMsg(a_oMsg); break;
 						case KGDefine.CMD_VIBRATE: CAndroidPlugin.getInst().handleVibrateMsg(a_oMsg); break;
@@ -164,62 +154,7 @@ public class CAndroidPlugin {
 		Locale oLocale = Locale.getDefault();
 		CDeviceMsgSender.getInst().sendGetCountryCodeMsg(oLocale.getCountry());
 	}
-	
-	//! 스토어 버전 반환 메세지를 처리한다
-	private void handleGetStoreVerMsg(String a_oMsg) throws Exception {
-		JSONObject oJSONObj = new JSONObject(a_oMsg);
-		final String oVer = oJSONObj.getString(KGDefine.KEY_VER);
-		
-		// 앱 업데이트 관리자를 지원하지 않을 경우
-		if(Build.VERSION.SDK_INT < KGDefine.MIN_VER_APP_UPDATE_MANAGER) {
-			CDeviceMsgSender.getInst().sendGetStoreVerMsg(oVer, false);
-		} else {
-			Task<AppUpdateInfo> oTask = null;
-			
-			// 디버그 모드 일 경우
-			if(m_oBuildMode.equals(KGDefine.BUILD_MODE_DEBUG)) {
-				FakeAppUpdateManager oFakeUpdateManager = new FakeAppUpdateManager(UnityPlayer.currentActivity);
-				oFakeUpdateManager.setUpdateAvailable(Integer.parseInt(oVer));
-				
-				oTask = oFakeUpdateManager.getAppUpdateInfo();
-			} else {
-				AppUpdateManager oUpdateManager = AppUpdateManagerFactory.create(UnityPlayer.currentActivity);
-				oTask = oUpdateManager.getAppUpdateInfo();
-			}
-			
-			// 업데이트 정보를 로드했을 경우
-			oTask.addOnSuccessListener(new OnSuccessListener<AppUpdateInfo>() {
-				@Override
-				public void onSuccess(AppUpdateInfo a_oUpdateInfo) {
-					Log.d(KGDefine.TAG, String.format("CAndroidPlugin.onHandleGetStoreVerMsg Success: %d", a_oUpdateInfo.updateAvailability()));
-					int nVer = Integer.parseInt(oVer);
-					
-					boolean bIsSuccess = a_oUpdateInfo.updateAvailability() != UpdateAvailability.UNKNOWN;
-					boolean bIsEnableUpdate = a_oUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE;
-					
-					// 업데이트 가능 할 경우
-					if(bIsEnableUpdate && a_oUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)) {
-						nVer = a_oUpdateInfo.availableVersionCode();
-					}
-					
-					String oVer = String.valueOf(nVer);
-					CDeviceMsgSender.getInst().sendGetStoreVerMsg(oVer, bIsSuccess);
-				}
-			});
-			
-			// 업데이트 정보 로드에 실패했을 경우
-			oTask.addOnFailureListener(new OnFailureListener() {
-				@Override
-				public void onFailure(Exception a_oException) {
-					Log.d(KGDefine.TAG, String.format("CAndroidPlugin.onHandleGetStoreVerMsg Fail: %s", a_oException.getMessage()));
-					a_oException.printStackTrace();
-					
-					CDeviceMsgSender.getInst().sendGetStoreVerMsg(oVer, false);
-				}
-			});
-		}
-	}
-	
+
 	//! 토스트 출력 메세지를 처리한다
 	private void handleShowToastMsg(String a_oMsg) {
 		Toast.makeText(UnityPlayer.currentActivity, a_oMsg, Toast.LENGTH_LONG);

@@ -249,11 +249,7 @@ extern "C" {
 //! 초기화 메세지를 처리한다
 - (void)handleInitMsg:(const char *)a_pszMsg {
 	NSDictionary *pDataList = (NSDictionary *)GFunc::ConvertJSONStrToObj(@(a_pszMsg), NULL);
-	
-	NSString *pBuildMode = (NSString *)[pDataList objectForKey:@(G_KEY_BUILD_MODE)];
 	NSString *pOrientation = (NSString *)[pDataList objectForKey:@(G_KEY_ORIENTATION)];
-	
-	self.buildMode = pBuildMode;
 	
 	// 세로 모드 일 경우
 	if(pOrientation.intValue == G_ORIENTATION_PORTRAIT) {
@@ -295,40 +291,35 @@ extern "C" {
 	NSString *pVer = (NSString *)[pDataList objectForKey:@(G_KEY_VER)];
 	NSString *pTimeout = (NSString *)[pDataList objectForKey:@(G_KEY_TIMEOUT)];
 	
-	// 디버그 모드 일 경우
-	if([self.buildMode isEqualToString:@(G_BUILD_MODE_DEBUG)]) {
-		[CDeviceMsgSender.sharedInst sendGetStoreVerMsg:pVer withResult:YES];
-	} else {
-		NSString *pURL = [NSString stringWithFormat:@(G_URL_FMT_STORE_VER), pAppID];
-		NSMutableURLRequest * pURLRequest = GFunc::MakeURLRequest(pURL, @(G_HTTP_METHOD_GET), pTimeout.doubleValue);
+	NSString *pURL = [NSString stringWithFormat:@(G_URL_FMT_STORE_VER), pAppID];
+	NSMutableURLRequest * pURLRequest = GFunc::MakeURLRequest(pURL, @(G_HTTP_METHOD_GET), pTimeout.doubleValue);
+	
+	// 데이터를 수신했을 경우
+	[NSURLSession.sharedSession dataTaskWithRequest:pURLRequest completionHandler:^void(NSData *a_pData, NSURLResponse *a_pResponse, NSError *a_pError) {
+		NSLog(@"CiOSPlugin.onHandleGetStoreVerMsg: %@", a_pData);
 		
-		// 데이터를 수신했을 경우
-		[NSURLSession.sharedSession dataTaskWithRequest:pURLRequest completionHandler:^void(NSData *a_pData, NSURLResponse *a_pResponse, NSError *a_pError) {
-			NSLog(@"CiOSPlugin.onHandleGetStoreVerMsg: %@", a_pData);
+		// 스토어 버전 로드에 실패했을 경우
+		if(a_pError != nil || (a_pData == nil || a_pResponse == nil)) {
+			NSLog(@"CiOSPlugin.onHandleGetStoreVerMsg Fail: %@", a_pError);
+			[CDeviceMsgSender.sharedInst sendGetStoreVerMsg:pVer withResult:NO];
+		} else {
+			NSString *pStr = [[NSString alloc] initWithData:a_pData encoding:NSUTF8StringEncoding];
+			NSDictionary *pResponseDataList = (NSDictionary *)GFunc::ConvertJSONStrToObj(pStr, NULL);
 			
-			// 스토어 버전 로드에 실패했을 경우
-			if(a_pError != nil || (a_pData == nil || a_pResponse == nil)) {
-				NSLog(@"CiOSPlugin.onHandleGetStoreVerMsg Fail: %@", a_pError);
-				[CDeviceMsgSender.sharedInst sendGetStoreVerMsg:pVer withResult:NO];
+			NSArray *pVerInfoList = (NSArray *)[pResponseDataList objectForKey:@(G_KEY_STORE_VER_RESULT)];
+			NSDictionary *pVerInfo = (NSDictionary *)[pVerInfoList lastObject];
+			
+			NSString *pStoreVer = (NSString *)[pVerInfo objectForKey:@(G_KEY_STORE_VER)];
+			NSLog(@"CiOSPlugin.onHandleGetStoreVerMsg Success: %@", pStoreVer);
+			
+			// 스토어 버전이 유효 할 경우
+			if(GFunc::IsValid(pStoreVer)) {
+				[CDeviceMsgSender.sharedInst sendGetStoreVerMsg:pStoreVer withResult:YES];
 			} else {
-				NSString *pStr = [[NSString alloc] initWithData:a_pData encoding:NSUTF8StringEncoding];
-				NSDictionary *pResponseDataList = (NSDictionary *)GFunc::ConvertJSONStrToObj(pStr, NULL);
-				
-				NSArray *pVerInfoList = (NSArray *)[pResponseDataList objectForKey:@(G_KEY_STORE_VER_RESULT)];
-				NSDictionary *pVerInfo = (NSDictionary *)[pVerInfoList lastObject];
-				
-				NSString *pStoreVer = (NSString *)[pVerInfo objectForKey:@(G_KEY_STORE_VER)];
-				NSLog(@"CiOSPlugin.onHandleGetStoreVerMsg Success: %@", pStoreVer);
-				
-				// 스토어 버전이 유효 할 경우
-				if(GFunc::IsValid(pStoreVer)) {
-					[CDeviceMsgSender.sharedInst sendGetStoreVerMsg:pStoreVer withResult:YES];
-				} else {
-					[CDeviceMsgSender.sharedInst sendGetStoreVerMsg:pVer withResult:NO];
-				}
+				[CDeviceMsgSender.sharedInst sendGetStoreVerMsg:pVer withResult:NO];
 			}
-		}];
-	}
+		}
+	}];
 }
 
 //! 광고 추적 여부 변경 메세지를 처리한다

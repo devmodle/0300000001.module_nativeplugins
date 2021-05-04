@@ -38,8 +38,6 @@ import dante.distribution.android.Global.Utility.Platform.CDeviceMsgSender;
 //! 안드로이드 플러그인
 public class CAndroidPlugin {
 	private int m_nOrientation = 0;
-	private String m_oBuildMode = KGDefine.EMPTY_STR;
-	
 	private ProgressBar m_oProgressBar = null;
 	private HashMap<String, Trace> m_oTrackingList = new HashMap<String, Trace>();
 	
@@ -123,11 +121,8 @@ public class CAndroidPlugin {
 	//! 초기화 메세지를 처리한다
 	private void handleInitMsg(String a_oMsg) throws Exception {
 		JSONObject oJSONObj = new JSONObject(a_oMsg);
-		
-		String oBuildMode = oJSONObj.getString(KGDefine.KEY_BUILD_MODE);
 		String oOrientation = oJSONObj.getString(KGDefine.KEY_ORIENTATION);
 		
-		m_oBuildMode = oBuildMode;
 		m_nOrientation = Integer.parseInt(oOrientation) + 1;
 	}
 	

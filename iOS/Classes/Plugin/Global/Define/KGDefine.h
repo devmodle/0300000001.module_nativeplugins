@@ -63,10 +63,6 @@
 #define G_RESULT_TRUE			("True")
 #define G_RESULT_FALSE			("False")
 
-// 빌드 모드
-#define G_BUILD_MODE_DEBUG				("Debug")
-#define G_BUILD_MODE_RELEASE			("Release")
-
 // 비율
 #define G_SCALE_ACTIVITY_INDICATOR					(0.25f)
 #define G_OFFSET_SCALE_ACTIVITY_INDICATOR			(0.01f)
@@ -83,7 +79,6 @@
 #define G_KEY_CMD			("Cmd")
 #define G_KEY_MSG			("Msg")
 
-#define G_KEY_BUILD_MODE			("BuildMode")
 #define G_KEY_ORIENTATION			("Orientation")
 
 #define G_KEY_APP_ID			("AppID")

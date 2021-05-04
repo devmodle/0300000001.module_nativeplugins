@@ -38,7 +38,6 @@ public abstract class KGDefine {
 	public static final int UNIT_NORM_VAL_TO_BYTE = 255;
 	
 	// 버전
-	public static final int MIN_VER_APP_UPDATE_MANAGER = Build.VERSION_CODES.LOLLIPOP;
 	public static final int MIN_VER_FEEDBACK_GENERATOR = Build.VERSION_CODES.O;
 	
 	// 비율
@@ -48,10 +47,6 @@ public abstract class KGDefine {
 	// 결과
 	public static final String RESULT_TRUE = "True";
 	public static final String RESULT_FALSE = "False";
-	
-	// 빌드 모드
-	public static final String BUILD_MODE_DEBUG = "Debug";
-	public static final String BUILD_MODE_RELEASE = "Release";
 	
 	// 명령어 {
 	public static final String CMD_INIT = "Init";
@@ -74,11 +69,8 @@ public abstract class KGDefine {
 	// 식별자 {
 	public static final String KEY_CMD = "Cmd";
 	public static final String KEY_MSG = "Msg";
-
-	public static final String KEY_BUILD_MODE = "BuildMode";
-	public static final String KEY_ORIENTATION = "Orientation";
 	
-	public static final String KEY_VER = "Ver";
+	public static final String KEY_ORIENTATION = "Orientation";
 	
 	public static final String KEY_ALERT_TITLE = "Title";
 	public static final String KEY_ALERT_MSG = "Msg";
@@ -94,9 +86,6 @@ public abstract class KGDefine {
 	
 	public static final String KEY_ADMOB_IDS = "AdmobIDs";
 	public static final String KEY_RESUME_ADS_ID = "ResumeAdsID";
-	
-	public static final String KEY_DEVICE_MS_VER = "Ver";
-	public static final String KEY_DEVICE_MS_RESULT = "Result";
 	// 식별자 }
 	
 	// 이름

@@ -73,9 +73,9 @@ static CDeviceMsgSender *g_pInst = nil;
 //! 디바이스 메세지를 전송한다
 - (void)send:(NSString *)a_pCmd withDeviceMsg:(NSString *)a_pMsg {
 	NSDictionary *pDataList = [NSDictionary dictionaryWithObjectsAndKeys:a_pCmd, @(G_KEY_CMD), a_pMsg, @(G_KEY_MSG), nil];
-	NSString *pStr = GFunc::ConvertObjToJSONStr(pDataList, NULL);
+	NSString *pJSONStr = GFunc::ConvertObjToJSONStr(pDataList, NULL);
 	
-	UnitySendMessage(G_OBJ_N_DEVICE_MSG_RECEIVER, G_FUNC_N_DEVICE_MSG_HANDLE_METHOD, pStr.UTF8String);
+	UnitySendMessage(G_OBJ_N_DEVICE_MSG_RECEIVER, G_FUNC_N_DEVICE_MSG_HANDLE_METHOD, pJSONStr.UTF8String);
 }
 
 #pragma mark - 클래스 메서드

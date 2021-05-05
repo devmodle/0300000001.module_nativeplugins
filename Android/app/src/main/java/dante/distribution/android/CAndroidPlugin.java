@@ -129,15 +129,14 @@ public class CAndroidPlugin {
 	//! 디바이스 식별자 반환 메세지를 처리한다
 	private void handleGetDeviceIDMsg(String a_oMsg) {
 		UUID oUUID = null;
-		Context oAppContext = UnityPlayer.currentActivity.getApplicationContext();
+		ContentResolver oResolver = UnityPlayer.currentActivity.getApplicationContext().getContentResolver();
+		
+		@SuppressLint("HardwareIds") String oDeviceID = Settings.Secure.getString(oResolver, Settings.Secure.ANDROID_ID);
 		
 		// 안드로이드 식별자가 유효하지 않을 경우
-		if(Settings.Secure.ANDROID_ID.equals(KGDefine.INVALID_ANDROID_ID)) {
+		if(oDeviceID.equals(KGDefine.INVALID_ANDROID_ID)) {
 			oUUID = UUID.randomUUID();
 		} else {
-			ContentResolver oResolver = oAppContext.getContentResolver();
-			@SuppressLint("HardwareIds") String oDeviceID = Settings.Secure.getString(oResolver, Settings.Secure.ANDROID_ID);
-			
 			oUUID = UUID.nameUUIDFromBytes(oDeviceID.getBytes(StandardCharsets.UTF_8));
 		}
 		

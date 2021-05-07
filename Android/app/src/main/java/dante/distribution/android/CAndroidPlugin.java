@@ -39,9 +39,9 @@ import dante.distribution.android.Global.Utility.Platform.CDeviceMsgSender;
 public class CAndroidPlugin {
 	private int m_nOrientation = 0;
 	private ProgressBar m_oProgressBar = null;
-	private HashMap<String, Trace> m_oTrackingList = new HashMap<String, Trace>();
+	private final HashMap<String, Trace> m_oTrackingList = new HashMap<String, Trace>();
 	
-	private static CAndroidPlugin m_oInst = null;
+	@SuppressLint("StaticFieldLeak") private static CAndroidPlugin m_oInst = null;
 	
 	//! 생성자
 	private CAndroidPlugin() {

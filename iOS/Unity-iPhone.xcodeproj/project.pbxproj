@@ -144,6 +144,8 @@
 		C0E2444F9408EFD465761A61 /* IUnityGraphicsMetal.h in Headers */ = {isa = PBXBuildFile; fileRef = F3124CC9814E2DA1C7263536 /* IUnityGraphicsMetal.h */; };
 		C12F4C779F367298FD8F8AC3 /* mscorlib.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AE31461EBFBB74A2B2F5F7DC /* mscorlib.cpp */; };
 		C31AD248254BB3CA007A9B04 /* CAdsManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = C31AD247254BB3CA007A9B04 /* CAdsManager.mm */; };
+		C3B36105264B8733006C635C /* AppTrackingTransparency.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3B36104264B8732006C635C /* AppTrackingTransparency.framework */; };
+		C3B36107264B873D006C635C /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3B36106264B873D006C635C /* AdSupport.framework */; };
 		C71C44228CCADB985533FA16 /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4C948C89B179DC959CCF019 /* GameController.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		C9B44CC1A267FCDF7FEB559A /* UnityClassRegistration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 98DD4CA69D9C2B88C312D203 /* UnityClassRegistration.cpp */; };
 		CFE049E4ADB2026CABBC15A3 /* profile.json in Resources */ = {isa = PBXBuildFile; fileRef = 38E645AEBB1F3CB567627C86 /* profile.json */; };
@@ -379,6 +381,8 @@
 		C1434B9EBA04A353FB7097ED /* mscorlib2.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = mscorlib2.cpp; path = Classes/Native/mscorlib2.cpp; sourceTree = SOURCE_ROOT; };
 		C31AD246254BB3CA007A9B04 /* CAdsManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CAdsManager.h; sourceTree = "<group>"; };
 		C31AD247254BB3CA007A9B04 /* CAdsManager.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = CAdsManager.mm; sourceTree = "<group>"; };
+		C3B36104264B8732006C635C /* AppTrackingTransparency.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppTrackingTransparency.framework; path = System/Library/Frameworks/AppTrackingTransparency.framework; sourceTree = SDKROOT; };
+		C3B36106264B873D006C635C /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		C5004616A3A798B50BB4AD89 /* mscorlib15.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = mscorlib15.cpp; path = Classes/Native/mscorlib15.cpp; sourceTree = SOURCE_ROOT; };
 		C69A4D10BBFDC11557906A68 /* System.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = System.cpp; path = Classes/Native/System.cpp; sourceTree = SOURCE_ROOT; };
 		CBC045D6B8889D6CE5A406F6 /* System.Configuration.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = System.Configuration.cpp; path = Classes/Native/System.Configuration.cpp; sourceTree = SOURCE_ROOT; };
@@ -424,6 +428,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C3B36105264B8733006C635C /* AppTrackingTransparency.framework in Frameworks */,
+				C3B36107264B873D006C635C /* AdSupport.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -503,6 +509,8 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C3B36106264B873D006C635C /* AdSupport.framework */,
+				C3B36104264B8732006C635C /* AppTrackingTransparency.framework */,
 				9D0A618A21BFE7F30094DC33 /* libiconv.2.tbd */,
 				8A20382C213D4B3C005E6C56 /* AVKit.framework */,
 				5BAD78601F2B5A59006103DE /* Security.framework */,

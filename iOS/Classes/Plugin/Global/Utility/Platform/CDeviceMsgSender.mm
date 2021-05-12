@@ -52,6 +52,12 @@ static CDeviceMsgSender *g_pInst = nil;
 	[self send:@(G_CMD_SHOW_ALERT) withDeviceMsg:pMsg];
 }
 
+//! 동의 뷰 출력 메세지를 전송한다
+- (void)sendShowConsentViewMsg:(BOOL)a_bIsOK {
+	NSString *pMsg = GFunc::ConvertBoolToStr(a_bIsOK);
+	[self send:@(G_CMD_SHOW_CONSENT_VIEW) withDeviceMsg:pMsg];
+}
+
 //! 광고 초기화 메세지를 전송한다
 - (void)sendInitAdsMsg:(BOOL)a_bIsSuccess {
 	NSString *pMsg = GFunc::ConvertBoolToStr(a_bIsSuccess);

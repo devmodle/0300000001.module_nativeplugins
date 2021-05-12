@@ -36,6 +36,9 @@ static CiOSPlugin *g_pInst = nil;
 //! 경고 창 출력 메세지를 처리한다
 - (void)handleShowAlertMsg:(const char *)a_pszMsg;
 
+//! 동의 뷰 출력 메세지를 처리한다
+- (void)handleShowConsentViewMsg:(const char *)a_pszMsg;
+
 //! 진동 메세지를 처리한다
 - (void)handleVibrateMsg:(const char *)a_pszMsg;
 
@@ -83,6 +86,9 @@ extern "C" {
 		// 경고 창 출력 메세지 일 경우
 		else if(strcmp(a_pszCmd, G_CMD_SHOW_ALERT) == G_VAL_0_INT) {
 			[CiOSPlugin.sharedInst handleShowAlertMsg:a_pszMsg];
+		}
+		else if(strcmp(a_pszCmd, G_CMD_SHOW_CONSENT_VIEW) == G_VAL_0_INT) {
+			[CiOSPlugin.sharedInst handleShowConsentViewMsg:a_pszMsg];
 		}
 		// 진동 메세지 일 경우
 		else if(strcmp(a_pszCmd, G_CMD_VIBRATE) == G_VAL_0_INT) {
@@ -263,14 +269,7 @@ extern "C" {
 - (void)handleGetDeviceIDMsg:(const char *)a_pszMsg {
 	// 디바이스 식별자가 유효하지 않을 경우
 	if(!GFunc::IsValid(self.deviceID)) {
-		// UUID 를 지원 할 경우
-		if(@available(iOS G_MIN_VER_DEVICE_ID_FOR_VENDOR, *)) {
-			self.deviceID = UIDevice.currentDevice.identifierForVendor.UUIDString;
-		} else {
-			CFUUIDRef pUUID = CFUUIDCreate(kCFAllocatorDefault);
-			self.deviceID = (__bridge NSString *)CFUUIDCreateString(kCFAllocatorDefault, pUUID);
-		}
-		
+		self.deviceID = UIDevice.currentDevice.identifierForVendor.UUIDString;
 		[self.keychainItemWrapper setObject:self.deviceID forKey:(__bridge id)kSecAttrAccount];
 	}
 	
@@ -357,6 +356,19 @@ extern "C" {
 	
 	// 경고 창을 출력한다
 	[self.rootViewController presentViewController:pAlertController animated:YES completion:NULL];
+}
+
+//! 동의 뷰 출력 메세지를 처리한다
+- (void)handleShowConsentViewMsg:(const char *)a_pszMsg {
+	// 동의 뷰 출력이 필요 할 경우
+	if(@available(iOS G_MIN_VER_CONSENT_VIEW, *)) {
+		// 동의 결과를 수신했을 경우
+		[ATTrackingManager requestTrackingAuthorizationWithCompletionHandler:^(ATTrackingManagerAuthorizationStatus a_eStatus) {
+			[CDeviceMsgSender.sharedInst sendShowConsentViewMsg:a_eStatus == ATTrackingManagerAuthorizationStatusAuthorized];
+		}];
+	} else {
+		[CDeviceMsgSender.sharedInst sendShowConsentViewMsg:YES];
+	}
 }
 
 //! 진동 메세지를 처리한다

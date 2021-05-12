@@ -26,6 +26,9 @@ NS_ASSUME_NONNULL_BEGIN
 //! 경고 창 출력 메세지를 전송한다
 - (void)sendShowAlertMsg:(BOOL)a_bIsOK;
 
+//! 동의 뷰 출력 메세지를 전송한다
+- (void)sendShowConsentViewMsg:(BOOL)a_bIsOK;
+
 //! 광고 초기화 메세지를 전송한다
 - (void)sendInitAdsMsg:(BOOL)a_bIsSuccess;
 

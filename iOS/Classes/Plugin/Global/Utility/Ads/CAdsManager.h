@@ -11,9 +11,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 //! 광고 관리자
 @interface CAdsManager : NSObject
-#ifdef ADMOB_ENABLE
+#if defined ADMOB_ENABLE
 	<GADFullScreenContentDelegate>
-#endif			// #ifdef ADMOB_ENABLE
+#endif			// #if defined ADMOB_ENABLE
 {
 	// Do Nothing
 }
@@ -21,7 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 // 프로퍼티 {
 @property (nonatomic, assign) BOOL isInit;
 
-#ifdef ADMOB_ENABLE
+#if defined ADMOB_ENABLE
 @property (nonatomic, assign) BOOL isLoadResumeAds;
 
 @property (nonatomic, copy) NSString *resumeAdsID;
@@ -29,7 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, readonly) GADRequest *request;
 @property (nonatomic, strong) GADAppOpenAd *resumeAds;
-#endif			// #ifdef ADMOB_ENABLE
+#endif			// #if defined ADMOB_ENABLE
 // 프로퍼티 }
 
 //! 초기화

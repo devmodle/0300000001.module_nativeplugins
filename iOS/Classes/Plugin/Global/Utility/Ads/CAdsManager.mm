@@ -32,20 +32,20 @@ static CAdsManager *g_pInst = nil;
 - (void)init:(NSString *)a_pResumeAdsID withDeviceIDList:(NSArray *)a_pDeviceIDList {
 	NSLog(@"CAdsManager.initWithDeviceIDList: %@, %@", a_pResumeAdsID, a_pDeviceIDList);
 	
-#ifdef ADMOB_ENABLE
+#if defined ADMOB_ENABLE
 	self.resumeAdsID = a_pResumeAdsID;
 	self.deviceIDList = a_pDeviceIDList;
 	
 	self.isInit = YES;
 	[CDeviceMsgSender.sharedInst sendInitAdsMsg:YES];
-#endif			// #ifdef ADMOB_ENABLE
+#endif			// #if defined ADMOB_ENABLE
 }
 
 //! 재개 광고를 로드한다
 - (void)loadResumeAds {
 	NSLog(@"CAdsManager.loadResumeAds");
 	
-#ifdef ADMOB_ENABLE
+#if defined ADMOB_ENABLE
 	// 초기화 되었을 경우
 	if(self.isInit && !self.isLoadResumeAds && self.resumeAds == nil) {
 		[GADAppOpenAd loadWithAdUnitID:self.resumeAdsID request:self.request orientation:CiOSPlugin.sharedInst.orientation completionHandler:^void(GADAppOpenAd *a_pAds, NSError *a_pError) {
@@ -67,14 +67,14 @@ static CAdsManager *g_pInst = nil;
 	}
 #else
 	[CDeviceMsgSender.sharedInst sendLoadResumeAdsMsg:NO];
-#endif			// #ifdef ADMOB_ENABLE
+#endif			// #if defined ADMOB_ENABLE
 }
 
 //! 재개 광고를 출력한다
 - (void)showResumeAds {
 	NSLog(@"CAdsManager.showResumeAds");
 	
-#ifdef ADMOB_ENABLE
+#if defined ADMOB_ENABLE
 	// 재개 광고가 로드 되었을 경우
 	if(self.isInit && self.isLoadResumeAds && self.resumeAds != nil) {
 		UIViewController *pViewController = CiOSPlugin.sharedInst.rootViewController;
@@ -84,10 +84,10 @@ static CAdsManager *g_pInst = nil;
 	}
 #else
 	[CDeviceMsgSender.sharedInst sendShowResumeAdsMsg:NO];
-#endif			// #ifdef ADMOB_ENABLE
+#endif			// #if defined ADMOB_ENABLE
 }
 
-#ifdef ADMOB_ENABLE
+#if defined ADMOB_ENABLE
 //! 재개 광고를 출력했을 경우
 - (void)adDidPresentFullScreenContent:(id<GADFullScreenPresentingAd>)a_pSender {
 	NSLog(@"CAdsManager.adDidPresentFullScreenContent");
@@ -116,7 +116,7 @@ static CAdsManager *g_pInst = nil;
 	
 	return pRequest;
 }
-#endif			// #ifdef ADMOB_ENABLE
+#endif			// #if defined ADMOB_ENABLE
 
 #pragma mark - 클래스 메서드
 //! 인스턴스를 반환한다

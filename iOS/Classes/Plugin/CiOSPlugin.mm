@@ -12,50 +12,54 @@
 
 //! 전역 변수
 static CiOSPlugin *g_pInst = nil;
+static NSMutableDictionary *g_pHandlerList = nil;
 
 //! iOS 플러그인 - Private
 @interface CiOSPlugin (Private) {
-	// Nothing
+	// Do Nothing
 }
 
+// 프로퍼티
+@property (nonatomic, strong, readonly) NSDictionary *handlerList;
+
 //! 초기화 메세지를 처리한다
-- (void)handleInitMsg:(const char *)a_pszMsg;
+- (void)handleInitMsg:(NSString *)a_pMsg;
 
 //! 디바이스 식별자 반환 메세지를 처리한다
-- (void)handleGetDeviceIDMsg:(const char *)a_pszMsg;
+- (void)handleGetDeviceIDMsg:(NSString *)a_pMsg;
 
 //! 국가 코드 반환 메세지를 처리한다
-- (void)handleGetCountryCodeMsg:(const char *)a_pszMsg;
+- (void)handleGetCountryCodeMsg:(NSString *)a_pMsg;
 
 //! 스토어 버전 반환 메세지를 처리한다
-- (void)handleGetStoreVerMsg:(const char *)a_pszMsg;
+- (void)handleGetStoreVerMsg:(NSString *)a_pMsg;
 
 //! 광고 추적 여부 변경 메세지를 처리한다
-- (void)handleSetEnableAdsTrackingMsg:(const char *)a_pszMsg;
+- (void)handleSetEnableAdsTrackingMsg:(NSString *)a_pMsg;
 
 //! 경고 창 출력 메세지를 처리한다
-- (void)handleShowAlertMsg:(const char *)a_pszMsg;
+- (void)handleShowAlertMsg:(NSString *)a_pMsg;
 
 //! 동의 뷰 출력 메세지를 처리한다
-- (void)handleShowConsentViewMsg:(const char *)a_pszMsg;
+- (void)handleShowConsentViewMsg:(NSString *)a_pMsg;
 
 //! 진동 메세지를 처리한다
-- (void)handleVibrateMsg:(const char *)a_pszMsg;
+- (void)handleVibrateMsg:(NSString *)a_pMsg;
 
 //! 추적 메세지를 처리한다
-- (void)handleTrackingMsg:(const char *)a_pszMsg;
+- (void)handleTrackingMsg:(NSString *)a_pMsg;
 
 //! 인디케이터 메세지를 처리한다
-- (void)handleIndicatorMsg:(const char *)a_pszMsg;
+- (void)handleIndicatorMsg:(NSString *)a_pMsg;
 
 //! 광고 초기화 메세지를 처리한다
-- (void)handleInitAdsMsg:(const char *)a_pszMsg;
+- (void)handleInitAdsMsg:(NSString *)a_pMsg;
 
 //! 재개 광고 로드 메세지를 처리한다
-- (void)handleLoadResumeAdsMsg:(const char *)a_pszMsg;
+- (void)handleLoadResumeAdsMsg:(NSString *)a_pMsg;
 
 //! 재개 광고 출력 메세지를 처리한다
-- (void)handleShowResumeAdsMsg:(const char *)a_pszMsg;
+- (void)handleShowResumeAdsMsg:(NSString *)a_pMsg;
 @end			// CiOSPlugin (Private)
 
 extern "C" {
@@ -63,56 +67,18 @@ extern "C" {
 	void HandleUnityMsg(const char *a_pszCmd, const char *a_pszMsg) {
 		NSLog(@"CiOSPlugin.HandleUnityMsg: %@, %@", @(a_pszCmd), @(a_pszMsg));
 		
-		// 초기화 메세지 일 경우
-		if(strcmp(a_pszCmd, G_CMD_INIT) == G_VAL_0_INT) {
-			[CiOSPlugin.sharedInst handleInitMsg:a_pszMsg];
-		}
-		// 디바이스 식별자 반환 메세지 일 경우
-		else if(strcmp(a_pszCmd, G_CMD_GET_DEVICE_ID) == G_VAL_0_INT) {
-			[CiOSPlugin.sharedInst handleGetDeviceIDMsg:a_pszMsg];
-		}
-		// 국가 코드 반환 메세지 일 경우
-		else if(strcmp(a_pszCmd, G_CMD_GET_COUNTRY_CODE) == G_VAL_0_INT) {
-			[CiOSPlugin.sharedInst handleGetCountryCodeMsg:a_pszMsg];
-		}
-		// 스토어 버전 반환 메세지 일 경우
-		else if(strcmp(a_pszCmd, G_CMD_GET_STORE_VER) == G_VAL_0_INT) {
-			[CiOSPlugin.sharedInst handleGetStoreVerMsg:a_pszMsg];
-		}
-		// 광고 추적 여부 변경 메세지 일 경우
-		else if(strcmp(a_pszCmd, G_CMD_SET_ENABLE_ADS_TRACKING) == G_VAL_0_INT) {
-			[CiOSPlugin.sharedInst handleSetEnableAdsTrackingMsg:a_pszMsg];
-		}
-		// 경고 창 출력 메세지 일 경우
-		else if(strcmp(a_pszCmd, G_CMD_SHOW_ALERT) == G_VAL_0_INT) {
-			[CiOSPlugin.sharedInst handleShowAlertMsg:a_pszMsg];
-		}
-		else if(strcmp(a_pszCmd, G_CMD_SHOW_CONSENT_VIEW) == G_VAL_0_INT) {
-			[CiOSPlugin.sharedInst handleShowConsentViewMsg:a_pszMsg];
-		}
-		// 진동 메세지 일 경우
-		else if(strcmp(a_pszCmd, G_CMD_VIBRATE) == G_VAL_0_INT) {
-			[CiOSPlugin.sharedInst handleVibrateMsg:a_pszMsg];
-		}
-		// 추적 메세지 일 경우
-		else if(strcmp(a_pszCmd, G_CMD_TRACKING) == G_VAL_0_INT) {
-			[CiOSPlugin.sharedInst handleTrackingMsg:a_pszMsg];
-		}
-		// 인디케이터 메세지 일 경우
-		else if(strcmp(a_pszCmd, G_CMD_INDICATOR) == G_VAL_0_INT) {
-			[CiOSPlugin.sharedInst handleIndicatorMsg:a_pszMsg];
-		}
-		// 광고 초기화 메세지 일 경우
-		else if(strcmp(a_pszCmd, G_CMD_INIT_ADS) == G_VAL_0_INT) {
-			[CiOSPlugin.sharedInst handleInitAdsMsg:a_pszMsg];
-		}
-		// 재개 광고 로드 메세지 일 경우
-		else if(strcmp(a_pszCmd, G_CMD_LOAD_RESUME_ADS) == G_VAL_0_INT) {
-			[CiOSPlugin.sharedInst handleLoadResumeAdsMsg:a_pszMsg];
-		}
-		// 재개 광고 출력 메세지 일 경우
-		else if(strcmp(a_pszCmd, G_CMD_SHOW_RESUME_ADS) == G_VAL_0_INT) {
-			[CiOSPlugin.sharedInst handleShowResumeAdsMsg:a_pszMsg];
+		NSString *pMsg = @(a_pszMsg);
+		NSString *pSelectorName = (NSString *)[CiOSPlugin.sharedInst.handlerList objectForKey:@(a_pszCmd)];
+		
+		// 처리자가 존재 할 경우
+		if(GFunc::IsValid(pSelectorName)) {
+			SEL pSelector = NSSelectorFromString(pSelectorName);
+			NSMethodSignature *pSignature = [CiOSPlugin.sharedInst methodSignatureForSelector:pSelector];
+			
+			NSInvocation *pInvocation = [NSInvocation invocationWithMethodSignature:pSignature];
+			pInvocation.selector = pSelector;
+			[pInvocation setArgument:&pMsg atIndex:G_VAL_2_INT];
+			[pInvocation invokeWithTarget:CiOSPlugin.sharedInst];
 		}
 	}
 }
@@ -129,9 +95,9 @@ extern "C" {
 @synthesize selectionGenerator = m_pSelectionGenerator;
 @synthesize notificationGenerator = m_pNotificationGenerator;
 
-#ifdef FIREBASE_MODULE_ENABLE
+#if defined FIREBASE_MODULE_ENABLE
 @synthesize trackingList = m_pTrackingList;
-#endif			// #ifdef FIREBASE_MODULE_ENABLE
+#endif			// #if defined FIREBASE_MODULE_ENABLE
 
 #pragma mark - 초기화
 //! 객체를 생성한다
@@ -155,6 +121,29 @@ extern "C" {
 	}
 	
 	return m_pDeviceID;
+}
+
+//! 처리자 리스트를 반환한다
+- (NSDictionary *)handlerList {
+	// 처리자 리스트가 없을 경우
+	if(g_pHandlerList == nil) {
+		g_pHandlerList = [[NSMutableDictionary alloc] init];
+		[g_pHandlerList setObject:NSStringFromSelector(@selector(handleInitMsg:)) forKey:@(G_CMD_INIT)];
+		[g_pHandlerList setObject:NSStringFromSelector(@selector(handleGetDeviceIDMsg:)) forKey:@(G_CMD_GET_DEVICE_ID)];
+		[g_pHandlerList setObject:NSStringFromSelector(@selector(handleGetCountryCodeMsg:)) forKey:@(G_CMD_GET_COUNTRY_CODE)];
+		[g_pHandlerList setObject:NSStringFromSelector(@selector(handleGetStoreVerMsg:)) forKey:@(G_CMD_GET_STORE_VER)];
+		[g_pHandlerList setObject:NSStringFromSelector(@selector(handleSetEnableAdsTrackingMsg:)) forKey:@(G_CMD_SET_ENABLE_ADS_TRACKING)];
+		[g_pHandlerList setObject:NSStringFromSelector(@selector(handleShowAlertMsg:)) forKey:@(G_CMD_SHOW_ALERT)];
+		[g_pHandlerList setObject:NSStringFromSelector(@selector(handleShowConsentViewMsg:)) forKey:@(G_CMD_SHOW_CONSENT_VIEW)];
+		[g_pHandlerList setObject:NSStringFromSelector(@selector(handleVibrateMsg:)) forKey:@(G_CMD_VIBRATE)];
+		[g_pHandlerList setObject:NSStringFromSelector(@selector(handleTrackingMsg:)) forKey:@(G_CMD_TRACKING)];
+		[g_pHandlerList setObject:NSStringFromSelector(@selector(handleIndicatorMsg:)) forKey:@(G_CMD_INDICATOR)];
+		[g_pHandlerList setObject:NSStringFromSelector(@selector(handleInitAdsMsg:)) forKey:@(G_CMD_INIT_ADS)];
+		[g_pHandlerList setObject:NSStringFromSelector(@selector(handleLoadResumeAdsMsg:)) forKey:@(G_CMD_LOAD_RESUME_ADS)];
+		[g_pHandlerList setObject:NSStringFromSelector(@selector(handleShowResumeAdsMsg:)) forKey:@(G_CMD_SHOW_RESUME_ADS)];
+	}
+	
+	return g_pHandlerList;
 }
 
 //! 키체인 아이템 래퍼를 반환한다
@@ -253,8 +242,8 @@ extern "C" {
 }
 
 //! 초기화 메세지를 처리한다
-- (void)handleInitMsg:(const char *)a_pszMsg {
-	NSDictionary *pDataList = (NSDictionary *)GFunc::ConvertJSONStrToObj(@(a_pszMsg), NULL);
+- (void)handleInitMsg:(NSString *)a_pMsg {
+	NSDictionary *pDataList = (NSDictionary *)GFunc::ConvertJSONStrToObj(a_pMsg, NULL);
 	NSString *pOrientation = (NSString *)[pDataList objectForKey:@(G_KEY_ORIENTATION)];
 	
 	// 세로 모드 일 경우
@@ -266,7 +255,7 @@ extern "C" {
 }
 
 //! 디바이스 식별자 반환 메세지를 처리한다
-- (void)handleGetDeviceIDMsg:(const char *)a_pszMsg {
+- (void)handleGetDeviceIDMsg:(NSString *)a_pMsg {
 	// 디바이스 식별자가 유효하지 않을 경우
 	if(!GFunc::IsValid(self.deviceID)) {
 		self.deviceID = UIDevice.currentDevice.identifierForVendor.UUIDString;
@@ -277,14 +266,14 @@ extern "C" {
 }
 
 //! 국가 코드 반환 메세지를 처리한다
-- (void)handleGetCountryCodeMsg:(const char *)a_pszMsg {
+- (void)handleGetCountryCodeMsg:(NSString *)a_pMsg {
 	NSLocale *pLocale = NSLocale.currentLocale;
 	[CDeviceMsgSender.sharedInst sendGetCountryCodeMsg:pLocale.countryCode];
 }
 
 //! 스토어 버전 반환 메세지를 처리한다
-- (void)handleGetStoreVerMsg:(const char *)a_pszMsg {
-	NSDictionary *pDataList = (NSDictionary *)GFunc::ConvertJSONStrToObj(@(a_pszMsg), NULL);
+- (void)handleGetStoreVerMsg:(NSString *)a_pMsg {
+	NSDictionary *pDataList = (NSDictionary *)GFunc::ConvertJSONStrToObj(a_pMsg, NULL);
 	
 	NSString *pAppID = (NSString *)[pDataList objectForKey:@(G_KEY_APP_ID)];
 	NSString *pVer = (NSString *)[pDataList objectForKey:@(G_KEY_VER)];
@@ -322,16 +311,16 @@ extern "C" {
 }
 
 //! 광고 추적 여부 변경 메세지를 처리한다
-- (void)handleSetEnableAdsTrackingMsg:(const char *)a_pszMsg {
-#ifdef FACEBOOK_ADS_ENABLE
-	BOOL bIsEnable = GFunc::ConvertStrToBool(@(a_pszMsg));
+- (void)handleSetEnableAdsTrackingMsg:(NSString *)a_pMsg {
+#if defined FACEBOOK_ADS_ENABLE
+	BOOL bIsEnable = GFunc::ConvertStrToBool(a_pMsg);
 	[FBAdSettings setAdvertiserTrackingEnabled:bIsEnable];
-#endif			// #ifdef FACEBOOK_ADS_ENABLE
+#endif			// #if defined FACEBOOK_ADS_ENABLE
 }
 
 //! 경고 창 출력 메세지를 처리한다
-- (void)handleShowAlertMsg:(const char *)a_pszMsg {
-	NSDictionary *pDataList = (NSDictionary *)GFunc::ConvertJSONStrToObj(@(a_pszMsg), NULL);
+- (void)handleShowAlertMsg:(NSString *)a_pMsg {
+	NSDictionary *pDataList = (NSDictionary *)GFunc::ConvertJSONStrToObj(a_pMsg, NULL);
 	
 	NSString *pTitle = (NSString *)[pDataList objectForKey:@(G_KEY_ALERT_TITLE)];
 	NSString *pMsg = (NSString *)[pDataList objectForKey:@(G_KEY_ALERT_MSG)];
@@ -359,12 +348,13 @@ extern "C" {
 }
 
 //! 동의 뷰 출력 메세지를 처리한다
-- (void)handleShowConsentViewMsg:(const char *)a_pszMsg {
+- (void)handleShowConsentViewMsg:(NSString *)a_pMsg {
 	// 동의 뷰 출력이 필요 할 경우
 	if(@available(iOS G_MIN_VER_CONSENT_VIEW, *)) {
 		// 동의 결과를 수신했을 경우
-		[ATTrackingManager requestTrackingAuthorizationWithCompletionHandler:^(ATTrackingManagerAuthorizationStatus a_eStatus) {
-			[CDeviceMsgSender.sharedInst sendShowConsentViewMsg:a_eStatus == ATTrackingManagerAuthorizationStatusAuthorized];
+		[ATTrackingManager requestTrackingAuthorizationWithCompletionHandler:^void(ATTrackingManagerAuthorizationStatus a_eStatus) {
+			BOOL bIsOK = a_eStatus == ATTrackingManagerAuthorizationStatusRestricted;
+			[CDeviceMsgSender.sharedInst sendShowConsentViewMsg:bIsOK || a_eStatus == ATTrackingManagerAuthorizationStatusAuthorized];
 		}];
 	} else {
 		[CDeviceMsgSender.sharedInst sendShowConsentViewMsg:YES];
@@ -372,8 +362,8 @@ extern "C" {
 }
 
 //! 진동 메세지를 처리한다
-- (void)handleVibrateMsg:(const char *)a_pszMsg {
-	NSDictionary *pDataList = (NSDictionary *)GFunc::ConvertJSONStrToObj(@(a_pszMsg), NULL);
+- (void)handleVibrateMsg:(NSString *)a_pMsg {
+	NSDictionary *pDataList = (NSDictionary *)GFunc::ConvertJSONStrToObj(a_pMsg, NULL);
 	
 	NSString *pType = (NSString *)[pDataList objectForKey:@(G_KEY_VIBRATE_TYPE)];
 	NSString *pStyle = (NSString *)[pDataList objectForKey:@(G_KEY_VIBRATE_STYLE)];
@@ -411,9 +401,9 @@ extern "C" {
 }
 
 //! 추적 메세지를 처리한다
-- (void)handleTrackingMsg:(const char *)a_pszMsg {
-#ifdef FIREBASE_MODULE_ENABLE
-	NSDictionary *pDataList = (NSDictionary *)GFunc::ConvertJSONStrToObj(@(a_pszMsg), NULL);
+- (void)handleTrackingMsg:(NSString *)a_pMsg {
+#if defined FIREBASE_MODULE_ENABLE
+	NSDictionary *pDataList = (NSDictionary *)GFunc::ConvertJSONStrToObj(a_pMsg, NULL);
 	
 	NSString *pName = (NSString *)[pDataList objectForKey:@(G_KEY_TRACKING_NAME)];
 	NSString *pIsStartStr = (NSString *)[pDataList objectForKey:@(G_KEY_TRACKING_IS_START)];
@@ -449,13 +439,13 @@ extern "C" {
 		[pTracking stop];
 		[self.trackingList removeObjectForKey:pName];
 	}
-#endif			// #ifdef FIREBASE_MODULE_ENABLE
+#endif			// #if defined FIREBASE_MODULE_ENABLE
 }
 
 //! 인디케이터 메세지를 처리한다
-- (void)handleIndicatorMsg:(const char *)a_pszMsg {
+- (void)handleIndicatorMsg:(NSString *)a_pMsg {
 	// 출력 모드 일 경우
-	if(GFunc::ConvertStrToBool(@(a_pszMsg))) {
+	if(GFunc::ConvertStrToBool(a_pMsg)) {
 		[self.activityIndicatorView startAnimating];
 	} else {
 		[self.activityIndicatorView stopAnimating];
@@ -463,8 +453,8 @@ extern "C" {
 }
 
 //! 광고 초기화 메세지를 처리한다
-- (void)handleInitAdsMsg:(const char *)a_pszMsg {
-	NSDictionary *pDataList = (NSDictionary *)GFunc::ConvertJSONStrToObj(@(a_pszMsg), NULL);
+- (void)handleInitAdsMsg:(NSString *)a_pMsg {
+	NSDictionary *pDataList = (NSDictionary *)GFunc::ConvertJSONStrToObj(a_pMsg, NULL);
 	
 	NSString *pResumeAdsID = (NSString *)[pDataList objectForKey:@(G_KEY_RESUME_ADS_ID)];
 	NSString *pAdmobIDsStr = (NSString *)[pDataList objectForKey:@(G_KEY_ADMOB_IDS)];
@@ -474,16 +464,16 @@ extern "C" {
 }
 
 //! 재개 광고 로드 메세지를 처리한다
-- (void)handleLoadResumeAdsMsg:(const char *)a_pszMsg {
+- (void)handleLoadResumeAdsMsg:(NSString *)a_pMsg {
 	[CAdsManager.sharedInst loadResumeAds];
 }
 
 //! 재개 광고 출력 메세지를 처리한다
-- (void)handleShowResumeAdsMsg:(const char *)a_pszMsg {
+- (void)handleShowResumeAdsMsg:(NSString *)a_pMsg {
 	[CAdsManager.sharedInst showResumeAds];
 }
 
-#ifdef FIREBASE_MODULE_ENABLE
+#if defined FIREBASE_MODULE_ENABLE
 - (NSMutableDictionary *)trackingList {
 	// 추적 리스트가 없을 경우
 	if(m_pTrackingList == nil) {
@@ -492,7 +482,7 @@ extern "C" {
 	
 	return m_pTrackingList;
 }
-#endif			// #ifdef FIREBASE_MODULE_ENABLE
+#endif			// #if defined FIREBASE_MODULE_ENABLE
 
 #pragma mark - 클래스 메서드
 //! 인스턴스를 반환한다

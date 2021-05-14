@@ -17,17 +17,17 @@
 
 #import "UnityInterface.h"
 
-#ifdef ADMOB_ENABLE
+#if defined ADMOB_ENABLE
 #import <GoogleMobileAds/GoogleMobileAds.h>
-#endif			// #ifdef ADMOB_ENABLE
+#endif			// #if defined ADMOB_ENABLE
 
-#ifdef FACEBOOK_ADS_ENABLE
+#if defined FACEBOOK_ADS_ENABLE
 #import <FBAudienceNetwork/FBAdSettings.h>
-#endif			// #ifdef FACEBOOK_ADS_ENABLE
+#endif			// #if defined FACEBOOK_ADS_ENABLE
 
-#ifdef FIREBASE_MODULE_ENABLE
+#if defined FIREBASE_MODULE_ENABLE
 #import <Firebase/Firebase.h>
-#endif			// #ifdef FIREBASE_MODULE_ENABLE
+#endif			// #if defined FIREBASE_MODULE_ENABLE
 
 // 기타
 #define G_EMPTY_STR				("")

@@ -349,7 +349,7 @@ extern "C" {
 
 //! 동의 뷰 출력 메세지를 처리한다
 - (void)handleShowConsentViewMsg:(NSString *)a_pMsg {
-	// 동의 뷰 출력이 필요 할 경우
+	// 동의 뷰 출력이 가능 할 경우
 	if(@available(iOS G_MIN_VER_CONSENT_VIEW, *)) {
 		// 동의 결과를 수신했을 경우
 		[ATTrackingManager requestTrackingAuthorizationWithCompletionHandler:^void(ATTrackingManagerAuthorizationStatus a_eStatus) {

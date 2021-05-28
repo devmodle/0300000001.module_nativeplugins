@@ -12,15 +12,11 @@
 
 //! 전역 변수
 static CiOSPlugin *g_pInst = nil;
-static NSMutableDictionary *g_pHandlerList = nil;
 
 //! iOS 플러그인 - Private
 @interface CiOSPlugin (Private) {
 	// Do Nothing
 }
-
-// 프로퍼티
-@property (nonatomic, strong, readonly) NSDictionary *handlerList;
 
 //! 초기화 메세지를 처리한다
 - (void)handleInitMsg:(NSString *)a_pMsg;
@@ -68,15 +64,16 @@ extern "C" {
 		NSLog(@"CiOSPlugin.HandleUnityMsg: %@, %@", @(a_pszCmd), @(a_pszMsg));
 		
 		NSString *pMsg = @(a_pszMsg);
-		NSString *pSelectorName = (NSString *)[CiOSPlugin.sharedInst.handlerList objectForKey:@(a_pszCmd)];
+		NSString *pSelectorName = (NSString *)[CiOSPlugin.sharedInst.unityMsgHandlerList objectForKey:@(a_pszCmd)];
 		
-		// 처리자가 존재 할 경우
+		// 유니티 메세지 처리자가 존재 할 경우
 		if(GFunc::IsValid(pSelectorName)) {
 			SEL pSelector = NSSelectorFromString(pSelectorName);
 			NSMethodSignature *pSignature = [CiOSPlugin.sharedInst methodSignatureForSelector:pSelector];
 			
 			NSInvocation *pInvocation = [NSInvocation invocationWithMethodSignature:pSignature];
 			pInvocation.selector = pSelector;
+			
 			[pInvocation setArgument:&pMsg atIndex:G_VAL_2_INT];
 			[pInvocation invokeWithTarget:CiOSPlugin.sharedInst];
 		}
@@ -92,6 +89,8 @@ extern "C" {
 @synthesize activityIndicatorView = m_pActivityIndicatorView;
 
 @synthesize impactGeneratorList = m_pImpactGeneratorList;
+@synthesize unityMsgHandlerList = m_pUnityMsgHandlerList;
+
 @synthesize selectionGenerator = m_pSelectionGenerator;
 @synthesize notificationGenerator = m_pNotificationGenerator;
 
@@ -123,27 +122,29 @@ extern "C" {
 	return m_pDeviceID;
 }
 
-//! 처리자 리스트를 반환한다
-- (NSDictionary *)handlerList {
+//! 유니티 메세지 처리자 리스트를 반환한다
+- (NSDictionary *)unityMsgHandlerList {
 	// 처리자 리스트가 없을 경우
-	if(g_pHandlerList == nil) {
-		g_pHandlerList = [[NSMutableDictionary alloc] init];
-		[g_pHandlerList setObject:NSStringFromSelector(@selector(handleInitMsg:)) forKey:@(G_CMD_INIT)];
-		[g_pHandlerList setObject:NSStringFromSelector(@selector(handleGetDeviceIDMsg:)) forKey:@(G_CMD_GET_DEVICE_ID)];
-		[g_pHandlerList setObject:NSStringFromSelector(@selector(handleGetCountryCodeMsg:)) forKey:@(G_CMD_GET_COUNTRY_CODE)];
-		[g_pHandlerList setObject:NSStringFromSelector(@selector(handleGetStoreVerMsg:)) forKey:@(G_CMD_GET_STORE_VER)];
-		[g_pHandlerList setObject:NSStringFromSelector(@selector(handleSetEnableAdsTrackingMsg:)) forKey:@(G_CMD_SET_ENABLE_ADS_TRACKING)];
-		[g_pHandlerList setObject:NSStringFromSelector(@selector(handleShowAlertMsg:)) forKey:@(G_CMD_SHOW_ALERT)];
-		[g_pHandlerList setObject:NSStringFromSelector(@selector(handleShowConsentViewMsg:)) forKey:@(G_CMD_SHOW_CONSENT_VIEW)];
-		[g_pHandlerList setObject:NSStringFromSelector(@selector(handleVibrateMsg:)) forKey:@(G_CMD_VIBRATE)];
-		[g_pHandlerList setObject:NSStringFromSelector(@selector(handleTrackingMsg:)) forKey:@(G_CMD_TRACKING)];
-		[g_pHandlerList setObject:NSStringFromSelector(@selector(handleIndicatorMsg:)) forKey:@(G_CMD_INDICATOR)];
-		[g_pHandlerList setObject:NSStringFromSelector(@selector(handleInitAdsMsg:)) forKey:@(G_CMD_INIT_ADS)];
-		[g_pHandlerList setObject:NSStringFromSelector(@selector(handleLoadResumeAdsMsg:)) forKey:@(G_CMD_LOAD_RESUME_ADS)];
-		[g_pHandlerList setObject:NSStringFromSelector(@selector(handleShowResumeAdsMsg:)) forKey:@(G_CMD_SHOW_RESUME_ADS)];
+	if(m_pUnityMsgHandlerList == nil) {
+		NSMutableDictionary *pMsgHandlerList = [[NSMutableDictionary alloc] init];
+		[pMsgHandlerList setObject:NSStringFromSelector(@selector(handleInitMsg:)) forKey:@(G_CMD_INIT)];
+		[pMsgHandlerList setObject:NSStringFromSelector(@selector(handleGetDeviceIDMsg:)) forKey:@(G_CMD_GET_DEVICE_ID)];
+		[pMsgHandlerList setObject:NSStringFromSelector(@selector(handleGetCountryCodeMsg:)) forKey:@(G_CMD_GET_COUNTRY_CODE)];
+		[pMsgHandlerList setObject:NSStringFromSelector(@selector(handleGetStoreVerMsg:)) forKey:@(G_CMD_GET_STORE_VER)];
+		[pMsgHandlerList setObject:NSStringFromSelector(@selector(handleSetEnableAdsTrackingMsg:)) forKey:@(G_CMD_SET_ENABLE_ADS_TRACKING)];
+		[pMsgHandlerList setObject:NSStringFromSelector(@selector(handleShowAlertMsg:)) forKey:@(G_CMD_SHOW_ALERT)];
+		[pMsgHandlerList setObject:NSStringFromSelector(@selector(handleShowConsentViewMsg:)) forKey:@(G_CMD_SHOW_CONSENT_VIEW)];
+		[pMsgHandlerList setObject:NSStringFromSelector(@selector(handleVibrateMsg:)) forKey:@(G_CMD_VIBRATE)];
+		[pMsgHandlerList setObject:NSStringFromSelector(@selector(handleTrackingMsg:)) forKey:@(G_CMD_TRACKING)];
+		[pMsgHandlerList setObject:NSStringFromSelector(@selector(handleIndicatorMsg:)) forKey:@(G_CMD_INDICATOR)];
+		[pMsgHandlerList setObject:NSStringFromSelector(@selector(handleInitAdsMsg:)) forKey:@(G_CMD_INIT_ADS)];
+		[pMsgHandlerList setObject:NSStringFromSelector(@selector(handleLoadResumeAdsMsg:)) forKey:@(G_CMD_LOAD_RESUME_ADS)];
+		[pMsgHandlerList setObject:NSStringFromSelector(@selector(handleShowResumeAdsMsg:)) forKey:@(G_CMD_SHOW_RESUME_ADS)];
+		
+		m_pUnityMsgHandlerList = pMsgHandlerList;
 	}
 	
-	return g_pHandlerList;
+	return m_pUnityMsgHandlerList;
 }
 
 //! 키체인 아이템 래퍼를 반환한다

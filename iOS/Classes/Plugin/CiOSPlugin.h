@@ -20,6 +20,8 @@ NS_ASSUME_NONNULL_BEGIN
 	UIActivityIndicatorView *m_pActivityIndicatorView;
 	
 	NSArray *m_pImpactGeneratorList;
+	NSDictionary *m_pUnityMsgHandlerList;
+	
 	UISelectionFeedbackGenerator *m_pSelectionGenerator;
 	UINotificationFeedbackGenerator *m_pNotificationGenerator;
 	
@@ -35,9 +37,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong, readonly) KeychainItemWrapper *keychainItemWrapper;
 @property (nonatomic, strong, readonly) UIActivityIndicatorView *activityIndicatorView;
 
-@property (nonatomic, strong) NSArray *impactGeneratorList;
-@property (nonatomic, strong) UISelectionFeedbackGenerator *selectionGenerator;
-@property (nonatomic, strong) UINotificationFeedbackGenerator *notificationGenerator;
+@property (nonatomic, strong, readonly) NSArray *impactGeneratorList;
+@property (nonatomic, strong, readonly) NSDictionary *unityMsgHandlerList;
+
+@property (nonatomic, strong, readonly) UISelectionFeedbackGenerator *selectionGenerator;
+@property (nonatomic, strong, readonly) UINotificationFeedbackGenerator *notificationGenerator;
 
 @property (nonatomic, strong, readonly) UIViewController *rootViewController;
 @property (nonatomic, strong, readonly) UnityAppController *unityAppController;

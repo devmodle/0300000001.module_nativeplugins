@@ -50,9 +50,9 @@ public class CAndroidPlugin {
 	private String m_oBuildMode = KGDefine.EMPTY_STRING;
 	
 	private ProgressBar m_oProgressBar = null;
-	private HashMap<String, Trace> m_oTrackingList = new HashMap<String, Trace>();
+	private final HashMap<String, Trace> m_oTrackingList = new HashMap<String, Trace>();
 	
-	private static CAndroidPlugin m_oInst = null;
+	@SuppressLint("StaticFieldLeak") private static CAndroidPlugin m_oInst = null;
 	
 	//! 생성자
 	private CAndroidPlugin() {

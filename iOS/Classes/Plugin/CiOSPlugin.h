@@ -43,8 +43,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong, readonly) UISelectionFeedbackGenerator *selectionGenerator;
 @property (nonatomic, strong, readonly) UINotificationFeedbackGenerator *notificationGenerator;
 
-@property (nonatomic, strong, readonly) UIViewController *rootViewController;
 @property (nonatomic, strong, readonly) UnityAppController *unityAppController;
+@property (nonatomic, strong, readonly) UIViewController *rootViewController;
 
 #if defined FIREBASE_MODULE_ENABLE
 @property (nonatomic, strong) NSMutableDictionary *trackingList;

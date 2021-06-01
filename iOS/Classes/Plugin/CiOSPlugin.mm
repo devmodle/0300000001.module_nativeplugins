@@ -206,7 +206,7 @@ extern "C" {
 		UIImpactFeedbackGenerator *pMediumGenerator = [[UIImpactFeedbackGenerator alloc] initWithStyle:UIImpactFeedbackStyleMedium];
 		UIImpactFeedbackGenerator *pHeavyGenerator = [[UIImpactFeedbackGenerator alloc] initWithStyle:UIImpactFeedbackStyleHeavy];
 		
-		m_pImpactGeneratorList = [NSArray arrayWithObjects:pLightGenerator, pMediumGenerator, pHeavyGenerator, nil];
+		m_pImpactGeneratorList = [[NSArray alloc] initWithObjects:pLightGenerator, pMediumGenerator, pHeavyGenerator, nil];
 	}
 	
 	return m_pImpactGeneratorList;
@@ -232,14 +232,14 @@ extern "C" {
 	return m_pNotificationGenerator;
 }
 
-//! 루트 뷰 컨트롤러를 반환한다
-- (UIViewController *)rootViewController {
-	return self.unityAppController.rootViewController;
-}
-
 //! 유니티 앱 컨트롤러를 반환한다
 - (UnityAppController *)unityAppController {
 	return (UnityAppController *)UIApplication.sharedApplication.delegate;
+}
+
+//! 루트 뷰 컨트롤러를 반환한다
+- (UIViewController *)rootViewController {
+	return self.unityAppController.rootViewController;
 }
 
 //! 초기화 메세지를 처리한다

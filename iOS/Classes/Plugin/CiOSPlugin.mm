@@ -36,9 +36,6 @@ static CiOSPlugin *g_pInst = nil;
 //! 경고 창 출력 메세지를 처리한다
 - (void)handleShowAlertMsg:(NSString *)a_pMsg;
 
-//! 동의 뷰 출력 메세지를 처리한다
-- (void)handleShowConsentViewMsg:(NSString *)a_pMsg;
-
 //! 진동 메세지를 처리한다
 - (void)handleVibrateMsg:(NSString *)a_pMsg;
 
@@ -133,7 +130,6 @@ extern "C" {
 		[pMsgHandlerList setObject:NSStringFromSelector(@selector(handleGetStoreVerMsg:)) forKey:@(G_CMD_GET_STORE_VER)];
 		[pMsgHandlerList setObject:NSStringFromSelector(@selector(handleSetEnableAdsTrackingMsg:)) forKey:@(G_CMD_SET_ENABLE_ADS_TRACKING)];
 		[pMsgHandlerList setObject:NSStringFromSelector(@selector(handleShowAlertMsg:)) forKey:@(G_CMD_SHOW_ALERT)];
-		[pMsgHandlerList setObject:NSStringFromSelector(@selector(handleShowConsentViewMsg:)) forKey:@(G_CMD_SHOW_CONSENT_VIEW)];
 		[pMsgHandlerList setObject:NSStringFromSelector(@selector(handleVibrateMsg:)) forKey:@(G_CMD_VIBRATE)];
 		[pMsgHandlerList setObject:NSStringFromSelector(@selector(handleTrackingMsg:)) forKey:@(G_CMD_TRACKING)];
 		[pMsgHandlerList setObject:NSStringFromSelector(@selector(handleIndicatorMsg:)) forKey:@(G_CMD_INDICATOR)];
@@ -346,20 +342,6 @@ extern "C" {
 	
 	// 경고 창을 출력한다
 	[self.rootViewController presentViewController:pAlertController animated:YES completion:NULL];
-}
-
-//! 동의 뷰 출력 메세지를 처리한다
-- (void)handleShowConsentViewMsg:(NSString *)a_pMsg {
-	// 동의 뷰 출력이 가능 할 경우
-	if(@available(iOS G_MIN_VER_CONSENT_VIEW, *)) {
-		// 동의 결과를 수신했을 경우
-		[ATTrackingManager requestTrackingAuthorizationWithCompletionHandler:^void(ATTrackingManagerAuthorizationStatus a_eStatus) {
-			BOOL bIsOK = a_eStatus == ATTrackingManagerAuthorizationStatusRestricted;
-			[CDeviceMsgSender.sharedInst sendShowConsentViewMsg:bIsOK || a_eStatus == ATTrackingManagerAuthorizationStatusAuthorized];
-		}];
-	} else {
-		[CDeviceMsgSender.sharedInst sendShowConsentViewMsg:YES];
-	}
 }
 
 //! 진동 메세지를 처리한다

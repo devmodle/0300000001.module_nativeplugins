@@ -70,7 +70,6 @@
 #define G_OFFSET_SCALE_ACTIVITY_INDICATOR			(0.01f)
 
 // 버전
-#define G_MIN_VER_CONSENT_VIEW					14.0
 #define G_MIN_VER_FEEDBACK_GENERATOR			10.0
 #define G_MIN_VER_IMPACT_INTENSITY				13.0
 #define G_MIN_VER_INDICATOR						13.0
@@ -118,9 +117,7 @@
 #define G_CMD_GET_STORE_VER				("GetStoreVer")
 
 #define G_CMD_SET_ENABLE_ADS_TRACKING			("SetEnableAdsTracking")
-
-#define G_CMD_SHOW_ALERT				("ShowAlert")
-#define G_CMD_SHOW_CONSENT_VIEW			("ShowConsentView")
+#define G_CMD_SHOW_ALERT						("ShowAlert")
 
 #define G_CMD_VIBRATE			("Vibrate")
 #define G_CMD_TRACKING			("Tracking")

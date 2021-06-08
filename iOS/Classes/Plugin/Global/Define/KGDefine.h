@@ -13,7 +13,6 @@
 #import <StoreKit/StoreKit.h>
 #import <AdSupport/AdSupport.h>
 #import <AudioToolbox/AudioToolbox.h>
-#import <AppTrackingTransparency/AppTrackingTransparency.h>
 
 #import "UnityInterface.h"
 

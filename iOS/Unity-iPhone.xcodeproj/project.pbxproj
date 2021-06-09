@@ -144,7 +144,6 @@
 		C0E2444F9408EFD465761A61 /* IUnityGraphicsMetal.h in Headers */ = {isa = PBXBuildFile; fileRef = F3124CC9814E2DA1C7263536 /* IUnityGraphicsMetal.h */; };
 		C12F4C779F367298FD8F8AC3 /* mscorlib.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AE31461EBFBB74A2B2F5F7DC /* mscorlib.cpp */; };
 		C31AD248254BB3CA007A9B04 /* CAdsManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = C31AD247254BB3CA007A9B04 /* CAdsManager.mm */; };
-		C3B36105264B8733006C635C /* AppTrackingTransparency.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3B36104264B8732006C635C /* AppTrackingTransparency.framework */; };
 		C3B36107264B873D006C635C /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3B36106264B873D006C635C /* AdSupport.framework */; };
 		C71C44228CCADB985533FA16 /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4C948C89B179DC959CCF019 /* GameController.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		C9B44CC1A267FCDF7FEB559A /* UnityClassRegistration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 98DD4CA69D9C2B88C312D203 /* UnityClassRegistration.cpp */; };
@@ -428,7 +427,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C3B36105264B8733006C635C /* AppTrackingTransparency.framework in Frameworks */,
 				C3B36107264B873D006C635C /* AdSupport.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

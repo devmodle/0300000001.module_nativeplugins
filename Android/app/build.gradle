@@ -28,15 +28,16 @@ android {
 
     // 플러그인을 생성한다
     task exportPlugin(type: Copy) {
-        assemble
-        build
-        delete '../../../Assets/Plugins/Android/CustomAndroidPlugin.aar'
-
         from('build/outputs/aar/')
         into('../../../Assets/Plugins/Android/')
 
         include('app-release.aar')
         rename('app-release.aar', 'CustomAndroidPlugin.aar')
+    }
+
+    // 플러그인을 제거한다
+    task removePrevPlugin(type: Delete) {
+        delete '../../../Assets/Plugins/Android/CustomAndroidPlugin.aar'
     }
 }
 
@@ -62,3 +63,5 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 }
+
+exportPlugin.dependsOn(removePrevPlugin, assemble, build)

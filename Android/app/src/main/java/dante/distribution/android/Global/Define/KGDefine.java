@@ -9,7 +9,8 @@ public abstract class KGDefine {
 	public static final String EMPTY_STR = "";
 	public static final String INVALID_ANDROID_ID = "9774d56d682e549c";
 	
-	public static final String MAIL_TYPE = "text/plain";
+	public static final String MAIL_DATA = "mailto:";
+	public static final String MAIL_TYPE = "message/rfc822";
 	public static final String MAIL_INTENT_TITLE = "Mail";
 	// 기타 }
 	

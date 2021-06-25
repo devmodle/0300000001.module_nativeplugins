@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Point;
+import android.net.Uri;
 import android.os.Build;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
@@ -200,8 +201,8 @@ public class CAndroidPlugin {
 		String oTitle = oJSONObj.getString(KGDefine.KEY_MAIL_TITLE);
 		String oMsg = oJSONObj.getString(KGDefine.KEY_MAIL_MSG);
 		
-		Intent oIntent = new Intent(Intent.ACTION_SEND);
-		oIntent.setType(KGDefine.MAIL_TYPE);
+		Intent oIntent = new Intent(Intent.ACTION_SENDTO);
+		oIntent.setDataAndType(Uri.parse(KGDefine.MAIL_DATA), KGDefine.MAIL_TYPE);
 		oIntent.putExtra(Intent.EXTRA_EMAIL, new String[] { oRecipient });
 		oIntent.putExtra(Intent.EXTRA_SUBJECT, oTitle);
 		oIntent.putExtra(Intent.EXTRA_TEXT, oMsg);

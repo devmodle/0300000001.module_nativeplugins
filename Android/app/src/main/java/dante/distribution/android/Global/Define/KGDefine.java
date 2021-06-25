@@ -4,10 +4,14 @@ import android.os.Build;
 
 //! 전역 상수
 public abstract class KGDefine {
-	// 기타
+	// 기타 {
 	public static final String TAG = "Plugin";
 	public static final String EMPTY_STR = "";
 	public static final String INVALID_ANDROID_ID = "9774d56d682e549c";
+	
+	public static final String MAIL_TYPE = "text/plain";
+	public static final String MAIL_INTENT_TITLE = "Mail";
+	// 기타 }
 	
 	// 값 {
 	public static final int VAL_0_INT = 0;
@@ -57,6 +61,7 @@ public abstract class KGDefine {
 	public static final String CMD_SHOW_ALERT = "ShowAlert";
 	public static final String CMD_SHOW_TOAST = "ShowToast";
 	
+	public static final String CMD_MAIL = "Mail";
 	public static final String CMD_VIBRATE = "Vibrate";
 	public static final String CMD_TRACKING = "Tracking";
 	public static final String CMD_INDICATOR = "Indicator";
@@ -76,6 +81,10 @@ public abstract class KGDefine {
 	public static final String KEY_ALERT_MSG = "Msg";
 	public static final String KEY_ALERT_OK_BTN_TEXT = "OKBtnText";
 	public static final String KEY_ALERT_CANCEL_BTN_TEXT = "CancelBtnText";
+	
+	public static final String KEY_MAIL_RECIPIENT = "Recipient";
+	public static final String KEY_MAIL_TITLE = "Title";
+	public static final String KEY_MAIL_MSG = "Msg";
 	
 	public static final String KEY_VIBRATE_DURATION = "Duration";
 	public static final String KEY_VIBRATE_INTENSITY = "Intensity";

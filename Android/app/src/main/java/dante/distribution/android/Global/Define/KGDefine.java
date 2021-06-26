@@ -11,7 +11,6 @@ public abstract class KGDefine {
 	
 	public static final String MAIL_DATA = "mailto:";
 	public static final String MAIL_TYPE = "message/rfc822";
-	public static final String MAIL_INTENT_TITLE = "Mail";
 	// 기타 }
 	
 	// 값 {

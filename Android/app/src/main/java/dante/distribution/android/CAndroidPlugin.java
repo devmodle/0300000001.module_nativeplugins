@@ -194,6 +194,7 @@ public class CAndroidPlugin {
 	}
 	
 	//! 메일 메세지를 처리한다
+	@SuppressLint("IntentReset")
 	private void handleMailMsg(String a_oMsg) throws Exception {
 		JSONObject oJSONObj = new JSONObject(a_oMsg);
 		
@@ -202,12 +203,14 @@ public class CAndroidPlugin {
 		String oMsg = oJSONObj.getString(KGDefine.KEY_MAIL_MSG);
 		
 		Intent oIntent = new Intent(Intent.ACTION_SENDTO);
-		oIntent.setDataAndType(Uri.parse(KGDefine.MAIL_DATA), KGDefine.MAIL_TYPE);
+		oIntent.setType(KGDefine.MAIL_TYPE);
+		oIntent.setData(Uri.parse(KGDefine.MAIL_DATA));
+		
 		oIntent.putExtra(Intent.EXTRA_EMAIL, new String[] { oRecipient });
 		oIntent.putExtra(Intent.EXTRA_SUBJECT, oTitle);
 		oIntent.putExtra(Intent.EXTRA_TEXT, oMsg);
 		
-		UnityPlayer.currentActivity.startActivity(Intent.createChooser(oIntent, KGDefine.MAIL_INTENT_TITLE));
+		UnityPlayer.currentActivity.startActivity(oIntent);
 	}
 	
 	//! 진동 메세지를 처리한다

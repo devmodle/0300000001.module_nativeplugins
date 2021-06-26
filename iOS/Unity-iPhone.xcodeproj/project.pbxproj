@@ -161,6 +161,7 @@
 		ED7E481DB405CC8910AE916A /* Il2CppMetadataRegistration.c in Sources */ = {isa = PBXBuildFile; fileRef = ED884C4FA03ED9174504D8F4 /* Il2CppMetadataRegistration.c */; };
 		F1FE40B988A7EA970916C269 /* System.Core_CodeGen.c in Sources */ = {isa = PBXBuildFile; fileRef = 3F2047F3B97B216B5D547B04 /* System.Core_CodeGen.c */; };
 		F37A428D8B1A3D2699B17F6D /* mscorlib5.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD1E419E83CCAC07B745BCEF /* mscorlib5.cpp */; };
+		FE42330E26877AB700035355 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE42330D26877AB700035355 /* MessageUI.framework */; };
 		FE4B4B589D1CC6204E51612B /* IUnityGraphics.h in Headers */ = {isa = PBXBuildFile; fileRef = B22749AFBCEF3CB5622DF617 /* IUnityGraphics.h */; };
 		FEF9BB782504EFC2008DBC20 /* CiOSPlugin.mm in Sources */ = {isa = PBXBuildFile; fileRef = FEF9BB682504EFC2008DBC20 /* CiOSPlugin.mm */; };
 		FEF9BB792504EFC2008DBC20 /* GFunc.mm in Sources */ = {isa = PBXBuildFile; fileRef = FEF9BB6F2504EFC2008DBC20 /* GFunc.mm */; };
@@ -411,6 +412,7 @@
 		FC3D7EBE16D2621600D1BD0D /* CrashReporter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CrashReporter.h; sourceTree = "<group>"; };
 		FC85CCB916C3ED8000BAF7C7 /* CrashReporter.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CrashReporter.mm; sourceTree = "<group>"; };
 		FC85CCBA16C3ED8000BAF7C7 /* PLCrashReporter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLCrashReporter.h; sourceTree = "<group>"; };
+		FE42330D26877AB700035355 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		FEF9BB682504EFC2008DBC20 /* CiOSPlugin.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CiOSPlugin.mm; sourceTree = "<group>"; };
 		FEF9BB692504EFC2008DBC20 /* CiOSPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CiOSPlugin.h; sourceTree = "<group>"; };
 		FEF9BB6C2504EFC2008DBC20 /* KGDefine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGDefine.h; sourceTree = "<group>"; };
@@ -427,6 +429,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FE42330E26877AB700035355 /* MessageUI.framework in Frameworks */,
 				C3B36107264B873D006C635C /* AdSupport.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -507,6 +510,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				FE42330D26877AB700035355 /* MessageUI.framework */,
 				C3B36106264B873D006C635C /* AdSupport.framework */,
 				C3B36104264B8732006C635C /* AppTrackingTransparency.framework */,
 				9D0A618A21BFE7F30094DC33 /* libiconv.2.tbd */,

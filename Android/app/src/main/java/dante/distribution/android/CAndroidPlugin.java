@@ -189,7 +189,6 @@ public class CAndroidPlugin {
 			});
 		}
 		
-		// 경고 창을 출력한다
 		oBuilder.create().show();
 	}
 	

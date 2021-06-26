@@ -13,7 +13,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 //! iOS 플러그인
-@interface CiOSPlugin : NSObject {
+@interface CiOSPlugin : NSObject <MFMailComposeViewControllerDelegate> {
 	NSString *m_pDeviceID;
 	
 	KeychainItemWrapper *m_pKeychainItemWrapper;

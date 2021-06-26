@@ -36,6 +36,9 @@ static CiOSPlugin *g_pInst = nil;
 //! 경고 창 출력 메세지를 처리한다
 - (void)handleShowAlertMsg:(NSString *)a_pMsg;
 
+//! 메일 메세지를 처리한다
+- (void)handleMailMsg:(NSString *)a_pMsg;
+
 //! 진동 메세지를 처리한다
 - (void)handleVibrateMsg:(NSString *)a_pMsg;
 
@@ -130,6 +133,7 @@ extern "C" {
 		[pMsgHandlerList setObject:NSStringFromSelector(@selector(handleGetStoreVerMsg:)) forKey:@(G_CMD_GET_STORE_VER)];
 		[pMsgHandlerList setObject:NSStringFromSelector(@selector(handleSetEnableAdsTrackingMsg:)) forKey:@(G_CMD_SET_ENABLE_ADS_TRACKING)];
 		[pMsgHandlerList setObject:NSStringFromSelector(@selector(handleShowAlertMsg:)) forKey:@(G_CMD_SHOW_ALERT)];
+		[pMsgHandlerList setObject:NSStringFromSelector(@selector(handleMailMsg:)) forKey:@(G_CMD_MAIL)];
 		[pMsgHandlerList setObject:NSStringFromSelector(@selector(handleVibrateMsg:)) forKey:@(G_CMD_VIBRATE)];
 		[pMsgHandlerList setObject:NSStringFromSelector(@selector(handleTrackingMsg:)) forKey:@(G_CMD_TRACKING)];
 		[pMsgHandlerList setObject:NSStringFromSelector(@selector(handleIndicatorMsg:)) forKey:@(G_CMD_INDICATOR)];
@@ -340,8 +344,34 @@ extern "C" {
 		}]];
 	}
 	
-	// 경고 창을 출력한다
 	[self.rootViewController presentViewController:pAlertController animated:YES completion:NULL];
+}
+
+//! 메일 메세지를 처리한다
+- (void)handleMailMsg:(NSString *)a_pMsg {
+	NSDictionary *pDataList = (NSDictionary *)GFunc::ConvertJSONStrToObj(a_pMsg, NULL);
+	
+	NSString *pRecipient = (NSString *)[pDataList objectForKey:@(G_KEY_MAIL_RECIPIENT)];
+	NSString *pTitle = (NSString *)[pDataList objectForKey:@(G_KEY_MAIL_TITLE)];
+	NSString *pMsg = (NSString *)[pDataList objectForKey:@(G_KEY_MAIL_MSG)];
+	
+	// 메일 전송이 가능 할 경우
+	if([MFMailComposeViewController canSendMail]) {
+		MFMailComposeViewController *pMailViewController = [[MFMailComposeViewController alloc] init];
+		pMailViewController.mailComposeDelegate = self;
+		
+		[pMailViewController setToRecipients:[NSArray arrayWithObjects:pRecipient, nil]];
+		[pMailViewController setSubject:pTitle];
+		[pMailViewController setMessageBody:pMsg isHTML:NO];
+		
+		[self.rootViewController presentViewController:pMailViewController animated:YES completion:NULL];
+	} else {
+		pTitle = [pTitle stringByAddingPercentEncodingWithAllowedCharacters:NSCharacterSet.URLUserAllowedCharacterSet];
+		pMsg = [pMsg stringByAddingPercentEncodingWithAllowedCharacters:NSCharacterSet.URLUserAllowedCharacterSet];
+		
+		NSString *pURL = [NSString stringWithFormat:@(G_URL_FMT_MAIL), pRecipient, pTitle, pMsg, nil];
+		[UIApplication.sharedApplication openURL:[NSURL URLWithString:pURL] options:G_EMPTY_DICT completionHandler:nil];
+	}
 }
 
 //! 진동 메세지를 처리한다

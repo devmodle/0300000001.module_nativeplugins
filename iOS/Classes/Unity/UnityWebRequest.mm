@@ -1,7 +1,8 @@
+#include <sched.h>
+
 const CFIndex streamSize = 1024;
 static NSOperationQueue* webOperationQueue;
 static NSURLSession* unityWebRequestSession;
-
 
 @interface UnityURLRequest : NSMutableURLRequest
 
@@ -84,11 +85,20 @@ static NSLock* currentRequestsLock;
         const UInt8* data = (const UInt8*)UnityWebRequestGetUploadData(udata, &dataSize);
         if (dataSize == 0)
             break;
-        NSInteger transmitted = [outputStream write: data maxLength: dataSize];
-        if (transmitted > 0)
-            UnityWebRequestConsumeUploadData(udata, (unsigned)transmitted);
-        else if (transmitted < 0)
-            break;
+
+        if (outputStream.hasSpaceAvailable)
+        {
+            NSInteger transmitted = [outputStream write: data maxLength: dataSize];
+            if (transmitted > 0)
+                UnityWebRequestConsumeUploadData(udata, (unsigned)transmitted);
+            else if (transmitted < 0)
+                break;
+        }
+        else
+        {
+            sched_yield();
+        }
+
         switch (task.state)
         {
             case NSURLSessionTaskStateCanceling:
@@ -281,13 +291,14 @@ extern "C" void* UnityCreateWebRequestBackend(void* udata, const char* methodStr
             {
                 webOperationQueue = [[NSOperationQueue alloc] init];
                 webOperationQueue.name = @"com.unity3d.WebOperationQueue";
+                webOperationQueue.qualityOfService = NSQualityOfServiceUtility;
 
                 currentRequests = [[NSMutableArray<UnityURLRequest*> alloc] init];
                 currentRequestsLock = [[NSLock alloc] init];
 
                 NSURLSessionConfiguration* config = [NSURLSessionConfiguration defaultSessionConfiguration];
                 UnityWebRequestDelegate* delegate = [[UnityWebRequestDelegate alloc] init];
-                unityWebRequestSession = [NSURLSession sessionWithConfiguration: config delegate: delegate delegateQueue: webOperationQueue];
+                unityWebRequestSession = [NSURLSession sessionWithConfiguration: config delegate: delegate delegateQueue: nil];
             }
         });
 

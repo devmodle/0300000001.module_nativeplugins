@@ -15,7 +15,7 @@
 #import <AdSupport/AdSupport.h>
 #import <AudioToolbox/AudioToolbox.h>
 
-#import "UnityInterface.h"
+#import "../../../Unity/UnityInterface.h"
 
 #if defined ADMOB_ENABLE
 #import <GoogleMobileAds/GoogleMobileAds.h>

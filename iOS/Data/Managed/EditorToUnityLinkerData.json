@@ -1,4 +1,5 @@
 {
+    "serializedTypes": [],
     "typesInScenes": [
         {
             "managedAssemblyName": "",
@@ -32,13 +33,6 @@
         },
         {
             "managedAssemblyName": "UnityEngine.dll",
-            "nativeClass": "MonoManager",
-            "fullManagedTypeName": "UnityEditor.MonoManager",
-            "moduleName": "Core",
-            "usedInScenes": []
-        },
-        {
-            "managedAssemblyName": "UnityEngine.dll",
             "nativeClass": "GraphicsSettings",
             "fullManagedTypeName": "UnityEngine.Rendering.GraphicsSettings",
             "moduleName": "Core",
@@ -47,13 +41,6 @@
         {
             "managedAssemblyName": "",
             "nativeClass": "DelayedCallManager",
-            "fullManagedTypeName": "",
-            "moduleName": "Core",
-            "usedInScenes": []
-        },
-        {
-            "managedAssemblyName": "",
-            "nativeClass": "BuildSettings",
             "fullManagedTypeName": "",
             "moduleName": "Core",
             "usedInScenes": []
@@ -83,6 +70,13 @@
         },
         {
             "managedAssemblyName": "",
+            "nativeClass": "RuntimeInitializeOnLoadManager",
+            "fullManagedTypeName": "",
+            "moduleName": "Core",
+            "usedInScenes": []
+        },
+        {
+            "managedAssemblyName": "",
             "nativeClass": "ResourceManager",
             "fullManagedTypeName": "",
             "moduleName": "Core",
@@ -90,23 +84,7 @@
         },
         {
             "managedAssemblyName": "",
-            "nativeClass": "RuntimeInitializeOnLoadManager",
-            "fullManagedTypeName": "",
-            "moduleName": "Core",
-            "usedInScenes": []
-        },
-        {
-            "managedAssemblyName": "UnityEngine.dll",
-            "nativeClass": "Shader",
-            "fullManagedTypeName": "UnityEngine.Shader",
-            "moduleName": "Core",
-            "usedInScenes": [
-                "Assets/Scenes/SampleScene.unity"
-            ]
-        },
-        {
-            "managedAssemblyName": "",
-            "nativeClass": "ScriptMapper",
+            "nativeClass": "ShaderNameRegistry",
             "fullManagedTypeName": "",
             "moduleName": "Core",
             "usedInScenes": []
@@ -151,6 +129,13 @@
             ]
         },
         {
+            "managedAssemblyName": "UnityEngine.dll",
+            "nativeClass": "MonoManager",
+            "fullManagedTypeName": "UnityEditor.MonoManager",
+            "moduleName": "Core",
+            "usedInScenes": []
+        },
+        {
             "managedAssemblyName": "",
             "nativeClass": "NavMeshProjectSettings",
             "fullManagedTypeName": "",
@@ -163,6 +148,15 @@
             "fullManagedTypeName": "UnityEditor.AudioManager",
             "moduleName": "Audio",
             "usedInScenes": []
+        },
+        {
+            "managedAssemblyName": "UnityEngine.dll",
+            "nativeClass": "Shader",
+            "fullManagedTypeName": "UnityEngine.Shader",
+            "moduleName": "Core",
+            "usedInScenes": [
+                "Assets/Scenes/SampleScene.unity"
+            ]
         },
         {
             "managedAssemblyName": "UnityEngine.dll",
@@ -202,6 +196,31 @@
             "usedInScenes": []
         },
         {
+            "managedAssemblyName": "",
+            "nativeClass": "BuildSettings",
+            "fullManagedTypeName": "",
+            "moduleName": "Core",
+            "usedInScenes": []
+        },
+        {
+            "managedAssemblyName": "UnityEngine.dll",
+            "nativeClass": "Camera",
+            "fullManagedTypeName": "UnityEngine.Camera",
+            "moduleName": "Core",
+            "usedInScenes": [
+                "Assets/Scenes/SampleScene.unity"
+            ]
+        },
+        {
+            "managedAssemblyName": "UnityEngine.dll",
+            "nativeClass": "Light",
+            "fullManagedTypeName": "UnityEngine.Light",
+            "moduleName": "Core",
+            "usedInScenes": [
+                "Assets/Scenes/SampleScene.unity"
+            ]
+        },
+        {
             "managedAssemblyName": "UnityEngine.dll",
             "nativeClass": "AudioBehaviour",
             "fullManagedTypeName": "UnityEngine.AudioBehaviour",
@@ -239,35 +258,17 @@
         },
         {
             "managedAssemblyName": "UnityEngine.dll",
+            "nativeClass": "Cubemap",
+            "fullManagedTypeName": "UnityEngine.Cubemap",
+            "moduleName": "Core",
+            "usedInScenes": [
+                "Assets/Scenes/SampleScene.unity"
+            ]
+        },
+        {
+            "managedAssemblyName": "UnityEngine.dll",
             "nativeClass": "RenderSettings",
             "fullManagedTypeName": "UnityEngine.RenderSettings",
-            "moduleName": "Core",
-            "usedInScenes": [
-                "Assets/Scenes/SampleScene.unity"
-            ]
-        },
-        {
-            "managedAssemblyName": "UnityEngine.dll",
-            "nativeClass": "Transform",
-            "fullManagedTypeName": "UnityEngine.Transform",
-            "moduleName": "Core",
-            "usedInScenes": [
-                "Assets/Scenes/SampleScene.unity"
-            ]
-        },
-        {
-            "managedAssemblyName": "UnityEngine.dll",
-            "nativeClass": "Light",
-            "fullManagedTypeName": "UnityEngine.Light",
-            "moduleName": "Core",
-            "usedInScenes": [
-                "Assets/Scenes/SampleScene.unity"
-            ]
-        },
-        {
-            "managedAssemblyName": "UnityEngine.dll",
-            "nativeClass": "Camera",
-            "fullManagedTypeName": "UnityEngine.Camera",
             "moduleName": "Core",
             "usedInScenes": [
                 "Assets/Scenes/SampleScene.unity"
@@ -286,6 +287,15 @@
             "managedAssemblyName": "UnityEngine.dll",
             "nativeClass": "Component",
             "fullManagedTypeName": "UnityEngine.Component",
+            "moduleName": "Core",
+            "usedInScenes": [
+                "Assets/Scenes/SampleScene.unity"
+            ]
+        },
+        {
+            "managedAssemblyName": "UnityEngine.dll",
+            "nativeClass": "Transform",
+            "fullManagedTypeName": "UnityEngine.Transform",
             "moduleName": "Core",
             "usedInScenes": [
                 "Assets/Scenes/SampleScene.unity"
@@ -326,15 +336,6 @@
             "usedInScenes": [
                 "Assets/Scenes/SampleScene.unity"
             ]
-        },
-        {
-            "managedAssemblyName": "UnityEngine.dll",
-            "nativeClass": "LightingSettings",
-            "fullManagedTypeName": "UnityEngine.LightingSettings",
-            "moduleName": "Core",
-            "usedInScenes": [
-                "Assets/Scenes/SampleScene.unity"
-            ]
         }
     ],
     "allNativeTypes": [
@@ -347,12 +348,6 @@
         {
             "name": "AnnotationManager",
             "module": "Core",
-            "baseName": "Object",
-            "baseModule": "Core"
-        },
-        {
-            "name": "AssetDatabaseV1",
-            "module": "AssetDatabase",
             "baseName": "Object",
             "baseModule": "Core"
         },
@@ -372,18 +367,6 @@
             "name": "BuiltAssetBundleInfoSet",
             "module": "BuildReportingEditor",
             "baseName": "Object",
-            "baseModule": "Core"
-        },
-        {
-            "name": "Derived",
-            "module": "Core",
-            "baseName": "Object",
-            "baseModule": "Core"
-        },
-        {
-            "name": "SubDerived",
-            "module": "Core",
-            "baseName": "Derived",
             "baseModule": "Core"
         },
         {
@@ -634,12 +617,6 @@
         },
         {
             "name": "Halo",
-            "module": "Core",
-            "baseName": "Behaviour",
-            "baseModule": "Core"
-        },
-        {
-            "name": "HaloLayer",
             "module": "Core",
             "baseName": "Behaviour",
             "baseModule": "Core"
@@ -933,12 +910,6 @@
             "baseModule": "Physics"
         },
         {
-            "name": "FakeComponent",
-            "module": "Core",
-            "baseName": "Component",
-            "baseModule": "Core"
-        },
-        {
             "name": "Joint",
             "module": "Physics",
             "baseName": "Component",
@@ -1020,12 +991,6 @@
             "name": "LineRenderer",
             "module": "Core",
             "baseName": "Renderer",
-            "baseModule": "Core"
-        },
-        {
-            "name": "RendererFake",
-            "module": "Core",
-            "baseName": "LineRenderer",
             "baseModule": "Core"
         },
         {
@@ -1119,12 +1084,6 @@
             "baseModule": "Core"
         },
         {
-            "name": "WorldAnchor",
-            "module": "VR",
-            "baseName": "Component",
-            "baseModule": "Core"
-        },
-        {
             "name": "GameObject",
             "module": "Core",
             "baseName": "EditorExtension",
@@ -1210,7 +1169,7 @@
         },
         {
             "name": "ComputeShaderImporter",
-            "module": "Core",
+            "module": "Editor",
             "baseName": "AssetImporter",
             "baseModule": "Editor"
         },
@@ -1282,7 +1241,7 @@
         },
         {
             "name": "PackageManifestImporter",
-            "module": "Editor",
+            "module": "PackageManagerUI",
             "baseName": "AssetImporter",
             "baseModule": "Editor"
         },
@@ -1299,6 +1258,12 @@
             "baseModule": "Editor"
         },
         {
+            "name": "PreviewImporter",
+            "module": "Editor",
+            "baseName": "AssetImporter",
+            "baseModule": "Editor"
+        },
+        {
             "name": "RayTracingShaderImporter",
             "module": "Core",
             "baseName": "AssetImporter",
@@ -1307,6 +1272,12 @@
         {
             "name": "ReferencesArtifactGenerator",
             "module": "Editor",
+            "baseName": "AssetImporter",
+            "baseModule": "Editor"
+        },
+        {
+            "name": "RuleSetFileImporter",
+            "module": "Core",
             "baseName": "AssetImporter",
             "baseModule": "Editor"
         },
@@ -1750,7 +1721,13 @@
         },
         {
             "name": "PackageManifest",
-            "module": "Editor",
+            "module": "PackageManagerUI",
+            "baseName": "TextAsset",
+            "baseModule": "Core"
+        },
+        {
+            "name": "RuleSetFileAsset",
+            "module": "Core",
             "baseName": "TextAsset",
             "baseModule": "Core"
         },
@@ -1905,12 +1882,6 @@
             "baseModule": "Core"
         },
         {
-            "name": "EmptyObject",
-            "module": "Core",
-            "baseName": "Object",
-            "baseModule": "Core"
-        },
-        {
             "name": "GameManager",
             "module": "Core",
             "baseName": "Object",
@@ -2007,7 +1978,7 @@
             "baseModule": "Core"
         },
         {
-            "name": "ScriptMapper",
+            "name": "ShaderNameRegistry",
             "module": "Core",
             "baseName": "GlobalGameManager",
             "baseModule": "Core"
@@ -2085,12 +2056,6 @@
             "baseModule": "Core"
         },
         {
-            "name": "NativeObjectType",
-            "module": "Core",
-            "baseName": "Object",
-            "baseModule": "Core"
-        },
-        {
             "name": "PackedAssets",
             "module": "Editor",
             "baseName": "Object",
@@ -2127,12 +2092,6 @@
             "baseModule": "Core"
         },
         {
-            "name": "PropertyModificationsTargetTestObject",
-            "module": "Core",
-            "baseName": "Object",
-            "baseModule": "Core"
-        },
-        {
             "name": "SceneVisibilityState",
             "module": "Core",
             "baseName": "Object",
@@ -2145,67 +2104,7 @@
             "baseModule": "Core"
         },
         {
-            "name": "SerializableManagedHost",
-            "module": "Core",
-            "baseName": "Object",
-            "baseModule": "Core"
-        },
-        {
-            "name": "SerializableManagedRefTestClass",
-            "module": "Core",
-            "baseName": "Object",
-            "baseModule": "Core"
-        },
-        {
-            "name": "SiblingDerived",
-            "module": "Core",
-            "baseName": "Object",
-            "baseModule": "Core"
-        },
-        {
             "name": "SpriteAtlasDatabase",
-            "module": "Core",
-            "baseName": "Object",
-            "baseModule": "Core"
-        },
-        {
-            "name": "TestObjectVectorPairStringBool",
-            "module": "Core",
-            "baseName": "Object",
-            "baseModule": "Core"
-        },
-        {
-            "name": "TestObjectWithSerializedAnimationCurve",
-            "module": "Core",
-            "baseName": "Object",
-            "baseModule": "Core"
-        },
-        {
-            "name": "TestObjectWithSerializedArray",
-            "module": "Core",
-            "baseName": "Object",
-            "baseModule": "Core"
-        },
-        {
-            "name": "TestObjectWithSerializedMapStringBool",
-            "module": "Core",
-            "baseName": "Object",
-            "baseModule": "Core"
-        },
-        {
-            "name": "TestObjectWithSerializedMapStringNonAlignedStruct",
-            "module": "Core",
-            "baseName": "Object",
-            "baseModule": "Core"
-        },
-        {
-            "name": "TestObjectWithSpecialLayoutOne",
-            "module": "Core",
-            "baseName": "Object",
-            "baseModule": "Core"
-        },
-        {
-            "name": "TestObjectWithSpecialLayoutTwo",
             "module": "Core",
             "baseName": "Object",
             "baseModule": "Core"

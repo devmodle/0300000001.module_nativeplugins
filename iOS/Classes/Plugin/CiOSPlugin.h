@@ -8,7 +8,7 @@
 
 #import "Global/Define/KGDefine.h"
 #import "Global/Utility/External/Keychain/KeychainItemWrapper.h"
-#import "UnityAppController.h"
+#import "../UnityAppController.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

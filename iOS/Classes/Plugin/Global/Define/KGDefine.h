@@ -21,9 +21,9 @@
 #import <GoogleMobileAds/GoogleMobileAds.h>
 #endif			// #if defined ADMOB_ENABLE
 
-#if defined ADS_MODULE_ENABLE
+#if defined IRON_SRC_ENABLE || defined APP_LOVIN_ENABLE
 #import <FBAudienceNetwork/FBAdSettings.h>
-#endif			// #if defined ADS_MODULE_ENABLE
+#endif			// #if defined IRON_SRC_ENABLE || defined APP_LOVIN_ENABLE
 
 // 기타 {
 #define G_EMPTY_STR				("")

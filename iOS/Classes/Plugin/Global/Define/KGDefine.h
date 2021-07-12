@@ -86,10 +86,6 @@
 #define G_KEY_VIBRATE_STYLE				("Style")
 #define G_KEY_VIBRATE_INTENSITY			("Intensity")
 
-#define G_KEY_TRACKING_NAME				("Name")
-#define G_KEY_TRACKING_DATAS			("Datas")
-#define G_KEY_TRACKING_IS_START			("IsStart")
-
 #define G_KEY_ADMOB_IDS 			("AdmobIDs")
 #define G_KEY_RESUME_ADS_ID			("ResumeAdsID")
 
@@ -108,7 +104,6 @@
 #define G_CMD_SHOW_ALERT						("ShowAlert")
 
 #define G_CMD_VIBRATE			("Vibrate")
-#define G_CMD_TRACKING			("Tracking")
 #define G_CMD_INDICATOR			("Indicator")
 
 #define G_CMD_INIT_ADS					("InitAds")

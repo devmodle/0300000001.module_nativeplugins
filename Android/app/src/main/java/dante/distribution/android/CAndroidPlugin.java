@@ -26,8 +26,6 @@ import com.google.android.play.core.install.model.UpdateAvailability;
 import com.google.android.play.core.tasks.OnFailureListener;
 import com.google.android.play.core.tasks.OnSuccessListener;
 import com.google.android.play.core.tasks.Task;
-import com.google.firebase.perf.FirebasePerformance;
-import com.google.firebase.perf.metrics.Trace;
 import com.unity3d.player.UnityPlayer;
 
 import org.json.JSONArray;
@@ -35,7 +33,6 @@ import org.json.JSONObject;
 
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Locale;
 import java.util.UUID;
 
@@ -50,8 +47,6 @@ public class CAndroidPlugin {
 	private String m_oBuildMode = KGDefine.EMPTY_STRING;
 	
 	private ProgressBar m_oProgressBar = null;
-	private final HashMap<String, Trace> m_oTrackingList = new HashMap<String, Trace>();
-	
 	@SuppressLint("StaticFieldLeak") private static CAndroidPlugin m_oInst = null;
 	
 	//! 생성자
@@ -116,7 +111,6 @@ public class CAndroidPlugin {
 						case KGDefine.CMD_SHOW_TOAST: CAndroidPlugin.getInst().handleShowToastMsg(a_oMsg); break;
 						case KGDefine.CMD_SHOW_ALERT: CAndroidPlugin.getInst().handleShowAlertMsg(a_oMsg); break;
 						case KGDefine.CMD_VIBRATE: CAndroidPlugin.getInst().handleVibrateMsg(a_oMsg); break;
-						case KGDefine.CMD_TRACKING: CAndroidPlugin.getInst().handleTrackingMsg(a_oMsg); break;
 						case KGDefine.CMD_INDICATOR: CAndroidPlugin.getInst().handleIndicatorMsg(a_oMsg); break;
 						case KGDefine.CMD_INIT_ADS: CAndroidPlugin.getInst().handleInitAdsMsg(a_oMsg); break;
 						case KGDefine.CMD_LOAD_RESUME_ADS: CAndroidPlugin.getInst().handleLoadResumeAdsMsg(a_oMsg); break;
@@ -280,44 +274,6 @@ public class CAndroidPlugin {
 		} else {
 			VibrationEffect oEffect = VibrationEffect.createOneShot((int)(fDuration * KGDefine.UNIT_SEC_TO_MILLISEC), (int)(fIntensity * KGDefine.UNIT_NORM_VALUE_TO_BYTE));
 			oVibrator.vibrate(oEffect);
-		}
-	}
-	
-	//! 추적 메세지를 처리한다
-	private void handleTrackingMsg(String a_oMsg) throws Exception {
-		JSONObject oJSONObj = new JSONObject(a_oMsg);
-		
-		String oName = oJSONObj.getString(KGDefine.KEY_TRACKING_NAME);
-		String oIsStartString = oJSONObj.getString(KGDefine.KEY_TRACKING_IS_START);
-		
-		boolean bIsStart = GFunc.convertStringToBool(oIsStartString);
-		boolean bIsContains = m_oTrackingList.containsKey(oName);
-		
-		// 시작 모드 일 경우
-		if(bIsStart && !bIsContains) {
-			Trace oTracking = FirebasePerformance.getInstance().newTrace(oName);
-			String oDatasString = oJSONObj.getString(KGDefine.KEY_TRACKING_DATAS);
-			
-			// 데이터가 존재 할 경우
-			if(GFunc.isValid(oDatasString)) {
-				JSONObject oDataList = new JSONObject(oDatasString);
-				JSONArray oKeyList = oDataList.names();
-				
-				for(int i = 0; i < oKeyList.length(); ++i) {
-					String oKey = oKeyList.getString(i);
-					oTracking.putAttribute(oKey, oDataList.getString(oKey));
-				}
-			}
-			
-			oTracking.start();
-			m_oTrackingList.put(oName, oTracking);
-		}
-		// 중지 모드 일 경우
-		else if(!bIsStart && bIsContains) {
-			Trace oTracking = m_oTrackingList.get(oName);
-			oTracking.stop();
-			
-			m_oTrackingList.remove(oName);
 		}
 	}
 	

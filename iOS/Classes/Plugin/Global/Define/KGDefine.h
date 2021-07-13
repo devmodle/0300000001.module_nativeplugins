@@ -15,19 +15,15 @@
 #import <AdSupport/AdSupport.h>
 #import <AudioToolbox/AudioToolbox.h>
 
-#import "UnityInterface.h"
+#import "../../../Unity/UnityInterface.h"
 
 #if defined ADMOB_ENABLE
 #import <GoogleMobileAds/GoogleMobileAds.h>
 #endif			// #if defined ADMOB_ENABLE
 
-#if defined FACEBOOK_ADS_ENABLE
+#if defined IRON_SRC_ENABLE || defined APP_LOVIN_ENABLE
 #import <FBAudienceNetwork/FBAdSettings.h>
-#endif			// #if defined FACEBOOK_ADS_ENABLE
-
-#if defined FIREBASE_MODULE_ENABLE
-#import <Firebase/Firebase.h>
-#endif			// #if defined FIREBASE_MODULE_ENABLE
+#endif			// #if defined IRON_SRC_ENABLE || defined APP_LOVIN_ENABLE
 
 // 기타 {
 #define G_EMPTY_STR				("")
@@ -89,7 +85,6 @@
 
 #define G_CMD_MAIL				("Mail")
 #define G_CMD_VIBRATE			("Vibrate")
-#define G_CMD_TRACKING			("Tracking")
 #define G_CMD_INDICATOR			("Indicator")
 
 #define G_CMD_INIT_ADS					("InitAds")
@@ -124,10 +119,6 @@
 #define G_KEY_VIBRATE_TYPE				("Type")
 #define G_KEY_VIBRATE_STYLE				("Style")
 #define G_KEY_VIBRATE_INTENSITY			("Intensity")
-
-#define G_KEY_TRACKING_NAME				("Name")
-#define G_KEY_TRACKING_DATAS			("Datas")
-#define G_KEY_TRACKING_IS_START			("IsStart")
 
 #define G_KEY_ADMOB_IDS 			("AdmobIDs")
 #define G_KEY_RESUME_ADS_ID			("ResumeAdsID")

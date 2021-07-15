@@ -53,7 +53,7 @@ public class CAndroidPlugin {
 		RelativeLayout.LayoutParams oParams = new RelativeLayout.LayoutParams(nSize, nSize);
 		oParams.addRule(RelativeLayout.CENTER_IN_PARENT);
 		
-		m_oProgressBar = new ProgressBar(UnityPlayer.currentActivity, null, android.R.attr.progressBarStyleLarge);
+		m_oProgressBar = new ProgressBar(UnityPlayer.currentActivity, null, android.R.attr.progressBarStyleLargeInverse);
 		m_oProgressBar.setIndeterminate(true);
 		m_oProgressBar.setVisibility(View.GONE);
 		// 프로그레스 바를 설정한다 }

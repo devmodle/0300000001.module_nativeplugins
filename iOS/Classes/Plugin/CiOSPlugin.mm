@@ -7,7 +7,6 @@
 
 #import "CiOSPlugin.h"
 #import "Global/Function/GFunc.h"
-#import "Global/Utility/Ads/CAdsManager.h"
 #import "Global/Utility/Platform/CDeviceMsgSender.h"
 
 //! 전역 변수
@@ -17,9 +16,6 @@ static CiOSPlugin *g_pInst = nil;
 @interface CiOSPlugin (Private) {
 	// Do Nothing
 }
-
-//! 초기화 메세지를 처리한다
-- (void)handleInitMsg:(NSString *)a_pMsg;
 
 //! 디바이스 식별자 반환 메세지를 처리한다
 - (void)handleGetDeviceIDMsg:(NSString *)a_pMsg;
@@ -44,15 +40,6 @@ static CiOSPlugin *g_pInst = nil;
 
 //! 인디케이터 메세지를 처리한다
 - (void)handleIndicatorMsg:(NSString *)a_pMsg;
-
-//! 광고 초기화 메세지를 처리한다
-- (void)handleInitAdsMsg:(NSString *)a_pMsg;
-
-//! 재개 광고 로드 메세지를 처리한다
-- (void)handleLoadResumeAdsMsg:(NSString *)a_pMsg;
-
-//! 재개 광고 출력 메세지를 처리한다
-- (void)handleShowResumeAdsMsg:(NSString *)a_pMsg;
 @end			// CiOSPlugin (Private)
 
 extern "C" {
@@ -120,7 +107,6 @@ extern "C" {
 	// 처리자 리스트가 없을 경우
 	if(m_pUnityMsgHandlerList == nil) {
 		NSMutableDictionary *pMsgHandlerList = [[NSMutableDictionary alloc] init];
-		[pMsgHandlerList setObject:NSStringFromSelector(@selector(handleInitMsg:)) forKey:@(G_CMD_INIT)];
 		[pMsgHandlerList setObject:NSStringFromSelector(@selector(handleGetDeviceIDMsg:)) forKey:@(G_CMD_GET_DEVICE_ID)];
 		[pMsgHandlerList setObject:NSStringFromSelector(@selector(handleGetCountryCodeMsg:)) forKey:@(G_CMD_GET_COUNTRY_CODE)];
 		[pMsgHandlerList setObject:NSStringFromSelector(@selector(handleGetStoreVerMsg:)) forKey:@(G_CMD_GET_STORE_VER)];
@@ -129,9 +115,6 @@ extern "C" {
 		[pMsgHandlerList setObject:NSStringFromSelector(@selector(handleMailMsg:)) forKey:@(G_CMD_MAIL)];
 		[pMsgHandlerList setObject:NSStringFromSelector(@selector(handleVibrateMsg:)) forKey:@(G_CMD_VIBRATE)];
 		[pMsgHandlerList setObject:NSStringFromSelector(@selector(handleIndicatorMsg:)) forKey:@(G_CMD_INDICATOR)];
-		[pMsgHandlerList setObject:NSStringFromSelector(@selector(handleInitAdsMsg:)) forKey:@(G_CMD_INIT_ADS)];
-		[pMsgHandlerList setObject:NSStringFromSelector(@selector(handleLoadResumeAdsMsg:)) forKey:@(G_CMD_LOAD_RESUME_ADS)];
-		[pMsgHandlerList setObject:NSStringFromSelector(@selector(handleShowResumeAdsMsg:)) forKey:@(G_CMD_SHOW_RESUME_ADS)];
 		
 		m_pUnityMsgHandlerList = pMsgHandlerList;
 	}
@@ -232,19 +215,6 @@ extern "C" {
 //! 루트 뷰 컨트롤러를 반환한다
 - (UIViewController *)rootViewController {
 	return self.unityAppController.rootViewController;
-}
-
-//! 초기화 메세지를 처리한다
-- (void)handleInitMsg:(NSString *)a_pMsg {
-	NSDictionary *pDataList = (NSDictionary *)GFunc::ConvertJSONStrToObj(a_pMsg, NULL);
-	NSString *pOrientation = (NSString *)[pDataList objectForKey:@(G_KEY_ORIENTATION)];
-	
-	// 세로 모드 일 경우
-	if(pOrientation.intValue == G_ORIENTATION_PORTRAIT) {
-		self.orientation = UIInterfaceOrientationPortrait;
-	} else {
-		self.orientation = UIApplication.sharedApplication.statusBarOrientation;
-	}
 }
 
 //! 디바이스 식별자 반환 메세지를 처리한다
@@ -413,27 +383,6 @@ extern "C" {
 	} else {
 		[self.activityIndicatorView stopAnimating];
 	}
-}
-
-//! 광고 초기화 메세지를 처리한다
-- (void)handleInitAdsMsg:(NSString *)a_pMsg {
-	NSDictionary *pDataList = (NSDictionary *)GFunc::ConvertJSONStrToObj(a_pMsg, NULL);
-	
-	NSString *pResumeAdsID = (NSString *)[pDataList objectForKey:@(G_KEY_RESUME_ADS_ID)];
-	NSString *pAdmobIDsStr = (NSString *)[pDataList objectForKey:@(G_KEY_ADMOB_IDS)];
-	
-	NSArray *pAdmobIDList = (NSArray *)GFunc::ConvertJSONStrToObj(pAdmobIDsStr, NULL);
-	[CAdsManager.sharedInst init:pResumeAdsID withDeviceIDList:pAdmobIDList];
-}
-
-//! 재개 광고 로드 메세지를 처리한다
-- (void)handleLoadResumeAdsMsg:(NSString *)a_pMsg {
-	[CAdsManager.sharedInst loadResumeAds];
-}
-
-//! 재개 광고 출력 메세지를 처리한다
-- (void)handleShowResumeAdsMsg:(NSString *)a_pMsg {
-	[CAdsManager.sharedInst showResumeAds];
 }
 
 #pragma mark - 클래스 메서드

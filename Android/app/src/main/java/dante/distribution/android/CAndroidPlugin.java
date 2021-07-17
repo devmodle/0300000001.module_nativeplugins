@@ -21,24 +21,19 @@ import android.widget.Toast;
 
 import com.unity3d.player.UnityPlayer;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.Locale;
 import java.util.UUID;
 
 import dante.distribution.android.Global.Define.KGDefine;
 import dante.distribution.android.Global.Function.GFunc;
-import dante.distribution.android.Global.Utility.Ads.CAdsManager;
 import dante.distribution.android.Global.Utility.Platform.CDeviceMsgSender;
 
 //! 안드로이드 플러그인
 public class CAndroidPlugin {
-	private int m_nOrientation = 0;
 	private ProgressBar m_oProgressBar = null;
-	
 	@SuppressLint("StaticFieldLeak") private static CAndroidPlugin m_oInst = null;
 	
 	//! 생성자
@@ -72,11 +67,6 @@ public class CAndroidPlugin {
 		// 레이아웃을 설정한다 }
 	}
 	
-	//! 방향을 반환한다
-	public int getOrientation() {
-		return m_nOrientation;
-	}
-	
 	//! 인스턴스를 반환한다
 	public static CAndroidPlugin getInst() {
 		// 인스턴스가 없을 경우
@@ -96,7 +86,6 @@ public class CAndroidPlugin {
 			public void run() {
 				try {
 					switch(a_oCmd) {
-						case KGDefine.CMD_INIT: CAndroidPlugin.getInst().handleInitMsg(a_oMsg); break;
 						case KGDefine.CMD_GET_DEVICE_ID: CAndroidPlugin.getInst().handleGetDeviceIDMsg(a_oMsg); break;
 						case KGDefine.CMD_GET_COUNTRY_CODE: CAndroidPlugin.getInst().handleGetCountryCodeMsg(a_oMsg); break;
 						case KGDefine.CMD_SHOW_TOAST: CAndroidPlugin.getInst().handleShowToastMsg(a_oMsg); break;
@@ -104,9 +93,6 @@ public class CAndroidPlugin {
 						case KGDefine.CMD_MAIL: CAndroidPlugin.getInst().handleMailMsg(a_oMsg); break;
 						case KGDefine.CMD_VIBRATE: CAndroidPlugin.getInst().handleVibrateMsg(a_oMsg); break;
 						case KGDefine.CMD_INDICATOR: CAndroidPlugin.getInst().handleIndicatorMsg(a_oMsg); break;
-						case KGDefine.CMD_INIT_ADS: CAndroidPlugin.getInst().handleInitAdsMsg(a_oMsg); break;
-						case KGDefine.CMD_LOAD_RESUME_ADS: CAndroidPlugin.getInst().handleLoadResumeAdsMsg(a_oMsg); break;
-						case KGDefine.CMD_SHOW_RESUME_ADS: CAndroidPlugin.getInst().handleShowResumeAdsMsg(a_oMsg); break;
 					}
 				} catch(Exception oException) {
 					Log.e(KGDefine.TAG, String.format("CAndroidPlugin.handleUnityMsg Exception: %s, %s", a_oCmd, oException.getMessage()));
@@ -114,14 +100,6 @@ public class CAndroidPlugin {
 				}
 			}
 		});
-	}
-	
-	//! 초기화 메세지를 처리한다
-	private void handleInitMsg(String a_oMsg) throws Exception {
-		JSONObject oJSONObj = new JSONObject(a_oMsg);
-		String oOrientation = oJSONObj.getString(KGDefine.KEY_ORIENTATION);
-		
-		m_nOrientation = Integer.parseInt(oOrientation) + 1;
 	}
 	
 	//! 디바이스 식별자 반환 메세지를 처리한다
@@ -237,32 +215,5 @@ public class CAndroidPlugin {
 		} else {
 			m_oProgressBar.setVisibility(View.GONE);
 		}
-	}
-	
-	//! 광고 초기화 메세지를 처리한다
-	private void handleInitAdsMsg(String a_oMsg) throws Exception {
-		JSONObject oJSONObj = new JSONObject(a_oMsg);
-		
-		String oResumeAdsID = oJSONObj.getString(KGDefine.KEY_RESUME_ADS_ID);
-		String oAdmobIDsString = oJSONObj.getString(KGDefine.KEY_ADMOB_IDS);
-		
-		JSONArray oAdmobIDs = new JSONArray(oAdmobIDsString);
-		ArrayList<String> oAdmobIDList = new ArrayList<String>();
-		
-		for(int i = 0; i < oAdmobIDs.length(); ++i) {
-			oAdmobIDList.add(oAdmobIDs.getString(i));
-		}
-		
-		CAdsManager.getInst().init(oResumeAdsID, oAdmobIDList);
-	}
-	
-	//! 재개 광고 로드 메세지를 처리한다
-	private void handleLoadResumeAdsMsg(String a_oMsg) {
-		CAdsManager.getInst().loadResumeAds();
-	}
-	
-	//! 재개 광고 출력 메세지를 처리한다
-	private void handleShowResumeAdsMsg(String a_oMsg) {
-		CAdsManager.getInst().showResumeAds();
 	}
 }

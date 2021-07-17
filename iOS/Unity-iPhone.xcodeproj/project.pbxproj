@@ -183,7 +183,6 @@
 		FC86498880E0FC0EF38D14DA /* Il2CppGenericComDefinitions2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 12AF4201810280223AAA948A /* Il2CppGenericComDefinitions2.cpp */; };
 		FE69E3FE269C0F370003BC19 /* CiOSPlugin.mm in Sources */ = {isa = PBXBuildFile; fileRef = FE69E3EB269C0F370003BC19 /* CiOSPlugin.mm */; };
 		FE69E3FF269C0F370003BC19 /* GFunc.mm in Sources */ = {isa = PBXBuildFile; fileRef = FE69E3F2269C0F370003BC19 /* GFunc.mm */; };
-		FE69E400269C0F370003BC19 /* CAdsManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = FE69E3F6269C0F370003BC19 /* CAdsManager.mm */; };
 		FE69E401269C0F370003BC19 /* CDeviceMsgSender.mm in Sources */ = {isa = PBXBuildFile; fileRef = FE69E3F9269C0F370003BC19 /* CDeviceMsgSender.mm */; };
 		FE69E402269C0F370003BC19 /* KeychainItemWrapper.mm in Sources */ = {isa = PBXBuildFile; fileRef = FE69E3FD269C0F370003BC19 /* KeychainItemWrapper.mm */; };
 /* End PBXBuildFile section */
@@ -449,8 +448,6 @@
 		FE69E3EF269C0F370003BC19 /* KGDefine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGDefine.h; sourceTree = "<group>"; };
 		FE69E3F1269C0F370003BC19 /* GFunc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GFunc.h; sourceTree = "<group>"; };
 		FE69E3F2269C0F370003BC19 /* GFunc.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GFunc.mm; sourceTree = "<group>"; };
-		FE69E3F5269C0F370003BC19 /* CAdsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CAdsManager.h; sourceTree = "<group>"; };
-		FE69E3F6269C0F370003BC19 /* CAdsManager.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CAdsManager.mm; sourceTree = "<group>"; };
 		FE69E3F8269C0F370003BC19 /* CDeviceMsgSender.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDeviceMsgSender.h; sourceTree = "<group>"; };
 		FE69E3F9269C0F370003BC19 /* CDeviceMsgSender.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CDeviceMsgSender.mm; sourceTree = "<group>"; };
 		FE69E3FC269C0F370003BC19 /* KeychainItemWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeychainItemWrapper.h; sourceTree = "<group>"; };
@@ -769,20 +766,10 @@
 		FE69E3F3269C0F370003BC19 /* Utility */ = {
 			isa = PBXGroup;
 			children = (
-				FE69E3F4269C0F370003BC19 /* Ads */,
 				FE69E3F7269C0F370003BC19 /* Platform */,
 				FE69E3FA269C0F370003BC19 /* External */,
 			);
 			path = Utility;
-			sourceTree = "<group>";
-		};
-		FE69E3F4269C0F370003BC19 /* Ads */ = {
-			isa = PBXGroup;
-			children = (
-				FE69E3F5269C0F370003BC19 /* CAdsManager.h */,
-				FE69E3F6269C0F370003BC19 /* CAdsManager.mm */,
-			);
-			path = Ads;
 			sourceTree = "<group>";
 		};
 		FE69E3F7269C0F370003BC19 /* Platform */ = {
@@ -1072,7 +1059,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FE69E400269C0F370003BC19 /* CAdsManager.mm in Sources */,
 				FE69E3FE269C0F370003BC19 /* CiOSPlugin.mm in Sources */,
 				FE69E402269C0F370003BC19 /* KeychainItemWrapper.mm in Sources */,
 				FE69E3FF269C0F370003BC19 /* GFunc.mm in Sources */,

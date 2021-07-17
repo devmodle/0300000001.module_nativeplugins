@@ -53,8 +53,6 @@ public abstract class KGDefine {
 	public static final String RESULT_FALSE = "False";
 	
 	// 명령어 {
-	public static final String CMD_INIT = "Init";
-	
 	public static final String CMD_GET_DEVICE_ID = "GetDeviceID";
 	public static final String CMD_GET_COUNTRY_CODE = "GetCountryCode";
 	
@@ -64,18 +62,12 @@ public abstract class KGDefine {
 	public static final String CMD_MAIL = "Mail";
 	public static final String CMD_VIBRATE = "Vibrate";
 	public static final String CMD_INDICATOR = "Indicator";
-	
-	public static final String CMD_INIT_ADS = "InitAds";
-	public static final String CMD_LOAD_RESUME_ADS = "LoadResumeAds";
-	public static final String CMD_SHOW_RESUME_ADS = "ShowResumeAds";
 	// 명령어 }
 	
 	// 식별자 {
 	public static final String KEY_CMD = "Cmd";
 	public static final String KEY_MSG = "Msg";
-	
-	public static final String KEY_ORIENTATION = "Orientation";
-	
+
 	public static final String KEY_ALERT_TITLE = "Title";
 	public static final String KEY_ALERT_MSG = "Msg";
 	public static final String KEY_ALERT_OK_BTN_TEXT = "OKBtnText";
@@ -87,9 +79,6 @@ public abstract class KGDefine {
 	
 	public static final String KEY_VIBRATE_DURATION = "Duration";
 	public static final String KEY_VIBRATE_INTENSITY = "Intensity";
-	
-	public static final String KEY_ADMOB_IDS = "AdmobIDs";
-	public static final String KEY_RESUME_ADS_ID = "ResumeAdsID";
 	// 식별자 }
 	
 	// 이름

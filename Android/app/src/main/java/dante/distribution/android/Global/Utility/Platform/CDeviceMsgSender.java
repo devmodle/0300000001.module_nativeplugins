@@ -60,42 +60,6 @@ public class CDeviceMsgSender {
 		}
 	}
 	
-	//! 광고 초기화 메세지를 전송한다
-	public void sendInitAdsMsg(boolean a_bIsSuccess) {
-		String oResult = GFunc.convertBoolToStr(a_bIsSuccess);
-		
-		try {
-			this.sendDeviceMsg(KGDefine.CMD_INIT_ADS, oResult);
-		} catch(Exception oException) {
-			Log.e(KGDefine.TAG, String.format("CDeviceMsgSender.sendInitAdsMsg Exception: %s, %s", oResult, oException.getMessage()));
-			oException.printStackTrace();
-		}
-	}
-	
-	//! 재개 광고 로드 메세지를 전송한다
-	public void sendLoadResumeAdsMsg(boolean a_bIsSuccess) {
-		String oResult = GFunc.convertBoolToStr(a_bIsSuccess);
-		
-		try {
-			this.sendDeviceMsg(KGDefine.CMD_LOAD_RESUME_ADS, oResult);
-		} catch(Exception oException) {
-			Log.e(KGDefine.TAG, String.format("CDeviceMsgSender.sendLoadResumeAdsMsg Exception: %s, %s", oResult, oException.getMessage()));
-			oException.printStackTrace();
-		}
-	}
-	
-	//! 재개 광고 출력 메세지를 전송한다
-	public void sendShowResumeAdsMsg(boolean a_bIsSuccess) {
-		String oResult = GFunc.convertBoolToStr(a_bIsSuccess);
-		
-		try {
-			this.sendDeviceMsg(KGDefine.CMD_SHOW_RESUME_ADS, oResult);
-		} catch(Exception oException) {
-			Log.e(KGDefine.TAG, String.format("CDeviceMsgSender.sendShowResumeAdsMsg Exception: %s, %s", oResult, oException.getMessage()));
-			oException.printStackTrace();
-		}
-	}
-	
 	//! 디바이스 메세지를 전송한다
 	private void sendDeviceMsg(String a_oCmd, String a_oMsg) throws Exception {
 		JSONObject oJSONObj = new JSONObject();

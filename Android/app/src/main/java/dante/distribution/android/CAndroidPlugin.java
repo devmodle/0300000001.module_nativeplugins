@@ -41,21 +41,20 @@ public class CAndroidPlugin {
 		Point oPoint = new Point();
 		UnityPlayer.currentActivity.getWindowManager().getDefaultDisplay().getSize(oPoint);
 		
-		// 프로그레스 바를 설정한다 {
-		int nSize = Math.min(oPoint.x, oPoint.y);
-		nSize = (int)(nSize * KGDefine.SCALE_PROGRESS_BAR);
-		
-		RelativeLayout.LayoutParams oParams = new RelativeLayout.LayoutParams(nSize, nSize);
-		oParams.addRule(RelativeLayout.CENTER_IN_PARENT);
-		
+		// 프로그레스 바를 설정한다
 		m_oProgressBar = new ProgressBar(UnityPlayer.currentActivity, null, android.R.attr.progressBarStyleLargeInverse);
 		m_oProgressBar.setIndeterminate(true);
 		m_oProgressBar.setVisibility(View.GONE);
-		// 프로그레스 바를 설정한다 }
 		
 		// 레이아웃을 설정한다 {
+		int nSize = Math.min(oPoint.x, oPoint.y);
+		nSize = (int)(nSize * KGDefine.SCALE_PROGRESS_BAR);
+		
 		int nOffset = Math.min(oPoint.x, oPoint.y);
 		nOffset = (int)(nOffset * KGDefine.OFFSET_SCALE_PROGRESS_BAR);
+		
+		RelativeLayout.LayoutParams oParams = new RelativeLayout.LayoutParams(nSize, nSize);
+		oParams.addRule(RelativeLayout.CENTER_IN_PARENT);
 		
 		RelativeLayout oLayout = new RelativeLayout(UnityPlayer.currentActivity);
 		oLayout.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);

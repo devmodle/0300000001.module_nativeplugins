@@ -5,7 +5,9 @@ import android.app.AlertDialog;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Point;
+import android.net.Uri;
 import android.os.Build;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
@@ -103,6 +105,7 @@ public class CAndroidPlugin {
 						case KGDefine.CMD_GET_COUNTRY_CODE: CAndroidPlugin.getInst().handleGetCountryCodeMsg(a_oMsg); break;
 						case KGDefine.CMD_SHOW_TOAST: CAndroidPlugin.getInst().handleShowToastMsg(a_oMsg); break;
 						case KGDefine.CMD_SHOW_ALERT: CAndroidPlugin.getInst().handleShowAlertMsg(a_oMsg); break;
+						case KGDefine.CMD_MAIL: CAndroidPlugin.getInst().handleMailMsg(a_oMsg); break;
 						case KGDefine.CMD_VIBRATE: CAndroidPlugin.getInst().handleVibrateMsg(a_oMsg); break;
 						case KGDefine.CMD_TRACKING: CAndroidPlugin.getInst().handleTrackingMsg(a_oMsg); break;
 						case KGDefine.CMD_INDICATOR: CAndroidPlugin.getInst().handleIndicatorMsg(a_oMsg); break;
@@ -186,8 +189,27 @@ public class CAndroidPlugin {
 			});
 		}
 		
-		// 경고 창을 출력한다
 		oBuilder.create().show();
+	}
+	
+	//! 메일 메세지를 처리한다
+	@SuppressLint("IntentReset")
+	private void handleMailMsg(String a_oMsg) throws Exception {
+		JSONObject oJSONObj = new JSONObject(a_oMsg);
+		
+		String oRecipient = oJSONObj.getString(KGDefine.KEY_MAIL_RECIPIENT);
+		String oTitle = oJSONObj.getString(KGDefine.KEY_MAIL_TITLE);
+		String oMsg = oJSONObj.getString(KGDefine.KEY_MAIL_MSG);
+		
+		Intent oIntent = new Intent(Intent.ACTION_SENDTO);
+		oIntent.setType(KGDefine.MAIL_TYPE);
+		oIntent.setData(Uri.parse(KGDefine.MAIL_DATA));
+		
+		oIntent.putExtra(Intent.EXTRA_EMAIL, new String[] { oRecipient });
+		oIntent.putExtra(Intent.EXTRA_SUBJECT, oTitle);
+		oIntent.putExtra(Intent.EXTRA_TEXT, oMsg);
+		
+		UnityPlayer.currentActivity.startActivity(oIntent);
 	}
 	
 	//! 진동 메세지를 처리한다

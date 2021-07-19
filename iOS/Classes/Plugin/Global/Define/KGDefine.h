@@ -11,6 +11,7 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 #import <StoreKit/StoreKit.h>
+#import <MessageUI/MessageUI.h>
 #import <AdSupport/AdSupport.h>
 #import <AudioToolbox/AudioToolbox.h>
 
@@ -28,9 +29,12 @@
 #import <Firebase/Firebase.h>
 #endif			// #if defined FIREBASE_MODULE_ENABLE
 
-// 기타
+// 기타 {
 #define G_EMPTY_STR				("")
+#define G_EMPTY_DICT			(@{})
+
 #define G_IDX_INVALID			(-1)
+// 기타 }
 
 // 값 {
 #define G_VAL_0_INT			(0)
@@ -73,6 +77,26 @@
 #define G_MIN_VER_IMPACT_INTENSITY				13.0
 #define G_MIN_VER_INDICATOR						13.0
 
+// 명령어 {
+#define G_CMD_INIT			("Init")
+
+#define G_CMD_GET_DEVICE_ID				("GetDeviceID")
+#define G_CMD_GET_COUNTRY_CODE			("GetCountryCode")
+#define G_CMD_GET_STORE_VER				("GetStoreVer")
+
+#define G_CMD_SET_ENABLE_ADS_TRACKING			("SetEnableAdsTracking")
+#define G_CMD_SHOW_ALERT						("ShowAlert")
+
+#define G_CMD_MAIL				("Mail")
+#define G_CMD_VIBRATE			("Vibrate")
+#define G_CMD_TRACKING			("Tracking")
+#define G_CMD_INDICATOR			("Indicator")
+
+#define G_CMD_INIT_ADS					("InitAds")
+#define G_CMD_LOAD_RESUME_ADS			("LoadResumeAds")
+#define G_CMD_SHOW_RESUME_ADS			("ShowResumeAds")
+// 명령어 }
+
 // 식별자 {
 #define G_ID_KEYCHAIN_DEVICE			("KeychainDeviceID")
 
@@ -93,6 +117,10 @@
 #define G_KEY_STORE_VER					("Ver")
 #define G_KEY_STORE_VER_RESULT			("Results")
 
+#define G_KEY_MAIL_RECIPIENT			("Recipient")
+#define G_KEY_MAIL_TITLE				("Title")
+#define G_KEY_MAIL_MSG					("Msg")
+
 #define G_KEY_VIBRATE_TYPE				("Type")
 #define G_KEY_VIBRATE_STYLE				("Style")
 #define G_KEY_VIBRATE_INTENSITY			("Intensity")
@@ -108,35 +136,17 @@
 #define G_KEY_DEVICE_MS_RESULT			("Result")
 // 식별자 }
 
-// 명령어 {
-#define G_CMD_INIT			("Init")
-
-#define G_CMD_GET_DEVICE_ID				("GetDeviceID")
-#define G_CMD_GET_COUNTRY_CODE			("GetCountryCode")
-#define G_CMD_GET_STORE_VER				("GetStoreVer")
-
-#define G_CMD_SET_ENABLE_ADS_TRACKING			("SetEnableAdsTracking")
-#define G_CMD_SHOW_ALERT						("ShowAlert")
-
-#define G_CMD_VIBRATE			("Vibrate")
-#define G_CMD_TRACKING			("Tracking")
-#define G_CMD_INDICATOR			("Indicator")
-
-#define G_CMD_INIT_ADS					("InitAds")
-#define G_CMD_LOAD_RESUME_ADS			("LoadResumeAds")
-#define G_CMD_SHOW_RESUME_ADS			("ShowResumeAds")
-// 명령어 }
+// 이름
+#define G_OBJ_N_DEVICE_MSG_RECEIVER					("CDeviceMsgReceiver")
+#define G_FUNC_N_DEVICE_MSG_HANDLE_METHOD			("HandleDeviceMsg")
 
 // 네트워크 {
 #define G_HTTP_METHOD_GET			("GET")
 #define G_HTTP_METHOD_POST			("POST")
 
+#define G_URL_FMT_MAIL				("mailto:%@?subject=%@&body=%@")
 #define G_URL_FMT_STORE_VER			("http://itunes.apple.com/lookup?bundleId=%@")
 // 네트워크 }
-
-// 이름
-#define G_OBJ_N_DEVICE_MSG_RECEIVER					("CDeviceMsgReceiver")
-#define G_FUNC_N_DEVICE_MSG_HANDLE_METHOD			("HandleDeviceMsg")
 
 //! 진동 타입
 enum class EVibrateType {

@@ -147,7 +147,7 @@ BASELIB_API void Baselib_FileIO_EventQueue_Free(
 //
 // File operations errors are reported via Baselib_FileIO_EventQueue_Result::errorState
 // Possible error codes:
-// - InvalidPathname:             Requested pathname is invalid (not found, a directory, etc).
+// - InvalIDInfoname:             Requested pathname is invalid (not found, a directory, etc).
 // - RequestedAccessIsNotAllowed: Access to requested pathname is not allowed.
 // - IOError:                     IO error occured.
 //
@@ -173,7 +173,7 @@ BASELIB_API uint64_t Baselib_FileIO_EventQueue_Dequeue(
 //
 // Please note errors are reported via Baselib_FileIO_EventQueue_Result::errorState
 // Possible error codes:
-// - InvalidPathname:             Requested pathname is invalid (not found, a directory, etc).
+// - InvalIDInfoname:             Requested pathname is invalid (not found, a directory, etc).
 // - RequestedAccessIsNotAllowed: Access to requested pathname is not allowed.
 // - IOError:                     IO error occured.
 //

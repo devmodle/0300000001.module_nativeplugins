@@ -41,7 +41,7 @@ typedef enum Baselib_ErrorCode
     Baselib_ErrorCode_Disconnected,
 
     // FileIO
-    Baselib_ErrorCode_InvalidPathname = 0x05000000,
+    Baselib_ErrorCode_InvalIDInfoname = 0x05000000,
     Baselib_ErrorCode_RequestedAccessIsNotAllowed,
     Baselib_ErrorCode_IOError,
 

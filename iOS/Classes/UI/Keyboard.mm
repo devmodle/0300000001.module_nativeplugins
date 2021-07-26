@@ -63,6 +63,9 @@ extern "C" void UnityKeyboard_LayoutChanged(NSString* layout);
     // not pretty but seems like easiest way to keep "we are rotating" status
     BOOL            _rotating;
     NSRange         _hiddenSelection;
+
+    // used for < iOS 14 external keyboard
+    CGFloat         _heightOfKeyboard;
 }
 
 @synthesize area;
@@ -163,6 +166,17 @@ extern "C" void UnityKeyboard_LayoutChanged(NSString* layout);
 {
     _active = YES;
     UnityKeyboard_LayoutChanged(textField.textInputMode.primaryLanguage);
+
+    // We only need to do this in < iOS 14
+    // Used in keyboardDidShow as keyboardWillShow might not have the height ready yet as it's not on screen and
+    // we're only interested in the height when it's fully on screen.
+    if (@available(iOS 14, tvOS 14, *)) {}
+    else
+    {
+        CGRect srcRect  = [[notification.userInfo objectForKey: UIKeyboardFrameEndUserInfoKey] CGRectValue];
+        CGRect rect     = [UnityGetGLView() convertRect: srcRect fromView: nil];
+        _heightOfKeyboard = rect.size.height;
+    }
 }
 
 - (void)keyboardWillHide:(NSNotification*)notification
@@ -642,6 +656,15 @@ extern "C" void UnityKeyboard_LayoutChanged(NSString* layout);
     }
 
     _inputHidden = hide;
+}
+
+- (BOOL)hasExternalKeyboard
+{
+    // iOS 14 and above has a public API in the GameController framework. If this is missing then this will return false
+    if (@available(iOS 14, tvOS 14, *))
+        return [NSClassFromString(@"GCKeyboard") valueForKey: @"coalescedKeyboard"] != nil;
+    else // The minimum height a software keyboard will be on iOS is 160, A bluetooth keyboard just uses a toolbar which will be smaller than this.
+        return _heightOfKeyboard < 160.0f;
 }
 
 static bool StringContainsEmoji(NSString *string);

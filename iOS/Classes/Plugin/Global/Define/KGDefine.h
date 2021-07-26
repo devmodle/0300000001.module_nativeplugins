@@ -17,10 +17,6 @@
 
 #import "../../../Unity/UnityInterface.h"
 
-#if defined ADMOB_ENABLE
-#import <GoogleMobileAds/GoogleMobileAds.h>
-#endif			// #if defined ADMOB_ENABLE
-
 #if defined IRON_SRC_ENABLE || defined APP_LOVIN_ENABLE
 #import <FBAudienceNetwork/FBAdSettings.h>
 #endif			// #if defined IRON_SRC_ENABLE || defined APP_LOVIN_ENABLE
@@ -56,10 +52,6 @@
 #define G_VAL_9_FLT			(9.0f)
 // 값 }
 
-// 방향
-#define G_ORIENTATION_PORTRAIT			(0)
-#define G_ORIENTATION_LANDSCAPE			(1)
-
 // 결과
 #define G_RESULT_TRUE			("True")
 #define G_RESULT_FALSE			("False")
@@ -74,8 +66,6 @@
 #define G_MIN_VER_INDICATOR						13.0
 
 // 명령어 {
-#define G_CMD_INIT			("Init")
-
 #define G_CMD_GET_DEVICE_ID				("GetDeviceID")
 #define G_CMD_GET_COUNTRY_CODE			("GetCountryCode")
 #define G_CMD_GET_STORE_VER				("GetStoreVer")
@@ -86,10 +76,6 @@
 #define G_CMD_MAIL				("Mail")
 #define G_CMD_VIBRATE			("Vibrate")
 #define G_CMD_INDICATOR			("Indicator")
-
-#define G_CMD_INIT_ADS					("InitAds")
-#define G_CMD_LOAD_RESUME_ADS			("LoadResumeAds")
-#define G_CMD_SHOW_RESUME_ADS			("ShowResumeAds")
 // 명령어 }
 
 // 식별자 {
@@ -97,8 +83,6 @@
 
 #define G_KEY_CMD			("Cmd")
 #define G_KEY_MSG			("Msg")
-
-#define G_KEY_ORIENTATION			("Orientation")
 
 #define G_KEY_APP_ID			("AppID")
 #define G_KEY_VER				("Ver")
@@ -119,9 +103,6 @@
 #define G_KEY_VIBRATE_TYPE				("Type")
 #define G_KEY_VIBRATE_STYLE				("Style")
 #define G_KEY_VIBRATE_INTENSITY			("Intensity")
-
-#define G_KEY_ADMOB_IDS 			("AdmobIDs")
-#define G_KEY_RESUME_ADS_ID			("ResumeAdsID")
 
 #define G_KEY_DEVICE_MS_VER				("Ver")
 #define G_KEY_DEVICE_MS_RESULT			("Result")

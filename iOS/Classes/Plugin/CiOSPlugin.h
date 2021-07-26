@@ -28,7 +28,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 // 프로퍼티 {
 @property (nonatomic, copy) NSString *deviceID;
-@property (nonatomic, assign) UIInterfaceOrientation orientation;
 
 @property (nonatomic, strong, readonly) KeychainItemWrapper *keychainItemWrapper;
 @property (nonatomic, strong, readonly) UIActivityIndicatorView *activityIndicatorView;

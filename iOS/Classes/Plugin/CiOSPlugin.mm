@@ -14,7 +14,7 @@ static CiOSPlugin *g_pInst = nil;
 
 //! iOS 플러그인 - Private
 @interface CiOSPlugin (Private) {
-	// Do Nothing
+	// Do Something
 }
 
 //! 디바이스 식별자 반환 메세지를 처리한다

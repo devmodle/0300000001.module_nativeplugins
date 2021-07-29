@@ -15,7 +15,7 @@ public class CDeviceMsgSender {
 	
 	//! 생성자
 	private CDeviceMsgSender() {
-		// Do Nothing
+		// Do Something
 	}
 	
 	//! 인스턴스를 반환한다

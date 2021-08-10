@@ -42,8 +42,8 @@ static CiOSPlugin *g_pInst = nil;
 //! 진동 메세지를 처리한다
 - (void)handleVibrateMsg:(NSString *)a_pMsg;
 
-//! 추적 메세지를 처리한다
-- (void)handleTrackingMsg:(NSString *)a_pMsg;
+// //! 추적 메세지를 처리한다
+// - (void)handleTrackingMsg:(NSString *)a_pMsg;
 
 //! 인디케이터 메세지를 처리한다
 - (void)handleIndicatorMsg:(NSString *)a_pMsg;
@@ -135,7 +135,7 @@ extern "C" {
 		[pMsgHandlerList setObject:NSStringFromSelector(@selector(handleShowAlertMsg:)) forKey:@(G_CMD_SHOW_ALERT)];
 		[pMsgHandlerList setObject:NSStringFromSelector(@selector(handleMailMsg:)) forKey:@(G_CMD_MAIL)];
 		[pMsgHandlerList setObject:NSStringFromSelector(@selector(handleVibrateMsg:)) forKey:@(G_CMD_VIBRATE)];
-		[pMsgHandlerList setObject:NSStringFromSelector(@selector(handleTrackingMsg:)) forKey:@(G_CMD_TRACKING)];
+		// [pMsgHandlerList setObject:NSStringFromSelector(@selector(handleTrackingMsg:)) forKey:@(G_CMD_TRACKING)];
 		[pMsgHandlerList setObject:NSStringFromSelector(@selector(handleIndicatorMsg:)) forKey:@(G_CMD_INDICATOR)];
 		[pMsgHandlerList setObject:NSStringFromSelector(@selector(handleInitAdsMsg:)) forKey:@(G_CMD_INIT_ADS)];
 		[pMsgHandlerList setObject:NSStringFromSelector(@selector(handleLoadResumeAdsMsg:)) forKey:@(G_CMD_LOAD_RESUME_ADS)];
@@ -413,47 +413,47 @@ extern "C" {
 	}
 }
 
-//! 추적 메세지를 처리한다
-- (void)handleTrackingMsg:(NSString *)a_pMsg {
-#if defined FIREBASE_MODULE_ENABLE
-	NSDictionary *pDataList = (NSDictionary *)GFunc::ConvertJSONStrToObj(a_pMsg, NULL);
+// //! 추적 메세지를 처리한다
+// - (void)handleTrackingMsg:(NSString *)a_pMsg {
+// #if defined FIREBASE_MODULE_ENABLE
+// 	NSDictionary *pDataList = (NSDictionary *)GFunc::ConvertJSONStrToObj(a_pMsg, NULL);
 	
-	NSString *pName = (NSString *)[pDataList objectForKey:@(G_KEY_TRACKING_NAME)];
-	NSString *pIsStartStr = (NSString *)[pDataList objectForKey:@(G_KEY_TRACKING_IS_START)];
+// 	NSString *pName = (NSString *)[pDataList objectForKey:@(G_KEY_TRACKING_NAME)];
+// 	NSString *pIsStartStr = (NSString *)[pDataList objectForKey:@(G_KEY_TRACKING_IS_START)];
 	
-	BOOL bIsStart = GFunc::ConvertStrToBool(pIsStartStr);
-	BOOL bIsContains = [self.trackingList objectForKey:pName] != nil;
+// 	BOOL bIsStart = GFunc::ConvertStrToBool(pIsStartStr);
+// 	BOOL bIsContains = [self.trackingList objectForKey:pName] != nil;
 	
-	// 시작 모드 일 경우
-	if(bIsStart && !bIsContains) {
-		FIRTrace *pTracking = [FIRPerformance startTraceWithName:pName];
-		NSString *pDatasStr = (NSString *)[pDataList objectForKey:@(G_KEY_TRACKING_DATAS)];
+// 	// 시작 모드 일 경우
+// 	if(bIsStart && !bIsContains) {
+// 		FIRTrace *pTracking = [FIRPerformance startTraceWithName:pName];
+// 		NSString *pDatasStr = (NSString *)[pDataList objectForKey:@(G_KEY_TRACKING_DATAS)];
 		
-		// 데이터가 존재 할 경우
-		if(pDatasStr != nil) {
-			NSDictionary *pTrackingDataList = (NSDictionary *)GFunc::ConvertJSONStrToObj(pDatasStr, NULL);
-			NSArray *pKeyList = pTrackingDataList.allKeys;
+// 		// 데이터가 존재 할 경우
+// 		if(pDatasStr != nil) {
+// 			NSDictionary *pTrackingDataList = (NSDictionary *)GFunc::ConvertJSONStrToObj(pDatasStr, NULL);
+// 			NSArray *pKeyList = pTrackingDataList.allKeys;
 			
-			for(int i = 0; i < pKeyList.count; ++i) {
-				NSString *pKey = (NSString *)[pKeyList objectAtIndex:i];
-				NSString *pValue = (NSString *)[pTrackingDataList objectForKey:pKey];
+// 			for(int i = 0; i < pKeyList.count; ++i) {
+// 				NSString *pKey = (NSString *)[pKeyList objectAtIndex:i];
+// 				NSString *pValue = (NSString *)[pTrackingDataList objectForKey:pKey];
 				
-				[pTracking setValue:pKey forAttribute:pValue];
-			}
-		}
+// 				[pTracking setValue:pKey forAttribute:pValue];
+// 			}
+// 		}
 		
-		[pTracking start];
-		[self.trackingList setObject:pTracking forKey:pName];
-	}
-	// 중지 모드 일 경우
-	else if(!bIsStart && bIsContains) {
-		FIRTrace *pTracking = (FIRTrace *)[self.trackingList objectForKey:pName];
+// 		[pTracking start];
+// 		[self.trackingList setObject:pTracking forKey:pName];
+// 	}
+// 	// 중지 모드 일 경우
+// 	else if(!bIsStart && bIsContains) {
+// 		FIRTrace *pTracking = (FIRTrace *)[self.trackingList objectForKey:pName];
 		
-		[pTracking stop];
-		[self.trackingList removeObjectForKey:pName];
-	}
-#endif			// #if defined FIREBASE_MODULE_ENABLE
-}
+// 		[pTracking stop];
+// 		[self.trackingList removeObjectForKey:pName];
+// 	}
+// #endif			// #if defined FIREBASE_MODULE_ENABLE
+// }
 
 //! 인디케이터 메세지를 처리한다
 - (void)handleIndicatorMsg:(NSString *)a_pMsg {

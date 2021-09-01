@@ -78,6 +78,12 @@ extern "C" {
 @synthesize selectionGenerator = m_pSelectionGenerator;
 @synthesize notificationGenerator = m_pNotificationGenerator;
 
+#pragma mark - 인터페이스
+//! 메일이 완료 되었을 경우
+- (void)mailComposeController:(MFMailComposeViewController *)a_pSender didFinishWithResult:(MFMailComposeResult)a_eResult error:(NSError *)a_pError {
+	[a_pSender dismissViewControllerAnimated:YES completion:NULL];
+}
+
 #pragma mark - 초기화
 //! 객체를 생성한다
 + (id)alloc {

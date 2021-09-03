@@ -63,6 +63,9 @@ extern "C" void UnityKeyboard_LayoutChanged(NSString* layout);
     // not pretty but seems like easiest way to keep "we are rotating" status
     BOOL            _rotating;
     NSRange         _hiddenSelection;
+
+    // used for < iOS 14 external keyboard
+    CGFloat         _heightOfKeyboard;
 }
 
 @synthesize area;
@@ -70,6 +73,7 @@ extern "C" void UnityKeyboard_LayoutChanged(NSString* layout);
 @synthesize status      = _status;
 @synthesize text;
 @synthesize selection;
+@synthesize hasUsedDictation;
 
 
 - (BOOL)textFieldShouldReturn:(UITextField*)textFieldObj
@@ -77,6 +81,19 @@ extern "C" void UnityKeyboard_LayoutChanged(NSString* layout);
     [self textInputDone: nil];
     return YES;
 }
+
+#if PLATFORM_IOS
+- (void)textInputModeDidChange:(NSNotification*)notification
+{
+    // Apple reports back the primary language of the current keyboard text input mode using BCP 47 language code i.e "en-GB"
+    // but this also (undocumented) will return "dictation" when using voice dictation and "emoji" when using the emoji keyboard.
+    if ([_keyboard->inputView.textInputMode.primaryLanguage isEqualToString: @"dictation"])
+    {
+        hasUsedDictation = YES;
+    }
+}
+
+#endif
 
 - (void)textInputDone:(id)sender
 {
@@ -149,12 +166,37 @@ extern "C" void UnityKeyboard_LayoutChanged(NSString* layout);
 {
     _active = YES;
     UnityKeyboard_LayoutChanged(textField.textInputMode.primaryLanguage);
+
+    // We only need to do this in < iOS 14
+    // Used in keyboardDidShow as keyboardWillShow might not have the height ready yet as it's not on screen and
+    // we're only interested in the height when it's fully on screen.
+    if (@available(iOS 14, tvOS 14, *)) {}
+    else
+    {
+        CGRect srcRect  = [[notification.userInfo objectForKey: UIKeyboardFrameEndUserInfoKey] CGRectValue];
+        CGRect rect     = [UnityGetGLView() convertRect: srcRect fromView: nil];
+        _heightOfKeyboard = rect.size.height;
+    }
 }
 
 - (void)keyboardWillHide:(NSNotification*)notification
 {
     UnityKeyboard_LayoutChanged(nil);
     [self systemHideKeyboard];
+}
+
+- (void)keyboardDidHide:(NSNotification*)notification
+{
+    // The audio engine starts and restarts by listening to AVAudioSessionInterruptionNotifications, However
+    // Apple does *not* guarantee that the AVAudioSessionInterruptionTypeEnded will be sent, especially if
+    // the app is in the foreground - This can happen when using the dictate function on the keyboard
+    // so we send the notification ourselves to ensure the audio restarts.
+    if (hasUsedDictation)
+    {
+        [[NSNotificationCenter defaultCenter] postNotificationName: AVAudioSessionInterruptionNotification
+         object: [AVAudioSession sharedInstance]
+         userInfo: @{AVAudioSessionInterruptionTypeKey: [NSNumber numberWithUnsignedInteger: AVAudioSessionInterruptionTypeEnded]}];
+    }
 }
 
 - (void)keyboardDidChangeFrame:(NSNotification*)notification
@@ -164,8 +206,14 @@ extern "C" void UnityKeyboard_LayoutChanged(NSString* layout);
     CGRect srcRect  = [[notification.userInfo objectForKey: UIKeyboardFrameEndUserInfoKey] CGRectValue];
     CGRect rect     = [UnityGetGLView() convertRect: srcRect fromView: nil];
 
-    if (rect.origin.y >= [UnityGetGLView() bounds].size.height)
+    // there are several ways to hide keyboard:
+    // one, using the hide button on the keyboard, will move it outside view
+    // another, for ipad floating keyboard, will "minimize" it (making its height/width zero)
+
+    if (rect.origin.y >= [UnityGetGLView() bounds].size.height || rect.size.width < 1e-6 || rect.size.height < 1e-6)
+    {
         [self systemHideKeyboard];
+    }
     else
     {
         rect.origin.y = [UnityGetGLView() frame].size.height - rect.size.height; // iPhone X sometimes reports wrong y value for keyboard
@@ -237,8 +285,8 @@ extern "C" void UnityKeyboard_LayoutChanged(NSString* layout);
     // mind you, all of that is highly empirical.
     // we assume space between items to be 18 [both betwen buttons and on the sides]
     // we also assume that button width would be more less title width exactly (it should be quite close though)
-    const int doneW   = [doneStr sizeWithAttributes: @{NSFontAttributeName: font}].width;
-    const int cancelW = [cancelStr sizeWithAttributes: @{NSFontAttributeName: font}].width;
+    const int doneW   = (int)[doneStr sizeWithAttributes: @{NSFontAttributeName: font}].width;
+    const int cancelW = (int)[cancelStr sizeWithAttributes: @{NSFontAttributeName: font}].width;
     singleLineSystemButtonsSpace = doneW + cancelW + 3 * 18;
 }
 
@@ -277,7 +325,9 @@ extern "C" void UnityKeyboard_LayoutChanged(NSString* layout);
         [[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(keyboardWillShow:) name: UIKeyboardWillShowNotification object: nil];
         [[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(keyboardDidShow:) name: UIKeyboardDidShowNotification object: nil];
         [[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(keyboardWillHide:) name: UIKeyboardWillHideNotification object: nil];
+        [[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(keyboardDidHide:) name: UIKeyboardDidHideNotification object: nil];
         [[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(keyboardDidChangeFrame:) name: UIKeyboardDidChangeFrameNotification object: nil];
+        [[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(textInputModeDidChange:) name: UITextInputCurrentInputModeDidChangeNotification object: nil];
 #endif
 
         [[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(textInputDone:) name: UITextFieldTextDidEndEditingNotification object: nil];
@@ -294,7 +344,8 @@ extern "C" void UnityKeyboard_LayoutChanged(NSString* layout);
     traits.autocorrectionType = param.autocorrectionType;
     traits.keyboardAppearance = param.appearance;
     traits.autocapitalizationType = capitalization;
-    traits.secureTextEntry = param.secure;
+    if (!_inputHidden)
+        traits.secureTextEntry = param.secure;
 }
 
 - (void)setKeyboardParams:(KeyboardShowParam)param
@@ -450,6 +501,10 @@ extern "C" void UnityKeyboard_LayoutChanged(NSString* layout);
 
     editView.hidden     = _inputHidden ? YES : NO;
     inputView.hidden    = _inputHidden ? YES : NO;
+    if (_inputHidden)
+        textField.secureTextEntry = NO;
+    else
+        textField.secureTextEntry = cachedKeyboardParam.secure;
 }
 
 #if PLATFORM_IOS
@@ -603,6 +658,15 @@ extern "C" void UnityKeyboard_LayoutChanged(NSString* layout);
     _inputHidden = hide;
 }
 
+- (BOOL)hasExternalKeyboard
+{
+    // iOS 14 and above has a public API in the GameController framework. If this is missing then this will return false
+    if (@available(iOS 14, tvOS 14, *))
+        return [NSClassFromString(@"GCKeyboard") valueForKey: @"coalescedKeyboard"] != nil;
+    else // The minimum height a software keyboard will be on iOS is 160, A bluetooth keyboard just uses a toolbar which will be smaller than this.
+        return _heightOfKeyboard < 160.0f;
+}
+
 static bool StringContainsEmoji(NSString *string);
 - (BOOL)textField:(UITextField*)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString*)string_
 {
@@ -660,8 +724,17 @@ static bool StringContainsEmoji(NSString *string);
 #else
         [textField setText: newText];
 #endif
-
-        return NO;
+        // If we're trying to exceed the max length of the field BUT the text can merge into
+        // precomposed characters then we should allow the input.
+        NSString* precomposedNewText = [currentText precomposedStringWithCompatibilityMapping];
+        __block int count = 0;
+        [precomposedNewText enumerateSubstringsInRange: NSMakeRange(0, [precomposedNewText length]) options: NSStringEnumerationByComposedCharacterSequences
+         usingBlock: ^(NSString *inSubstring, NSRange inSubstringRange, NSRange inEnclosingRange, BOOL *outStop) {
+             count++;
+         }];
+        // count of characters of precomposed string will equal the character limit
+        // if there has been characters merged bringing us under the limit.
+        return count <= _characterLimit;
     }
     else
     {

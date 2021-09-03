@@ -84,6 +84,14 @@ void RegisterAllStrippedInternalCalls()
 
 	//End Registrations for type : UnityEngine.CubemapArray
 
+	//Start Registrations for type : UnityEngine.Debug
+
+		//System.Int32 UnityEngine.Debug::ExtractStackTraceNoAlloc(System.Byte*,System.Int32,System.String)
+		void Register_UnityEngine_Debug_ExtractStackTraceNoAlloc();
+		Register_UnityEngine_Debug_ExtractStackTraceNoAlloc();
+
+	//End Registrations for type : UnityEngine.Debug
+
 	//Start Registrations for type : UnityEngine.DebugLogHandler
 
 		//System.Void UnityEngine.DebugLogHandler::Internal_Log(UnityEngine.LogType,UnityEngine.LogOption,System.String,UnityEngine.Object)
@@ -358,13 +366,9 @@ void RegisterAllStrippedInternalCalls()
 
 	//Start Registrations for type : UnityEngine.Rendering.ScriptableRenderContext
 
-		//System.Int32 UnityEngine.Rendering.ScriptableRenderContext::GetNumberOfCameras_Internal_Injected(UnityEngine.Rendering.ScriptableRenderContext&)
-		void Register_UnityEngine_Rendering_ScriptableRenderContext_GetNumberOfCameras_Internal_Injected();
-		Register_UnityEngine_Rendering_ScriptableRenderContext_GetNumberOfCameras_Internal_Injected();
-
-		//UnityEngine.Camera UnityEngine.Rendering.ScriptableRenderContext::GetCamera_Internal_Injected(UnityEngine.Rendering.ScriptableRenderContext&,System.Int32)
-		void Register_UnityEngine_Rendering_ScriptableRenderContext_GetCamera_Internal_Injected();
-		Register_UnityEngine_Rendering_ScriptableRenderContext_GetCamera_Internal_Injected();
+		//System.Void UnityEngine.Rendering.ScriptableRenderContext::GetCameras_Internal_Injected(UnityEngine.Rendering.ScriptableRenderContext&,System.Type,System.Object)
+		void Register_UnityEngine_Rendering_ScriptableRenderContext_GetCameras_Internal_Injected();
+		Register_UnityEngine_Rendering_ScriptableRenderContext_GetCameras_Internal_Injected();
 
 	//End Registrations for type : UnityEngine.Rendering.ScriptableRenderContext
 
@@ -416,6 +420,14 @@ void RegisterAllStrippedInternalCalls()
 
 	//End Registrations for type : UnityEngine.ScriptableObject
 
+	//Start Registrations for type : UnityEngine.Shader
+
+		//System.Int32 UnityEngine.Shader::TagToID(System.String)
+		void Register_UnityEngine_Shader_TagToID();
+		Register_UnityEngine_Shader_TagToID();
+
+	//End Registrations for type : UnityEngine.Shader
+
 	//Start Registrations for type : UnityEngine.SocialPlatforms.GameCenter.GameCenterPlatform
 
 		//System.Boolean UnityEngine.SocialPlatforms.GameCenter.GameCenterPlatform::GetAuthenticated()
@@ -425,6 +437,10 @@ void RegisterAllStrippedInternalCalls()
 		//System.Boolean UnityEngine.SocialPlatforms.GameCenter.GameCenterPlatform::GetIsUnderage()
 		void Register_UnityEngine_SocialPlatforms_GameCenter_GameCenterPlatform_GetIsUnderage();
 		Register_UnityEngine_SocialPlatforms_GameCenter_GameCenterPlatform_GetIsUnderage();
+
+		//System.String UnityEngine.SocialPlatforms.GameCenter.GameCenterPlatform::Internal_LegacyUserID()
+		void Register_UnityEngine_SocialPlatforms_GameCenter_GameCenterPlatform_Internal_LegacyUserID();
+		Register_UnityEngine_SocialPlatforms_GameCenter_GameCenterPlatform_Internal_LegacyUserID();
 
 		//System.String UnityEngine.SocialPlatforms.GameCenter.GameCenterPlatform::Internal_UserGameID()
 		void Register_UnityEngine_SocialPlatforms_GameCenter_GameCenterPlatform_Internal_UserGameID();
@@ -558,7 +574,7 @@ void RegisterAllStrippedInternalCalls()
 
 	//Start Registrations for type : UnityEngine.Texture3D
 
-		//System.Boolean UnityEngine.Texture3D::Internal_CreateImpl(UnityEngine.Texture3D,System.Int32,System.Int32,System.Int32,System.Int32,UnityEngine.Experimental.Rendering.GraphicsFormat,UnityEngine.Experimental.Rendering.TextureCreationFlags)
+		//System.Boolean UnityEngine.Texture3D::Internal_CreateImpl(UnityEngine.Texture3D,System.Int32,System.Int32,System.Int32,System.Int32,UnityEngine.Experimental.Rendering.GraphicsFormat,UnityEngine.Experimental.Rendering.TextureCreationFlags,System.IntPtr)
 		void Register_UnityEngine_Texture3D_Internal_CreateImpl();
 		Register_UnityEngine_Texture3D_Internal_CreateImpl();
 

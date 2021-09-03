@@ -52,24 +52,6 @@ static CDeviceMsgSender *g_pInst = nil;
 	[self send:@(G_CMD_SHOW_ALERT) withDeviceMsg:pMsg];
 }
 
-//! 광고 초기화 메세지를 전송한다
-- (void)sendInitAdsMsg:(BOOL)a_bIsSuccess {
-	NSString *pMsg = GFunc::ConvertBoolToStr(a_bIsSuccess);
-	[self send:@(G_CMD_INIT_ADS) withDeviceMsg:pMsg];
-}
-
-//! 재개 광고 로드 메세지를 전송한다
-- (void)sendLoadResumeAdsMsg:(BOOL)a_bIsSuccess {
-	NSString *pMsg = GFunc::ConvertBoolToStr(a_bIsSuccess);
-	[self send:@(G_CMD_LOAD_RESUME_ADS) withDeviceMsg:pMsg];
-}
-		
-//! 재개 광고 출력 메세지를 전송한다
-- (void)sendShowResumeAdsMsg:(BOOL)a_bIsSuccess {
-	NSString *pMsg = GFunc::ConvertBoolToStr(a_bIsSuccess);
-	[self send:@(G_CMD_SHOW_RESUME_ADS) withDeviceMsg:pMsg];
-}
-
 //! 디바이스 메세지를 전송한다
 - (void)send:(NSString *)a_pCmd withDeviceMsg:(NSString *)a_pMsg {
 	NSDictionary *pDataList = [NSDictionary dictionaryWithObjectsAndKeys:a_pCmd, @(G_KEY_CMD), a_pMsg, @(G_KEY_MSG), nil];

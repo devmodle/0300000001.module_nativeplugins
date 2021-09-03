@@ -7,7 +7,6 @@
 
 #import "CiOSPlugin.h"
 #import "Global/Function/GFunc.h"
-#import "Global/Utility/Ads/CAdsManager.h"
 #import "Global/Utility/Platform/CDeviceMsgSender.h"
 
 //! 전역 변수
@@ -15,11 +14,8 @@ static CiOSPlugin *g_pInst = nil;
 
 //! iOS 플러그인 - Private
 @interface CiOSPlugin (Private) {
-	// Do Nothing
+	// Do Something
 }
-
-//! 초기화 메세지를 처리한다
-- (void)handleInitMsg:(NSString *)a_pMsg;
 
 //! 디바이스 식별자 반환 메세지를 처리한다
 - (void)handleGetDeviceIDMsg:(NSString *)a_pMsg;
@@ -36,23 +32,14 @@ static CiOSPlugin *g_pInst = nil;
 //! 경고 창 출력 메세지를 처리한다
 - (void)handleShowAlertMsg:(NSString *)a_pMsg;
 
+//! 메일 메세지를 처리한다
+- (void)handleMailMsg:(NSString *)a_pMsg;
+
 //! 진동 메세지를 처리한다
 - (void)handleVibrateMsg:(NSString *)a_pMsg;
 
-//! 추적 메세지를 처리한다
-- (void)handleTrackingMsg:(NSString *)a_pMsg;
-
 //! 인디케이터 메세지를 처리한다
 - (void)handleIndicatorMsg:(NSString *)a_pMsg;
-
-//! 광고 초기화 메세지를 처리한다
-- (void)handleInitAdsMsg:(NSString *)a_pMsg;
-
-//! 재개 광고 로드 메세지를 처리한다
-- (void)handleLoadResumeAdsMsg:(NSString *)a_pMsg;
-
-//! 재개 광고 출력 메세지를 처리한다
-- (void)handleShowResumeAdsMsg:(NSString *)a_pMsg;
 @end			// CiOSPlugin (Private)
 
 extern "C" {
@@ -91,10 +78,6 @@ extern "C" {
 @synthesize selectionGenerator = m_pSelectionGenerator;
 @synthesize notificationGenerator = m_pNotificationGenerator;
 
-#if defined FIREBASE_MODULE_ENABLE
-@synthesize trackingList = m_pTrackingList;
-#endif			// #if defined FIREBASE_MODULE_ENABLE
-
 #pragma mark - 초기화
 //! 객체를 생성한다
 + (id)alloc {
@@ -124,18 +107,14 @@ extern "C" {
 	// 처리자 리스트가 없을 경우
 	if(m_pUnityMsgHandlerList == nil) {
 		NSMutableDictionary *pMsgHandlerList = [[NSMutableDictionary alloc] init];
-		[pMsgHandlerList setObject:NSStringFromSelector(@selector(handleInitMsg:)) forKey:@(G_CMD_INIT)];
 		[pMsgHandlerList setObject:NSStringFromSelector(@selector(handleGetDeviceIDMsg:)) forKey:@(G_CMD_GET_DEVICE_ID)];
 		[pMsgHandlerList setObject:NSStringFromSelector(@selector(handleGetCountryCodeMsg:)) forKey:@(G_CMD_GET_COUNTRY_CODE)];
 		[pMsgHandlerList setObject:NSStringFromSelector(@selector(handleGetStoreVerMsg:)) forKey:@(G_CMD_GET_STORE_VER)];
 		[pMsgHandlerList setObject:NSStringFromSelector(@selector(handleSetEnableAdsTrackingMsg:)) forKey:@(G_CMD_SET_ENABLE_ADS_TRACKING)];
 		[pMsgHandlerList setObject:NSStringFromSelector(@selector(handleShowAlertMsg:)) forKey:@(G_CMD_SHOW_ALERT)];
+		[pMsgHandlerList setObject:NSStringFromSelector(@selector(handleMailMsg:)) forKey:@(G_CMD_MAIL)];
 		[pMsgHandlerList setObject:NSStringFromSelector(@selector(handleVibrateMsg:)) forKey:@(G_CMD_VIBRATE)];
-		[pMsgHandlerList setObject:NSStringFromSelector(@selector(handleTrackingMsg:)) forKey:@(G_CMD_TRACKING)];
 		[pMsgHandlerList setObject:NSStringFromSelector(@selector(handleIndicatorMsg:)) forKey:@(G_CMD_INDICATOR)];
-		[pMsgHandlerList setObject:NSStringFromSelector(@selector(handleInitAdsMsg:)) forKey:@(G_CMD_INIT_ADS)];
-		[pMsgHandlerList setObject:NSStringFromSelector(@selector(handleLoadResumeAdsMsg:)) forKey:@(G_CMD_LOAD_RESUME_ADS)];
-		[pMsgHandlerList setObject:NSStringFromSelector(@selector(handleShowResumeAdsMsg:)) forKey:@(G_CMD_SHOW_RESUME_ADS)];
 		
 		m_pUnityMsgHandlerList = pMsgHandlerList;
 	}
@@ -238,19 +217,6 @@ extern "C" {
 	return self.unityAppController.rootViewController;
 }
 
-//! 초기화 메세지를 처리한다
-- (void)handleInitMsg:(NSString *)a_pMsg {
-	NSDictionary *pDataList = (NSDictionary *)GFunc::ConvertJSONStrToObj(a_pMsg, NULL);
-	NSString *pOrientation = (NSString *)[pDataList objectForKey:@(G_KEY_ORIENTATION)];
-	
-	// 세로 모드 일 경우
-	if(pOrientation.intValue == G_ORIENTATION_PORTRAIT) {
-		self.orientation = UIInterfaceOrientationPortrait;
-	} else {
-		self.orientation = UIApplication.sharedApplication.statusBarOrientation;
-	}
-}
-
 //! 디바이스 식별자 반환 메세지를 처리한다
 - (void)handleGetDeviceIDMsg:(NSString *)a_pMsg {
 	// 디바이스 식별자가 유효하지 않을 경우
@@ -309,10 +275,10 @@ extern "C" {
 
 //! 광고 추적 여부 변경 메세지를 처리한다
 - (void)handleSetEnableAdsTrackingMsg:(NSString *)a_pMsg {
-#if defined FACEBOOK_ADS_ENABLE
+#if defined IRON_SRC_ENABLE || defined APP_LOVIN_ENABLE
 	BOOL bIsEnable = GFunc::ConvertStrToBool(a_pMsg);
 	[FBAdSettings setAdvertiserTrackingEnabled:bIsEnable];
-#endif			// #if defined FACEBOOK_ADS_ENABLE
+#endif			// #if defined IRON_SRC_ENABLE || defined APP_LOVIN_ENABLE
 }
 
 //! 경고 창 출력 메세지를 처리한다
@@ -340,8 +306,34 @@ extern "C" {
 		}]];
 	}
 	
-	// 경고 창을 출력한다
 	[self.rootViewController presentViewController:pAlertController animated:YES completion:NULL];
+}
+
+//! 메일 메세지를 처리한다
+- (void)handleMailMsg:(NSString *)a_pMsg {
+	NSDictionary *pDataList = (NSDictionary *)GFunc::ConvertJSONStrToObj(a_pMsg, NULL);
+	
+	NSString *pRecipient = (NSString *)[pDataList objectForKey:@(G_KEY_MAIL_RECIPIENT)];
+	NSString *pTitle = (NSString *)[pDataList objectForKey:@(G_KEY_MAIL_TITLE)];
+	NSString *pMsg = (NSString *)[pDataList objectForKey:@(G_KEY_MAIL_MSG)];
+	
+	// 메일 전송이 가능 할 경우
+	if([MFMailComposeViewController canSendMail]) {
+		MFMailComposeViewController *pMailViewController = [[MFMailComposeViewController alloc] init];
+		pMailViewController.mailComposeDelegate = self;
+		
+		[pMailViewController setToRecipients:[NSArray arrayWithObjects:pRecipient, nil]];
+		[pMailViewController setSubject:pTitle];
+		[pMailViewController setMessageBody:pMsg isHTML:NO];
+		
+		[self.rootViewController presentViewController:pMailViewController animated:YES completion:NULL];
+	} else {
+		pTitle = [pTitle stringByAddingPercentEncodingWithAllowedCharacters:NSCharacterSet.URLUserAllowedCharacterSet];
+		pMsg = [pMsg stringByAddingPercentEncodingWithAllowedCharacters:NSCharacterSet.URLUserAllowedCharacterSet];
+		
+		NSString *pURL = [NSString stringWithFormat:@(G_URL_FMT_MAIL), pRecipient, pTitle, pMsg, nil];
+		[UIApplication.sharedApplication openURL:[NSURL URLWithString:pURL] options:G_EMPTY_DICT completionHandler:nil];
+	}
 }
 
 //! 진동 메세지를 처리한다
@@ -383,48 +375,6 @@ extern "C" {
 	}
 }
 
-//! 추적 메세지를 처리한다
-- (void)handleTrackingMsg:(NSString *)a_pMsg {
-#if defined FIREBASE_MODULE_ENABLE
-	NSDictionary *pDataList = (NSDictionary *)GFunc::ConvertJSONStrToObj(a_pMsg, NULL);
-	
-	NSString *pName = (NSString *)[pDataList objectForKey:@(G_KEY_TRACKING_NAME)];
-	NSString *pIsStartStr = (NSString *)[pDataList objectForKey:@(G_KEY_TRACKING_IS_START)];
-	
-	BOOL bIsStart = GFunc::ConvertStrToBool(pIsStartStr);
-	BOOL bIsContains = [self.trackingList objectForKey:pName] != nil;
-	
-	// 시작 모드 일 경우
-	if(bIsStart && !bIsContains) {
-		FIRTrace *pTracking = [FIRPerformance startTraceWithName:pName];
-		NSString *pDatasStr = (NSString *)[pDataList objectForKey:@(G_KEY_TRACKING_DATAS)];
-		
-		// 데이터가 존재 할 경우
-		if(pDatasStr != nil) {
-			NSDictionary *pTrackingDataList = (NSDictionary *)GFunc::ConvertJSONStrToObj(pDatasStr, NULL);
-			NSArray *pKeyList = pTrackingDataList.allKeys;
-			
-			for(int i = 0; i < pKeyList.count; ++i) {
-				NSString *pKey = (NSString *)[pKeyList objectAtIndex:i];
-				NSString *pValue = (NSString *)[pTrackingDataList objectForKey:pKey];
-				
-				[pTracking setValue:pKey forAttribute:pValue];
-			}
-		}
-		
-		[pTracking start];
-		[self.trackingList setObject:pTracking forKey:pName];
-	}
-	// 중지 모드 일 경우
-	else if(!bIsStart && bIsContains) {
-		FIRTrace *pTracking = (FIRTrace *)[self.trackingList objectForKey:pName];
-		
-		[pTracking stop];
-		[self.trackingList removeObjectForKey:pName];
-	}
-#endif			// #if defined FIREBASE_MODULE_ENABLE
-}
-
 //! 인디케이터 메세지를 처리한다
 - (void)handleIndicatorMsg:(NSString *)a_pMsg {
 	// 출력 모드 일 경우
@@ -434,38 +384,6 @@ extern "C" {
 		[self.activityIndicatorView stopAnimating];
 	}
 }
-
-//! 광고 초기화 메세지를 처리한다
-- (void)handleInitAdsMsg:(NSString *)a_pMsg {
-	NSDictionary *pDataList = (NSDictionary *)GFunc::ConvertJSONStrToObj(a_pMsg, NULL);
-	
-	NSString *pResumeAdsID = (NSString *)[pDataList objectForKey:@(G_KEY_RESUME_ADS_ID)];
-	NSString *pAdmobIDsStr = (NSString *)[pDataList objectForKey:@(G_KEY_ADMOB_IDS)];
-	
-	NSArray *pAdmobIDList = (NSArray *)GFunc::ConvertJSONStrToObj(pAdmobIDsStr, NULL);
-	[CAdsManager.sharedInst init:pResumeAdsID withDeviceIDList:pAdmobIDList];
-}
-
-//! 재개 광고 로드 메세지를 처리한다
-- (void)handleLoadResumeAdsMsg:(NSString *)a_pMsg {
-	[CAdsManager.sharedInst loadResumeAds];
-}
-
-//! 재개 광고 출력 메세지를 처리한다
-- (void)handleShowResumeAdsMsg:(NSString *)a_pMsg {
-	[CAdsManager.sharedInst showResumeAds];
-}
-
-#if defined FIREBASE_MODULE_ENABLE
-- (NSMutableDictionary *)trackingList {
-	// 추적 리스트가 없을 경우
-	if(m_pTrackingList == nil) {
-		m_pTrackingList = [[NSMutableDictionary alloc] init];
-	}
-	
-	return m_pTrackingList;
-}
-#endif			// #if defined FIREBASE_MODULE_ENABLE
 
 #pragma mark - 클래스 메서드
 //! 인스턴스를 반환한다

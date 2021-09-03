@@ -1,3 +1,3 @@
-# UnityLibrary_Plugin
+# 000001.Module_UnityPlugin_Client
 
-UnityLibrary 플러그인 프로젝트
+Module - UnityPlugin 클라이언트 프로젝트

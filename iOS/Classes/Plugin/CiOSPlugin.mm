@@ -356,24 +356,25 @@ extern "C" {
 	if(GFunc::IsValid(eVibrateType)) {
 		// 햅틱 진동을 지원 할 경우
 		if(@available(iOS G_MIN_VER_FEEDBACK_GENERATOR, *)) {
-			// 선택 진동 모드 일 경우
-			if(eVibrateType == EVibrateType::SELECTION) {
-				[self.selectionGenerator selectionChanged];
-			}
-			// 경고 진동 모드 일 경우
-			else if(eVibrateType == EVibrateType::NOTIFICATION) {
-				[self.notificationGenerator notificationOccurred:(UINotificationFeedbackType)eVibrateStyle];
-			} else {
-				UIImpactFeedbackStyle eFeedbackStyle = (UIImpactFeedbackStyle)eVibrateStyle;
-				UIImpactFeedbackGenerator *pImpactGenerator = (UIImpactFeedbackGenerator *)[self.impactGeneratorList objectAtIndex:eFeedbackStyle];
-				
-				// 진동 세기를 지원 할 경우
-				if(@available(iOS G_MIN_VER_IMPACT_INTENSITY, *)) {
-					NSString *pIntensity = (NSString *)[pDataList objectForKey:@(G_KEY_VIBRATE_INTENSITY)];
-					[pImpactGenerator impactOccurredWithIntensity:pIntensity.floatValue];
-				} else {
-					[pImpactGenerator impactOccurred];
-				}
+			switch(eVibrateType) {
+				case EVibrateType::SELECTION: {
+					[self.selectionGenerator selectionChanged];
+				} break;
+				case EVibrateType::NOTIFICATION: {
+					[self.notificationGenerator notificationOccurred:(UINotificationFeedbackType)eVibrateStyle];
+				} break;
+				case EVibrateType::IMPACT: {
+					UIImpactFeedbackStyle eFeedbackStyle = (UIImpactFeedbackStyle)eVibrateStyle;
+					UIImpactFeedbackGenerator *pImpactGenerator = (UIImpactFeedbackGenerator *)[self.impactGeneratorList objectAtIndex:eFeedbackStyle];
+					
+					// 진동 세기를 지원 할 경우
+					if(@available(iOS G_MIN_VER_IMPACT_INTENSITY, *)) {
+						NSString *pIntensity = (NSString *)[pDataList objectForKey:@(G_KEY_VIBRATE_INTENSITY)];
+						[pImpactGenerator impactOccurredWithIntensity:pIntensity.floatValue];
+					} else {
+						[pImpactGenerator impactOccurred];
+					}
+				} break;
 			}
 		} else {
 			AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);

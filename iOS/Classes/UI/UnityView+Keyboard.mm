@@ -83,8 +83,8 @@ static double GetTimeInSeconds()
 
 - (NSArray*)keyCommands
 {
-    //keyCommands take controll of buttons over UITextView, that's why need to return nil if text input field is active
-    if ([[KeyboardDelegate Instance] status] == Visible)
+    //keyCommands take controll of buttons over UITextView, that's why need to return nil if text input field is active or we have an external keyboard attached.
+    if ([[KeyboardDelegate Instance] status] == Visible || [[KeyboardDelegate Instance] hasExternalKeyboard])
     {
         return nil;
     }

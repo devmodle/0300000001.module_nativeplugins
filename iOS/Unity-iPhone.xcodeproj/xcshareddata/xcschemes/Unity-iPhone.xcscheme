@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "1D6058900D05DD3D006BFB54"
-               BuildableName = "ios.app"
+               BuildableName = "TestUnity.app"
                BlueprintName = "Unity-iPhone"
                ReferencedContainer = "container:Unity-iPhone.xcodeproj">
             </BuildableReference>
@@ -31,17 +31,11 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "1D6058900D05DD3D006BFB54"
-            BuildableName = "ios.app"
+            BuildableName = "TestUnity.app"
             BlueprintName = "Unity-iPhone"
             ReferencedContainer = "container:Unity-iPhone.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
-      <CommandLineArguments>
-         <CommandLineArgument
-            argument = "-waitForPlayerConnection 30"
-            isEnabled = "YES">
-         </CommandLineArgument>
-      </CommandLineArguments>
       <Testables>
          <TestableReference
             skipped = "NO">
@@ -75,7 +69,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "1D6058900D05DD3D006BFB54"
-            BuildableName = "ios.app"
+            BuildableName = "TestUnity.app"
             BlueprintName = "Unity-iPhone"
             ReferencedContainer = "container:Unity-iPhone.xcodeproj">
          </BuildableReference>
@@ -92,7 +86,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "1D6058900D05DD3D006BFB54"
-            BuildableName = "ios.app"
+            BuildableName = "TestUnity.app"
             BlueprintName = "Unity-iPhone"
             ReferencedContainer = "container:Unity-iPhone.xcodeproj">
          </BuildableReference>

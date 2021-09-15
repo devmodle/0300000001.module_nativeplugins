@@ -8,7 +8,7 @@
 
 #import "Global/Define/KGDefine.h"
 #import "Global/Utility/External/Keychain/KeychainItemWrapper.h"
-#import "UnityAppController.h"
+#import "../UnityAppController.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -24,15 +24,10 @@ NS_ASSUME_NONNULL_BEGIN
 	
 	UISelectionFeedbackGenerator *m_pSelectionGenerator;
 	UINotificationFeedbackGenerator *m_pNotificationGenerator;
-	
-#if defined FIREBASE_MODULE_ENABLE
-	NSMutableDictionary *m_pTrackingList;
-#endif			// #if defined FIREBASE_MODULE_ENABLE
 }
 
 // 프로퍼티 {
 @property (nonatomic, copy) NSString *deviceID;
-@property (nonatomic, assign) UIInterfaceOrientation orientation;
 
 @property (nonatomic, strong, readonly) KeychainItemWrapper *keychainItemWrapper;
 @property (nonatomic, strong, readonly) UIActivityIndicatorView *activityIndicatorView;
@@ -45,10 +40,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong, readonly) UnityAppController *unityAppController;
 @property (nonatomic, strong, readonly) UIViewController *rootViewController;
-
-#if defined FIREBASE_MODULE_ENABLE
-@property (nonatomic, strong) NSMutableDictionary *trackingList;
-#endif			// #if defined FIREBASE_MODULE_ENABLE
 // 프로퍼티 }
 
 //! 인스턴스를 반환한다

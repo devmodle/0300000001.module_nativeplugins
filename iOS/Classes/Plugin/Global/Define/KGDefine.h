@@ -15,7 +15,7 @@
 #import <AdSupport/AdSupport.h>
 #import <AudioToolbox/AudioToolbox.h>
 
-#import "../../../Unity/UnityInterface.h"
+#import "Unity/UnityInterface.h"
 
 #if defined IRON_SRC_ENABLE || defined APP_LOVIN_ENABLE
 #import <FBAudienceNetwork/FBAdSettings.h>

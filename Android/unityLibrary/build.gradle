@@ -7,7 +7,7 @@ dependencies {
 }
 
 android {
-    compileSdkVersion 29
+    compileSdkVersion 30
     buildToolsVersion '30.0.2'
 
     compileOptions {
@@ -16,7 +16,7 @@ android {
     }
     defaultConfig {
         minSdkVersion 21
-        targetSdkVersion 29
+        targetSdkVersion 30
 
         multiDexEnabled true
         consumerProguardFiles 'proguard-unity.txt'

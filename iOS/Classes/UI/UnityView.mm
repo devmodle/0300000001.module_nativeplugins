@@ -9,7 +9,6 @@
 extern bool _renderingInited;
 extern bool _unityAppReady;
 extern bool _skipPresent;
-extern bool _supportsMSAA;
 
 @implementation UnityView
 {
@@ -23,8 +22,13 @@ extern bool _supportsMSAA;
     _surfaceSize = size;
 
     CGSize systemRenderSize = CGSizeMake(size.width * self.contentScaleFactor, size.height * self.contentScaleFactor);
-    _curOrientation = (ScreenOrientation)UnityReportResizeView(systemRenderSize.width, systemRenderSize.height, _curOrientation);
+    _curOrientation = (ScreenOrientation)UnityReportResizeView((unsigned)systemRenderSize.width, (unsigned)systemRenderSize.height, _curOrientation);
     ReportSafeAreaChangeForView(self);
+}
+
+- (void)boundsUpdated
+{
+    [self onUpdateSurfaceSize: self.bounds.size];
 }
 
 - (void)initImpl:(CGRect)frame scaleFactor:(CGFloat)scale
@@ -88,10 +92,18 @@ extern bool _supportsMSAA;
 
 - (void)recreateRenderingSurfaceIfNeeded
 {
+    float requestedContentScaleFactor = UnityScreenScaleFactor([UIScreen mainScreen]);
+    if (abs(requestedContentScaleFactor - self.contentScaleFactor) > FLT_EPSILON)
+    {
+        self.contentScaleFactor = requestedContentScaleFactor;
+        [self onUpdateSurfaceSize: self.bounds.size];
+    }
+
     unsigned requestedW, requestedH;    UnityGetRenderingResolution(&requestedW, &requestedH);
-    int requestedMSAA = UnityGetDesiredMSAASampleCount(MSAA_DEFAULT_SAMPLE_COUNT);
+    int requestedMSAA = UnityGetDesiredMSAASampleCount(1);
     int requestedSRGB = UnityGetSRGBRequested();
     int requestedWideColor = UnityGetWideColorRequested();
+    int requestedHDR = UnityGetHDRModeRequested();
     int requestedMemorylessDepth = UnityMetalMemorylessDepth();
 
     UnityDisplaySurfaceBase* surf = GetMainDisplaySurface();
@@ -99,9 +111,10 @@ extern bool _supportsMSAA;
     if (_shouldRecreateView == YES
         ||  surf->targetW != requestedW || surf->targetH != requestedH
         ||  surf->disableDepthAndStencil != UnityDisableDepthAndStencilBuffers()
-        ||  (_supportsMSAA && surf->msaaSamples != requestedMSAA)
+        ||  surf->msaaSamples != requestedMSAA
         ||  surf->srgb != requestedSRGB
         ||  surf->wideColor != requestedWideColor
+        ||  surf->hdr != requestedHDR
         ||  surf->memorylessDepth != requestedMemorylessDepth
     )
     {
@@ -118,11 +131,12 @@ extern bool _supportsMSAA;
 
         RenderingSurfaceParams params =
         {
-            .msaaSampleCount        = UnityGetDesiredMSAASampleCount(MSAA_DEFAULT_SAMPLE_COUNT),
+            .msaaSampleCount        = UnityGetDesiredMSAASampleCount(1),
             .renderW                = (int)requestedW,
             .renderH                = (int)requestedH,
             .srgb                   = UnityGetSRGBRequested(),
             .wideColor              = UnityGetWideColorRequested(),
+            .hdr                    = UnityGetHDRModeRequested(),
             .metalFramebufferOnly   = UnityMetalFramebufferOnly(),
             .metalMemorylessDepth   = UnityMetalMemorylessDepth(),
             .disableDepthAndStencil = UnityDisableDepthAndStencilBuffers(),
@@ -139,16 +153,22 @@ extern bool _supportsMSAA;
         if (_unityAppReady)
         {
             // seems like ios sometimes got confused about abrupt swap chain destroy
-            // draw 2 times to fill both buffers
+            // draw 2 times to fill "both" buffers (we assume double buffering)
             // present only once to make sure correct image goes to CA
             // if we are calling this from inside repaint, second draw and present will be done automatically
+            // please note that we still need to pretend we did come from displaylink to make sure vsync magic works
+            // NOTE: unity does handle "draw frame with exact same timestamp" just fine
             _skipPresent = true;
             if (!UnityIsPaused())
             {
+                UnityDisplayLinkCallback(GetAppController().unityDisplayLink.timestamp);
                 UnityRepaint();
                 // we are not inside repaint so we need to draw second time ourselves
                 if (_viewIsRotating)
+                {
+                    UnityDisplayLinkCallback(GetAppController().unityDisplayLink.timestamp);
                     UnityRepaint();
+                }
             }
             _skipPresent = false;
         }
@@ -164,14 +184,14 @@ extern bool _supportsMSAA;
 - (void)recreateGLESSurface         { [self recreateRenderingSurface]; }
 @end
 
-static Class UnityRenderingView_LayerClassGLES(id self_, SEL _cmd)
-{
-    return [CAEAGLLayer class];
-}
-
 static Class UnityRenderingView_LayerClassMTL(id self_, SEL _cmd)
 {
-    return [[NSBundle bundleWithPath: @"/System/Library/Frameworks/QuartzCore.framework"] classNamed: @"CAMetalLayer"];
+    return NSClassFromString(@"CAMetalLayer");
+}
+
+static Class UnityRenderingView_LayerClassNULL(id self_, SEL _cmd)
+{
+    return NSClassFromString(@"CALayer");
 }
 
 @implementation UnityRenderingView
@@ -182,12 +202,7 @@ static Class UnityRenderingView_LayerClassMTL(id self_, SEL _cmd)
 
 + (void)InitializeForAPI:(UnityRenderingAPI)api
 {
-    IMP layerClassImpl = 0;
-    if (api == apiOpenGLES2 || api == apiOpenGLES3)
-        layerClassImpl = (IMP)UnityRenderingView_LayerClassGLES;
-    else if (api == apiMetal)
-        layerClassImpl = (IMP)UnityRenderingView_LayerClassMTL;
-
+    IMP layerClassImpl = api == apiMetal ? (IMP)UnityRenderingView_LayerClassMTL : (IMP)UnityRenderingView_LayerClassNULL;
     class_replaceMethod(object_getClass([UnityRenderingView class]), @selector(layerClass), layerClassImpl, UIView_LayerClass_Enc);
 }
 
@@ -202,6 +217,7 @@ void ReportSafeAreaChangeForView(UIView* view)
     switch (UnityDeviceGeneration())
     {
         case deviceiPhoneXR:
+        case deviceiPhone11:
         {
             const float x = 184, y = 1726, w = 460, h = 66;
             UnityReportDisplayCutouts(&x, &y, &w, &h, 1);
@@ -209,12 +225,14 @@ void ReportSafeAreaChangeForView(UIView* view)
         }
         case deviceiPhoneX:
         case deviceiPhoneXS:
+        case deviceiPhone11Pro:
         {
             const float x = 250, y = 2346, w = 625, h = 90;
             UnityReportDisplayCutouts(&x, &y, &w, &h, 1);
             break;
         }
         case deviceiPhoneXSMax:
+        case deviceiPhone11ProMax:
         {
             const float x = 308, y = 2598, w = 626, h = 90;
             UnityReportDisplayCutouts(&x, &y, &w, &h, 1);
@@ -230,9 +248,7 @@ CGRect ComputeSafeArea(UIView* view)
     CGSize screenSize = view.bounds.size;
     CGRect screenRect = CGRectMake(0, 0, screenSize.width, screenSize.height);
 
-    UIEdgeInsets insets = UIEdgeInsetsMake(0, 0, 0, 0);
-    if (@available(iOS 11.0, tvOS 11.0, *))
-        insets = [view safeAreaInsets];
+    UIEdgeInsets insets = [view safeAreaInsets];
 
     screenRect.origin.x += insets.left;
     screenRect.origin.y += insets.bottom; // Unity uses bottom left as the origin

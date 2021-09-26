@@ -13,8 +13,10 @@
 #include "UnityInterface.h"
 
 #ifndef __OBJC__
-    #if USE_IL2CPP_PCH
-        #include "il2cpp_precompiled_header.h"
+    #if defined(__cplusplus)
+        #include "pch-cpp.hpp"
+    #else
+        #include "pch-c.h"
     #endif
 #endif
 

@@ -26,7 +26,6 @@ static SplashScreenController*  _controller  = nil;
 - (void)createUI
 {
     NSString* launchScreen = [[NSBundle mainBundle].infoDictionary[@"UILaunchStoryboardName"] stringByDeletingPathExtension];
-
     const bool hasXIB = [[NSBundle mainBundle] pathForResource: launchScreen ofType: @"nib"] != nil;
 
     if (hasXIB)
@@ -55,7 +54,7 @@ static SplashScreenController*  _controller  = nil;
 - (void)updateOrientation:(ScreenOrientation)orient withSupportedOrientations:(const OrientationMask&)supportedOrientations
 {
     CGFloat scale = UnityScreenScaleFactor([UIScreen mainScreen]);
-    UnityReportResizeView(self.bounds.size.width * scale, self.bounds.size.height * scale, orient);
+    UnityReportResizeView((unsigned)(self.bounds.size.width * scale), (unsigned)(self.bounds.size.height * scale), orient);
     ReportSafeAreaChangeForView(self);
 
     // for iOS only xib/storyboard are supported, for tvOS (launch images are supported) no orientation takes place at all
@@ -183,7 +182,7 @@ void ShowSplashScreen(UIWindow* window)
     NSString* launchScreen = [[NSBundle mainBundle].infoDictionary[@"UILaunchStoryboardName"] stringByDeletingPathExtension];
 #if PLATFORM_IOS
     // since launch images are no longer supported on ios we MUST have UILaunchStoryboardName filled
-    assert(launchScreen != nil && @"UILaunchStoryboardName key is missing from info.plist");
+    assert(launchScreen != nil && "UILaunchStoryboardName key is missing from info.plist");
 #endif
 
     const bool hasStoryboard = launchScreen != nil && [[NSBundle mainBundle] pathForResource: launchScreen ofType: @"storyboardc"] != nil;
@@ -191,7 +190,22 @@ void ShowSplashScreen(UIWindow* window)
     {
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName: launchScreen bundle: [NSBundle mainBundle]];
 
-        _controller = [storyboard instantiateInitialViewController];
+        // on ios13 we can finally tweak initial storyboard view controller: use unity base view controller
+        // this way we can handle orientations/status-bar/whatever-we-want-to-tweak uniformly
+        // as we still support xcode pre-11 we must do this weird dance of checking for both sdk and runtime version
+        // otherwise it fails to compile (due to unknown selector)
+    #if (PLATFORM_IOS && defined(__IPHONE_13_0)) || (PLATFORM_TVOS && defined(__TVOS_13_0))
+        if (@available(iOS 13.0, tvOS 13.0, *))
+        {
+            _controller = [storyboard instantiateInitialViewControllerWithCreator:^(NSCoder *coder) {
+                return [AllocUnityViewController() initWithCoder: coder];
+            }];
+        }
+        else
+    #endif
+        {
+            _controller = [storyboard instantiateInitialViewController];
+        }
         window.rootViewController = _controller;
     }
     else

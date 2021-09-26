@@ -10,83 +10,116 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+#import <StoreKit/StoreKit.h>
+#import <MessageUI/MessageUI.h>
+#import <AdSupport/AdSupport.h>
 #import <AudioToolbox/AudioToolbox.h>
 #import <FBAudienceNetwork/FBAdSettings.h>
 
-#import "UnityInterface.h"
+#import "Unity/UnityInterface.h"
 
-// 기타
-#define EMPTY_STRING			("")
+#if defined IRON_SRC_ENABLE || defined APP_LOVIN_ENABLE
+#import <FBAudienceNetwork/FBAdSettings.h>
+#endif			// #if defined IRON_SRC_ENABLE || defined APP_LOVIN_ENABLE
+
+// 기타 {
+#define G_EMPTY_STR				("")
+#define G_EMPTY_DICT			(@{})
+
+#define G_IDX_INVALID			(-1)
+// 기타 }
+
+// 값 {
+#define G_VAL_0_INT			(0)
+#define G_VAL_1_INT			(1)
+#define G_VAL_2_INT			(2)
+#define G_VAL_3_INT			(3)
+#define G_VAL_4_INT			(4)
+#define G_VAL_5_INT			(5)
+#define G_VAL_6_INT			(6)
+#define G_VAL_7_INT			(7)
+#define G_VAL_8_INT			(8)
+#define G_VAL_9_INT			(9)
+
+#define G_VAL_0_FLT			(0.0f)
+#define G_VAL_1_FLT			(1.0f)
+#define G_VAL_2_FLT			(2.0f)
+#define G_VAL_3_FLT			(3.0f)
+#define G_VAL_4_FLT			(4.0f)
+#define G_VAL_5_FLT			(5.0f)
+#define G_VAL_6_FLT			(6.0f)
+#define G_VAL_7_FLT			(7.0f)
+#define G_VAL_8_FLT			(8.0f)
+#define G_VAL_9_FLT			(9.0f)
+// 값 }
 
 // 결과
-#define RESULT_TRUE				("True")
-#define RESULT_FALSE			("False")
-
-// 빌드 모드
-#define BUILD_MODE_DEBUG			("Debug")
-#define BUILD_MODE_RELEASE			("Release")
-
-// 식별자 {
-#define ID_KEYCHAIN_DEVICE			("KeychainDeviceID")
-
-#define SYSTEM_SND_ID_LIGHT				(1519)
-#define SYSTEM_SND_ID_MEDIUM			(1102)
-#define SYSTEM_SND_ID_HEAVY				(1520)
-// 식별자 }
+#define G_RESULT_TRUE			("True")
+#define G_RESULT_FALSE			("False")
 
 // 비율
-#define SCALE_ACTIVITY_INDICATOR				(0.25f)
-#define SCALE_ACTIVITY_INDICATOR_OFFSET			(0.01f)
+#define G_SCALE_ACTIVITY_INDICATOR					(0.25f)
+#define G_OFFSET_SCALE_ACTIVITY_INDICATOR			(0.01f)
 
 // 버전
-#define MIN_VERSION_DEVICE_ID_FOR_VENDOR			6.0
-#define MIN_VERSION_FEEDBACK_GENERATOR				10.0
-#define MIN_VERSION_IMPACT_INTENSITY				13.0
-#define MIN_VERSION_ACTIVITY_INDICATOR				13.0
+#define G_MIN_VER_FEEDBACK_GENERATOR			10.0
+#define G_MIN_VER_IMPACT_INTENSITY				13.0
+#define G_MIN_VER_INDICATOR						13.0
 
-// 명령어
-#define CMD_GET_DEVICE_ID				("GetDeviceID")
-#define CMD_GET_COUNTRY_CODE			("GetCountryCode")
-#define CMD_GET_STORE_VERSION			("GetStoreVersion")
-#define CMD_SET_BUILD_MODE				("SetBuildMode")
-#define CMD_SHOW_ALERT					("ShowAlert")
-#define CMD_VIBRATE						("Vibrate")
-#define CMD_ACTIVITY_INDICATOR			("ActivityIndicator")
+// 명령어 {
+#define G_CMD_GET_DEVICE_ID				("GetDeviceID")
+#define G_CMD_GET_COUNTRY_CODE			("GetCountryCode")
+#define G_CMD_GET_STORE_VER				("GetStoreVer")
 
-// 키 {
-#define KEY_CMD			("Cmd")
-#define KEY_MSG			("Msg")
+#define G_CMD_SET_ENABLE_ADS_TRACKING			("SetEnableAdsTracking")
+#define G_CMD_SHOW_ALERT						("ShowAlert")
 
-#define KEY_APP_ID			("AppID")
-#define KEY_VERSION			("Version")
-#define KEY_TIMEOUT			("Timeout")
+#define G_CMD_MAIL				("Mail")
+#define G_CMD_VIBRATE			("Vibrate")
+#define G_CMD_INDICATOR			("Indicator")
+// 명령어 }
 
-#define KEY_ALERT_TITLE						("Title")
-#define KEY_ALERT_MSG						("Msg")
-#define KEY_ALERT_OK_BTN_TEXT				("OKBtnText")
-#define KEY_ALERT_CANCEL_BTN_TEXT			("CancelBtnText")
+// 식별자 {
+#define G_ID_KEYCHAIN_DEVICE			("KeychainDeviceID")
 
-#define KEY_STORE_VERSION					("version")
-#define KEY_STORE_VERSION_RESULT			("results")
+#define G_KEY_CMD			("Cmd")
+#define G_KEY_MSG			("Msg")
 
-#define KEY_VIBRATE_TYPE				("Type")
-#define KEY_VIBRATE_STYLE				("Style")
-#define KEY_VIBRATE_INTENSITY			("Intensity")
+#define G_KEY_APP_ID			("AppID")
+#define G_KEY_VER				("Ver")
+#define G_KEY_TIMEOUT			("Timeout")
 
-#define KEY_DEVICE_MS_RESULT			("Result")
-#define KEY_DEVICE_MS_VERSION			("Version")
-// 키 }
+#define G_KEY_ALERT_TITLE					("Title")
+#define G_KEY_ALERT_MSG						("Msg")
+#define G_KEY_ALERT_OK_BTN_TEXT				("OKBtnText")
+#define G_KEY_ALERT_CANCEL_BTN_TEXT			("CancelBtnText")
 
-// 네트워크 {
-#define HTTP_METHOD_GET				("GET")
-#define HTTP_METHOD_POST			("POST")
+#define G_KEY_STORE_VER					("Ver")
+#define G_KEY_STORE_VER_RESULT			("Results")
 
-#define URL_FORMAT_STORE_VERSION			("http://itunes.apple.com/lookup?bundleId=%@")
-// 네트워크 }
+#define G_KEY_MAIL_RECIPIENT			("Recipient")
+#define G_KEY_MAIL_TITLE				("Title")
+#define G_KEY_MAIL_MSG					("Msg")
+
+#define G_KEY_VIBRATE_TYPE				("Type")
+#define G_KEY_VIBRATE_STYLE				("Style")
+#define G_KEY_VIBRATE_INTENSITY			("Intensity")
+
+#define G_KEY_DEVICE_MS_VER				("Ver")
+#define G_KEY_DEVICE_MS_RESULT			("Result")
+// 식별자 }
 
 // 이름
-#define OBJ_NAME_DEVICE_MSG_RECEIVER				("CDeviceMsgReceiver")
-#define FUNC_NAME_DEVICE_MSG_HANDLE_METHOD			("HandleDeviceMsg")
+#define G_OBJ_N_DEVICE_MSG_RECEIVER					("CDeviceMsgReceiver")
+#define G_FUNC_N_DEVICE_MSG_HANDLE_METHOD			("HandleDeviceMsg")
+
+// 네트워크 {
+#define G_HTTP_METHOD_GET			("GET")
+#define G_HTTP_METHOD_POST			("POST")
+
+#define G_URL_FMT_MAIL				("mailto:%@?subject=%@&body=%@")
+#define G_URL_FMT_STORE_VER			("http://itunes.apple.com/lookup?bundleId=%@")
+// 네트워크 }
 
 //! 진동 타입
 enum class EVibrateType {
@@ -94,7 +127,7 @@ enum class EVibrateType {
 	SELECTION,
 	NOTIFICATION,
 	IMPACT,
-	MAX_VALUE
+	MAX_VAL
 };
 
 //! 진동 스타일
@@ -103,7 +136,7 @@ enum class EVibrateStyle {
 	LIGHT,
 	MEDIUM,
 	HEAVY,
-	MAX_VALUE
+	MAX_VAL
 };
 
 #endif /* KGDefine_h */

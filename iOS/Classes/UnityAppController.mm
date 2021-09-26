@@ -9,14 +9,9 @@
 #import <Availability.h>
 #import <AVFoundation/AVFoundation.h>
 
-#import <OpenGLES/EAGL.h>
-#import <OpenGLES/EAGLDrawable.h>
-#import <OpenGLES/ES2/gl.h>
-#import <OpenGLES/ES2/glext.h>
-
 #include <mach/mach_time.h>
 
-// MSAA_DEFAULT_SAMPLE_COUNT was moved to iPhone_GlesSupport.h
+// MSAA_DEFAULT_SAMPLE_COUNT was removed
 // ENABLE_INTERNAL_PROFILER and related defines were moved to iPhone_Profiler.h
 // kFPS define for removed: you can use Application.targetFrameRate (30 fps by default)
 // DisplayLink is the only run loop mode now - all others were removed
@@ -29,8 +24,6 @@
 #include "UI/SplashScreen.h"
 #include "Unity/InternalProfiler.h"
 #include "Unity/DisplayManager.h"
-#include "Unity/EAGLContextHelper.h"
-#include "Unity/GlesHelper.h"
 #include "Unity/ObjCRuntime.h"
 #include "PluginBase/AppDelegateListener.h"
 
@@ -72,8 +65,6 @@ bool    _didResignActive        = false;
 
 // was startUnity scheduled: used to make startup robust in case of locking device
 static bool _startUnityScheduled    = false;
-
-bool    _supportsMSAA           = false;
 
 #if UNITY_SUPPORT_ROTATION
 // Required to enable specific orientation for some presentation controllers: see supportedInterfaceOrientationsForWindow below for details
@@ -141,7 +132,7 @@ NSInteger _forceInterfaceOrientationMask = 0;
     UnitySetPlayerFocus(1);
 
     AVAudioSession* audioSession = [AVAudioSession sharedInstance];
-    [audioSession setActive: YES error: nil];
+    [audioSession setActive: (UnityShouldActivateAVAudioSession() == 1) error: nil];
     [audioSession addObserver: self forKeyPath: @"outputVolume" options: 0 context: nil];
     UnityUpdateMuteState([audioSession outputVolume] < 0.01f ? 1 : 0);
 
@@ -199,6 +190,11 @@ extern "C" void UnityCleanupTrampoline()
     if ([window rootViewController] == nil)
         return UIInterfaceOrientationMaskAll;
 
+    // During splash screen show phase no forced orientations should be allowed.
+    // This will prevent unwanted rotation while splash screen is on and application is not yet ready to present (Ex. Fogbugz cases: 1190428, 1269547).
+    if (!_unityAppReady)
+        return [_rootController supportedInterfaceOrientations];
+
     // Some presentation controllers (e.g. UIImagePickerController) require portrait orientation and will throw exception if it is not supported.
     // At the same time enabling all orientations by returning UIInterfaceOrientationMaskAll might cause unwanted orientation change
     // (e.g. when using UIActivityViewController to "share to" another application, iOS will use supportedInterfaceOrientations to possibly reorient).
@@ -216,11 +212,17 @@ extern "C" void UnityCleanupTrampoline()
 #endif
 
 #if !PLATFORM_TVOS
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-implementations"
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (void)application:(UIApplication*)application didReceiveLocalNotification:(UILocalNotification*)notification
 {
     AppController_SendNotificationWithArg(kUnityDidReceiveLocalNotification, notification);
     UnitySendLocalNotification(notification);
 }
+
+#pragma clang diagnostic pop
 
 #endif
 
@@ -303,11 +305,18 @@ extern "C" void UnityCleanupTrampoline()
 
     // send notfications
 #if !PLATFORM_TVOS
+
+    #pragma clang diagnostic push
+    #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+
     if (UILocalNotification* notification = [launchOptions objectForKey: UIApplicationLaunchOptionsLocalNotificationKey])
         UnitySendLocalNotification(notification);
 
     if ([UIDevice currentDevice].generatesDeviceOrientationNotifications == NO)
         [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+
+    #pragma clang diagnostic pop
+
 #endif
 
     UnityInitApplicationNoGraphics(UnityDataBundleDir());
@@ -402,7 +411,7 @@ extern "C" void UnityCleanupTrampoline()
     // a view snapshot (case 760747).
     dispatch_async(dispatch_get_main_queue(), ^{
         // if we are active again, we don't need to do this anymore
-        if (!_didResignActive || _snapshotViewController)
+        if (!_didResignActive || self->_snapshotViewController)
         {
             return;
         }
@@ -411,11 +420,12 @@ extern "C" void UnityCleanupTrampoline()
 
         if (snapshotView != nil)
         {
-            _snapshotViewController = [[UIViewController alloc] init];
-            _snapshotViewController.modalPresentationStyle = UIModalPresentationFullScreen;
-            _snapshotViewController.view = snapshotView;
+            UIViewController* snapshotViewController = [AllocUnityViewController() init];
+            snapshotViewController.modalPresentationStyle = UIModalPresentationFullScreen;
+            snapshotViewController.view = snapshotView;
 
-            [_rootController presentViewController: _snapshotViewController animated: false completion: nil];
+            [self->_rootController presentViewController: snapshotViewController animated: false completion: nil];
+            self->_snapshotViewController = snapshotViewController;
         }
     });
 }
@@ -425,17 +435,17 @@ extern "C" void UnityCleanupTrampoline()
     // do this on the main queue async so that if we try to create one
     // and remove in the same frame, this always happens after in the same queue
     dispatch_async(dispatch_get_main_queue(), ^{
-        if (_snapshotViewController)
+        if (self->_snapshotViewController)
         {
             // we've got a view on top of the snapshot view (3rd party plugin/social media login etc).
-            if (_snapshotViewController.presentedViewController)
+            if (self->_snapshotViewController.presentedViewController)
             {
                 [self performSelector: @selector(removeSnapshotViewController) withObject: nil afterDelay: 0.05];
                 return;
             }
 
-            [_snapshotViewController dismissViewControllerAnimated: NO completion: nil];
-            _snapshotViewController = nil;
+            [self->_snapshotViewController dismissViewControllerAnimated: NO completion: nil];
+            self->_snapshotViewController = nil;
 
             // Make sure that the keyboard input field regains focus after the application becomes active.
             [[KeyboardDelegate Instance] becomeFirstResponder];
@@ -450,6 +460,10 @@ extern "C" void UnityCleanupTrampoline()
     if (_unityAppReady)
     {
         UnitySetPlayerFocus(0);
+
+        // signal unity that the frame rendering have ended
+        // as we will not get the callback from the display link current frame
+        UnityDisplayLinkCallback(0);
 
         _wasPausedExternal = UnityIsPaused();
         if (_wasPausedExternal == false)
@@ -582,12 +596,11 @@ void UnityInitTrampoline()
 
     NSString* version = [[UIDevice currentDevice] systemVersion];
 #define CHECK_VER(s) [version compare: s options: NSNumericSearch] != NSOrderedAscending
-    _ios81orNewer  = CHECK_VER(@"8.1"),  _ios82orNewer  = CHECK_VER(@"8.2"),  _ios83orNewer  = CHECK_VER(@"8.3");
-    _ios90orNewer  = CHECK_VER(@"9.0"),  _ios91orNewer  = CHECK_VER(@"9.1");
-    _ios100orNewer = CHECK_VER(@"10.0"), _ios101orNewer = CHECK_VER(@"10.1"), _ios102orNewer = CHECK_VER(@"10.2"), _ios103orNewer = CHECK_VER(@"10.3");
-    _ios110orNewer = CHECK_VER(@"11.0"), _ios111orNewer = CHECK_VER(@"11.1"), _ios112orNewer = CHECK_VER(@"11.2");
+    _ios81orNewer  = CHECK_VER(@"8.1");  _ios82orNewer  = CHECK_VER(@"8.2");  _ios83orNewer  = CHECK_VER(@"8.3");
+    _ios90orNewer  = CHECK_VER(@"9.0");  _ios91orNewer  = CHECK_VER(@"9.1");
+    _ios100orNewer = CHECK_VER(@"10.0"); _ios101orNewer = CHECK_VER(@"10.1"); _ios102orNewer = CHECK_VER(@"10.2"); _ios103orNewer = CHECK_VER(@"10.3");
+    _ios110orNewer = CHECK_VER(@"11.0"); _ios111orNewer = CHECK_VER(@"11.1"); _ios112orNewer = CHECK_VER(@"11.2");
     _ios130orNewer  = CHECK_VER(@"13.0");
-
 #undef CHECK_VER
 
     AddNewAPIImplIfNeeded();
@@ -632,3 +645,30 @@ static void AddNewAPIImplIfNeeded()
         class_replaceMethod([UIView class], @selector(safeAreaInsets), UIView_SafeAreaInsets_IMP, UIView_safeAreaInsets_Enc);
     }
 }
+
+// xcode11 uses new compiler-rt lib
+// if we build unity player lib with xcode11 and then user links final project with older xcode
+//   the link fails with Undefined Symbol ___isPlatformVersionAtLeast
+// hence we add this as a temporary hack until we start requiring xcode11
+
+#if __clang_major__ < 11
+extern "C" int32_t __isOSVersionAtLeast(int32_t Major, int32_t Minor, int32_t Subminor);
+extern "C" int32_t __isPlatformVersionAtLeast(uint32_t Platform, uint32_t Major, uint32_t Minor, uint32_t Subminor)
+{
+    return __isOSVersionAtLeast(Major, Minor, Subminor);
+}
+
+#endif
+
+// starting with xcode 11.4 apple changed FD_SET and related macro to use weakly imported __darwin_check_fd_set_overflow
+// alas if we build xcode project with OLDER xcode this function is missing
+//   and we build unity lib with xcode11+, thus producing linker error
+// we mimic the logic of apple sdk itself (this part is open sourced):
+//   if __darwin_check_fd_set_overflow is not present the caller returns 1, so do we
+#ifndef __IPHONE_13_4
+extern "C" int __darwin_check_fd_set_overflow(int, const void *, int)
+{
+    return 1;
+}
+
+#endif

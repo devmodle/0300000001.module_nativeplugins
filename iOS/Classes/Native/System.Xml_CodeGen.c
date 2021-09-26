@@ -1,11 +1,9 @@
-﻿#include "il2cpp-config.h"
-
+﻿#include "pch-c.h"
 #ifndef _MSC_VER
 # include <alloca.h>
 #else
 # include <malloc.h>
 #endif
-
 
 
 #include "codegen/il2cpp-codegen-metadata.h"
@@ -14,34 +12,36 @@
 
 
 
-IL2CPP_EXTERN_C_BEGIN
-IL2CPP_EXTERN_C_END
-
-
-
-
 // 0x00000001 System.Void System.Xml.XmlReader::.cctor()
-extern void XmlReader__cctor_m3EF2489C81E4EEF249A34242FC130A861972991E ();
+extern void XmlReader__cctor_m8C939FA4F60E046BCAEDF0969A6E3B89D9CB0A4E (void);
 static Il2CppMethodPointer s_methodPointers[1] = 
 {
-	XmlReader__cctor_m3EF2489C81E4EEF249A34242FC130A861972991E,
+	XmlReader__cctor_m8C939FA4F60E046BCAEDF0969A6E3B89D9CB0A4E,
 };
 static const int32_t s_InvokerIndices[1] = 
 {
-	3,
+	1396,
 };
-extern const Il2CppCodeGenModule g_System_XmlCodeGenModule;
-const Il2CppCodeGenModule g_System_XmlCodeGenModule = 
+extern const CustomAttributesCacheGenerator g_System_Xml_AttributeGenerators[];
+IL2CPP_EXTERN_C const Il2CppCodeGenModule g_System_Xml_CodeGenModule;
+const Il2CppCodeGenModule g_System_Xml_CodeGenModule = 
 {
 	"System.Xml.dll",
 	1,
 	s_methodPointers,
+	0,
+	NULL,
 	s_InvokerIndices,
 	0,
 	NULL,
 	0,
 	NULL,
 	0,
+	NULL,
+	NULL,
+	g_System_Xml_AttributeGenerators,
+	NULL, // module initializer,
+	NULL,
 	NULL,
 	NULL,
 };

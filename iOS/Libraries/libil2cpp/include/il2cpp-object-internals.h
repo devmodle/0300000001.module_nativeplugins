@@ -2,7 +2,7 @@
 
 #include "il2cpp-config.h"
 
-#if !IL2CPP_TINY_WITHOUT_DEBUGGER
+#if !RUNTIME_TINY
 
 #include <stdint.h>
 #include <stddef.h>
@@ -43,9 +43,20 @@ namespace il2cpp
 {
 namespace os
 {
-    class FastMutex;
     class Thread;
 }
+}
+
+namespace baselib
+{
+#if !IL2CPP_TINY || IL2CPP_TINY_FROM_IL2CPP_BUILDER
+    inline namespace il2cpp_baselib
+{
+#endif
+    class ReentrantLock;
+#if !IL2CPP_TINY || IL2CPP_TINY_FROM_IL2CPP_BUILDER
+}
+#endif
 }
 #endif //__cplusplus
 
@@ -149,7 +160,7 @@ typedef struct Il2CppReflectionType
 typedef struct Il2CppReflectionRuntimeType
 {
     Il2CppReflectionType type;
-    Il2CppObject *type_info;
+    Il2CppObject* type_info;
     Il2CppObject* genericCache;
     Il2CppObject* serializationCtor;
 } Il2CppReflectionRuntimeType;
@@ -365,7 +376,7 @@ typedef struct Il2CppInternalThread
     void* appdomain_refs;
     int32_t interruption_requested;
 #ifdef __cplusplus
-    il2cpp::os::FastMutex* synch_cs;
+    baselib::ReentrantLock* synch_cs;
 #else
     void* synch_cs;
 #endif //__cplusplus
@@ -530,12 +541,7 @@ typedef struct Il2CppDelegate
     /* The invoke code */
     InvokerMethod invoke_impl;
     Il2CppObject *target;
-
-#if RUNTIME_MONO
-    const MonoMethod *method;
-#else
     const MethodInfo *method;
-#endif
 
     void* delegate_trampoline;
 
@@ -606,7 +612,7 @@ struct Il2CppComObject : Il2CppObject
     // and gets decremented when Marshal.ReleaseComObject gets called. Fortunately, since we
     // live in a world of fairies and garbage collectors, we don't actually have to release it
     // manually in order for it to get cleaned up automatically in the future.
-    volatile int32_t refCount;
+    int32_t refCount;
 };
 #endif //__cplusplus
 
@@ -902,28 +908,13 @@ typedef struct Il2CppAsyncCall
     Il2CppArray *out_args;
 } Il2CppAsyncCall;
 
-
-#if RUNTIME_MONO
-extern "C"
-{
-#include <mono/metadata/object.h>
-}
-#endif
-
 typedef struct Il2CppExceptionWrapper Il2CppExceptionWrapper;
 typedef struct Il2CppExceptionWrapper
 {
-#if RUNTIME_MONO
-    MonoException* ex;
-#ifdef __cplusplus
-    Il2CppExceptionWrapper(MonoException* ex) : ex(ex) {}
-#endif //__cplusplus
-#else
     Il2CppException* ex;
 #ifdef __cplusplus
     Il2CppExceptionWrapper(Il2CppException* ex) : ex(ex) {}
 #endif //__cplusplus
-#endif
 } Il2CppExceptionWrapper;
 
 typedef struct Il2CppIOAsyncResult
@@ -1082,4 +1073,4 @@ typedef union Il2CppSingle_float
     float f;
 } Il2CppSingle_float;
 
-#endif // IL2CPP_TINY
+#endif // !RUNTIME_TINY

@@ -54,7 +54,6 @@ UnityExternCall(NSBundle*,            UnityGetMetalBundle);
 UnityExternCall(MTLDeviceRef,         UnityGetMetalDevice);
 UnityExternCall(MTLCommandQueueRef,   UnityGetMetalCommandQueue);
 UnityExternCall(MTLCommandQueueRef,   UnityGetMetalDrawableCommandQueue);
-UnityExternCall(EAGLContext*,         UnityGetDataContextEAGL);
 
 UnityExternCall(RenderSurfaceBase*,         UnityBackbufferColor);
 UnityExternCall(RenderSurfaceBase*,         UnityBackbufferDepth);
@@ -64,10 +63,7 @@ UnityExternCall(void,                       UnityPrepareScreenshot);
 // Unity/MetalHelper.mm
 UnityExternCall(MTLTextureRef,    AcquireDrawableMTL, UnityDisplaySurfaceMTL*);
 UnityExternCall(int,              UnityCommandQueueMaxCommandBufferCountMTL);
-
-// EAGLContextHelper.mm
-UnityExternCall(void,             UnityMakeCurrentContextEAGL, EAGLContext*);
-UnityExternCall(EAGLContext*,     UnityGetCurrentContextEAGL);
+UnityExternCall(void,             SetDrawableSizeMTL, UnityDisplaySurfaceMTL*, int, int);
 
 // UI/ActivityIndicator.mm
 UnityExternCall(void,             UnityStartActivityIndicator);
@@ -122,8 +118,8 @@ UnityExternCall(int,              UnityCameraCaptureSetAutoFocusPoint, void*, fl
 // Unity/DeviceSettings.mm
 UnityExternCall(const char*,      UnityDeviceUniqueIdentifier);
 UnityExternCall(const char*,      UnityVendorIdentifier);
-UnityExternCall(const char*,      UnityAdvertisingIdentifier);
-UnityExternCall(int,              UnityAdvertisingTrackingEnabled);
+UnityExternCall(const char*,      UnityAdIdentifier);
+UnityExternCall(int,              UnityAdTrackingEnabled);
 UnityExternCall(const char*,      UnityDeviceName);
 UnityExternCall(const char*,      UnitySystemName);
 UnityExternCall(const char*,      UnitySystemVersion);
@@ -141,10 +137,10 @@ UnityExternCall(const char*,      UnitySystemLanguage);
 UnityExternCall(int,              UnityGetLowPowerModeEnabled);
 UnityExternCall(int,              UnityGetWantsSoftwareDimming);
 UnityExternCall(void,             UnitySetWantsSoftwareDimming, int);
+UnityExternCall(int,              UnityGetIosAppOnMac);
 
 // Unity/DisplayManager.mm
-UnityExternCall(EAGLContext*,     UnityGetMainScreenContextGLES);
-UnityExternCall(EAGLContext*,     UnityGetContextEAGL);
+UnityExternCall(void,             UnityActivateScreenForRendering, void*);
 UnityExternCall(void,             UnityStartFrameRendering);
 UnityExternCall(void,             UnityDestroyUnityRenderSurfaces);
 UnityExternCall(int,              UnityMainScreenRefreshRate);

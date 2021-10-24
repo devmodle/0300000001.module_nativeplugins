@@ -12,7 +12,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-//! iOS 플러그인
+/** iOS 플러그인 */
 @interface CiOSPlugin : NSObject <MFMailComposeViewControllerDelegate> {
 	NSString *m_pDeviceID;
 	
@@ -42,7 +42,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong, readonly) UIViewController *rootViewController;
 // 프로퍼티 }
 
-//! 인스턴스를 반환한다
+/** 인스턴스를 반환한다 */
 + (instancetype)sharedInst;
 @end			// CiOSPlugin
 

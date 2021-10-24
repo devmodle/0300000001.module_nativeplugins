@@ -9,41 +9,41 @@
 #import "Global/Function/GFunc.h"
 #import "Global/Utility/Platform/CDeviceMsgSender.h"
 
-//! 전역 변수
+/** 전역 변수 */
 static CiOSPlugin *g_pInst = nil;
 
-//! iOS 플러그인 - Private
+/** iOS 플러그인 - Private */
 @interface CiOSPlugin (Private) {
 	// Do Something
 }
 
-//! 디바이스 식별자 반환 메세지를 처리한다
+/** 디바이스 식별자 반환 메세지를 처리한다 */
 - (void)handleGetDeviceIDMsg:(NSString *)a_pMsg;
 
-//! 국가 코드 반환 메세지를 처리한다
+/** 국가 코드 반환 메세지를 처리한다 */
 - (void)handleGetCountryCodeMsg:(NSString *)a_pMsg;
 
-//! 스토어 버전 반환 메세지를 처리한다
+/** 스토어 버전 반환 메세지를 처리한다 */
 - (void)handleGetStoreVerMsg:(NSString *)a_pMsg;
 
-//! 광고 추적 여부 변경 메세지를 처리한다
+/** 광고 추적 여부 변경 메세지를 처리한다 */
 - (void)handleSetEnableAdsTrackingMsg:(NSString *)a_pMsg;
 
-//! 경고 창 출력 메세지를 처리한다
+/** 경고 창 출력 메세지를 처리한다 */
 - (void)handleShowAlertMsg:(NSString *)a_pMsg;
 
-//! 메일 메세지를 처리한다
+/** 메일 메세지를 처리한다 */
 - (void)handleMailMsg:(NSString *)a_pMsg;
 
-//! 진동 메세지를 처리한다
+/** 진동 메세지를 처리한다 */
 - (void)handleVibrateMsg:(NSString *)a_pMsg;
 
-//! 인디케이터 메세지를 처리한다
+/** 인디케이터 메세지를 처리한다 */
 - (void)handleIndicatorMsg:(NSString *)a_pMsg;
 @end			// CiOSPlugin (Private)
 
 extern "C" {
-	//! 유니티 메세지를 처리한다
+	/** 유니티 메세지를 처리한다 */
 	void HandleUnityMsg(const char *a_pszCmd, const char *a_pszMsg) {
 		NSLog(@"CiOSPlugin.HandleUnityMsg: %@, %@", @(a_pszCmd), @(a_pszMsg));
 		
@@ -64,7 +64,7 @@ extern "C" {
 	}
 }
 
-//! iOS 플러그인
+/** iOS 플러그인 */
 @implementation CiOSPlugin
 #pragma mark - 프로퍼티
 @synthesize deviceID = m_pDeviceID;
@@ -79,13 +79,13 @@ extern "C" {
 @synthesize notificationGenerator = m_pNotificationGenerator;
 
 #pragma mark - 인터페이스
-//! 메일이 완료 되었을 경우
+/** 메일이 완료 되었을 경우 */
 - (void)mailComposeController:(MFMailComposeViewController *)a_pSender didFinishWithResult:(MFMailComposeResult)a_eResult error:(NSError *)a_pError {
 	[a_pSender dismissViewControllerAnimated:YES completion:NULL];
 }
 
 #pragma mark - 초기화
-//! 객체를 생성한다
+/** 객체를 생성한다 */
 + (id)alloc {
 	@synchronized(CiOSPlugin.class) {
 		// 인스턴스가 없을 경우
@@ -98,7 +98,7 @@ extern "C" {
 }
 
 #pragma mark - 인스턴스 메서드
-//! 디바이스 식별자를 반환한다
+/** 디바이스 식별자를 반환한다 */
 - (NSString *)deviceID {
 	// 디바이스 식별자가 유효하지 않을 경우
 	if(!GFunc::IsValid(m_pDeviceID)) {
@@ -108,7 +108,7 @@ extern "C" {
 	return m_pDeviceID;
 }
 
-//! 유니티 메세지 처리자 리스트를 반환한다
+/** 유니티 메세지 처리자 리스트를 반환한다 */
 - (NSDictionary *)unityMsgHandlerList {
 	// 처리자 리스트가 없을 경우
 	if(m_pUnityMsgHandlerList == nil) {
@@ -128,7 +128,7 @@ extern "C" {
 	return m_pUnityMsgHandlerList;
 }
 
-//! 키체인 아이템 래퍼를 반환한다
+/** 키체인 아이템 래퍼를 반환한다 */
 - (KeychainItemWrapper *)keychainItemWrapper {
 	// 키체인 아이템 래퍼가 없을 경우
 	if(m_pKeychainItemWrapper == nil) {
@@ -138,7 +138,7 @@ extern "C" {
 	return m_pKeychainItemWrapper;
 }
 
-//! 액티비티 인디케이터 뷰를 반환한다
+/** 액티비티 인디케이터 뷰를 반환한다 */
 - (UIActivityIndicatorView *)activityIndicatorView {
 	// 인디케이터가 없을 경우
 	if(m_pActivityIndicatorView == nil) {
@@ -179,7 +179,7 @@ extern "C" {
 	return m_pActivityIndicatorView;
 }
 
-//! 충격 피드백 생성자 리스트를 반환한다
+/** 충격 피드백 생성자 리스트를 반환한다 */
 - (NSArray *)impactGeneratorList {
 	// 충격 피드백 생성자 리스트가 없을 경우
 	if(m_pImpactGeneratorList == nil) {
@@ -193,7 +193,7 @@ extern "C" {
 	return m_pImpactGeneratorList;
 }
 
-//! 선택 피드백 생성자를 반환한다
+/** 선택 피드백 생성자를 반환한다 */
 - (UISelectionFeedbackGenerator *)selectionGenerator {
 	// 선택 피드백 생성자가 없을 경우
 	if(m_pSelectionGenerator == nil) {
@@ -203,7 +203,7 @@ extern "C" {
 	return m_pSelectionGenerator;
 }
 
-//! 경고 피드백 생성자를 반환한다
+/** 경고 피드백 생성자를 반환한다 */
 - (UINotificationFeedbackGenerator *)notificationGenerator {
 	// 경고 피드백 생성자가 없을 경우
 	if(m_pNotificationGenerator == nil) {
@@ -213,17 +213,17 @@ extern "C" {
 	return m_pNotificationGenerator;
 }
 
-//! 유니티 앱 컨트롤러를 반환한다
+/** 유니티 앱 컨트롤러를 반환한다 */
 - (UnityAppController *)unityAppController {
 	return (UnityAppController *)UIApplication.sharedApplication.delegate;
 }
 
-//! 루트 뷰 컨트롤러를 반환한다
+/** 루트 뷰 컨트롤러를 반환한다 */
 - (UIViewController *)rootViewController {
 	return self.unityAppController.rootViewController;
 }
 
-//! 디바이스 식별자 반환 메세지를 처리한다
+/** 디바이스 식별자 반환 메세지를 처리한다 */
 - (void)handleGetDeviceIDMsg:(NSString *)a_pMsg {
 	// 디바이스 식별자가 유효하지 않을 경우
 	if(!GFunc::IsValid(self.deviceID)) {
@@ -234,13 +234,13 @@ extern "C" {
 	[CDeviceMsgSender.sharedInst sendGetDeviceIDMsg:self.deviceID];
 }
 
-//! 국가 코드 반환 메세지를 처리한다
+/** 국가 코드 반환 메세지를 처리한다 */
 - (void)handleGetCountryCodeMsg:(NSString *)a_pMsg {
 	NSLocale *pLocale = NSLocale.currentLocale;
 	[CDeviceMsgSender.sharedInst sendGetCountryCodeMsg:pLocale.countryCode];
 }
 
-//! 스토어 버전 반환 메세지를 처리한다
+/** 스토어 버전 반환 메세지를 처리한다 */
 - (void)handleGetStoreVerMsg:(NSString *)a_pMsg {
 	NSDictionary *pDataList = (NSDictionary *)GFunc::ConvertJSONStrToObj(a_pMsg, NULL);
 	
@@ -279,7 +279,7 @@ extern "C" {
 	}];
 }
 
-//! 광고 추적 여부 변경 메세지를 처리한다
+/** 광고 추적 여부 변경 메세지를 처리한다 */
 - (void)handleSetEnableAdsTrackingMsg:(NSString *)a_pMsg {
 #if defined IRON_SRC_ENABLE || defined APP_LOVIN_ENABLE
 	BOOL bIsEnable = GFunc::ConvertStrToBool(a_pMsg);
@@ -287,7 +287,7 @@ extern "C" {
 #endif			// #if defined IRON_SRC_ENABLE || defined APP_LOVIN_ENABLE
 }
 
-//! 경고 창 출력 메세지를 처리한다
+/** 경고 창 출력 메세지를 처리한다 */
 - (void)handleShowAlertMsg:(NSString *)a_pMsg {
 	NSDictionary *pDataList = (NSDictionary *)GFunc::ConvertJSONStrToObj(a_pMsg, NULL);
 	
@@ -315,7 +315,7 @@ extern "C" {
 	[self.rootViewController presentViewController:pAlertController animated:YES completion:NULL];
 }
 
-//! 메일 메세지를 처리한다
+/** 메일 메세지를 처리한다 */
 - (void)handleMailMsg:(NSString *)a_pMsg {
 	NSDictionary *pDataList = (NSDictionary *)GFunc::ConvertJSONStrToObj(a_pMsg, NULL);
 	
@@ -342,7 +342,7 @@ extern "C" {
 	}
 }
 
-//! 진동 메세지를 처리한다
+/** 진동 메세지를 처리한다 */
 - (void)handleVibrateMsg:(NSString *)a_pMsg {
 	NSDictionary *pDataList = (NSDictionary *)GFunc::ConvertJSONStrToObj(a_pMsg, NULL);
 	
@@ -382,7 +382,7 @@ extern "C" {
 	}
 }
 
-//! 인디케이터 메세지를 처리한다
+/** 인디케이터 메세지를 처리한다 */
 - (void)handleIndicatorMsg:(NSString *)a_pMsg {
 	// 출력 모드 일 경우
 	if(GFunc::ConvertStrToBool(a_pMsg)) {
@@ -393,7 +393,7 @@ extern "C" {
 }
 
 #pragma mark - 클래스 메서드
-//! 인스턴스를 반환한다
+/** 인스턴스를 반환한다 */
 + (instancetype)sharedInst {
 	@synchronized(CiOSPlugin.class) {
 		// 인스턴스가 없을 경우

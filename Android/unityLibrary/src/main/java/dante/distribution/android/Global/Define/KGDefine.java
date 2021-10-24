@@ -2,7 +2,7 @@ package dante.distribution.android.Global.Define;
 
 import android.os.Build;
 
-//! 전역 상수
+/** 전역 상수 */
 public abstract class KGDefine {
 	// 기타 {
 	public static final String TAG = "Plugin";

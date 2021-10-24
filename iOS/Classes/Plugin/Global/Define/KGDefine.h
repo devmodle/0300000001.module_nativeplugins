@@ -120,7 +120,7 @@
 #define G_URL_FMT_STORE_VER			("http://itunes.apple.com/lookup?bundleId=%@")
 // 네트워크 }
 
-//! 진동 타입
+/** 진동 타입 */
 enum class EVibrateType {
 	NONE = -1,
 	SELECTION,
@@ -129,7 +129,7 @@ enum class EVibrateType {
 	MAX_VAL
 };
 
-//! 진동 스타일
+/** 진동 스타일 */
 enum class EVibrateStyle {
 	NONE = -1,
 	LIGHT,

@@ -15,10 +15,10 @@ typedef struct
 #include "RedefinePlatforms.h"
 
 
-//! Project version number for UnityFramework.
+/** Project version number for UnityFramework.
 FOUNDATION_EXPORT double UnityFrameworkVersionNumber;
 
-//! Project version string for UnityFramework.
+/** Project version string for UnityFramework.
 FOUNDATION_EXPORT const unsigned char UnityFrameworkVersionString[];
 
 // In this header, you should import all the public headers of your framework using statements like #import <UnityFramework/PublicHeader.h>

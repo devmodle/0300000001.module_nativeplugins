@@ -31,12 +31,12 @@ import dante.distribution.android.Global.Define.KGDefine;
 import dante.distribution.android.Global.Function.GFunc;
 import dante.distribution.android.Global.Utility.Platform.CDeviceMsgSender;
 
-//! 안드로이드 플러그인
+/** 안드로이드 플러그인 */
 public class CAndroidPlugin {
 	private ProgressBar m_oProgressBar = null;
 	@SuppressLint("StaticFieldLeak") private static CAndroidPlugin m_oInst = null;
 	
-	//! 생성자
+	/** 생성자 */
 	private CAndroidPlugin() {
 		Point oPoint = new Point();
 		UnityPlayer.currentActivity.getWindowManager().getDefaultDisplay().getSize(oPoint);
@@ -66,7 +66,7 @@ public class CAndroidPlugin {
 		// 레이아웃을 설정한다 }
 	}
 	
-	//! 인스턴스를 반환한다
+	/** 인스턴스를 반환한다 */
 	public static CAndroidPlugin getInst() {
 		// 인스턴스가 없을 경우
 		if(CAndroidPlugin.m_oInst == null) {
@@ -76,7 +76,7 @@ public class CAndroidPlugin {
 		return CAndroidPlugin.m_oInst;
 	}
 	
-	//! 유니티 메세지를 처리한다
+	/** 유니티 메세지를 처리한다 */
 	public static void handleUnityMsg(final String a_oCmd, final String a_oMsg) {
 		Log.d(KGDefine.TAG, String.format("CAndroidPlugin.handleUnityMsg: %s, %s", a_oCmd, a_oMsg));
 		
@@ -101,7 +101,7 @@ public class CAndroidPlugin {
 		});
 	}
 	
-	//! 디바이스 식별자 반환 메세지를 처리한다
+	/** 디바이스 식별자 반환 메세지를 처리한다 */
 	private void handleGetDeviceIDMsg(String a_oMsg) {
 		UUID oUUID = null;
 		ContentResolver oResolver = UnityPlayer.currentActivity.getApplicationContext().getContentResolver();
@@ -118,18 +118,18 @@ public class CAndroidPlugin {
 		CDeviceMsgSender.getInst().sendGetDeviceIDMsg(oUUID.toString());
 	}
 	
-	//! 국가 코드 반환 메세지를 처리한다
+	/** 국가 코드 반환 메세지를 처리한다 */
 	private void handleGetCountryCodeMsg(String a_oMsg) {
 		Locale oLocale = Locale.getDefault();
 		CDeviceMsgSender.getInst().sendGetCountryCodeMsg(oLocale.getCountry());
 	}
 
-	//! 토스트 출력 메세지를 처리한다
+	/** 토스트 출력 메세지를 처리한다 */
 	private void handleShowToastMsg(String a_oMsg) {
 		Toast.makeText(UnityPlayer.currentActivity, a_oMsg, Toast.LENGTH_LONG);
 	}
 	
-	//! 경고 창 출력 메세지를 처리한다
+	/** 경고 창 출력 메세지를 처리한다 */
 	private void handleShowAlertMsg(String a_oMsg) throws Exception {
 		JSONObject oJSONObj = new JSONObject(a_oMsg);
 		
@@ -164,7 +164,7 @@ public class CAndroidPlugin {
 		oBuilder.create().show();
 	}
 	
-	//! 메일 메세지를 처리한다
+	/** 메일 메세지를 처리한다 */
 	@SuppressLint("IntentReset")
 	private void handleMailMsg(String a_oMsg) throws Exception {
 		JSONObject oJSONObj = new JSONObject(a_oMsg);
@@ -184,7 +184,7 @@ public class CAndroidPlugin {
 		UnityPlayer.currentActivity.startActivity(oIntent);
 	}
 	
-	//! 진동 메세지를 처리한다
+	/** 진동 메세지를 처리한다 */
 	private void handleVibrateMsg(String a_oMsg) throws Exception {
 		JSONObject oJSONObj = new JSONObject(a_oMsg);
 		
@@ -206,7 +206,7 @@ public class CAndroidPlugin {
 		}
 	}
 	
-	//! 인디케이터 메세지를 처리한다
+	/** 인디케이터 메세지를 처리한다 */
 	private void handleIndicatorMsg(String a_oMsg) {
 		// 출력 모드 일 경우
 		if(GFunc.convertStrToBool(a_oMsg)) {

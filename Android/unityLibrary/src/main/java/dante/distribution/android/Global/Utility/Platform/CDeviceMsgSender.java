@@ -9,16 +9,16 @@ import org.json.JSONObject;
 import dante.distribution.android.Global.Define.KGDefine;
 import dante.distribution.android.Global.Function.GFunc;
 
-//! 디바이스 메세지 전송자
+/** 디바이스 메세지 전송자 */
 public class CDeviceMsgSender {
 	private static CDeviceMsgSender m_oInst = null;
 	
-	//! 생성자
+	/** 생성자 */
 	private CDeviceMsgSender() {
 		// Do Something
 	}
 	
-	//! 인스턴스를 반환한다
+	/** 인스턴스를 반환한다 */
 	public static CDeviceMsgSender getInst() {
 		// 인스턴스가 없을 경우
 		if(CDeviceMsgSender.m_oInst == null) {
@@ -28,7 +28,7 @@ public class CDeviceMsgSender {
 		return CDeviceMsgSender.m_oInst;
 	}
 	
-	//! 디바이스 식별자 반환 메세지를 전송한다
+	/** 디바이스 식별자 반환 메세지를 전송한다 */
 	public void sendGetDeviceIDMsg(String a_oDeviceID) {
 		try {
 			this.sendDeviceMsg(KGDefine.CMD_GET_DEVICE_ID, a_oDeviceID);
@@ -38,7 +38,7 @@ public class CDeviceMsgSender {
 		}
 	}
 	
-	//! 국가 코드 반환 메세지를 전송한다
+	/** 국가 코드 반환 메세지를 전송한다 */
 	public void sendGetCountryCodeMsg(String a_oCountryCode) {
 		try {
 			this.sendDeviceMsg(KGDefine.CMD_GET_COUNTRY_CODE, a_oCountryCode);
@@ -48,7 +48,7 @@ public class CDeviceMsgSender {
 		}
 	}
 	
-	//! 경고 창 출력 메세지를 전송한다
+	/** 경고 창 출력 메세지를 전송한다 */
 	public void sendShowAlertMsg(boolean a_bIsOK) {
 		String oResult = GFunc.convertBoolToStr(a_bIsOK);
 		
@@ -60,7 +60,7 @@ public class CDeviceMsgSender {
 		}
 	}
 	
-	//! 디바이스 메세지를 전송한다
+	/** 디바이스 메세지를 전송한다 */
 	private void sendDeviceMsg(String a_oCmd, String a_oMsg) throws Exception {
 		JSONObject oJSONObj = new JSONObject();
 		oJSONObj.put(KGDefine.KEY_CMD, a_oCmd);

@@ -74,7 +74,9 @@ void    UnityCaptureScreenshot(void);
 void    UnitySendMessage(const char* obj, const char* method, const char* msg);
 void    UnityUpdateMuteState(int mute);
 void    UnityUpdateAudioOutputState(void);
-int     UnityShouldActivateAVAudioSession(void);
+int     UnityShouldMuteOtherAudioSources(void);
+int     UnityShouldPrepareForIOSRecording(void);
+int     UnityIsAudioManagerAvailableAndEnabled(void);
 
 #ifdef __cplusplus
 void    UnitySetLogEntryHandler(LogEntryHandler newHandler);
@@ -190,7 +192,7 @@ void    UnityWebRequestConsumeUploadData(void* udata, unsigned consumedSize);
 
 // AVCapture
 
-void    UnityReportAVCapturePermission(void);
+void    UnityReportAVCapturePermission(void* userData);
 void    UnityDidCaptureVideoFrame(intptr_t tex, void* udata);
 
 // logging override
@@ -313,7 +315,7 @@ void            UnityNotifyDeferSystemGesturesChange(void);
 
 // Unity/AVCapture.mm
 int             UnityGetAVCapturePermission(int captureTypes);
-void            UnityRequestAVCapturePermission(int captureTypes);
+void            UnityRequestAVCapturePermission(int captureTypes, void* userData);
 
 // Unity/CameraCapture.mm
 void            UnityEnumVideoCaptureDevices(void* udata, void(*callback)(void* udata, const char* name, int frontFacing, int autoFocusPointSupported, int kind, const int* resolutions, int resCount));
@@ -386,6 +388,9 @@ void        UnitySetAppleTVRemoteTouchesEnabled(int val);
 
 // Unity/UnityReplayKit.mm
 void         UnityShouldCreateReplayKitOverlay(void);
+
+// Runtime analytics
+void UnitySendEmbeddedLaunchEvent(int launchType); // Tracks events when application is launched from native host app (Unity as a Library)
 
 #ifdef __cplusplus
 } // extern "C"

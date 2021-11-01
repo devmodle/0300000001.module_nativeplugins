@@ -115,19 +115,18 @@ extern "C" void CreateSystemRenderingSurfaceMTL(UnityDisplaySurfaceMTL* surface)
 
     @synchronized(surface->layer)
     {
-    #if PLATFORM_OSX
-        OSAtomicCompareAndSwap32Barrier(0, 0, &surface->bufferCompleted);
-        OSAtomicCompareAndSwap32Barrier(0, 0, &surface->bufferSwap);
-    #endif
+#if PLATFORM_OSX
+        surface->proxySwaps = 0;
+        surface->proxyReady = 0;
+#endif
 
         for (int i = 0; i < kUnityNumOffscreenSurfaces; i++)
         {
             // Allocating a proxy texture is cheap until it's being rendered to and the GPU driver does allocation
             surface->drawableProxyRT[i] = [surface->device newTextureWithDescriptor: txDesc];
             surface->drawableProxyRT[i].label = @"DrawableProxy";
-            // We mostly need the proxy for some of its state like width, height and pixelFormat (not the actual memory) before we can get the real drawable
-            // Making it empty discards its backed memory/contents
-            [surface->drawableProxyRT[i] setPurgeableState: MTLPurgeableStateEmpty];
+            // When display link blit is active - we do need drawableProxies to be backed by memory
+            [surface->drawableProxyRT[i] setPurgeableState: MTLPurgeableStateNonVolatile];
         }
     }
 }
@@ -164,7 +163,7 @@ extern "C" void CreateRenderingSurfaceMTL(UnityDisplaySurfaceMTL* surface)
             txDesc.arrayLength = 1;
             txDesc.mipmapLevelCount = 1;
 #if PLATFORM_OSX
-            txDesc.resourceOptions = MTLResourceCPUCacheModeDefaultCache | MTLResourceStorageModeManaged;
+            txDesc.resourceOptions = MTLResourceStorageModeManaged;
 #endif
             txDesc.usage = MTLTextureUsageRenderTarget | MTLTextureUsageShaderRead;
             surface->targetColorRT = [surface->device newTextureWithDescriptor: txDesc];
@@ -183,9 +182,7 @@ extern "C" void CreateRenderingSurfaceMTL(UnityDisplaySurfaceMTL* surface)
         txDesc.arrayLength = 1;
         txDesc.mipmapLevelCount = 1;
         txDesc.sampleCount = surface->msaaSamples;
-#if PLATFORM_OSX || (TARGET_IPHONE_SIMULATOR || TARGET_TVOS_SIMULATOR)
-        txDesc.resourceOptions = MTLResourceCPUCacheModeDefaultCache | MTLResourceStorageModePrivate;
-#endif
+        txDesc.resourceOptions = MTLResourceStorageModePrivate;
         txDesc.usage = MTLTextureUsageRenderTarget | MTLTextureUsageShaderRead;
         if (![surface->device supportsTextureSampleCount: txDesc.sampleCount])
             txDesc.sampleCount = 4;
@@ -217,9 +214,7 @@ extern "C" void CreateSharedDepthbufferMTL(UnityDisplaySurfaceMTL* surface)
     MTLPixelFormat pixelFormat = MTLPixelFormatDepth32Float_Stencil8;
 
     MTLTextureDescriptor* depthTexDesc = [MTLTextureDescriptorClass texture2DDescriptorWithPixelFormat: pixelFormat width: surface->targetW height: surface->targetH mipmapped: NO];
-#if PLATFORM_OSX || (TARGET_IPHONE_SIMULATOR || TARGET_TVOS_SIMULATOR)
-    depthTexDesc.resourceOptions = MTLResourceCPUCacheModeDefaultCache | MTLResourceStorageModePrivate;
-#endif
+    depthTexDesc.resourceOptions = MTLResourceStorageModePrivate;
 
 #if PLATFORM_IOS || PLATFORM_TVOS
     if (surface->memorylessDepth)
@@ -353,18 +348,6 @@ extern "C" void StartFrameRenderingMTL(UnityDisplaySurfaceMTL* surface)
 {
     // we will acquire drawable lazily in AcquireDrawableMTL
     surface->drawable = nil;
-
-#if PLATFORM_OSX
-    bool bufferSwap = OSAtomicCompareAndSwap32Barrier(1, 0, &surface->bufferSwap);
-
-    if (bufferSwap || surface->bufferCompleted == 1)
-    {
-        MTLTextureRef texture0 = surface->drawableProxyRT[0];
-        MTLTextureRef texture1 = surface->drawableProxyRT[1];
-        surface->drawableProxyRT[0] = texture1;
-        surface->drawableProxyRT[1] = texture0;
-    }
-#endif
     surface->systemColorRB  = surface->drawableProxyRT[0];
 
     UnityRenderBufferDesc sys_desc = { surface->systemW, surface->systemH, 1, 1, 1};
@@ -393,14 +376,38 @@ extern "C" void EndFrameRenderingMTL(UnityDisplaySurfaceMTL* surface)
         surface->systemColorRB  = nil;
         surface->drawable       = nil;
     }
+
+#if PLATFORM_OSX
+    @synchronized(surface->layer)
+    {
+        // Swap proxy buffers
+        MTLTextureRef texture0 = surface->drawableProxyRT[0];
+        MTLTextureRef texture1 = surface->drawableProxyRT[1];
+        MTLTextureRef texture2 = surface->drawableProxyRT[2];
+        surface->drawableProxyRT[0] = texture2;
+        surface->drawableProxyRT[1] = texture0;
+        surface->drawableProxyRT[2] = texture1;
+        surface->proxySwaps++;
+        surface->proxyReady = 1;
+    }
+#endif
 }
 
 extern "C" void PreparePresentNonMainScreenMTL(UnityDisplaySurfaceMTL* surface)
 {
     if (surface->drawable)
     {
-        surface->presentCB = [surface->drawableCommandQueue commandBuffer];
-        [surface->presentCB presentDrawable: surface->drawable];
+        // presentCB logic should be removed when we update the minimum version to iOS 12.0
+        // as the "one presentDrawable per command buffer" behaviour apparently was fixed
+        if (@available(iOS 12.0, *))
+        {
+            [UnityCurrentMTLCommandBuffer() presentDrawable: surface->drawable];
+        }
+        else
+        {
+            surface->presentCB = [surface->drawableCommandQueue commandBuffer];
+            [surface->presentCB presentDrawable: surface->drawable];
+        }
     }
 }
 

@@ -724,6 +724,7 @@ static bool StringContainsEmoji(NSString *string);
 #else
         [textField setText: newText];
 #endif
+
         // If we're trying to exceed the max length of the field BUT the text can merge into
         // precomposed characters then we should allow the input.
         NSString* precomposedNewText = [currentText precomposedStringWithCompatibilityMapping];

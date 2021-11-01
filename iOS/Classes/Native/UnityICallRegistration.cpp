@@ -114,13 +114,33 @@ void RegisterAllStrippedInternalCalls()
 
 	//Start Registrations for type : UnityEngine.Experimental.Rendering.GraphicsFormatUtility
 
+		//System.Boolean UnityEngine.Experimental.Rendering.GraphicsFormatUtility::CanDecompressFormat(UnityEngine.Experimental.Rendering.GraphicsFormat,System.Boolean)
+		void Register_UnityEngine_Experimental_Rendering_GraphicsFormatUtility_CanDecompressFormat();
+		Register_UnityEngine_Experimental_Rendering_GraphicsFormatUtility_CanDecompressFormat();
+
 		//System.Boolean UnityEngine.Experimental.Rendering.GraphicsFormatUtility::IsCompressedTextureFormat(UnityEngine.TextureFormat)
 		void Register_UnityEngine_Experimental_Rendering_GraphicsFormatUtility_IsCompressedTextureFormat();
 		Register_UnityEngine_Experimental_Rendering_GraphicsFormatUtility_IsCompressedTextureFormat();
 
+		//System.Boolean UnityEngine.Experimental.Rendering.GraphicsFormatUtility::IsDepthFormat(UnityEngine.Experimental.Rendering.GraphicsFormat)
+		void Register_UnityEngine_Experimental_Rendering_GraphicsFormatUtility_IsDepthFormat();
+		Register_UnityEngine_Experimental_Rendering_GraphicsFormatUtility_IsDepthFormat();
+
+		//System.Boolean UnityEngine.Experimental.Rendering.GraphicsFormatUtility::IsPVRTCFormat(UnityEngine.Experimental.Rendering.GraphicsFormat)
+		void Register_UnityEngine_Experimental_Rendering_GraphicsFormatUtility_IsPVRTCFormat();
+		Register_UnityEngine_Experimental_Rendering_GraphicsFormatUtility_IsPVRTCFormat();
+
 		//System.Boolean UnityEngine.Experimental.Rendering.GraphicsFormatUtility::IsSRGBFormat(UnityEngine.Experimental.Rendering.GraphicsFormat)
 		void Register_UnityEngine_Experimental_Rendering_GraphicsFormatUtility_IsSRGBFormat();
 		Register_UnityEngine_Experimental_Rendering_GraphicsFormatUtility_IsSRGBFormat();
+
+		//System.Boolean UnityEngine.Experimental.Rendering.GraphicsFormatUtility::IsStencilFormat(UnityEngine.Experimental.Rendering.GraphicsFormat)
+		void Register_UnityEngine_Experimental_Rendering_GraphicsFormatUtility_IsStencilFormat();
+		Register_UnityEngine_Experimental_Rendering_GraphicsFormatUtility_IsStencilFormat();
+
+		//UnityEngine.Experimental.Rendering.GraphicsFormat UnityEngine.Experimental.Rendering.GraphicsFormatUtility::GetDepthStencilFormatFromBitsLegacy_Native(System.Int32)
+		void Register_UnityEngine_Experimental_Rendering_GraphicsFormatUtility_GetDepthStencilFormatFromBitsLegacy_Native();
+		Register_UnityEngine_Experimental_Rendering_GraphicsFormatUtility_GetDepthStencilFormatFromBitsLegacy_Native();
 
 		//UnityEngine.Experimental.Rendering.GraphicsFormat UnityEngine.Experimental.Rendering.GraphicsFormatUtility::GetGraphicsFormat_Native_RenderTextureFormat(UnityEngine.RenderTextureFormat,System.Boolean)
 		void Register_UnityEngine_Experimental_Rendering_GraphicsFormatUtility_GetGraphicsFormat_Native_RenderTextureFormat();
@@ -217,6 +237,10 @@ void RegisterAllStrippedInternalCalls()
 	//End Registrations for type : UnityEngine.Material
 
 	//Start Registrations for type : UnityEngine.Mathf
+
+		//System.Boolean UnityEngine.Mathf::IsPowerOfTwo(System.Int32)
+		void Register_UnityEngine_Mathf_IsPowerOfTwo();
+		Register_UnityEngine_Mathf_IsPowerOfTwo();
 
 		//System.Single UnityEngine.Mathf::GammaToLinearSpace(System.Single)
 		void Register_UnityEngine_Mathf_GammaToLinearSpace();
@@ -382,6 +406,10 @@ void RegisterAllStrippedInternalCalls()
 		void Register_UnityEngine_RenderTexture_Internal_Create();
 		Register_UnityEngine_RenderTexture_Internal_Create();
 
+		//System.Void UnityEngine.RenderTexture::SetMipMapCount(System.Int32)
+		void Register_UnityEngine_RenderTexture_SetMipMapCount();
+		Register_UnityEngine_RenderTexture_SetMipMapCount();
+
 		//System.Void UnityEngine.RenderTexture::SetRenderTextureDescriptor_Injected(UnityEngine.RenderTextureDescriptor&)
 		void Register_UnityEngine_RenderTexture_SetRenderTextureDescriptor_Injected();
 		Register_UnityEngine_RenderTexture_SetRenderTextureDescriptor_Injected();
@@ -390,9 +418,9 @@ void RegisterAllStrippedInternalCalls()
 		void Register_UnityEngine_RenderTexture_SetSRGBReadWrite();
 		Register_UnityEngine_RenderTexture_SetSRGBReadWrite();
 
-		//System.Void UnityEngine.RenderTexture::set_depth(System.Int32)
-		void Register_UnityEngine_RenderTexture_set_depth();
-		Register_UnityEngine_RenderTexture_set_depth();
+		//System.Void UnityEngine.RenderTexture::set_depthStencilFormat(UnityEngine.Experimental.Rendering.GraphicsFormat)
+		void Register_UnityEngine_RenderTexture_set_depthStencilFormat();
+		Register_UnityEngine_RenderTexture_set_depthStencilFormat();
 
 		//System.Void UnityEngine.RenderTexture::set_graphicsFormat(UnityEngine.Experimental.Rendering.GraphicsFormat)
 		void Register_UnityEngine_RenderTexture_set_graphicsFormat();

@@ -201,6 +201,7 @@ static int SelectRenderingAPIImpl()
         return api;
 
 #if TARGET_IPHONE_SIMULATOR || TARGET_TVOS_SIMULATOR
+    printf_console("On Simulator, Metal is supported only from iOS 13, and it requires at least macOS 10.15 and Xcode 11. Setting no graphics device.\n");
     return apiNoGraphics;
 #else
     assert(false);

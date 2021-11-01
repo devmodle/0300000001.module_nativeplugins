@@ -106,7 +106,7 @@ typedef struct UnityDisplaySurfaceBase
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wmissing-declarations"
 
-#define kUnityNumOffscreenSurfaces 2
+#define kUnityNumOffscreenSurfaces 3
 
 // Metal display surface
 START_STRUCT(UnityDisplaySurfaceMTL, UnityDisplaySurfaceBase)
@@ -121,9 +121,9 @@ OBJC_OBJECT_PTR CAMetalDrawableRef  drawable;
 
 OBJC_OBJECT_PTR MTLTextureRef       drawableProxyRT[kUnityNumOffscreenSurfaces];
 
-// These are used on a Mac with drawableProxyRT when off-screen rendering is used
-volatile int32_t                    bufferCompleted;
-volatile int32_t                    bufferSwap;
+// This is used on a Mac with drawableProxyRT when off-screen rendering is used
+int                                 proxySwaps;         // Counts times proxy RTs have swapped since surface recreated
+int                                 proxyReady;         // [bool] Proxy RT has swapped since last present; frame ended
 
 OBJC_OBJECT_PTR MTLTextureRef       systemColorRB;
 OBJC_OBJECT_PTR MTLTextureRef       targetColorRT;

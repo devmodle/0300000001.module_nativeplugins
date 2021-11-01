@@ -28,9 +28,10 @@ IL2CPP_EXTERN_C_CONST Il2CppCodeGenModule g_UnityEngine_CodeGenModule;
 IL2CPP_EXTERN_C_CONST Il2CppCodeGenModule g_UnityEngine_CoreModule_CodeGenModule;
 IL2CPP_EXTERN_C_CONST Il2CppCodeGenModule g_UnityEngine_GameCenterModule_CodeGenModule;
 IL2CPP_EXTERN_C_CONST Il2CppCodeGenModule g_UnityEngine_SharedInternalsModule_CodeGenModule;
+IL2CPP_EXTERN_C_CONST Il2CppCodeGenModule g___Generated_CodeGenModule;
 IL2CPP_EXTERN_C_CONST Il2CppCodeGenModule g_mscorlib_CodeGenModule;
 IL2CPP_EXTERN_C const Il2CppCodeGenModule* g_CodeGenModules[];
-const Il2CppCodeGenModule* g_CodeGenModules[11] = 
+const Il2CppCodeGenModule* g_CodeGenModules[12] = 
 {
 	(&g_Mono_Security_CodeGenModule),
 	(&g_System_CodeGenModule),
@@ -42,25 +43,26 @@ const Il2CppCodeGenModule* g_CodeGenModules[11] =
 	(&g_UnityEngine_CoreModule_CodeGenModule),
 	(&g_UnityEngine_GameCenterModule_CodeGenModule),
 	(&g_UnityEngine_SharedInternalsModule_CodeGenModule),
+	(&g___Generated_CodeGenModule),
 	(&g_mscorlib_CodeGenModule),
 };
 IL2CPP_EXTERN_C const Il2CppCodeRegistration g_CodeRegistration;
 const Il2CppCodeRegistration g_CodeRegistration = 
 {
-	1,
+	2,
 	g_ReversePInvokeWrapperPointers,
-	2656,
+	3415,
 	g_Il2CppGenericMethodPointers,
 	g_Il2CppGenericAdjustorThunks,
-	1397,
+	1718,
 	g_Il2CppInvokerPointers,
-	176,
+	216,
 	g_UnresolvedVirtualMethodPointers,
-	130,
+	139,
 	g_Il2CppInteropData,
 	0,
 	NULL,
-	11,
+	12,
 	g_CodeGenModules,
 };
 IL2CPP_EXTERN_C_CONST Il2CppMetadataRegistration g_MetadataRegistration;
@@ -68,6 +70,7 @@ static const Il2CppCodeGenOptions s_Il2CppCodeGenOptions =
 {
 	true,
 	7,
+	1,
 };
 void s_Il2CppCodegenRegistration()
 {

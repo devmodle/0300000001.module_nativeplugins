@@ -13,6 +13,10 @@
 @interface UnityViewControllerBase : UNITY_VIEW_CONTROLLER_BASE_CLASS
 {
     id<UnityViewControllerNotifications> _notificationDelegate;
+
+#if UNITY_SUPPORT_ROTATION
+    @private ScreenOrientation _currentOrientation;
+#endif
 }
 - (void)viewWillLayoutSubviews;
 - (void)viewDidLayoutSubviews;

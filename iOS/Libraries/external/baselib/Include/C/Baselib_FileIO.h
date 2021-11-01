@@ -159,6 +159,18 @@ BASELIB_API uint64_t Baselib_FileIO_EventQueue_Dequeue(
     uint32_t                         timeoutInMilliseconds // 0 will return immediately
 );
 
+// Request dequeue to shutdown
+//
+// \param               eq Event queue to shutdown.
+// \param               threadCount Number of threads to signal termination
+//
+// An empty queue will hang in Baselib_FileIO_EventQueue_Dequeue for as long as the timeout lasts.
+// This function can be used to exit such a condition
+BASELIB_API void Baselib_FileIO_EventQueue_Shutdown(
+    Baselib_FileIO_EventQueue       eq,
+    uint32_t                        threadCount
+);
+
 // Asynchronously opens a file.
 //
 // \param       eq Event queue to associate file with.

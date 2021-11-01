@@ -36,6 +36,8 @@
         #define BASELIB_PLATFORM_STADIA 1
     #elif defined(ANDROID) || defined(__ANDROID__)
         #define BASELIB_PLATFORM_ANDROID 1
+    #elif defined(EMBEDDED_LINUX)
+        #define BASELIB_PLATFORM_EMBEDDED_LINUX 1
     #else
         #define BASELIB_PLATFORM_LINUX 1
     #endif

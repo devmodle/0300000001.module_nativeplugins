@@ -764,10 +764,8 @@ UnitySetLastLocation(double timestamp,
     float verticalAccuracy);
 
 extern "C" void
-UnitySetLastHeading(float magneticHeading,
-    float trueHeading,
-    float rawX, float rawY, float rawZ,
-    double timestamp);
+UnitySetLastHeading(float magneticHeading, float trueHeading, float headingAccuracy,
+    float rawX, float rawY, float rawZ, double timestamp);
 
 #if UNITY_USES_LOCATION
 struct LocationServiceInfo
@@ -972,6 +970,7 @@ bool LocationService::IsHeadingAvailable()
 
     UnitySetLastHeading(UnityReorientHeading(newHeading.magneticHeading),
         UnityReorientHeading(newHeading.trueHeading),
+        newHeading.headingAccuracy,
         reorientedRawHeading.x, reorientedRawHeading.y, reorientedRawHeading.z,
         [newHeading.timestamp timeIntervalSince1970]);
 }

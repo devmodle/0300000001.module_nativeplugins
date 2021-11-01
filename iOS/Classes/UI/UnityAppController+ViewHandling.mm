@@ -276,7 +276,16 @@ extern bool _unityAppReady;
 
 - (void)checkOrientationRequest
 {
+    // if no orientation/allowed-orientation change - do nothing
     if (!UnityHasOrientationRequest() && !UnityShouldChangeAllowedOrientations())
+        return;
+
+    // if there is a presentation controller, it takes over orientation control
+    //   in this case we should completely ignore all orientation changes
+    // mind you, we just *delay* them, and they will be satisfied once presentation controller is dismissed
+    // extra care like this is needed, because below we might recreate ViewController completely breaking
+    //   presentation controller dismissal
+    if (_rootController.presentedViewController)
         return;
 
     // normally we want to call attemptRotationToDeviceOrientation to tell iOS that we changed orientation constraints
@@ -334,7 +343,8 @@ extern bool _unityAppReady;
             // on one hand orientInterface: should be perfectly fine "reorienting" to current orientation
             // in reality, ios might be confused by transitionToViewController: shenanigans coupled with "nothing have changed actually"
             // as an example: prior to ios12 that might result in status bar going "bad" (becoming transparent)
-            if (_curOrientation != requestedOrient)
+            // NOTE: if we have switched from autorotation to fixed orientation, we must do the switch to pick new VC
+            if (_curOrientation != requestedOrient || autorotChanged)
                 [self orientInterface: requestedOrient];
         }
     }

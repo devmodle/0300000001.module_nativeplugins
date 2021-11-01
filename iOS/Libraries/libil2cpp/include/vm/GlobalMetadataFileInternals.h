@@ -36,6 +36,12 @@ enum Il2CppMetadataUsage
     kIl2CppMetadataUsageMethodRef,
 };
 
+enum Il2CppInvalidMetadataUsageToken
+{
+    kIl2CppInvalidMetadataUsageNoData = 0,
+    kIl2CppInvalidMetadataUsageAmbiguousMethod = 1,
+};
+
 #ifdef __cplusplus
 static inline Il2CppMetadataUsage GetEncodedIndexType(EncodedMethodIndex index)
 {
@@ -224,12 +230,11 @@ typedef struct Il2CppAssemblyDefinition
     Il2CppAssemblyNameDefinition aname;
 } Il2CppAssemblyDefinition;
 
-typedef struct Il2CppCustomAttributeTypeRange
+typedef struct Il2CppCustomAttributeDataRange
 {
     uint32_t token;
-    int32_t start;
-    int32_t count;
-} Il2CppCustomAttributeTypeRange;
+    uint32_t startOffset;
+} Il2CppCustomAttributeDataRange;
 
 typedef struct Il2CppMetadataRange
 {
@@ -318,10 +323,10 @@ typedef struct Il2CppGlobalMetadataHeader
     int32_t fieldRefsCount;
     int32_t referencedAssembliesOffset; // int32_t
     int32_t referencedAssembliesCount;
-    int32_t attributesInfoOffset; // Il2CppCustomAttributeTypeRange
-    int32_t attributesInfoCount;
-    int32_t attributeTypesOffset; // TypeIndex
-    int32_t attributeTypesCount;
+    int32_t attributeDataOffset;
+    int32_t attributeDataCount;
+    int32_t attributeDataRangeOffset;
+    int32_t attributeDataRangeCount;
     int32_t unresolvedVirtualCallParameterTypesOffset; // TypeIndex
     int32_t unresolvedVirtualCallParameterTypesCount;
     int32_t unresolvedVirtualCallParameterRangesOffset; // Il2CppMetadataRange

@@ -44,7 +44,7 @@ UnityAppController* GetAppController()
 bool _ios81orNewer = false, _ios82orNewer = false, _ios83orNewer = false, _ios90orNewer = false, _ios91orNewer = false;
 bool _ios100orNewer = false, _ios101orNewer = false, _ios102orNewer = false, _ios103orNewer = false;
 bool _ios110orNewer = false, _ios111orNewer = false, _ios112orNewer = false;
-bool _ios130orNewer = false;
+bool _ios130orNewer = false, _ios140orNewer = false;
 
 // was unity rendering already inited: we should not touch rendering while this is false
 bool    _renderingInited        = false;
@@ -132,7 +132,20 @@ NSInteger _forceInterfaceOrientationMask = 0;
     UnitySetPlayerFocus(1);
 
     AVAudioSession* audioSession = [AVAudioSession sharedInstance];
-    [audioSession setActive: (UnityShouldActivateAVAudioSession() == 1) error: nil];
+    [audioSession setCategory: AVAudioSessionCategoryAmbient error: nil];
+    if (UnityIsAudioManagerAvailableAndEnabled())
+    {
+        if (UnityShouldPrepareForIOSRecording())
+        {
+            [audioSession setCategory: AVAudioSessionCategoryPlayAndRecord error: nil];
+        }
+        else if (UnityShouldMuteOtherAudioSources())
+        {
+            [audioSession setCategory: AVAudioSessionCategorySoloAmbient error: nil];
+        }
+    }
+
+    [audioSession setActive: YES error: nil];
     [audioSession addObserver: self forKeyPath: @"outputVolume" options: 0 context: nil];
     UnityUpdateMuteState([audioSession outputVolume] < 0.01f ? 1 : 0);
 
@@ -299,6 +312,30 @@ extern "C" void UnityCleanupTrampoline()
     return YES;
 }
 
+#if (PLATFORM_IOS && defined(__IPHONE_13_0)) || (PLATFORM_TVOS && defined(__TVOS_13_0))
+- (UIWindowScene*)pickStartupWindowScene:(NSSet<UIScene*>*)scenes API_AVAILABLE(ios(13.0), tvos(13.0))
+{
+    // if we have scene with UISceneActivationStateForegroundActive - pick it
+    // otherwise UISceneActivationStateForegroundInactive will work
+    //   it will be the scene going into active state
+    UIWindowScene* foregroundScene = nil;
+    for (UIScene* scene in scenes)
+    {
+        if (![scene isKindOfClass: [UIWindowScene class]])
+            continue;
+        UIWindowScene* windowScene = (UIWindowScene*)scene;
+
+        if (scene.activationState == UISceneActivationStateForegroundActive)
+            return windowScene;
+        if (scene.activationState == UISceneActivationStateForegroundInactive)
+            foregroundScene = windowScene;
+    }
+
+    NSAssert(foregroundScene != nil, @"No foreground window scene found at startup");
+    return foregroundScene;
+}
+#endif
+
 - (BOOL)application:(UIApplication*)application didFinishLaunchingWithOptions:(NSDictionary*)launchOptions
 {
     ::printf("-> applicationDidFinishLaunching()\n");
@@ -324,11 +361,17 @@ extern "C" void UnityCleanupTrampoline()
     [self selectRenderingAPI];
     [UnityRenderingView InitializeForAPI: self.renderingAPI];
 
-    _window         = [[UIWindow alloc] initWithFrame: [UIScreen mainScreen].bounds];
-    _unityView      = [self createUnityView];
+#if (PLATFORM_IOS && defined(__IPHONE_13_0)) || (PLATFORM_TVOS && defined(__TVOS_13_0))
+    if (@available(iOS 13, tvOS 13, *))
+        _window = [[UIWindow alloc] initWithWindowScene: [self pickStartupWindowScene: application.connectedScenes]];
+    else
+#endif
+    _window = [[UIWindow alloc] initWithFrame: [UIScreen mainScreen].bounds];
+
+    _unityView = [self createUnityView];
 
     [DisplayManager Initialize];
-    _mainDisplay    = [DisplayManager Instance].mainDisplay;
+    _mainDisplay = [DisplayManager Instance].mainDisplay;
     [_mainDisplay createWithWindow: _window andView: _unityView];
 
     [self createUI];
@@ -600,7 +643,7 @@ void UnityInitTrampoline()
     _ios90orNewer  = CHECK_VER(@"9.0");  _ios91orNewer  = CHECK_VER(@"9.1");
     _ios100orNewer = CHECK_VER(@"10.0"); _ios101orNewer = CHECK_VER(@"10.1"); _ios102orNewer = CHECK_VER(@"10.2"); _ios103orNewer = CHECK_VER(@"10.3");
     _ios110orNewer = CHECK_VER(@"11.0"); _ios111orNewer = CHECK_VER(@"11.1"); _ios112orNewer = CHECK_VER(@"11.2");
-    _ios130orNewer  = CHECK_VER(@"13.0");
+    _ios130orNewer  = CHECK_VER(@"13.0"); _ios140orNewer = CHECK_VER(@"14.0");
 #undef CHECK_VER
 
     AddNewAPIImplIfNeeded();
@@ -624,6 +667,7 @@ extern "C" bool UnityiOS110orNewer() { return _ios110orNewer; }
 extern "C" bool UnityiOS111orNewer() { return _ios111orNewer; }
 extern "C" bool UnityiOS112orNewer() { return _ios112orNewer; }
 extern "C" bool UnityiOS130orNewer() { return _ios130orNewer; }
+extern "C" bool UnityiOS140orNewer() { return _ios140orNewer; }
 
 // sometimes apple adds new api with obvious fallback on older ios.
 // in that case we simply add these functions ourselves to simplify code

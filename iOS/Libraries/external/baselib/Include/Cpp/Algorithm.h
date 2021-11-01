@@ -3,6 +3,7 @@
 #include <type_traits>
 #include <limits>
 #include "Internal/TypeTraits.h"
+#include "Internal/Algorithm.inl.h"
 
 namespace baselib
 {
@@ -119,49 +120,58 @@ namespace baselib
             }
 
             // Returns the next power-of-two of a 32bit number or the current value if it is a power two.
-            inline uint32_t CeilPowerOfTwo(uint32_t value)
+            constexpr inline uint32_t CeilPowerOfTwo(uint32_t value)
             {
-                value -= 1;
-                value |= value >> 16;
-                value |= value >> 8;
-                value |= value >> 4;
-                value |= value >> 2;
-                value |= value >> 1;
-                return value + 1;
+                return detail::LogicalOrRShiftOp(
+                    detail::LogicalOrRShiftOp(
+                        detail::LogicalOrRShiftOp(
+                            detail::LogicalOrRShiftOp(
+                                detail::LogicalOrRShiftOp(value - 1, 16),
+                                8),
+                            4),
+                        2),
+                    1) + 1;
             }
 
             // Returns the next power-of-two of a 32bit number of size_t value, or the current value if it is a power two.
             template<typename T, typename std::enable_if<std::is_same<size_t, T>::value && sizeof(T) == 4, bool>::type = 0>
-            inline uint32_t CeilPowerOfTwo(T value) { return CeilPowerOfTwo(static_cast<uint32_t>(value)); }
+            constexpr inline uint32_t CeilPowerOfTwo(T value) { return CeilPowerOfTwo(static_cast<uint32_t>(value)); }
 
             // Returns the next power-of-two of a 64bit number or the current value if it is a power two.
-            inline uint64_t CeilPowerOfTwo(uint64_t value)
+            constexpr inline uint64_t CeilPowerOfTwo(uint64_t value)
             {
-                value -= 1;
-                value |= value >> 32;
-                value |= value >> 16;
-                value |= value >> 8;
-                value |= value >> 4;
-                value |= value >> 2;
-                value |= value >> 1;
-                return value + 1;
+                return detail::LogicalOrRShiftOp(
+                    detail::LogicalOrRShiftOp(
+                        detail::LogicalOrRShiftOp(
+                            detail::LogicalOrRShiftOp(
+                                detail::LogicalOrRShiftOp(
+                                    detail::LogicalOrRShiftOp(value - 1, 32),
+                                    16),
+                                8),
+                            4),
+                        2),
+                    1) + 1;
             }
 
             // Returns the next power-of-two of a 64bit number of size_t value, or the current value if it is a power two.
             template<typename T, typename std::enable_if<std::is_same<size_t, T>::value && sizeof(T) == 8, bool>::type = 0>
-            inline uint64_t CeilPowerOfTwo(T value) { return CeilPowerOfTwo(static_cast<uint64_t>(value)); }
+            constexpr inline uint64_t CeilPowerOfTwo(T value) { return CeilPowerOfTwo(static_cast<uint64_t>(value)); }
 
             // Returns the closest power-of-two of a 32bit number.
             template<typename T>
-            inline T RoundPowerOfTwo(T value)
+            constexpr inline T RoundPowerOfTwo(T value)
             {
                 static_assert(std::is_unsigned<T>::value, "RoundPowerOfTwo works only with an unsigned integral type.");
-                const T nextPower = CeilPowerOfTwo(value);
-                const T prevPower = nextPower >> 1;
-                if (value - prevPower < nextPower - value)
-                    return prevPower;
-                else
-                    return nextPower;
+                return (value - (CeilPowerOfTwo(value) >> 1) < CeilPowerOfTwo(value) - value) ? CeilPowerOfTwo(value) >> 1 : CeilPowerOfTwo(value);
+            }
+
+            // Returns the next value aligned to `alignment`, or the current value if it is already aligned.
+            // `alignment` is required to be a power of two value or the result is undefined. Zero `alignment` returns zero.
+            template<typename T>
+            constexpr inline T CeilAligned(T value, uint64_t alignment)
+            {
+                static_assert(std::is_integral<T>::value, "CeilAligned works only with an integral type.");
+                return static_cast<T>((static_cast<typename std::make_unsigned<T>::type>(value) + alignment - 1) & ~(alignment - 1));
             }
 
             // Returns true if addition of two given operands leads to an integer overflow.

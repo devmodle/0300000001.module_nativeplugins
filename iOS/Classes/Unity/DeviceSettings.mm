@@ -73,11 +73,8 @@ extern "C" int UnityGetIosAppOnMac()
 #if (PLATFORM_IOS && defined(__IPHONE_14_0)) || (PLATFORM_TVOS && defined(__TVOS_14_0))
     if (@available(iOS 14, tvOS 14, *))
         return [[NSProcessInfo processInfo] isiOSAppOnMac] ? 1 : 0;
-    else
-        return 0;
-#else
-    return 0;
 #endif
+    return 0;
 }
 
 extern "C" int UnityAdTrackingEnabled()

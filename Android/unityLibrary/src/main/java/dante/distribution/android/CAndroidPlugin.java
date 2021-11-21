@@ -46,11 +46,8 @@ public class CAndroidPlugin {
 		m_oProgressBar.setVisibility(View.GONE);
 		
 		// 레이아웃을 설정한다 {
-		int nSize = Math.min(oPoint.x, oPoint.y);
-		nSize = (int)(nSize * KGDefine.SCALE_PROGRESS_BAR);
-		
-		int nOffset = Math.min(oPoint.x, oPoint.y);
-		nOffset = (int)(nOffset * KGDefine.OFFSET_SCALE_PROGRESS_BAR);
+		int nSize = (int)(Math.min(oPoint.x, oPoint.y) * KGDefine.SCALE_PROGRESS_BAR);
+		int nOffset = (int)(Math.min(oPoint.x, oPoint.y) * KGDefine.OFFSET_SCALE_PROGRESS_BAR);
 		
 		RelativeLayout.LayoutParams oParams = new RelativeLayout.LayoutParams(nSize, nSize);
 		oParams.addRule(RelativeLayout.CENTER_IN_PARENT);

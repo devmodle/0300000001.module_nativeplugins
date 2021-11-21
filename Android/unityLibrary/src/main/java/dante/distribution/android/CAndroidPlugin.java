@@ -17,7 +17,6 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.unity3d.player.UnityPlayer;
 
@@ -80,6 +79,7 @@ public class CAndroidPlugin {
 	public static void handleUnityMsg(final String a_oCmd, final String a_oMsg) {
 		Log.d(KGDefine.TAG, String.format("CAndroidPlugin.handleUnityMsg: %s, %s", a_oCmd, a_oMsg));
 		
+		// UI 쓰레드가 시작 되었을 경우
 		UnityPlayer.currentActivity.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
@@ -87,7 +87,6 @@ public class CAndroidPlugin {
 					switch(a_oCmd) {
 						case KGDefine.CMD_GET_DEVICE_ID: CAndroidPlugin.getInst().handleGetDeviceIDMsg(a_oMsg); break;
 						case KGDefine.CMD_GET_COUNTRY_CODE: CAndroidPlugin.getInst().handleGetCountryCodeMsg(a_oMsg); break;
-						case KGDefine.CMD_SHOW_TOAST: CAndroidPlugin.getInst().handleShowToastMsg(a_oMsg); break;
 						case KGDefine.CMD_SHOW_ALERT: CAndroidPlugin.getInst().handleShowAlertMsg(a_oMsg); break;
 						case KGDefine.CMD_MAIL: CAndroidPlugin.getInst().handleMailMsg(a_oMsg); break;
 						case KGDefine.CMD_VIBRATE: CAndroidPlugin.getInst().handleVibrateMsg(a_oMsg); break;
@@ -103,17 +102,8 @@ public class CAndroidPlugin {
 	
 	/** 디바이스 식별자 반환 메세지를 처리한다 */
 	private void handleGetDeviceIDMsg(String a_oMsg) {
-		UUID oUUID = null;
-		ContentResolver oResolver = UnityPlayer.currentActivity.getApplicationContext().getContentResolver();
-		
-		@SuppressLint("HardwareIds") String oDeviceID = Settings.Secure.getString(oResolver, Settings.Secure.ANDROID_ID);
-		
-		// 안드로이드 식별자가 유효하지 않을 경우
-		if(oDeviceID.equals(KGDefine.INVALID_ANDROID_ID)) {
-			oUUID = UUID.randomUUID();
-		} else {
-			oUUID = UUID.nameUUIDFromBytes(oDeviceID.getBytes(StandardCharsets.UTF_8));
-		}
+		@SuppressLint("HardwareIds") String oDeviceID = Settings.Secure.getString(UnityPlayer.currentActivity.getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
+		UUID oUUID = oDeviceID.equals(KGDefine.INVALID_ANDROID_ID) ? UUID.randomUUID() : UUID.nameUUIDFromBytes(oDeviceID.getBytes(StandardCharsets.UTF_8));
 		
 		CDeviceMsgSender.getInst().sendGetDeviceIDMsg(oUUID.toString());
 	}
@@ -122,11 +112,6 @@ public class CAndroidPlugin {
 	private void handleGetCountryCodeMsg(String a_oMsg) {
 		Locale oLocale = Locale.getDefault();
 		CDeviceMsgSender.getInst().sendGetCountryCodeMsg(oLocale.getCountry());
-	}
-
-	/** 토스트 출력 메세지를 처리한다 */
-	private void handleShowToastMsg(String a_oMsg) {
-		Toast.makeText(UnityPlayer.currentActivity, a_oMsg, Toast.LENGTH_LONG);
 	}
 	
 	/** 경고 창 출력 메세지를 처리한다 */

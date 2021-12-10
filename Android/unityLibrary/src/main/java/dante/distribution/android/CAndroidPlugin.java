@@ -107,8 +107,7 @@ public class CAndroidPlugin {
 	
 	/** 국가 코드 반환 메세지를 처리한다 */
 	private void handleGetCountryCodeMsg(String a_oMsg) {
-		Locale oLocale = Locale.getDefault();
-		CDeviceMsgSender.getInst().sendGetCountryCodeMsg(oLocale.getCountry());
+		CDeviceMsgSender.getInst().sendGetCountryCodeMsg(Locale.getDefault().getCountry());
 	}
 	
 	/** 경고 창 출력 메세지를 처리한다 */
@@ -173,17 +172,14 @@ public class CAndroidPlugin {
 		String oDuration = oJSONObj.getString(KGDefine.KEY_VIBRATE_DURATION);
 		String oIntensity = oJSONObj.getString(KGDefine.KEY_VIBRATE_INTENSITY);
 		
-		float fDuration = Math.abs(Float.parseFloat(oDuration));
-		float fIntensity = Math.abs(Float.parseFloat(oIntensity));
-		
 		Context oContext = UnityPlayer.currentActivity.getApplicationContext();
 		Vibrator oVibrator = (Vibrator)oContext.getSystemService(Context.VIBRATOR_SERVICE);
 		
 		// 햅틱 진동을 지원하지 않을 경우
 		if(Build.VERSION.SDK_INT < KGDefine.MIN_VER_FEEDBACK_GENERATOR) {
-			oVibrator.vibrate((int)(fDuration * KGDefine.UNIT_SEC_TO_MILLISEC));
+			oVibrator.vibrate((int)(Math.abs(Float.parseFloat(oDuration)) * KGDefine.UNIT_SEC_TO_MILLISEC));
 		} else {
-			VibrationEffect oEffect = VibrationEffect.createOneShot((int)(fDuration * KGDefine.UNIT_SEC_TO_MILLISEC), (int)(fIntensity * KGDefine.UNIT_NORM_VAL_TO_BYTE));
+			VibrationEffect oEffect = VibrationEffect.createOneShot((int)(Math.abs(Float.parseFloat(oDuration)) * KGDefine.UNIT_SEC_TO_MILLISEC), (int)(Math.abs(Float.parseFloat(oIntensity)) * KGDefine.UNIT_NORM_VAL_TO_BYTE));
 			oVibrator.vibrate(oEffect);
 		}
 	}

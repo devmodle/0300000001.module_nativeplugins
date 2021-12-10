@@ -42,9 +42,7 @@ namespace GFunc {
 	
 	/** URL 요청을 생성한다 */
 	NSMutableURLRequest * MakeURLRequest(NSString *a_pURL, NSString *a_pMethod, double a_dblTimeout) {
-		NSURL *pURL = [NSURL URLWithString:a_pURL];
-		
-		NSMutableURLRequest *pRequest = [NSMutableURLRequest requestWithURL:pURL cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData timeoutInterval:a_dblTimeout];
+		NSMutableURLRequest *pRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:a_pURL] cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData timeoutInterval:a_dblTimeout];
 		pRequest.HTTPMethod = a_pMethod;
 		
 		return pRequest;

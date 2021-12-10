@@ -41,23 +41,19 @@ static CDeviceMsgSender *g_pInst = nil;
 - (void)sendGetStoreVerMsg:(NSString *)a_pVer withResult:(BOOL)a_bIsSuccess {
 	NSString *pStr = GFunc::ConvertBoolToStr(a_bIsSuccess);
 	NSDictionary *pDataList = [NSDictionary dictionaryWithObjectsAndKeys:a_pVer, @(G_KEY_DEVICE_MS_VER), pStr, @(G_KEY_DEVICE_MS_RESULT), nil];
-	NSString *pMsg = GFunc::ConvertObjToJSONStr(pDataList, NULL);
 	
-	[self send:@(G_CMD_GET_STORE_VER) withDeviceMsg:pMsg];
+	[self send:@(G_CMD_GET_STORE_VER) withDeviceMsg:GFunc::ConvertObjToJSONStr(pDataList, NULL)];
 }
 
 /** 경고 창 출력 메세지를 전송한다 */
 - (void)sendShowAlertMsg:(BOOL)a_bIsOK {
-	NSString *pMsg = GFunc::ConvertBoolToStr(a_bIsOK);
-	[self send:@(G_CMD_SHOW_ALERT) withDeviceMsg:pMsg];
+	[self send:@(G_CMD_SHOW_ALERT) withDeviceMsg:GFunc::ConvertBoolToStr(a_bIsOK)];
 }
 
 /** 디바이스 메세지를 전송한다 */
 - (void)send:(NSString *)a_pCmd withDeviceMsg:(NSString *)a_pMsg {
 	NSDictionary *pDataList = [NSDictionary dictionaryWithObjectsAndKeys:a_pCmd, @(G_KEY_CMD), a_pMsg, @(G_KEY_MSG), nil];
-	NSString *pJSONStr = GFunc::ConvertObjToJSONStr(pDataList, NULL);
-	
-	UnitySendMessage(G_OBJ_N_DEVICE_MSG_RECEIVER, G_FUNC_N_DEVICE_MSG_HANDLE_METHOD, pJSONStr.UTF8String);
+	UnitySendMessage(G_OBJ_N_DEVICE_MSG_RECEIVER, G_FUNC_N_DEVICE_MSG_HANDLE_METHOD, GFunc::ConvertObjToJSONStr(pDataList, NULL).UTF8String);
 }
 
 #pragma mark - 클래스 메서드

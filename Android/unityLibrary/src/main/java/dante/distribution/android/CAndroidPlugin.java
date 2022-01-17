@@ -179,8 +179,7 @@ public class CAndroidPlugin {
 		if(Build.VERSION.SDK_INT < KGDefine.MIN_VER_FEEDBACK_GENERATOR) {
 			oVibrator.vibrate((int)(Math.abs(Float.parseFloat(oDuration)) * KGDefine.UNIT_SEC_TO_MILLISEC));
 		} else {
-			VibrationEffect oEffect = VibrationEffect.createOneShot((int)(Math.abs(Float.parseFloat(oDuration)) * KGDefine.UNIT_SEC_TO_MILLISEC), (int)(Math.abs(Float.parseFloat(oIntensity)) * KGDefine.UNIT_NORM_VAL_TO_BYTE));
-			oVibrator.vibrate(oEffect);
+			oVibrator.vibrate(VibrationEffect.createOneShot((int)(Math.abs(Float.parseFloat(oDuration)) * KGDefine.UNIT_SEC_TO_MILLISEC), (int)(Math.abs(Float.parseFloat(oIntensity)) * KGDefine.UNIT_NORM_VAL_TO_BYTE)));
 		}
 	}
 	

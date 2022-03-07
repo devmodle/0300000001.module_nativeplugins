@@ -113,18 +113,14 @@ public class CAndroidPlugin {
 	/** 경고 창 출력 메세지를 처리한다 */
 	private void handleShowAlertMsg(String a_oMsg) throws Exception {
 		JSONObject oJSONObj = new JSONObject(a_oMsg);
-		
-		String oTitle = oJSONObj.getString(KGDefine.KEY_ALERT_TITLE);
-		String oMsg = oJSONObj.getString(KGDefine.KEY_ALERT_MSG);
-		String oOKBtnText = oJSONObj.getString(KGDefine.KEY_ALERT_OK_BTN_TEXT);
 		String oCancelBtnText = oJSONObj.getString(KGDefine.KEY_ALERT_CANCEL_BTN_TEXT);
 		
 		AlertDialog.Builder oBuilder = new AlertDialog.Builder(UnityPlayer.currentActivity);
-		oBuilder.setTitle(GFunc.isValid(oTitle) ? oTitle : null);
-		oBuilder.setMessage(oMsg);
+		oBuilder.setTitle(oJSONObj.has(KGDefine.KEY_ALERT_TITLE) ? oJSONObj.getString(KGDefine.KEY_ALERT_TITLE) : null);
+		oBuilder.setMessage(oJSONObj.getString(KGDefine.KEY_ALERT_MSG));
 		
 		// 확인 버튼을 눌렀을 경우
-		oBuilder.setPositiveButton(oOKBtnText, new DialogInterface.OnClickListener() {
+		oBuilder.setPositiveButton(oJSONObj.getString(KGDefine.KEY_ALERT_OK_BTN_TEXT), new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface a_oSender, int a_nIndex) {
 				CDeviceMsgSender.getInst().sendShowAlertMsg(true);
@@ -150,17 +146,13 @@ public class CAndroidPlugin {
 	private void handleMailMsg(String a_oMsg) throws Exception {
 		JSONObject oJSONObj = new JSONObject(a_oMsg);
 		
-		String oRecipient = oJSONObj.getString(KGDefine.KEY_MAIL_RECIPIENT);
-		String oTitle = oJSONObj.getString(KGDefine.KEY_MAIL_TITLE);
-		String oMsg = oJSONObj.getString(KGDefine.KEY_MAIL_MSG);
-		
 		Intent oIntent = new Intent(Intent.ACTION_SENDTO);
 		oIntent.setType(KGDefine.MAIL_TYPE);
 		oIntent.setData(Uri.parse(KGDefine.MAIL_DATA));
 		
-		oIntent.putExtra(Intent.EXTRA_EMAIL, new String[] { oRecipient });
-		oIntent.putExtra(Intent.EXTRA_SUBJECT, oTitle);
-		oIntent.putExtra(Intent.EXTRA_TEXT, oMsg);
+		oIntent.putExtra(Intent.EXTRA_EMAIL, new String[] { oJSONObj.getString(KGDefine.KEY_MAIL_RECIPIENT) });
+		oIntent.putExtra(Intent.EXTRA_SUBJECT, oJSONObj.getString(KGDefine.KEY_MAIL_TITLE));
+		oIntent.putExtra(Intent.EXTRA_TEXT, oJSONObj.getString(KGDefine.KEY_MAIL_MSG));
 		
 		UnityPlayer.currentActivity.startActivity(oIntent);
 	}

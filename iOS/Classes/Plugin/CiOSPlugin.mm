@@ -250,9 +250,9 @@ extern "C" {
 
 /** 광고 추적 여부 변경 메세지를 처리한다 */
 - (void)handleSetEnableAdsTrackingMsg:(NSString *)a_pMsg {
-#if defined IRON_SRC_ADS_ENABLE || defined APP_LOVIN_ADS_ENABLE
+#if defined IRON_SRC_ADS_ENABLE
 	[FBAdSettings setAdvertiserTrackingEnabled:GFunc::ConvertStrToBool(a_pMsg)];
-#endif			// #if defined IRON_SRC_ADS_ENABLE || defined APP_LOVIN_ADS_ENABLE
+#endif			// #if defined IRON_SRC_ADS_ENABLE
 }
 
 /** 경고 창 출력 메세지를 처리한다 */

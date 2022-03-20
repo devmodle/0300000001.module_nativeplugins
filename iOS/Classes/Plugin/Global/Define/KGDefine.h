@@ -17,9 +17,9 @@
 
 #import "Unity/UnityInterface.h"
 
-#if defined IRON_SRC_ADS_ENABLE || defined APP_LOVIN_ADS_ENABLE
+#if defined IRON_SRC_ADS_ENABLE
 #import <FBAudienceNetwork/FBAdSettings.h>
-#endif			// #if defined IRON_SRC_ADS_ENABLE || defined APP_LOVIN_ADS_ENABLE
+#endif			// #if defined IRON_SRC_ADS_ENABLE
 
 // 기타 {
 #define G_EMPTY_STR				("")

@@ -37,16 +37,19 @@ public abstract class KGDefine {
 	public static final float VAL_9_FLT = 9.0f;
 	// 값 }
 	
-	// 유닛
-	public static final int UNIT_SEC_TO_MILLISEC = 1000;
+	// 회전
+	public static final int ANGLE_360_DEG = 360;
+	
+	// 단위
 	public static final int UNIT_NORM_VAL_TO_BYTE = 255;
+	public static final int UNIT_MILLI_SECS_PER_SEC = 1000;
 	
 	// 버전
 	public static final int MIN_VER_FEEDBACK_GENERATOR = Build.VERSION_CODES.O;
 	
 	// 비율
-	public static final float SCALE_PROGRESS_BAR = 0.25f;
-	public static final float OFFSET_SCALE_PROGRESS_BAR = 0.05f;
+	public static final float SCALE_IMG_VIEW = 0.25f;
+	public static final float OFFSET_SCALE_IMG_VIEW = 0.05f;
 	
 	// 결과
 	public static final String RESULT_TRUE = "True";

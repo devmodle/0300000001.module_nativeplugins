@@ -51,6 +51,9 @@ public abstract class KGDefine {
 	public static final float SCALE_IMG_VIEW = 0.25f;
 	public static final float OFFSET_SCALE_IMG_VIEW = 0.05f;
 	
+	// 기준
+	public static final float PIVOT_CENTER = 0.5f;
+	
 	// 결과
 	public static final String RESULT_TRUE = "True";
 	public static final String RESULT_FALSE = "False";

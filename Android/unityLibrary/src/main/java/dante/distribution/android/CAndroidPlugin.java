@@ -54,7 +54,7 @@ public class CAndroidPlugin {
 		m_oIndicatorImgView.setVisibility(View.GONE);
 		
 		// 애니메이션을 설정한다
-		m_oIndicatorImgViewAni = new RotateAnimation(KGDefine.VAL_0_INT, KGDefine.ANGLE_360_DEG, Animation.RELATIVE_TO_SELF, KGDefine.VAL_1_FLT / KGDefine.VAL_2_FLT, Animation.RELATIVE_TO_SELF, KGDefine.VAL_1_FLT / KGDefine.VAL_2_FLT);
+		m_oIndicatorImgViewAni = new RotateAnimation(KGDefine.VAL_0_INT, KGDefine.ANGLE_360_DEG, Animation.RELATIVE_TO_SELF, KGDefine.PIVOT_CENTER, Animation.RELATIVE_TO_SELF, KGDefine.PIVOT_CENTER);
 		m_oIndicatorImgViewAni.setDuration(KGDefine.VAL_1_INT * KGDefine.UNIT_MILLI_SECS_PER_SEC);
 		m_oIndicatorImgViewAni.setRepeatCount(Animation.INFINITE);
 		m_oIndicatorImgViewAni.setInterpolator(UnityPlayer.currentActivity, android.R.anim.linear_interpolator);
@@ -175,14 +175,15 @@ public class CAndroidPlugin {
 		String oDuration = oJSONObj.getString(KGDefine.KEY_VIBRATE_DURATION);
 		String oIntensity = oJSONObj.getString(KGDefine.KEY_VIBRATE_INTENSITY);
 		
+		float fDuration = Math.abs(Float.parseFloat(oDuration));
 		Vibrator oVibrator = (Vibrator)UnityPlayer.currentActivity.getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
 		
 		// 햅틱 진동을 지원하지 않을 경우
 		if(Build.VERSION.SDK_INT < KGDefine.MIN_VER_FEEDBACK_GENERATOR) {
-			oVibrator.vibrate((int)(Math.abs(Float.parseFloat(oDuration)) * KGDefine.UNIT_MILLI_SECS_PER_SEC));
+			oVibrator.vibrate((int)(fDuration * KGDefine.UNIT_MILLI_SECS_PER_SEC));
 		} else {
 			float fIntensity = Math.abs(Float.parseFloat(oIntensity));
-			oVibrator.vibrate(VibrationEffect.createOneShot((int)(Math.abs(Float.parseFloat(oDuration)) * KGDefine.UNIT_MILLI_SECS_PER_SEC), (int)(fIntensity * KGDefine.UNIT_NORM_VAL_TO_BYTE)));
+			oVibrator.vibrate(VibrationEffect.createOneShot((int)(fDuration * KGDefine.UNIT_MILLI_SECS_PER_SEC), (int)(fIntensity * KGDefine.UNIT_NORM_VAL_TO_BYTE)));
 		}
 	}
 	

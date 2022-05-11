@@ -4,6 +4,8 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/Android.iml" filepath="$PROJECT_DIR$/.idea/modules/Android.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/unityLibrary/Android.unityLibrary.iml" filepath="$PROJECT_DIR$/.idea/modules/unityLibrary/Android.unityLibrary.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/unityLibrary/Android.unityLibrary.main.iml" filepath="$PROJECT_DIR$/.idea/modules/unityLibrary/Android.unityLibrary.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/unityLibrary/Android.unityLibrary.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/unityLibrary/Android.unityLibrary.unitTest.iml" />
     </modules>
   </component>
 </project>

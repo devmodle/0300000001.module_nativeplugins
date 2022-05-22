@@ -27,6 +27,7 @@ import com.unity3d.player.UnityPlayer;
 import org.json.JSONObject;
 
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Locale;
 import java.util.UUID;
 
@@ -36,8 +37,21 @@ import dante.distribution.android.Global.Utility.Platform.CDeviceMsgSender;
 
 /** 안드로이드 플러그인 */
 public class CAndroidPlugin {
+	/** 유니티 메세지 정보 */
+	private static class CUnityMsgInfo {
+		public String m_oCmd = "";
+		public String m_oMsg = "";
+		
+		/** 생성자 */
+		public CUnityMsgInfo(String a_oCmd, String a_oMsg) {
+			m_oCmd = a_oCmd;
+			m_oMsg = a_oMsg;
+		}
+	}
+	
 	private ImageView m_oIndicatorImgView = null;
 	private RotateAnimation m_oIndicatorImgViewAni = null;
+	@SuppressLint("StaticFieldLeak") private static ArrayList<CUnityMsgInfo> m_oUnityMsgInfoList = new ArrayList<CUnityMsgInfo>();
 	@SuppressLint("StaticFieldLeak") private static CAndroidPlugin m_oInst = null;
 	
 	/** 생성자 */
@@ -87,24 +101,30 @@ public class CAndroidPlugin {
 	}
 	
 	/** 유니티 메세지를 처리한다 */
-	public static void handleUnityMsg(final String a_oCmd, final String a_oMsg) {
+	public static void handleUnityMsg(String a_oCmd, String a_oMsg) {
 		Log.d(KGDefine.TAG, String.format("CAndroidPlugin.handleUnityMsg: %s, %s", a_oCmd, a_oMsg));
+		CAndroidPlugin.m_oUnityMsgInfoList.add(new CUnityMsgInfo(a_oCmd, a_oMsg));
 		
 		// UI 쓰레드가 시작 되었을 경우
 		UnityPlayer.currentActivity.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
 				try {
-					switch(a_oCmd) {
-						case KGDefine.CMD_GET_DEVICE_ID: CAndroidPlugin.getInst().handleGetDeviceIDMsg(a_oMsg); break;
-						case KGDefine.CMD_GET_COUNTRY_CODE: CAndroidPlugin.getInst().handleGetCountryCodeMsg(a_oMsg); break;
-						case KGDefine.CMD_SHOW_ALERT: CAndroidPlugin.getInst().handleShowAlertMsg(a_oMsg); break;
-						case KGDefine.CMD_MAIL: CAndroidPlugin.getInst().handleMailMsg(a_oMsg); break;
-						case KGDefine.CMD_VIBRATE: CAndroidPlugin.getInst().handleVibrateMsg(a_oMsg); break;
-						case KGDefine.CMD_INDICATOR: CAndroidPlugin.getInst().handleIndicatorMsg(a_oMsg); break;
+					// 유니티 메세지 정보가 존재 할 경우
+					if(!CAndroidPlugin.m_oUnityMsgInfoList.isEmpty()) {
+						switch(CAndroidPlugin.m_oUnityMsgInfoList.get(KGDefine.VAL_0_INT).m_oCmd) {
+							case KGDefine.CMD_GET_DEVICE_ID: CAndroidPlugin.getInst().handleGetDeviceIDMsg(CAndroidPlugin.m_oUnityMsgInfoList.get(KGDefine.VAL_0_INT).m_oMsg); break;
+							case KGDefine.CMD_GET_COUNTRY_CODE: CAndroidPlugin.getInst().handleGetCountryCodeMsg(CAndroidPlugin.m_oUnityMsgInfoList.get(KGDefine.VAL_0_INT).m_oMsg); break;
+							case KGDefine.CMD_SHOW_ALERT: CAndroidPlugin.getInst().handleShowAlertMsg(CAndroidPlugin.m_oUnityMsgInfoList.get(KGDefine.VAL_0_INT).m_oMsg); break;
+							case KGDefine.CMD_MAIL: CAndroidPlugin.getInst().handleMailMsg(CAndroidPlugin.m_oUnityMsgInfoList.get(KGDefine.VAL_0_INT).m_oMsg); break;
+							case KGDefine.CMD_VIBRATE: CAndroidPlugin.getInst().handleVibrateMsg(CAndroidPlugin.m_oUnityMsgInfoList.get(KGDefine.VAL_0_INT).m_oMsg); break;
+							case KGDefine.CMD_INDICATOR: CAndroidPlugin.getInst().handleIndicatorMsg(CAndroidPlugin.m_oUnityMsgInfoList.get(KGDefine.VAL_0_INT).m_oMsg); break;
+						}
+						
+						CAndroidPlugin.m_oUnityMsgInfoList.remove(KGDefine.VAL_0_INT);
 					}
 				} catch(Exception oException) {
-					Log.e(KGDefine.TAG, String.format("CAndroidPlugin.handleUnityMsg Exception: %s, %s", a_oCmd, oException.getMessage()));
+					Log.e(KGDefine.TAG, String.format("CAndroidPlugin.handleUnityMsg Exception: %s", oException.getMessage()));
 					oException.printStackTrace();
 				}
 			}

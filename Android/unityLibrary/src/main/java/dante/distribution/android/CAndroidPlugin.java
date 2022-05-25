@@ -21,6 +21,7 @@ import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.unity3d.player.UnityPlayer;
 
@@ -116,6 +117,7 @@ public class CAndroidPlugin {
 							case KGDefine.CMD_GET_DEVICE_ID: CAndroidPlugin.getInst().handleGetDeviceIDMsg(CAndroidPlugin.m_oUnityMsgInfoList.get(KGDefine.VAL_0_INT).m_oMsg); break;
 							case KGDefine.CMD_GET_COUNTRY_CODE: CAndroidPlugin.getInst().handleGetCountryCodeMsg(CAndroidPlugin.m_oUnityMsgInfoList.get(KGDefine.VAL_0_INT).m_oMsg); break;
 							case KGDefine.CMD_SHOW_ALERT: CAndroidPlugin.getInst().handleShowAlertMsg(CAndroidPlugin.m_oUnityMsgInfoList.get(KGDefine.VAL_0_INT).m_oMsg); break;
+							case KGDefine.CMD_SHOW_TOAST: CAndroidPlugin.getInst().handleShowToastMsg(CAndroidPlugin.m_oUnityMsgInfoList.get(KGDefine.VAL_0_INT).m_oMsg); break;
 							case KGDefine.CMD_MAIL: CAndroidPlugin.getInst().handleMailMsg(CAndroidPlugin.m_oUnityMsgInfoList.get(KGDefine.VAL_0_INT).m_oMsg); break;
 							case KGDefine.CMD_VIBRATE: CAndroidPlugin.getInst().handleVibrateMsg(CAndroidPlugin.m_oUnityMsgInfoList.get(KGDefine.VAL_0_INT).m_oMsg); break;
 							case KGDefine.CMD_INDICATOR: CAndroidPlugin.getInst().handleIndicatorMsg(CAndroidPlugin.m_oUnityMsgInfoList.get(KGDefine.VAL_0_INT).m_oMsg); break;
@@ -170,6 +172,11 @@ public class CAndroidPlugin {
 		}
 		
 		oBuilder.create().show();
+	}
+	
+	/** 토스트 출력 메세지를 출력한다 */
+	private void handleShowToastMsg(String a_oMsg) {
+		Toast.makeText(UnityPlayer.currentActivity, a_oMsg, Toast.LENGTH_LONG).show();
 	}
 	
 	/** 메일 메세지를 처리한다 */

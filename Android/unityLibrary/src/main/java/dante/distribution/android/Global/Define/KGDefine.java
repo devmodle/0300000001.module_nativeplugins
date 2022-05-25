@@ -63,6 +63,7 @@ public abstract class KGDefine {
 	public static final String CMD_GET_COUNTRY_CODE = "GetCountryCode";
 	
 	public static final String CMD_SHOW_ALERT = "ShowAlert";
+	public static final String CMD_SHOW_TOAST = "ShowToast";
 	
 	public static final String CMD_MAIL = "Mail";
 	public static final String CMD_VIBRATE = "Vibrate";

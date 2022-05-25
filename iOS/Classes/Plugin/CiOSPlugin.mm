@@ -32,6 +32,9 @@ static CiOSPlugin *g_pInst = nil;
 /** 경고 창 출력 메세지를 처리한다 */
 - (void)handleShowAlertMsg:(NSString *)a_pMsg;
 
+/** 토스트 출력 메세지를 출력한다 */
+- (void)handleShowToastMsg:(NSString *)a_pMsg;
+
 /** 메일 메세지를 처리한다 */
 - (void)handleMailMsg:(NSString *)a_pMsg;
 
@@ -115,6 +118,7 @@ extern "C" {
 		[pMsgHandlerDict setObject:NSStringFromSelector(@selector(handleGetStoreVerMsg:)) forKey:@(G_CMD_GET_STORE_VER)];
 		[pMsgHandlerDict setObject:NSStringFromSelector(@selector(handleSetEnableAdsTrackingMsg:)) forKey:@(G_CMD_SET_ENABLE_ADS_TRACKING)];
 		[pMsgHandlerDict setObject:NSStringFromSelector(@selector(handleShowAlertMsg:)) forKey:@(G_CMD_SHOW_ALERT)];
+		[pMsgHandlerDict setObject:NSStringFromSelector(@selector(handleShowToastMsg:)) forKey:@(G_CMD_SHOW_TOAST)];
 		[pMsgHandlerDict setObject:NSStringFromSelector(@selector(handleMailMsg:)) forKey:@(G_CMD_MAIL)];
 		[pMsgHandlerDict setObject:NSStringFromSelector(@selector(handleVibrateMsg:)) forKey:@(G_CMD_VIBRATE)];
 		[pMsgHandlerDict setObject:NSStringFromSelector(@selector(handleIndicatorMsg:)) forKey:@(G_CMD_INDICATOR)];
@@ -276,6 +280,11 @@ extern "C" {
 	}
 	
 	[self.rootViewController presentViewController:pAlertController animated:YES completion:NULL];
+}
+
+/** 토스트 출력 메세지를 처리한다 */
+- (void)handleShowToastMsg:(NSString *)a_pMsg {
+	// Do Something
 }
 
 /** 메일 메세지를 처리한다 */

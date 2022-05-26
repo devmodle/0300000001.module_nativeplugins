@@ -110,9 +110,9 @@
 #define G_KEY_DEVICE_MS_RESULT			("Result")
 // 식별자 }
 
-// 이름
-#define G_OBJ_N_DEVICE_MSG_RECEIVER					("CDeviceMsgReceiver")
-#define G_FUNC_N_DEVICE_MSG_HANDLE_METHOD			("HandleDeviceMsg")
+// 디바이스 메세지 전송자
+#define G_OBJ_N_DEVICE_MS_DEVICE_MSG_RECEIVER			("CDeviceMsgReceiver")
+#define G_FUNC_N_DEVICE_MS_DEVICE_MSG_HANDLER			("HandleDeviceMsg")
 
 // 네트워크 {
 #define G_HTTP_METHOD_GET			("GET")

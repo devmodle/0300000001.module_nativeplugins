@@ -62,10 +62,14 @@ public class CDeviceMsgSender {
 	
 	/** 디바이스 메세지를 전송한다 */
 	private void sendDeviceMsg(String a_oCmd, String a_oMsg) throws Exception {
+		Log.d(KGDefine.TAG, String.format("CDeviceMsgSender.sendDeviceMsg: %s, %s", a_oCmd, a_oMsg));
 		JSONObject oJSONObj = new JSONObject();
-		oJSONObj.put(KGDefine.KEY_CMD, a_oCmd);
-		oJSONObj.put(KGDefine.KEY_MSG, a_oMsg);
 		
-		UnityPlayer.UnitySendMessage(KGDefine.OBJ_N_DEVICE_MS_DEVICE_MSG_RECEIVER, KGDefine.FUNC_N_DEVICE_MS_DEVICE_MSG_HANDLER, oJSONObj.toString());
+		try {
+			oJSONObj.put(KGDefine.KEY_CMD, a_oCmd);
+			oJSONObj.put(KGDefine.KEY_MSG, a_oMsg);
+		} finally {
+			UnityPlayer.UnitySendMessage(KGDefine.OBJ_N_DEVICE_MS_DEVICE_MSG_RECEIVER, KGDefine.FUNC_N_DEVICE_MS_DEVICE_MSG_HANDLER, oJSONObj.toString());
+		}
 	}
 }

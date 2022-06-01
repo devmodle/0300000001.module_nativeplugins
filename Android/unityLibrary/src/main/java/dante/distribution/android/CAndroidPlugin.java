@@ -147,31 +147,33 @@ public class CAndroidPlugin {
 	/** 경고 창 출력 메세지를 처리한다 */
 	private void handleShowAlertMsg(String a_oMsg) throws Exception {
 		JSONObject oJSONObj = new JSONObject(a_oMsg);
-		
 		AlertDialog.Builder oBuilder = new AlertDialog.Builder(UnityPlayer.currentActivity);
-		oBuilder.setTitle(oJSONObj.has(KGDefine.KEY_ALERT_TITLE) ? oJSONObj.getString(KGDefine.KEY_ALERT_TITLE) : null);
-		oBuilder.setMessage(oJSONObj.getString(KGDefine.KEY_ALERT_MSG));
 		
-		// 확인 버튼을 눌렀을 경우
-		oBuilder.setPositiveButton(oJSONObj.getString(KGDefine.KEY_ALERT_OK_BTN_TEXT), new DialogInterface.OnClickListener() {
-			@Override
-			public void onClick(DialogInterface a_oSender, int a_nIndex) {
-				CDeviceMsgSender.getInst().sendShowAlertMsg(true);
-			}
-		});
-		
-		// 취소 버튼 텍스트가 유효 할 경우
-		if(GFunc.isValid(oJSONObj.getString(KGDefine.KEY_ALERT_CANCEL_BTN_TEXT))) {
-			// 취소 버튼을 눌렀을 경우
-			oBuilder.setNegativeButton(oJSONObj.getString(KGDefine.KEY_ALERT_CANCEL_BTN_TEXT), new DialogInterface.OnClickListener() {
+		try {
+			oBuilder.setTitle(oJSONObj.has(KGDefine.KEY_ALERT_TITLE) ? oJSONObj.getString(KGDefine.KEY_ALERT_TITLE) : null);
+			oBuilder.setMessage(oJSONObj.getString(KGDefine.KEY_ALERT_MSG));
+			
+			// 확인 버튼을 눌렀을 경우
+			oBuilder.setPositiveButton(oJSONObj.getString(KGDefine.KEY_ALERT_OK_BTN_TEXT), new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface a_oSender, int a_nIndex) {
-					CDeviceMsgSender.getInst().sendShowAlertMsg(false);
+					CDeviceMsgSender.getInst().sendShowAlertMsg(true);
 				}
 			});
+			
+			// 취소 버튼 텍스트가 유효 할 경우
+			if(GFunc.isValid(oJSONObj.getString(KGDefine.KEY_ALERT_CANCEL_BTN_TEXT))) {
+				// 취소 버튼을 눌렀을 경우
+				oBuilder.setNegativeButton(oJSONObj.getString(KGDefine.KEY_ALERT_CANCEL_BTN_TEXT), new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface a_oSender, int a_nIndex) {
+						CDeviceMsgSender.getInst().sendShowAlertMsg(false);
+					}
+				});
+			}
+		} finally {
+			oBuilder.create().show();
 		}
-		
-		oBuilder.create().show();
 	}
 	
 	/** 토스트 출력 메세지를 출력한다 */
@@ -183,34 +185,39 @@ public class CAndroidPlugin {
 	@SuppressLint("IntentReset")
 	private void handleMailMsg(String a_oMsg) throws Exception {
 		JSONObject oJSONObj = new JSONObject(a_oMsg);
-		
 		Intent oIntent = new Intent(Intent.ACTION_SENDTO);
-		oIntent.setType(KGDefine.MAIL_TYPE);
-		oIntent.setData(Uri.parse(KGDefine.MAIL_DATA));
 		
-		oIntent.putExtra(Intent.EXTRA_EMAIL, new String[] { oJSONObj.getString(KGDefine.KEY_MAIL_RECIPIENT) });
-		oIntent.putExtra(Intent.EXTRA_SUBJECT, oJSONObj.getString(KGDefine.KEY_MAIL_TITLE));
-		oIntent.putExtra(Intent.EXTRA_TEXT, oJSONObj.getString(KGDefine.KEY_MAIL_MSG));
-		
-		UnityPlayer.currentActivity.startActivity(oIntent);
+		try {
+			oIntent.setType(KGDefine.MAIL_TYPE);
+			oIntent.setData(Uri.parse(KGDefine.MAIL_DATA));
+			oIntent.putExtra(Intent.EXTRA_EMAIL, new String[] { oJSONObj.getString(KGDefine.KEY_MAIL_RECIPIENT) });
+			oIntent.putExtra(Intent.EXTRA_SUBJECT, oJSONObj.getString(KGDefine.KEY_MAIL_TITLE));
+			oIntent.putExtra(Intent.EXTRA_TEXT, oJSONObj.getString(KGDefine.KEY_MAIL_MSG));
+		} finally {
+			UnityPlayer.currentActivity.startActivity(oIntent);
+		}
 	}
 	
 	/** 진동 메세지를 처리한다 */
 	private void handleVibrateMsg(String a_oMsg) throws Exception {
 		JSONObject oJSONObj = new JSONObject(a_oMsg);
-		
 		String oDuration = oJSONObj.getString(KGDefine.KEY_VIBRATE_DURATION);
 		String oIntensity = oJSONObj.getString(KGDefine.KEY_VIBRATE_INTENSITY);
 		
 		float fDuration = Math.abs(Float.parseFloat(oDuration));
+		float fIntensity = Math.abs(Float.parseFloat(oIntensity));
+		
 		Vibrator oVibrator = (Vibrator)UnityPlayer.currentActivity.getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
 		
-		// 햅틱 진동을 지원하지 않을 경우
-		if(Build.VERSION.SDK_INT < KGDefine.MIN_VER_FEEDBACK_GENERATOR) {
-			oVibrator.vibrate((int)(fDuration * KGDefine.UNIT_MILLI_SECS_PER_SEC));
-		} else {
-			float fIntensity = Math.abs(Float.parseFloat(oIntensity));
-			oVibrator.vibrate(VibrationEffect.createOneShot((int)(fDuration * KGDefine.UNIT_MILLI_SECS_PER_SEC), (int)(fIntensity * KGDefine.UNIT_NORM_VAL_TO_BYTE)));
+		try {
+			// Do Something
+		} finally {
+			// 햅틱 진동을 지원하지 않을 경우
+			if(Build.VERSION.SDK_INT < KGDefine.MIN_VER_FEEDBACK_GENERATOR) {
+				oVibrator.vibrate((int)(fDuration * KGDefine.UNIT_MILLI_SECS_PER_SEC));
+			} else {
+				oVibrator.vibrate(VibrationEffect.createOneShot((int)(fDuration * KGDefine.UNIT_MILLI_SECS_PER_SEC), (int)(fIntensity * KGDefine.UNIT_NORM_VAL_TO_BYTE)));
+			}
 		}
 	}
 	

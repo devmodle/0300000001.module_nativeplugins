@@ -43,6 +43,9 @@ static CiOSPlugin *g_pInst = nil;
 
 /** 인디케이터 메세지를 처리한다 */
 - (void)handleIndicatorMsg:(NSString *)a_pMsg;
+
+/** 임팩트 진동 메세지를 처리한다 */
+- (void)handleImpactVibrateMsg:(NSDictionary *)a_pDataDict withVibrateStyle:(EVibrateStyle)a_eVibrateStyle;
 @end			// CiOSPlugin (Private)
 
 extern "C" {
@@ -145,7 +148,7 @@ extern "C" {
 	if(m_pActivityIndicatorView == nil) {
 		UIActivityIndicatorViewStyle eIndicatorViewStyle = UIActivityIndicatorViewStyleWhiteLarge;
 		
-		// 신규 버전 인디케이터를 지원 할 경우
+		// 신규 인디케이터를 지원 할 경우
 		if(@available(iOS G_MIN_VER_INDICATOR, *)) {
 			eIndicatorViewStyle = UIActivityIndicatorViewStyleLarge;
 		}
@@ -160,9 +163,8 @@ extern "C" {
 		CGAffineTransform stTransform = CGAffineTransformScale(m_pActivityIndicatorView.transform, fSize / m_pActivityIndicatorView.bounds.size.width, fSize / m_pActivityIndicatorView.bounds.size.height);
 		
 		m_pActivityIndicatorView.transform = CGAffineTransformTranslate(stTransform, G_VAL_0_FLT, MIN(self.rootViewController.view.bounds.size.width, self.rootViewController.view.bounds.size.height) * -G_OFFSET_SCALE_ACTIVITY_INDICATOR);
-		// 위치를 설정한다 }
-		
 		[self.rootViewController.view addSubview:m_pActivityIndicatorView];
+		// 위치를 설정한다 }
 	}
 	
 	return m_pActivityIndicatorView;
@@ -238,8 +240,8 @@ extern "C" {
 		} else {
 			NSArray *pVerInfoList = (NSArray *)[(NSDictionary *)GFunc::ConvertJSONStrToObj([[NSString alloc] initWithData:a_pData encoding:NSUTF8StringEncoding], NULL) objectForKey:@(G_KEY_STORE_VER_RESULT)];
 			NSDictionary *pVerInfoDict = (NSDictionary *)[pVerInfoList lastObject];
-			
 			NSString *pStoreVer = (NSString *)[pVerInfoDict objectForKey:@(G_KEY_STORE_VER)];
+			
 			NSLog(@"CiOSPlugin.onHandleGetStoreVerMsg Success: %@", pStoreVer);
 			
 			// 스토어 버전이 유효 할 경우
@@ -262,15 +264,15 @@ extern "C" {
 /** 경고 창 출력 메세지를 처리한다 */
 - (void)handleShowAlertMsg:(NSString *)a_pMsg {
 	NSDictionary *pDataDict = (NSDictionary *)GFunc::ConvertJSONStrToObj(a_pMsg, NULL);
-	
-	NSString *pCancelBtnText = (NSString *)[pDataDict objectForKey:@(G_KEY_ALERT_CANCEL_BTN_TEXT)];
 	UIAlertController *pAlertController = [UIAlertController alertControllerWithTitle:(NSString *)[pDataDict objectForKey:@(G_KEY_ALERT_TITLE)] message:(NSString *)[pDataDict objectForKey:@(G_KEY_ALERT_MSG)] preferredStyle:UIAlertControllerStyleAlert];
 	
+	NSString *pCancelBtnText = (NSString *)[pDataDict objectForKey:@(G_KEY_ALERT_CANCEL_BTN_TEXT)];
+
 	// 확인 버튼을 눌렀을 경우
 	[pAlertController addAction:[UIAlertAction actionWithTitle:(NSString *)[pDataDict objectForKey:@(G_KEY_ALERT_OK_BTN_TEXT)] style:UIAlertActionStyleDefault handler:^void(UIAlertAction *a_pSender) {
 		[CDeviceMsgSender.sharedInst sendShowAlertMsg:YES];
 	}]];
-	
+
 	// 취소 버튼 텍스트가 유효 할 경우
 	if(GFunc::IsValid(pCancelBtnText)) {
 		// 취소 버튼을 눌렀을 경우
@@ -303,9 +305,9 @@ extern "C" {
 		[self.rootViewController presentViewController:pMailViewController animated:YES completion:NULL];
 	} else {
 		NSString *pTitle = [(NSString *)[pDataDict objectForKey:@(G_KEY_MAIL_TITLE)] stringByAddingPercentEncodingWithAllowedCharacters:NSCharacterSet.URLUserAllowedCharacterSet];
-		NSString *pMsg = [(NSString *)[pDataDict objectForKey:@(G_KEY_MAIL_MSG)] stringByAddingPercentEncodingWithAllowedCharacters:NSCharacterSet.URLUserAllowedCharacterSet];
-		
+		NSString *pMsg = [(NSString *)[pDataDict objectForKey:@(G_KEY_MAIL_MSG)] stringByAddingPercentEncodingWithAllowedCharacters:NSCharacterSet.URLUserAllowedCharacterSet];		
 		NSString *pURL = [NSString stringWithFormat:@(G_URL_FMT_MAIL), (NSString *)[pDataDict objectForKey:@(G_KEY_MAIL_RECIPIENT)], pTitle, pMsg, nil];
+		
 		[UIApplication.sharedApplication openURL:[NSURL URLWithString:pURL] options:G_EMPTY_DICT completionHandler:nil];
 	}
 }
@@ -322,23 +324,9 @@ extern "C" {
 		// 햅틱 진동을 지원 할 경우
 		if(@available(iOS G_MIN_VER_FEEDBACK_GENERATOR, *)) {
 			switch(eVibrateType) {
-				case EVibrateType::SELECTION: {
-					[self.selectionGenerator selectionChanged];
-				} break;
-				case EVibrateType::NOTIFICATION: {
-					[self.notificationGenerator notificationOccurred:(UINotificationFeedbackType)eVibrateStyle];
-				} break;
-				case EVibrateType::IMPACT: {
-					float fIntensity = ((NSString *)[pDataDict objectForKey:@(G_KEY_VIBRATE_INTENSITY)]).floatValue;
-					UIImpactFeedbackGenerator *pImpactGenerator = (UIImpactFeedbackGenerator *)[self.impactGeneratorList objectAtIndex:(UIImpactFeedbackStyle)eVibrateStyle];
-					
-					// 진동 세기를 지원 할 경우
-					if(@available(iOS G_MIN_VER_IMPACT_INTENSITY, *)) {
-						[pImpactGenerator impactOccurredWithIntensity:fIntensity];
-					} else {
-						[pImpactGenerator impactOccurred];
-					}
-				} break;
+				case EVibrateType::SELECTION: [self.selectionGenerator selectionChanged]; break;
+				case EVibrateType::NOTIFICATION: [self.notificationGenerator notificationOccurred:(UINotificationFeedbackType)eVibrateStyle]; break;
+				case EVibrateType::IMPACT: [self handleImpactVibrateMsg:pDataDict withVibrateStyle:eVibrateStyle]; break;
 			}
 		} else {
 			AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
@@ -353,6 +341,19 @@ extern "C" {
 		[self.activityIndicatorView startAnimating];
 	} else {
 		[self.activityIndicatorView stopAnimating];
+	}
+}
+
+/** 임팩트 진동 메세지를 처리한다 */
+- (void)handleImpactVibrateMsg:(NSDictionary *)a_pDataDict withVibrateStyle:(EVibrateStyle)a_eVibrateStyle {
+	float fIntensity = ((NSString *)[a_pDataDict objectForKey:@(G_KEY_VIBRATE_INTENSITY)]).floatValue;
+	UIImpactFeedbackGenerator *pImpactGenerator = (UIImpactFeedbackGenerator *)[self.impactGeneratorList objectAtIndex:(UIImpactFeedbackStyle)a_eVibrateStyle];
+	
+	// 진동 세기를 지원 할 경우
+	if(@available(iOS G_MIN_VER_IMPACT_INTENSITY, *)) {
+		[pImpactGenerator impactOccurredWithIntensity:fIntensity];
+	} else {
+		[pImpactGenerator impactOccurred];
 	}
 }
 

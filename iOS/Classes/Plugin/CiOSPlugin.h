@@ -15,6 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 /** iOS 플러그인 */
 @interface CiOSPlugin : NSObject <MFMailComposeViewControllerDelegate> {
 	NSArray *m_pImpactGeneratorList;
+	NSMutableArray *m_pUnityMsgInfoList;
 	NSDictionary *m_pUnityMsgHandlerDict;
 	
 	KeychainItemWrapper *m_pKeychainItemWrapper;
@@ -27,6 +28,7 @@ NS_ASSUME_NONNULL_BEGIN
 // 프로퍼티 {
 @property (nonatomic, copy, readonly) NSString *deviceID;
 @property (nonatomic, strong, readonly) NSArray *impactGeneratorList;
+@property (nonatomic, strong, readonly) NSMutableArray *unityMsgInfoList;
 @property (nonatomic, strong, readonly) NSDictionary *unityMsgHandlerDict;
 
 @property (nonatomic, strong, readonly) KeychainItemWrapper *keychainItemWrapper;

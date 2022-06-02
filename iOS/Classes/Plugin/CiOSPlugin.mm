@@ -12,6 +12,34 @@
 /** 전역 변수 */
 static CiOSPlugin *g_pInst = nil;
 
+/** 유니티 메세지 정보 */
+@interface CUnityMsgInfo : NSObject {
+	// Do Something
+}
+
+// 프로퍼티
+@property (nonatomic, copy) NSString *unityCmd;
+@property (nonatomic, copy) NSString *unityMsg;
+
+/** 초기화 */
+- (id)init:(NSString *)a_pCmd withMsg:(NSString *)a_pMsg;
+@end			// CUnityMsgInfo
+
+/** 유니티 메세지 정보 */
+@implementation CUnityMsgInfo
+#pragma mark - 인스턴스 메서드
+/** 초기화 */
+- (id)init:(NSString *)a_pCmd withMsg:(NSString *)a_pMsg {
+	/** 초기화 되었을 경우 */
+	if(self = [super init]) {
+		self.unityCmd = a_pCmd;
+		self.unityMsg = a_pMsg;
+	}
+	
+	return self;
+}
+@end			// CUnityMsgInfo
+
 /** iOS 플러그인 - Private */
 @interface CiOSPlugin (Private) {
 	// Do Something
@@ -52,19 +80,27 @@ extern "C" {
 	/** 유니티 메세지를 처리한다 */
 	void HandleUnityMsg(const char *a_pszCmd, const char *a_pszMsg) {
 		NSLog(@"CiOSPlugin.HandleUnityMsg: %@, %@", @(a_pszCmd), @(a_pszMsg));
+		[CiOSPlugin.sharedInst.unityMsgInfoList addObject:[[CUnityMsgInfo alloc] init:@(a_pszCmd) withMsg:@(a_pszMsg)]];
 		
-		NSString *pMsg = @(a_pszMsg);
-		NSString *pSelectorName = (NSString *)[CiOSPlugin.sharedInst.unityMsgHandlerDict objectForKey:@(a_pszCmd)];
-		
-		// 유니티 메세지 처리자가 존재 할 경우
-		if(GFunc::IsValid(pSelectorName)) {
-			SEL pSelector = NSSelectorFromString(pSelectorName);
+		while(CiOSPlugin.sharedInst.unityMsgInfoList.count > G_VAL_0_INT) {
+			CUnityMsgInfo *pUnityMsgInfo = (CUnityMsgInfo *)[CiOSPlugin.sharedInst.unityMsgInfoList objectAtIndex:G_VAL_0_INT];
 			
-			NSInvocation *pInvocation = [NSInvocation invocationWithMethodSignature:[CiOSPlugin.sharedInst methodSignatureForSelector:pSelector]];
-			pInvocation.selector = pSelector;
-			
-			[pInvocation setArgument:&pMsg atIndex:G_VAL_2_INT];
-			[pInvocation invokeWithTarget:CiOSPlugin.sharedInst];
+			// 유니티 메세지 정보가 존재 할 경우
+			if(pUnityMsgInfo != nil) {
+				NSString *pMsg = pUnityMsgInfo.unityMsg;
+				NSString *pSelectorName = (NSString *)[CiOSPlugin.sharedInst.unityMsgHandlerDict objectForKey:pUnityMsgInfo.unityCmd];
+				
+				// 유니티 메세지 처리자가 존재 할 경우
+				if(GFunc::IsValid(pSelectorName)) {
+					NSInvocation *pInvocation = [NSInvocation invocationWithMethodSignature:[CiOSPlugin.sharedInst methodSignatureForSelector:NSSelectorFromString(pSelectorName)]];
+					pInvocation.selector = NSSelectorFromString(pSelectorName);
+					
+					[pInvocation setArgument:&pMsg atIndex:G_VAL_2_INT];
+					[pInvocation invokeWithTarget:CiOSPlugin.sharedInst];
+				}
+			}
+				
+			[CiOSPlugin.sharedInst.unityMsgInfoList removeObjectAtIndex:G_VAL_0_INT];
 		}
 	}
 }
@@ -72,11 +108,12 @@ extern "C" {
 /** iOS 플러그인 */
 @implementation CiOSPlugin
 #pragma mark - 프로퍼티
+@synthesize impactGeneratorList = m_pImpactGeneratorList;
+@synthesize unityMsgInfoList = m_pUnityMsgInfoList;
+@synthesize unityMsgHandlerDict = m_pUnityMsgHandlerDict;
+
 @synthesize keychainItemWrapper = m_pKeychainItemWrapper;
 @synthesize activityIndicatorView = m_pActivityIndicatorView;
-
-@synthesize impactGeneratorList = m_pImpactGeneratorList;
-@synthesize unityMsgHandlerDict = m_pUnityMsgHandlerDict;
 
 @synthesize selectionGenerator = m_pSelectionGenerator;
 @synthesize notificationGenerator = m_pNotificationGenerator;
@@ -109,6 +146,16 @@ extern "C" {
 	}
 	
 	return (NSString *)[self.keychainItemWrapper objectForKey:(__bridge id)kSecAttrAccount];
+}
+
+/** 유니티 메세지 정보를 반환한다 */
+- (NSMutableArray *)unityMsgInfoList {
+	// 유니티 메세지 정보가 없을 경우
+	if(m_pUnityMsgInfoList == nil) {
+		m_pUnityMsgInfoList = [[NSMutableArray alloc] init];
+	}
+	
+	return m_pUnityMsgInfoList;
 }
 
 /** 유니티 메세지 처리자를 반환한다 */

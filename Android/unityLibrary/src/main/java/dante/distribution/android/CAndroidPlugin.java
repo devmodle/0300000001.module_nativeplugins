@@ -52,8 +52,8 @@ public class CAndroidPlugin {
 	
 	private ImageView m_oIndicatorImgView = null;
 	private RotateAnimation m_oIndicatorImgViewAni = null;
-	@SuppressLint("StaticFieldLeak") private static ArrayList<CUnityMsgInfo> m_oUnityMsgInfoList = new ArrayList<CUnityMsgInfo>();
 	@SuppressLint("StaticFieldLeak") private static CAndroidPlugin m_oInst = null;
+	@SuppressLint("StaticFieldLeak") private static ArrayList<CUnityMsgInfo> m_oUnityMsgInfoList = new ArrayList<CUnityMsgInfo>();
 	
 	/** 생성자 */
 	private CAndroidPlugin() {
@@ -111,16 +111,20 @@ public class CAndroidPlugin {
 			@Override
 			public void run() {
 				try {
-					// 유니티 메세지 정보가 존재 할 경우
-					if(!CAndroidPlugin.m_oUnityMsgInfoList.isEmpty()) {
-						switch(CAndroidPlugin.m_oUnityMsgInfoList.get(KGDefine.VAL_0_INT).m_oCmd) {
-							case KGDefine.CMD_GET_DEVICE_ID: CAndroidPlugin.getInst().handleGetDeviceIDMsg(CAndroidPlugin.m_oUnityMsgInfoList.get(KGDefine.VAL_0_INT).m_oMsg); break;
-							case KGDefine.CMD_GET_COUNTRY_CODE: CAndroidPlugin.getInst().handleGetCountryCodeMsg(CAndroidPlugin.m_oUnityMsgInfoList.get(KGDefine.VAL_0_INT).m_oMsg); break;
-							case KGDefine.CMD_SHOW_ALERT: CAndroidPlugin.getInst().handleShowAlertMsg(CAndroidPlugin.m_oUnityMsgInfoList.get(KGDefine.VAL_0_INT).m_oMsg); break;
-							case KGDefine.CMD_SHOW_TOAST: CAndroidPlugin.getInst().handleShowToastMsg(CAndroidPlugin.m_oUnityMsgInfoList.get(KGDefine.VAL_0_INT).m_oMsg); break;
-							case KGDefine.CMD_MAIL: CAndroidPlugin.getInst().handleMailMsg(CAndroidPlugin.m_oUnityMsgInfoList.get(KGDefine.VAL_0_INT).m_oMsg); break;
-							case KGDefine.CMD_VIBRATE: CAndroidPlugin.getInst().handleVibrateMsg(CAndroidPlugin.m_oUnityMsgInfoList.get(KGDefine.VAL_0_INT).m_oMsg); break;
-							case KGDefine.CMD_INDICATOR: CAndroidPlugin.getInst().handleIndicatorMsg(CAndroidPlugin.m_oUnityMsgInfoList.get(KGDefine.VAL_0_INT).m_oMsg); break;
+					while(!CAndroidPlugin.m_oUnityMsgInfoList.isEmpty()) {
+						CUnityMsgInfo oUnityMsgInfo = CAndroidPlugin.m_oUnityMsgInfoList.get(KGDefine.VAL_0_INT);
+						
+						// 유니티 메세지 정보가 존재 할 경우
+						if(oUnityMsgInfo != null) {
+							switch(oUnityMsgInfo.m_oCmd) {
+								case KGDefine.CMD_GET_DEVICE_ID: CAndroidPlugin.getInst().handleGetDeviceIDMsg(oUnityMsgInfo.m_oMsg); break;
+								case KGDefine.CMD_GET_COUNTRY_CODE: CAndroidPlugin.getInst().handleGetCountryCodeMsg(oUnityMsgInfo.m_oMsg); break;
+								case KGDefine.CMD_SHOW_ALERT: CAndroidPlugin.getInst().handleShowAlertMsg(oUnityMsgInfo.m_oMsg); break;
+								case KGDefine.CMD_SHOW_TOAST: CAndroidPlugin.getInst().handleShowToastMsg(oUnityMsgInfo.m_oMsg); break;
+								case KGDefine.CMD_MAIL: CAndroidPlugin.getInst().handleMailMsg(oUnityMsgInfo.m_oMsg); break;
+								case KGDefine.CMD_VIBRATE: CAndroidPlugin.getInst().handleVibrateMsg(oUnityMsgInfo.m_oMsg); break;
+								case KGDefine.CMD_INDICATOR: CAndroidPlugin.getInst().handleIndicatorMsg(oUnityMsgInfo.m_oMsg); break;
+							}
 						}
 						
 						CAndroidPlugin.m_oUnityMsgInfoList.remove(KGDefine.VAL_0_INT);
@@ -147,12 +151,12 @@ public class CAndroidPlugin {
 	/** 경고 창 출력 메세지를 처리한다 */
 	private void handleShowAlertMsg(String a_oMsg) throws Exception {
 		JSONObject oJSONObj = new JSONObject(a_oMsg);
+		
 		AlertDialog.Builder oBuilder = new AlertDialog.Builder(UnityPlayer.currentActivity);
+		oBuilder.setTitle(oJSONObj.has(KGDefine.KEY_ALERT_TITLE) ? oJSONObj.getString(KGDefine.KEY_ALERT_TITLE) : null);
+		oBuilder.setMessage(oJSONObj.getString(KGDefine.KEY_ALERT_MSG));
 		
 		try {
-			oBuilder.setTitle(oJSONObj.has(KGDefine.KEY_ALERT_TITLE) ? oJSONObj.getString(KGDefine.KEY_ALERT_TITLE) : null);
-			oBuilder.setMessage(oJSONObj.getString(KGDefine.KEY_ALERT_MSG));
-			
 			// 확인 버튼을 눌렀을 경우
 			oBuilder.setPositiveButton(oJSONObj.getString(KGDefine.KEY_ALERT_OK_BTN_TEXT), new DialogInterface.OnClickListener() {
 				@Override
@@ -185,11 +189,12 @@ public class CAndroidPlugin {
 	@SuppressLint("IntentReset")
 	private void handleMailMsg(String a_oMsg) throws Exception {
 		JSONObject oJSONObj = new JSONObject(a_oMsg);
+		
 		Intent oIntent = new Intent(Intent.ACTION_SENDTO);
+		oIntent.setType(KGDefine.MAIL_TYPE);
+		oIntent.setData(Uri.parse(KGDefine.MAIL_DATA));
 		
 		try {
-			oIntent.setType(KGDefine.MAIL_TYPE);
-			oIntent.setData(Uri.parse(KGDefine.MAIL_DATA));
 			oIntent.putExtra(Intent.EXTRA_EMAIL, new String[] { oJSONObj.getString(KGDefine.KEY_MAIL_RECIPIENT) });
 			oIntent.putExtra(Intent.EXTRA_SUBJECT, oJSONObj.getString(KGDefine.KEY_MAIL_TITLE));
 			oIntent.putExtra(Intent.EXTRA_TEXT, oJSONObj.getString(KGDefine.KEY_MAIL_MSG));
@@ -201,23 +206,24 @@ public class CAndroidPlugin {
 	/** 진동 메세지를 처리한다 */
 	private void handleVibrateMsg(String a_oMsg) throws Exception {
 		JSONObject oJSONObj = new JSONObject(a_oMsg);
+		
 		String oDuration = oJSONObj.getString(KGDefine.KEY_VIBRATE_DURATION);
 		String oIntensity = oJSONObj.getString(KGDefine.KEY_VIBRATE_INTENSITY);
 		
 		float fDuration = Math.abs(Float.parseFloat(oDuration));
 		float fIntensity = Math.abs(Float.parseFloat(oIntensity));
 		
-		Vibrator oVibrator = (Vibrator)UnityPlayer.currentActivity.getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
-		
 		try {
-			// Do Something
-		} finally {
+			Vibrator oVibrator = (Vibrator)UnityPlayer.currentActivity.getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
+			
 			// 햅틱 진동을 지원하지 않을 경우
 			if(Build.VERSION.SDK_INT < KGDefine.MIN_VER_FEEDBACK_GENERATOR) {
 				oVibrator.vibrate((int)(fDuration * KGDefine.UNIT_MILLI_SECS_PER_SEC));
 			} else {
 				oVibrator.vibrate(VibrationEffect.createOneShot((int)(fDuration * KGDefine.UNIT_MILLI_SECS_PER_SEC), (int)(fIntensity * KGDefine.UNIT_NORM_VAL_TO_BYTE)));
 			}
+		} finally {
+			// Do Something
 		}
 	}
 	

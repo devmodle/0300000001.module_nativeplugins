@@ -25,16 +25,16 @@ public abstract class KGDefine {
 	public static final int VAL_8_INT = 8;
 	public static final int VAL_9_INT = 9;
 	
-	public static final float VAL_0_FLT = 0.0f;
-	public static final float VAL_1_FLT = 1.0f;
-	public static final float VAL_2_FLT = 2.0f;
-	public static final float VAL_3_FLT = 3.0f;
-	public static final float VAL_4_FLT = 4.0f;
-	public static final float VAL_5_FLT = 5.0f;
-	public static final float VAL_6_FLT = 6.0f;
-	public static final float VAL_7_FLT = 7.0f;
-	public static final float VAL_8_FLT = 8.0f;
-	public static final float VAL_9_FLT = 9.0f;
+	public static final float VAL_0_REAL = 0.0f;
+	public static final float VAL_1_REAL = 1.0f;
+	public static final float VAL_2_REAL = 2.0f;
+	public static final float VAL_3_REAL = 3.0f;
+	public static final float VAL_4_REAL = 4.0f;
+	public static final float VAL_5_REAL = 5.0f;
+	public static final float VAL_6_REAL = 6.0f;
+	public static final float VAL_7_REAL = 7.0f;
+	public static final float VAL_8_REAL = 8.0f;
+	public static final float VAL_9_REAL = 9.0f;
 	// 값 }
 	
 	// 회전

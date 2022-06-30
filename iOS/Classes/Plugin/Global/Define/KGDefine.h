@@ -40,16 +40,16 @@
 #define G_VAL_8_INT			(8)
 #define G_VAL_9_INT			(9)
 
-#define G_VAL_0_FLT			(0.0f)
-#define G_VAL_1_FLT			(1.0f)
-#define G_VAL_2_FLT			(2.0f)
-#define G_VAL_3_FLT			(3.0f)
-#define G_VAL_4_FLT			(4.0f)
-#define G_VAL_5_FLT			(5.0f)
-#define G_VAL_6_FLT			(6.0f)
-#define G_VAL_7_FLT			(7.0f)
-#define G_VAL_8_FLT			(8.0f)
-#define G_VAL_9_FLT			(9.0f)
+#define G_VAL_0_REAL			(0.0f)
+#define G_VAL_1_REAL			(1.0f)
+#define G_VAL_2_REAL			(2.0f)
+#define G_VAL_3_REAL			(3.0f)
+#define G_VAL_4_REAL			(4.0f)
+#define G_VAL_5_REAL			(5.0f)
+#define G_VAL_6_REAL			(6.0f)
+#define G_VAL_7_REAL			(7.0f)
+#define G_VAL_8_REAL			(8.0f)
+#define G_VAL_9_REAL			(9.0f)
 // 값 }
 
 // 결과

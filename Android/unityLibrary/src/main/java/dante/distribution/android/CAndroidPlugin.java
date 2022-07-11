@@ -113,6 +113,7 @@ public class CAndroidPlugin {
 			public void run() {
 				try {
 					while(!CAndroidPlugin.m_oUnityMsgInfoList.isEmpty()) {
+						Log.d(KGDefine.TAG, String.format("CAndroidPlugin.runOnUiThread: %d", CAndroidPlugin.m_oUnityMsgInfoList.size()));
 						CUnityMsgInfo oUnityMsgInfo = CAndroidPlugin.m_oUnityMsgInfoList.get(KGDefine.VAL_0_INT);
 						
 						// 유니티 메세지 정보가 존재 할 경우

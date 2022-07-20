@@ -52,7 +52,6 @@ public class CAndroidPlugin {
 	
 	private ImageView m_oIndicatorImgView = null;
 	private RotateAnimation m_oIndicatorImgViewAni = null;
-	
 	@SuppressLint("StaticFieldLeak") private static CAndroidPlugin m_oInst = null;
 	@SuppressLint("StaticFieldLeak") private static ArrayList<CUnityMsgInfo> m_oUnityMsgInfoList = new ArrayList<CUnityMsgInfo>();
 	

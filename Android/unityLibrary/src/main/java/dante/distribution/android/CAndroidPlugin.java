@@ -40,8 +40,8 @@ import dante.distribution.android.Global.Utility.Platform.CDeviceMsgSender;
 public class CAndroidPlugin {
 	/** 유니티 메세지 정보 */
 	private static class CUnityMsgInfo {
-		public String m_oCmd = "";
-		public String m_oMsg = "";
+		private String m_oCmd = "";
+		private String m_oMsg = "";
 		
 		/** 생성자 */
 		public CUnityMsgInfo(String a_oCmd, String a_oMsg) {

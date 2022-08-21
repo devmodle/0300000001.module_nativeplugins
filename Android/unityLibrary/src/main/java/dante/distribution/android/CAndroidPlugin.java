@@ -101,9 +101,9 @@ public class CAndroidPlugin {
 		return CAndroidPlugin.m_oInst;
 	}
 	
-	/** 유니티 메세지를 처리한다 */
-	public static void handleUnityMsg(String a_oCmd, String a_oMsg) {
-		Log.d(KGDefine.TAG, String.format("CAndroidPlugin.handleUnityMsg: %s, %s", a_oCmd, a_oMsg));
+	/** 유니티 메세지를 수신했을 경우 */
+	public static void onReceiveUnityMsg(String a_oCmd, String a_oMsg) {
+		Log.d(KGDefine.TAG, String.format("CAndroidPlugin.onReceiveUnityMsg: %s, %s", a_oCmd, a_oMsg));
 		CAndroidPlugin.m_oUnityMsgInfoList.add(new CUnityMsgInfo(a_oCmd, a_oMsg));
 		
 		// UI 쓰레드가 시작 되었을 경우
@@ -118,39 +118,39 @@ public class CAndroidPlugin {
 						// 유니티 메세지 정보가 존재 할 경우
 						if(oUnityMsgInfo != null) {
 							switch(oUnityMsgInfo.m_oCmd) {
-								case KGDefine.CMD_GET_DEVICE_ID: CAndroidPlugin.getInst().handleGetDeviceIDMsg(oUnityMsgInfo.m_oMsg); break;
-								case KGDefine.CMD_GET_COUNTRY_CODE: CAndroidPlugin.getInst().handleGetCountryCodeMsg(oUnityMsgInfo.m_oMsg); break;
-								case KGDefine.CMD_SHOW_ALERT: CAndroidPlugin.getInst().handleShowAlertMsg(oUnityMsgInfo.m_oMsg); break;
-								case KGDefine.CMD_SHOW_TOAST: CAndroidPlugin.getInst().handleShowToastMsg(oUnityMsgInfo.m_oMsg); break;
-								case KGDefine.CMD_MAIL: CAndroidPlugin.getInst().handleMailMsg(oUnityMsgInfo.m_oMsg); break;
-								case KGDefine.CMD_VIBRATE: CAndroidPlugin.getInst().handleVibrateMsg(oUnityMsgInfo.m_oMsg); break;
-								case KGDefine.CMD_INDICATOR: CAndroidPlugin.getInst().handleIndicatorMsg(oUnityMsgInfo.m_oMsg); break;
+								case KGDefine.CMD_GET_DEVICE_ID: CAndroidPlugin.getInst().onReceiveGetDeviceIDMsg(oUnityMsgInfo.m_oMsg); break;
+								case KGDefine.CMD_GET_COUNTRY_CODE: CAndroidPlugin.getInst().onReceiveGetCountryCodeMsg(oUnityMsgInfo.m_oMsg); break;
+								case KGDefine.CMD_SHOW_ALERT: CAndroidPlugin.getInst().onReceiveShowAlertMsg(oUnityMsgInfo.m_oMsg); break;
+								case KGDefine.CMD_SHOW_TOAST: CAndroidPlugin.getInst().onReceiveShowToastMsg(oUnityMsgInfo.m_oMsg); break;
+								case KGDefine.CMD_MAIL: CAndroidPlugin.getInst().onReceiveMailMsg(oUnityMsgInfo.m_oMsg); break;
+								case KGDefine.CMD_VIBRATE: CAndroidPlugin.getInst().onReceiveVibrateMsg(oUnityMsgInfo.m_oMsg); break;
+								case KGDefine.CMD_INDICATOR: CAndroidPlugin.getInst().onReceiveIndicatorMsg(oUnityMsgInfo.m_oMsg); break;
 							}
 						}
 						
 						CAndroidPlugin.m_oUnityMsgInfoList.remove(KGDefine.VAL_0_INT);
 					}
 				} catch(Exception oException) {
-					Log.e(KGDefine.TAG, String.format("CAndroidPlugin.handleUnityMsg Exception: %s", oException.getMessage()));
+					Log.e(KGDefine.TAG, String.format("CAndroidPlugin.onReceiveUnityMsg Exception: %s", oException.getMessage()));
 					oException.printStackTrace();
 				}
 			}
 		});
 	}
 	
-	/** 디바이스 식별자 반환 메세지를 처리한다 */
-	private void handleGetDeviceIDMsg(String a_oMsg) {
+	/** 디바이스 식별자 반환 메세지를 수신했을 경우 */
+	private void onReceiveGetDeviceIDMsg(String a_oMsg) {
 		@SuppressLint("HardwareIds") String oDeviceID = Settings.Secure.getString(UnityPlayer.currentActivity.getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
 		CDeviceMsgSender.getInst().sendGetDeviceIDMsg((oDeviceID.equals(KGDefine.INVALID_ANDROID_ID) ? UUID.randomUUID() : UUID.nameUUIDFromBytes(oDeviceID.getBytes(StandardCharsets.UTF_8))).toString());
 	}
 	
-	/** 국가 코드 반환 메세지를 처리한다 */
-	private void handleGetCountryCodeMsg(String a_oMsg) {
+	/** 국가 코드 반환 메세지를 수신했을 경우 */
+	private void onReceiveGetCountryCodeMsg(String a_oMsg) {
 		CDeviceMsgSender.getInst().sendGetCountryCodeMsg(Locale.getDefault().getCountry());
 	}
 	
-	/** 경고 창 출력 메세지를 처리한다 */
-	private void handleShowAlertMsg(String a_oMsg) throws Exception {
+	/** 경고 창 출력 메세지를 수신했을 경우 */
+	private void onReceiveShowAlertMsg(String a_oMsg) throws Exception {
 		JSONObject oJSONObj = new JSONObject(a_oMsg);
 		
 		AlertDialog.Builder oBuilder = new AlertDialog.Builder(UnityPlayer.currentActivity);
@@ -180,13 +180,13 @@ public class CAndroidPlugin {
 	}
 	
 	/** 토스트 출력 메세지를 출력한다 */
-	private void handleShowToastMsg(String a_oMsg) {
+	private void onReceiveShowToastMsg(String a_oMsg) {
 		Toast.makeText(UnityPlayer.currentActivity, a_oMsg, Toast.LENGTH_LONG).show();
 	}
 	
-	/** 메일 메세지를 처리한다 */
+	/** 메일 메세지를 수신했을 경우 */
 	@SuppressLint("IntentReset")
-	private void handleMailMsg(String a_oMsg) throws Exception {
+	private void onReceiveMailMsg(String a_oMsg) throws Exception {
 		JSONObject oJSONObj = new JSONObject(a_oMsg);
 		
 		Intent oIntent = new Intent(Intent.ACTION_SENDTO);
@@ -199,8 +199,8 @@ public class CAndroidPlugin {
 		UnityPlayer.currentActivity.startActivity(oIntent);
 	}
 	
-	/** 진동 메세지를 처리한다 */
-	private void handleVibrateMsg(String a_oMsg) throws Exception {
+	/** 진동 메세지를 수신했을 경우 */
+	private void onReceiveVibrateMsg(String a_oMsg) throws Exception {
 		JSONObject oJSONObj = new JSONObject(a_oMsg);
 		Vibrator oVibrator = (Vibrator)UnityPlayer.currentActivity.getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
 		
@@ -218,8 +218,8 @@ public class CAndroidPlugin {
 		}
 	}
 	
-	/** 인디케이터 메세지를 처리한다 */
-	private void handleIndicatorMsg(String a_oMsg) {
+	/** 인디케이터 메세지를 수신했을 경우 */
+	private void onReceiveIndicatorMsg(String a_oMsg) {
 		// 출력 모드 일 경우
 		if(GFunc.convertStrToBool(a_oMsg)) {
 			m_oIndicatorImgView.startAnimation(m_oIndicatorImgViewAni);

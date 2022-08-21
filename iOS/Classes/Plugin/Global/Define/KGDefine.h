@@ -112,7 +112,7 @@
 
 // 디바이스 메세지 전송자
 #define G_OBJ_N_DEVICE_MS_DEVICE_MSG_RECEIVER			("CDeviceMsgReceiver")
-#define G_FUNC_N_DEVICE_MS_DEVICE_MSG_HANDLER			("HandleDeviceMsg")
+#define G_FUNC_N_DEVICE_MS_DEVICE_MSG_HANDLER			("OnReceiveDeviceMsg")
 
 // 네트워크 {
 #define G_HTTP_METHOD_GET			("GET")

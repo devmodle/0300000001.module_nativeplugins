@@ -45,41 +45,41 @@ static CiOSPlugin *g_pInst = nil;
 	// Do Something
 }
 
-/** 디바이스 식별자 반환 메세지를 처리한다 */
-- (void)handleGetDeviceIDMsg:(NSString *)a_pMsg;
+/** 디바이스 식별자 반환 메세지를 수신했을 경우 */
+- (void)onReceiveGetDeviceIDMsg:(NSString *)a_pMsg;
 
-/** 국가 코드 반환 메세지를 처리한다 */
-- (void)handleGetCountryCodeMsg:(NSString *)a_pMsg;
+/** 국가 코드 반환 메세지를 수신했을 경우 */
+- (void)onReceiveGetCountryCodeMsg:(NSString *)a_pMsg;
 
-/** 스토어 버전 반환 메세지를 처리한다 */
-- (void)handleGetStoreVerMsg:(NSString *)a_pMsg;
+/** 스토어 버전 반환 메세지를 수신했을 경우 */
+- (void)onReceiveGetStoreVerMsg:(NSString *)a_pMsg;
 
-/** 광고 추적 여부 변경 메세지를 처리한다 */
-- (void)handleSetEnableAdsTrackingMsg:(NSString *)a_pMsg;
+/** 광고 추적 여부 변경 메세지를 수신했을 경우 */
+- (void)onReceiveSetEnableAdsTrackingMsg:(NSString *)a_pMsg;
 
-/** 경고 창 출력 메세지를 처리한다 */
-- (void)handleShowAlertMsg:(NSString *)a_pMsg;
+/** 경고 창 출력 메세지를 수신했을 경우 */
+- (void)onReceiveShowAlertMsg:(NSString *)a_pMsg;
 
 /** 토스트 출력 메세지를 출력한다 */
-- (void)handleShowToastMsg:(NSString *)a_pMsg;
+- (void)onReceiveShowToastMsg:(NSString *)a_pMsg;
 
-/** 메일 메세지를 처리한다 */
-- (void)handleMailMsg:(NSString *)a_pMsg;
+/** 메일 메세지를 수신했을 경우 */
+- (void)onReceiveMailMsg:(NSString *)a_pMsg;
 
-/** 진동 메세지를 처리한다 */
-- (void)handleVibrateMsg:(NSString *)a_pMsg;
+/** 진동 메세지를 수신했을 경우 */
+- (void)onReceiveVibrateMsg:(NSString *)a_pMsg;
 
-/** 인디케이터 메세지를 처리한다 */
-- (void)handleIndicatorMsg:(NSString *)a_pMsg;
+/** 인디케이터 메세지를 수신했을 경우 */
+- (void)onReceiveIndicatorMsg:(NSString *)a_pMsg;
 
-/** 임팩트 진동 메세지를 처리한다 */
-- (void)handleImpactVibrateMsg:(NSDictionary *)a_pDataDict withVibrateStyle:(EVibrateStyle)a_eVibrateStyle;
+/** 임팩트 진동 메세지를 수신했을 경우 */
+- (void)onReceiveImpactVibrateMsg:(NSDictionary *)a_pDataDict withVibrateStyle:(EVibrateStyle)a_eVibrateStyle;
 @end			// CiOSPlugin (Private)
 
 extern "C" {
-	/** 유니티 메세지를 처리한다 */
-	void HandleUnityMsg(const char *a_pszCmd, const char *a_pszMsg) {
-		NSLog(@"CiOSPlugin.HandleUnityMsg: %@, %@", @(a_pszCmd), @(a_pszMsg));
+	/** 유니티 메세지를 수신했을 경우 */
+	void OnReceiveUnityMsg(const char *a_pszCmd, const char *a_pszMsg) {
+		NSLog(@"CiOSPlugin.OnReceiveUnityMsg: %@, %@", @(a_pszCmd), @(a_pszMsg));
 		[CiOSPlugin.sharedInst.unityMsgInfoList addObject:[[CUnityMsgInfo alloc] init:@(a_pszCmd) withMsg:@(a_pszMsg)]];
 		
 		while(CiOSPlugin.sharedInst.unityMsgInfoList.count > G_VAL_0_INT) {
@@ -163,15 +163,15 @@ extern "C" {
 	// 유니티 메세지 처리자가 없을 경우
 	if(m_pUnityMsgHandlerDict == nil) {
 		NSMutableDictionary *pMsgHandlerDict = [[NSMutableDictionary alloc] init];
-		[pMsgHandlerDict setObject:NSStringFromSelector(@selector(handleGetDeviceIDMsg:)) forKey:@(G_CMD_GET_DEVICE_ID)];
-		[pMsgHandlerDict setObject:NSStringFromSelector(@selector(handleGetCountryCodeMsg:)) forKey:@(G_CMD_GET_COUNTRY_CODE)];
-		[pMsgHandlerDict setObject:NSStringFromSelector(@selector(handleGetStoreVerMsg:)) forKey:@(G_CMD_GET_STORE_VER)];
-		[pMsgHandlerDict setObject:NSStringFromSelector(@selector(handleSetEnableAdsTrackingMsg:)) forKey:@(G_CMD_SET_ENABLE_ADS_TRACKING)];
-		[pMsgHandlerDict setObject:NSStringFromSelector(@selector(handleShowAlertMsg:)) forKey:@(G_CMD_SHOW_ALERT)];
-		[pMsgHandlerDict setObject:NSStringFromSelector(@selector(handleShowToastMsg:)) forKey:@(G_CMD_SHOW_TOAST)];
-		[pMsgHandlerDict setObject:NSStringFromSelector(@selector(handleMailMsg:)) forKey:@(G_CMD_MAIL)];
-		[pMsgHandlerDict setObject:NSStringFromSelector(@selector(handleVibrateMsg:)) forKey:@(G_CMD_VIBRATE)];
-		[pMsgHandlerDict setObject:NSStringFromSelector(@selector(handleIndicatorMsg:)) forKey:@(G_CMD_INDICATOR)];
+		[pMsgHandlerDict setObject:NSStringFromSelector(@selector(onReceiveGetDeviceIDMsg:)) forKey:@(G_CMD_GET_DEVICE_ID)];
+		[pMsgHandlerDict setObject:NSStringFromSelector(@selector(onReceiveGetCountryCodeMsg:)) forKey:@(G_CMD_GET_COUNTRY_CODE)];
+		[pMsgHandlerDict setObject:NSStringFromSelector(@selector(onReceiveGetStoreVerMsg:)) forKey:@(G_CMD_GET_STORE_VER)];
+		[pMsgHandlerDict setObject:NSStringFromSelector(@selector(onReceiveSetEnableAdsTrackingMsg:)) forKey:@(G_CMD_SET_ENABLE_ADS_TRACKING)];
+		[pMsgHandlerDict setObject:NSStringFromSelector(@selector(onReceiveShowAlertMsg:)) forKey:@(G_CMD_SHOW_ALERT)];
+		[pMsgHandlerDict setObject:NSStringFromSelector(@selector(onReceiveShowToastMsg:)) forKey:@(G_CMD_SHOW_TOAST)];
+		[pMsgHandlerDict setObject:NSStringFromSelector(@selector(onReceiveMailMsg:)) forKey:@(G_CMD_MAIL)];
+		[pMsgHandlerDict setObject:NSStringFromSelector(@selector(onReceiveVibrateMsg:)) forKey:@(G_CMD_VIBRATE)];
+		[pMsgHandlerDict setObject:NSStringFromSelector(@selector(onReceiveIndicatorMsg:)) forKey:@(G_CMD_INDICATOR)];
 		
 		m_pUnityMsgHandlerDict = pMsgHandlerDict;
 	}
@@ -261,35 +261,35 @@ extern "C" {
 	return (UnityAppController *)UIApplication.sharedApplication.delegate;
 }
 
-/** 디바이스 식별자 반환 메세지를 처리한다 */
-- (void)handleGetDeviceIDMsg:(NSString *)a_pMsg {
+/** 디바이스 식별자 반환 메세지를 수신했을 경우 */
+- (void)onReceiveGetDeviceIDMsg:(NSString *)a_pMsg {
 	[CDeviceMsgSender.sharedInst sendGetDeviceIDMsg:self.deviceID];
 }
 
-/** 국가 코드 반환 메세지를 처리한다 */
-- (void)handleGetCountryCodeMsg:(NSString *)a_pMsg {
+/** 국가 코드 반환 메세지를 수신했을 경우 */
+- (void)onReceiveGetCountryCodeMsg:(NSString *)a_pMsg {
 	[CDeviceMsgSender.sharedInst sendGetCountryCodeMsg:NSLocale.currentLocale.countryCode];
 }
 
-/** 스토어 버전 반환 메세지를 처리한다 */
-- (void)handleGetStoreVerMsg:(NSString *)a_pMsg {
+/** 스토어 버전 반환 메세지를 수신했을 경우 */
+- (void)onReceiveGetStoreVerMsg:(NSString *)a_pMsg {
 	NSDictionary *pDataDict = (NSDictionary *)GFunc::ConvertJSONStrToObj(a_pMsg, NULL);
 	NSMutableURLRequest *pURLRequest = GFunc::MakeURLRequest([NSString stringWithFormat:@(G_URL_FMT_STORE_VER), (NSString *)[pDataDict objectForKey:@(G_KEY_APP_ID)]], @(G_HTTP_METHOD_GET), ((NSString *)[pDataDict objectForKey:@(G_KEY_TIMEOUT)]).doubleValue);
 	
 	// 데이터를 수신했을 경우
 	[NSURLSession.sharedSession dataTaskWithRequest:pURLRequest completionHandler:^void(NSData *a_pData, NSURLResponse *a_pResponse, NSError *a_pError) {
-		NSLog(@"CiOSPlugin.onHandleGetStoreVerMsg: %@", a_pData);
+		NSLog(@"CiOSPlugin.onReceiveGetStoreVerMsg: %@", a_pData);
 		
 		// 스토어 버전 로드에 실패했을 경우
 		if(a_pError != nil || (a_pData == nil || a_pResponse == nil)) {
-			NSLog(@"CiOSPlugin.onHandleGetStoreVerMsg Fail: %@", a_pError);
+			NSLog(@"CiOSPlugin.onReceiveGetStoreVerMsg Fail: %@", a_pError);
 			[CDeviceMsgSender.sharedInst sendGetStoreVerMsg:(NSString *)[pDataDict objectForKey:@(G_KEY_VER)] withResult:NO];
 		} else {
 			NSArray *pVerInfoList = (NSArray *)[(NSDictionary *)GFunc::ConvertJSONStrToObj([[NSString alloc] initWithData:a_pData encoding:NSUTF8StringEncoding], NULL) objectForKey:@(G_KEY_STORE_VER_RESULT)];
 			NSDictionary *pVerInfoDict = (NSDictionary *)[pVerInfoList lastObject];
 			NSString *pStoreVer = (NSString *)[pVerInfoDict objectForKey:@(G_KEY_STORE_VER)];
 			
-			NSLog(@"CiOSPlugin.onHandleGetStoreVerMsg Success: %@", pStoreVer);
+			NSLog(@"CiOSPlugin.onReceiveGetStoreVerMsg Success: %@", pStoreVer);
 			
 			// 스토어 버전이 유효 할 경우
 			if(GFunc::IsValid(pStoreVer)) {
@@ -301,15 +301,15 @@ extern "C" {
 	}];
 }
 
-/** 광고 추적 여부 변경 메세지를 처리한다 */
-- (void)handleSetEnableAdsTrackingMsg:(NSString *)a_pMsg {
+/** 광고 추적 여부 변경 메세지를 수신했을 경우 */
+- (void)onReceiveSetEnableAdsTrackingMsg:(NSString *)a_pMsg {
 #if defined IRON_SRC_ADS_ENABLE
 	[FBAdSettings setAdvertiserTrackingEnabled:GFunc::ConvertStrToBool(a_pMsg)];
 #endif			// #if defined IRON_SRC_ADS_ENABLE
 }
 
-/** 경고 창 출력 메세지를 처리한다 */
-- (void)handleShowAlertMsg:(NSString *)a_pMsg {
+/** 경고 창 출력 메세지를 수신했을 경우 */
+- (void)onReceiveShowAlertMsg:(NSString *)a_pMsg {
 	NSDictionary *pDataDict = (NSDictionary *)GFunc::ConvertJSONStrToObj(a_pMsg, NULL);
 	UIAlertController *pAlertController = [UIAlertController alertControllerWithTitle:(NSString *)[pDataDict objectForKey:@(G_KEY_ALERT_TITLE)] message:(NSString *)[pDataDict objectForKey:@(G_KEY_ALERT_MSG)] preferredStyle:UIAlertControllerStyleAlert];
 	
@@ -331,13 +331,13 @@ extern "C" {
 	[self.rootViewController presentViewController:pAlertController animated:YES completion:NULL];
 }
 
-/** 토스트 출력 메세지를 처리한다 */
-- (void)handleShowToastMsg:(NSString *)a_pMsg {
+/** 토스트 출력 메세지를 수신했을 경우 */
+- (void)onReceiveShowToastMsg:(NSString *)a_pMsg {
 	// Do Something
 }
 
-/** 메일 메세지를 처리한다 */
-- (void)handleMailMsg:(NSString *)a_pMsg {
+/** 메일 메세지를 수신했을 경우 */
+- (void)onReceiveMailMsg:(NSString *)a_pMsg {
 	NSDictionary *pDataDict = (NSDictionary *)GFunc::ConvertJSONStrToObj(a_pMsg, NULL);
 	
 	// 메일 전송이 가능 할 경우
@@ -359,8 +359,8 @@ extern "C" {
 	}
 }
 
-/** 진동 메세지를 처리한다 */
-- (void)handleVibrateMsg:(NSString *)a_pMsg {
+/** 진동 메세지를 수신했을 경우 */
+- (void)onReceiveVibrateMsg:(NSString *)a_pMsg {
 	NSDictionary *pDataDict = (NSDictionary *)GFunc::ConvertJSONStrToObj(a_pMsg, NULL);
 	
 	EVibrateType eVibrateType = (EVibrateType)((NSString *)[pDataDict objectForKey:@(G_KEY_VIBRATE_TYPE)]).intValue;
@@ -373,7 +373,7 @@ extern "C" {
 			switch(eVibrateType) {
 				case EVibrateType::SELECTION: [self.selectionGenerator selectionChanged]; break;
 				case EVibrateType::NOTIFICATION: [self.notificationGenerator notificationOccurred:(UINotificationFeedbackType)eVibrateStyle]; break;
-				case EVibrateType::IMPACT: [self handleImpactVibrateMsg:pDataDict withVibrateStyle:eVibrateStyle]; break;
+				case EVibrateType::IMPACT: [self onReceiveImpactVibrateMsg:pDataDict withVibrateStyle:eVibrateStyle]; break;
 			}
 		} else {
 			AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
@@ -381,8 +381,8 @@ extern "C" {
 	}
 }
 
-/** 인디케이터 메세지를 처리한다 */
-- (void)handleIndicatorMsg:(NSString *)a_pMsg {
+/** 인디케이터 메세지를 수신했을 경우 */
+- (void)onReceiveIndicatorMsg:(NSString *)a_pMsg {
 	// 출력 모드 일 경우
 	if(GFunc::ConvertStrToBool(a_pMsg)) {
 		[self.activityIndicatorView startAnimating];
@@ -391,8 +391,8 @@ extern "C" {
 	}
 }
 
-/** 임팩트 진동 메세지를 처리한다 */
-- (void)handleImpactVibrateMsg:(NSDictionary *)a_pDataDict withVibrateStyle:(EVibrateStyle)a_eVibrateStyle {
+/** 임팩트 진동 메세지를 수신했을 경우 */
+- (void)onReceiveImpactVibrateMsg:(NSDictionary *)a_pDataDict withVibrateStyle:(EVibrateStyle)a_eVibrateStyle {
 	float fIntensity = ((NSString *)[a_pDataDict objectForKey:@(G_KEY_VIBRATE_INTENSITY)]).floatValue;
 	UIImpactFeedbackGenerator *pImpactGenerator = (UIImpactFeedbackGenerator *)[self.impactGeneratorList objectAtIndex:(UIImpactFeedbackStyle)a_eVibrateStyle];
 	

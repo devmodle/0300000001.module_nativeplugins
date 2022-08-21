@@ -89,5 +89,5 @@ public abstract class KGDefine {
 	
 	// 디바이스 메세지 전송자
 	public static final String OBJ_N_DEVICE_MS_DEVICE_MSG_RECEIVER = "CDeviceMsgReceiver";
-	public static final String FUNC_N_DEVICE_MS_DEVICE_MSG_HANDLER = "HandleDeviceMsg";
+	public static final String FUNC_N_DEVICE_MS_DEVICE_MSG_HANDLER = "OnReceiveDeviceMsg";
 }

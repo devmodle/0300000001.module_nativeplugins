@@ -165,7 +165,7 @@ public class CAndroidPlugin {
 			}
 		});
 		
-		// 취소 버튼 텍스트가 유효 할 경우
+		// 취소 버튼 텍스트 존재 할 경우
 		if(GFunc.isValid(oJSONObj.getString(KGDefine.KEY_ALERT_CANCEL_BTN_TEXT))) {
 			// 취소 버튼을 눌렀을 경우
 			oBuilder.setNegativeButton(oJSONObj.getString(KGDefine.KEY_ALERT_CANCEL_BTN_TEXT), new DialogInterface.OnClickListener() {

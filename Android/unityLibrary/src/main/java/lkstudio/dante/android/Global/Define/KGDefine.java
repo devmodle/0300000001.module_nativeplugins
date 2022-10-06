@@ -1,4 +1,4 @@
-package dante.distribution.android.Global.Define;
+package lkstudio.dante.android.Global.Define;
 
 import android.os.Build;
 

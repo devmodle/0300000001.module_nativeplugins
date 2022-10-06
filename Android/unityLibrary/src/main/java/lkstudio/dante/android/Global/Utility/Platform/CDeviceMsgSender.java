@@ -1,4 +1,4 @@
-package dante.distribution.android.Global.Utility.Platform;
+package lkstudio.dante.android.Global.Utility.Platform;
 
 import android.util.Log;
 
@@ -6,8 +6,8 @@ import com.unity3d.player.UnityPlayer;
 
 import org.json.JSONObject;
 
-import dante.distribution.android.Global.Define.KGDefine;
-import dante.distribution.android.Global.Function.GFunc;
+import lkstudio.dante.android.Global.Define.KGDefine;
+import lkstudio.dante.android.Global.Function.GFunc;
 
 /** 디바이스 메세지 전송자 */
 public class CDeviceMsgSender {

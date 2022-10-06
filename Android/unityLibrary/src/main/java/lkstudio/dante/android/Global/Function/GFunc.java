@@ -1,6 +1,6 @@
-package dante.distribution.android.Global.Function;
+package lkstudio.dante.android.Global.Function;
 
-import dante.distribution.android.Global.Define.KGDefine;
+import lkstudio.dante.android.Global.Define.KGDefine;
 
 /** 전역 함수 */
 public abstract class GFunc {

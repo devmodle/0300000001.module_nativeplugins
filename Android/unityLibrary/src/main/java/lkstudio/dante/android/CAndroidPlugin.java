@@ -1,4 +1,4 @@
-package dante.distribution.android;
+package lkstudio.dante.android;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -32,9 +32,9 @@ import java.util.ArrayList;
 import java.util.Locale;
 import java.util.UUID;
 
-import dante.distribution.android.Global.Define.KGDefine;
-import dante.distribution.android.Global.Function.GFunc;
-import dante.distribution.android.Global.Utility.Platform.CDeviceMsgSender;
+import lkstudio.dante.android.Global.Define.KGDefine;
+import lkstudio.dante.android.Global.Function.GFunc;
+import lkstudio.dante.android.Global.Utility.Platform.CDeviceMsgSender;
 
 /** 안드로이드 플러그인 */
 public class CAndroidPlugin {

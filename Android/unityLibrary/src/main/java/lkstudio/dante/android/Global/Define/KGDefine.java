@@ -49,7 +49,7 @@ public abstract class KGDefine {
 	
 	// 비율
 	public static final float SCALE_IMG_VIEW = 0.25f;
-	public static final float OFFSET_SCALE_IMG_VIEW = 0.05f;
+	public static final float OFFSET_SCALE_IMG_VIEW = 0.0f;
 	
 	// 기준
 	public static final float PIVOT_CENTER = 0.5f;

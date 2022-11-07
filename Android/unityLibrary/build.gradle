@@ -6,7 +6,7 @@ dependencies {
 
 android {
     compileSdkVersion 31
-    buildToolsVersion '30.0.2'
+    buildToolsVersion '30.0.3'
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -53,7 +53,7 @@ task exportPlugin(type: Copy) {
 
 // 플러그인을 제거한다
 task removePrevPlugin(type: Delete) {
-    delete '../../../Assets/Plugins/Android/CustomAndroidPlugin.aar'
+//    delete '../../../Assets/Plugins/Android/CustomAndroidPlugin.aar'
 }
 
 exportPlugin.dependsOn(removePrevPlugin, assemble, build)

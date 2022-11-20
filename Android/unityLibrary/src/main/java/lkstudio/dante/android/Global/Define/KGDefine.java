@@ -48,8 +48,8 @@ public abstract class KGDefine {
 	public static final int MIN_VER_FEEDBACK_GENERATOR = Build.VERSION_CODES.O;
 	
 	// 비율
-	public static final float SCALE_IMG_VIEW = 0.25f;
-	public static final float OFFSET_SCALE_IMG_VIEW = 0.0f;
+	public static final float SCALE_INDICATOR_IMG_VIEW = 0.25f;
+	public static final float OFFSET_SCALE_INDICATOR_IMG_VIEW = 0.0f;
 	
 	// 기준
 	public static final float PIVOT_CENTER = 0.5f;

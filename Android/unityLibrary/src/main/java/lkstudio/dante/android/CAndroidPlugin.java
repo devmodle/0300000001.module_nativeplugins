@@ -75,8 +75,8 @@ public class CAndroidPlugin {
 		m_oIndicatorImgViewAni.setInterpolator(UnityPlayer.currentActivity, android.R.anim.linear_interpolator);
 		
 		// 레이아웃을 설정한다 {
-		int nSize = (int)(Math.min(oPoint.x, oPoint.y) * KGDefine.SCALE_IMG_VIEW);
-		int nOffset = (int)(Math.min(oPoint.x, oPoint.y) * KGDefine.OFFSET_SCALE_IMG_VIEW);
+		int nSize = (int)(Math.min(oPoint.x, oPoint.y) * KGDefine.SCALE_INDICATOR_IMG_VIEW);
+		int nOffset = (int)(Math.min(oPoint.x, oPoint.y) * KGDefine.OFFSET_SCALE_INDICATOR_IMG_VIEW);
 		
 		RelativeLayout.LayoutParams oParams = new RelativeLayout.LayoutParams(nSize, nSize);
 		oParams.addRule(RelativeLayout.CENTER_IN_PARENT);

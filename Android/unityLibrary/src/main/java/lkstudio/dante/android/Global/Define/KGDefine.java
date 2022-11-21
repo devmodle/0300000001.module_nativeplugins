@@ -79,9 +79,9 @@ public abstract class KGDefine {
 	public static final String KEY_ALERT_OK_BTN_TEXT = "OKBtnText";
 	public static final String KEY_ALERT_CANCEL_BTN_TEXT = "CancelBtnText";
 	
-	public static final String KEY_MAIL_RECIPIENT = "Recipient";
 	public static final String KEY_MAIL_TITLE = "Title";
 	public static final String KEY_MAIL_MSG = "Msg";
+	public static final String KEY_MAIL_RECIPIENT = "Recipient";
 	
 	public static final String KEY_VIBRATE_DURATION = "Duration";
 	public static final String KEY_VIBRATE_INTENSITY = "Intensity";

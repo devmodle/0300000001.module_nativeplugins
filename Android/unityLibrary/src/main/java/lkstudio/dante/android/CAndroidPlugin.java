@@ -192,9 +192,9 @@ public class CAndroidPlugin {
 		Intent oIntent = new Intent(Intent.ACTION_SENDTO);
 		oIntent.setType(KGDefine.MAIL_TYPE);
 		oIntent.setData(Uri.parse(KGDefine.MAIL_DATA));
-		oIntent.putExtra(Intent.EXTRA_EMAIL, new String[] { oJSONObj.getString(KGDefine.KEY_MAIL_RECIPIENT) });
 		oIntent.putExtra(Intent.EXTRA_SUBJECT, oJSONObj.getString(KGDefine.KEY_MAIL_TITLE));
 		oIntent.putExtra(Intent.EXTRA_TEXT, oJSONObj.getString(KGDefine.KEY_MAIL_MSG));
+		oIntent.putExtra(Intent.EXTRA_EMAIL, new String[] { oJSONObj.getString(KGDefine.KEY_MAIL_RECIPIENT) });
 
 		UnityPlayer.currentActivity.startActivity(oIntent);
 	}

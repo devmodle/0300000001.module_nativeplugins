@@ -98,9 +98,9 @@
 #define G_KEY_STORE_VER					("Ver")
 #define G_KEY_STORE_VER_RESULT			("Results")
 
-#define G_KEY_MAIL_RECIPIENT			("Recipient")
 #define G_KEY_MAIL_TITLE				("Title")
 #define G_KEY_MAIL_MSG					("Msg")
+#define G_KEY_MAIL_RECIPIENT			("Recipient")
 
 #define G_KEY_VIBRATE_TYPE				("Type")
 #define G_KEY_VIBRATE_STYLE				("Style")

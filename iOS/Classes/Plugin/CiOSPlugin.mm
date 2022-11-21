@@ -345,9 +345,9 @@ extern "C" {
 		MFMailComposeViewController *pMailViewController = [[MFMailComposeViewController alloc] init];
 		pMailViewController.mailComposeDelegate = self;
 		
-		[pMailViewController setToRecipients:[NSArray arrayWithObjects:(NSString *)[pDataDict objectForKey:@(G_KEY_MAIL_RECIPIENT)], nil]];
 		[pMailViewController setSubject:(NSString *)[pDataDict objectForKey:@(G_KEY_MAIL_TITLE)]];
 		[pMailViewController setMessageBody:(NSString *)[pDataDict objectForKey:@(G_KEY_MAIL_MSG)] isHTML:NO];
+		[pMailViewController setToRecipients:[NSArray arrayWithObjects:(NSString *)[pDataDict objectForKey:@(G_KEY_MAIL_RECIPIENT)], nil]];
 		
 		[self.rootViewController presentViewController:pMailViewController animated:YES completion:NULL];
 	} else {

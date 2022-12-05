@@ -181,7 +181,7 @@ public class CAndroidPlugin {
 	
 	/** 토스트 출력 메세지를 출력한다 */
 	private void onReceiveShowToastMsg(String a_oMsg) {
-		Toast.makeText(UnityPlayer.currentActivity, a_oMsg, Toast.LENGTH_SHORT).show();
+		Toast.makeText(UnityPlayer.currentActivity, a_oMsg, Toast.LENGTH_LONG).show();
 	}
 	
 	/** 메일 메세지를 수신했을 경우 */

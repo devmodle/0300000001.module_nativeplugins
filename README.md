@@ -1,3 +1,3 @@
-# 0300000001.Module_UnityPlugin_Client
+# 0300000001.Module_UnityPlugin
 
-Module - UnityPlugin 클라이언트 프로젝트
+Module - UnityPlugin 프로젝트

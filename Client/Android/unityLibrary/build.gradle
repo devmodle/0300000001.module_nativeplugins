@@ -1,59 +1,59 @@
 apply plugin: 'com.android.library'
 
 dependencies {
-    compileOnly fileTree(dir: 'libs', include: ['*.jar'])
+	compileOnly fileTree(dir: 'libs', include: ['*.jar'])
 }
 
 android {
-    compileSdkVersion 31
-    buildToolsVersion '30.0.3'
+	compileSdkVersion 31
+	buildToolsVersion '30.0.3'
 
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
-    defaultConfig {
-        minSdkVersion 22
-        targetSdkVersion 31
-        ndk {
-            abiFilters 'armeabi-v7a', 'arm64-v8a'
-        }
-        multiDexEnabled true
-        consumerProguardFiles 'proguard-unity.txt'
-    }
-    lintOptions {
-        abortOnError false
-    }
-    aaptOptions {
-        noCompress = ['.unity3d', '.ress', '.resource', '.obb', '.bundle', '.unityexp'] + unityStreamingAssets.tokenize(', ')
-        ignoreAssetsPattern = "!.svn:!.git:!.ds_store:!*.scc:.*:!CVS:!thumbs.db:!picasa.ini:!*~"
-    }
-    packagingOptions {
-        doNotStrip '*/armeabi-v7a/*.so'
-        doNotStrip '*/arm64-v8a/*.so'
-    }
-    buildTypes {
-        debug {
-            minifyEnabled false
-        }
-        release {
-            minifyEnabled false
-        }
-    }
+	compileOptions {
+		sourceCompatibility JavaVersion.VERSION_1_8
+		targetCompatibility JavaVersion.VERSION_1_8
+	}
+	defaultConfig {
+		minSdkVersion 22
+		targetSdkVersion 31
+		ndk {
+			abiFilters 'armeabi-v7a', 'arm64-v8a'
+		}
+		multiDexEnabled true
+		consumerProguardFiles 'proguard-unity.txt'
+	}
+	lintOptions {
+		abortOnError false
+	}
+	aaptOptions {
+		noCompress = ['.unity3d', '.ress', '.resource', '.obb', '.bundle', '.unityexp'] + unityStreamingAssets.tokenize(', ')
+		ignoreAssetsPattern = "!.svn:!.git:!.ds_store:!*.scc:.*:!CVS:!thumbs.db:!picasa.ini:!*~"
+	}
+	packagingOptions {
+		doNotStrip '*/armeabi-v7a/*.so'
+		doNotStrip '*/arm64-v8a/*.so'
+	}
+	buildTypes {
+		debug {
+			minifyEnabled false
+		}
+		release {
+			minifyEnabled false
+		}
+	}
 }
 
 // 플러그인을 생성한다
 task exportPlugin(type: Copy) {
-    from('build/outputs/aar/')
-    into('../../../../Assets/Plugins/Android/')
+	from('build/outputs/aar/')
+	into('../../../../Assets/Plugins/Android/')
 
-    include('unityLibrary-release.aar')
-    rename('unityLibrary-release.aar', 'AndroidNativePlugin.aar')
+	include('unityLibrary-release.aar')
+	rename('unityLibrary-release.aar', 'AndroidNativePlugin.aar')
 }
 
 // 플러그인을 제거한다
 task removePrevPlugin(type: Delete) {
-    delete '../../../../Assets/Plugins/Android/AndroidNativePlugin.aar'
+	delete '../../../../Assets/Plugins/Android/AndroidNativePlugin.aar'
 }
 
 exportPlugin.dependsOn(removePrevPlugin, assemble, build)

@@ -5,7 +5,7 @@ dependencies {
 }
 
 android {
-	ndkPath "D:/.developer/Engines/Unity/2022.2.16f1/Editor/Data/PlaybackEngines/AndroidPlayer/NDK"
+	ndkPath "/Applications/Unity/Hub/Editor/2022.2.17f1/PlaybackEngines/AndroidPlayer/NDK"
 
 	compileSdkVersion 31
 	buildToolsVersion '32.0.0'
@@ -52,7 +52,7 @@ android {
 	}
 }
 
-/** 플러그인을 생성한다 */
+/** ??????????????? ???????????? */
 task exportPlugin(type: Copy) {
 	from('build/outputs/aar/')
 	into('../../../../Assets/Plugins/Android/')
@@ -61,7 +61,7 @@ task exportPlugin(type: Copy) {
 	rename('unityLibrary-release.aar', 'CustomAndroidNativePlugin.aar')
 }
 
-/** 플러그인을 제거한다 */
+/** ??????????????? ???????????? */
 task removePrevPlugin(type: Delete) {
 	delete '../../../../Assets/Plugins/Android/CustomAndroidNativePlugin.aar'
 }

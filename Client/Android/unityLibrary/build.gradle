@@ -12,7 +12,7 @@ android {
 
 	compileOptions {
 		sourceCompatibility JavaVersion.VERSION_11
-        targetCompatibility JavaVersion.VERSION_11
+		targetCompatibility JavaVersion.VERSION_11
 	}
 
 	defaultConfig {
@@ -28,13 +28,13 @@ android {
 	}
 
 	lintOptions {
-        abortOnError false
-    }
+		abortOnError false
+	}
 
 	aaptOptions {
-        noCompress = ['.unity3d', '.ress', '.resource', '.obb', '.bundle', '.unityexp'] + unityStreamingAssets.tokenize(', ')
-        ignoreAssetsPattern = "!.svn:!.git:!.ds_store:!*.scc:!CVS:!thumbs.db:!picasa.ini:!*~"
-    }
+		noCompress = ['.unity3d', '.ress', '.resource', '.obb', '.bundle', '.unityexp'] + unityStreamingAssets.tokenize(', ')
+		ignoreAssetsPattern = "!.svn:!.git:!.ds_store:!*.scc:!CVS:!thumbs.db:!picasa.ini:!*~"
+	}
 
 	packagingOptions {
 		doNotStrip '*/armeabi-v7a/*.so'
@@ -52,7 +52,7 @@ android {
 	}
 }
 
-/** ??????????????? ???????????? */
+/** 플러그인을 추출한다 */
 task exportPlugin(type: Copy) {
 	from('build/outputs/aar/')
 	into('../../../../Assets/Plugins/Android/')
@@ -61,7 +61,7 @@ task exportPlugin(type: Copy) {
 	rename('unityLibrary-release.aar', 'CustomAndroidNativePlugin.aar')
 }
 
-/** ??????????????? ???????????? */
+/** 이전 플러그인을 제거한다 */
 task removePrevPlugin(type: Delete) {
 	delete '../../../../Assets/Plugins/Android/CustomAndroidNativePlugin.aar'
 }

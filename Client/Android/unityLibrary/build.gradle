@@ -5,7 +5,7 @@ dependencies {
 }
 
 android {
-	ndkPath "D:/.developer/Engines/Unity/2022.2.18f1/Editor/Data/PlaybackEngines/AndroidPlayer/NDK"
+	ndkPath "/Applications/Unity/Hub/Editor/2022.2.18f1/PlaybackEngines/AndroidPlayer/NDK"
 
 	compileSdkVersion 31
 	buildToolsVersion '32.0.0'
@@ -52,7 +52,7 @@ android {
 	}
 }
 
-/** 플러그인을 추출한다 */
+/** 플러그인을 생성한다 */
 task exportPlugin(type: Copy) {
 	from('build/outputs/aar/')
 	into('../../../../Assets/Plugins/Android/')

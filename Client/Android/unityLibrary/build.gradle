@@ -5,7 +5,7 @@ dependencies {
 }
 
 android {
-	ndkPath "/Applications/Unity/Hub/Editor/2022.3.0f1/PlaybackEngines/AndroidPlayer/NDK"
+	ndkPath "/Applications/Unity/Hub/Editor/2022.3.1f1/PlaybackEngines/AndroidPlayer/NDK"
 
 	compileSdkVersion 33
 	buildToolsVersion '32.0.0'

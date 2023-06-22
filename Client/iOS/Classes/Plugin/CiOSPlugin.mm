@@ -55,7 +55,7 @@ static CiOSPlugin *g_pInst = nil;
 - (void)onReceiveGetStoreVerMsg:(NSString *)a_pMsg;
 
 /** 광고 추적 여부 변경 메세지를 수신했을 경우 */
-- (void)onReceiveSetEnableAdsTrackingMsg:(NSString *)a_pMsg;
+- (void)onReceiveSetIsEnableAdsTrackingMsg:(NSString *)a_pMsg;
 
 /** 경고 창 출력 메세지를 수신했을 경우 */
 - (void)onReceiveShowAlertMsg:(NSString *)a_pMsg;
@@ -166,7 +166,7 @@ extern "C" {
 		[pMsgHandlerDict setObject:NSStringFromSelector(@selector(onReceiveGetDeviceIDMsg:)) forKey:@(G_CMD_GET_DEVICE_ID)];
 		[pMsgHandlerDict setObject:NSStringFromSelector(@selector(onReceiveGetCountryCodeMsg:)) forKey:@(G_CMD_GET_COUNTRY_CODE)];
 		[pMsgHandlerDict setObject:NSStringFromSelector(@selector(onReceiveGetStoreVerMsg:)) forKey:@(G_CMD_GET_STORE_VER)];
-		[pMsgHandlerDict setObject:NSStringFromSelector(@selector(onReceiveSetEnableAdsTrackingMsg:)) forKey:@(G_CMD_SET_ENABLE_ADS_TRACKING)];
+		[pMsgHandlerDict setObject:NSStringFromSelector(@selector(onReceiveSetIsEnableAdsTrackingMsg:)) forKey:@(G_CMD_SET_ENABLE_ADS_TRACKING)];
 		[pMsgHandlerDict setObject:NSStringFromSelector(@selector(onReceiveShowAlertMsg:)) forKey:@(G_CMD_SHOW_ALERT)];
 		[pMsgHandlerDict setObject:NSStringFromSelector(@selector(onReceiveShowToastMsg:)) forKey:@(G_CMD_SHOW_TOAST)];
 		[pMsgHandlerDict setObject:NSStringFromSelector(@selector(onReceiveMailMsg:)) forKey:@(G_CMD_MAIL)];
@@ -302,7 +302,7 @@ extern "C" {
 }
 
 /** 광고 추적 여부 변경 메세지를 수신했을 경우 */
-- (void)onReceiveSetEnableAdsTrackingMsg:(NSString *)a_pMsg {
+- (void)onReceiveSetIsEnableAdsTrackingMsg:(NSString *)a_pMsg {
 #if defined IRON_SRC_ADS_ENABLE
 	[FBAdSettings setAdvertiserTrackingEnabled:GFunc::ConvertStrToBool(a_pMsg)];
 #endif			// #if defined IRON_SRC_ADS_ENABLE

@@ -36,9 +36,13 @@ import lkstudio.dante.android.Global.Define.KGDefine;
 import lkstudio.dante.android.Global.Function.GFunc;
 import lkstudio.dante.android.Global.Utility.Platform.CDeviceMsgSender;
 
-/** 안드로이드 플러그인 */
+/**
+ * 안드로이드 플러그인
+ */
 public class CAndroidPlugin {
-	/** 유니티 메세지 정보 */
+	/**
+	 * 유니티 메세지 정보
+	 */
 	private static class CUnityMsgInfo {
 		private String m_oCmd = "";
 		private String m_oMsg = "";
@@ -70,7 +74,7 @@ public class CAndroidPlugin {
 		
 		// 애니메이션을 설정한다
 		m_oIndicatorImgViewAni = new RotateAnimation(KGDefine.VAL_0_INT, KGDefine.ANGLE_360_DEG, Animation.RELATIVE_TO_SELF, KGDefine.PIVOT_CENTER, Animation.RELATIVE_TO_SELF, KGDefine.PIVOT_CENTER);
-		m_oIndicatorImgViewAni.setDuration(KGDefine.VAL_1_INT * KGDefine.UNIT_MILLI_SECS_PER_SEC);
+		m_oIndicatorImgViewAni.setDuration(KGDefine.VAL_1_INT * KGDefine.UNIT_S_TO_MS);
 		m_oIndicatorImgViewAni.setRepeatCount(Animation.INFINITE);
 		m_oIndicatorImgViewAni.setInterpolator(UnityPlayer.currentActivity, android.R.anim.linear_interpolator);
 		
@@ -115,17 +119,14 @@ public class CAndroidPlugin {
 						Log.d(KGDefine.TAG, String.format("CAndroidPlugin.runOnUiThread: %d", CAndroidPlugin.m_oUnityMsgInfoList.size()));
 						CUnityMsgInfo oUnityMsgInfo = CAndroidPlugin.m_oUnityMsgInfoList.get(KGDefine.VAL_0_INT);
 						
-						// 유니티 메세지 정보가 존재 할 경우
-						if(oUnityMsgInfo != null) {
-							switch(oUnityMsgInfo.m_oCmd) {
-								case KGDefine.CMD_GET_DEVICE_ID: CAndroidPlugin.getInst().onReceiveGetDeviceIDMsg(oUnityMsgInfo.m_oMsg); break;
-								case KGDefine.CMD_GET_COUNTRY_CODE: CAndroidPlugin.getInst().onReceiveGetCountryCodeMsg(oUnityMsgInfo.m_oMsg); break;
-								case KGDefine.CMD_SHOW_ALERT: CAndroidPlugin.getInst().onReceiveShowAlertMsg(oUnityMsgInfo.m_oMsg); break;
-								case KGDefine.CMD_SHOW_TOAST: CAndroidPlugin.getInst().onReceiveShowToastMsg(oUnityMsgInfo.m_oMsg); break;
-								case KGDefine.CMD_MAIL: CAndroidPlugin.getInst().onReceiveMailMsg(oUnityMsgInfo.m_oMsg); break;
-								case KGDefine.CMD_VIBRATE: CAndroidPlugin.getInst().onReceiveVibrateMsg(oUnityMsgInfo.m_oMsg); break;
-								case KGDefine.CMD_INDICATOR: CAndroidPlugin.getInst().onReceiveIndicatorMsg(oUnityMsgInfo.m_oMsg); break;
-							}
+						switch(oUnityMsgInfo.m_oCmd) {
+							case KGDefine.CMD_GET_DEVICE_ID: CAndroidPlugin.getInst().onReceiveGetDeviceIDMsg(oUnityMsgInfo.m_oMsg); break;
+							case KGDefine.CMD_GET_COUNTRY_CODE: CAndroidPlugin.getInst().onReceiveGetCountryCodeMsg(oUnityMsgInfo.m_oMsg); break;
+							case KGDefine.CMD_SHOW_ALERT: CAndroidPlugin.getInst().onReceiveShowAlertMsg(oUnityMsgInfo.m_oMsg); break;
+							case KGDefine.CMD_SHOW_TOAST: CAndroidPlugin.getInst().onReceiveShowToastMsg(oUnityMsgInfo.m_oMsg); break;
+							case KGDefine.CMD_MAIL: CAndroidPlugin.getInst().onReceiveMailMsg(oUnityMsgInfo.m_oMsg); break;
+							case KGDefine.CMD_VIBRATE: CAndroidPlugin.getInst().onReceiveVibrateMsg(oUnityMsgInfo.m_oMsg); break;
+							case KGDefine.CMD_INDICATOR: CAndroidPlugin.getInst().onReceiveIndicatorMsg(oUnityMsgInfo.m_oMsg); break;
 						}
 						
 						CAndroidPlugin.m_oUnityMsgInfoList.remove(KGDefine.VAL_0_INT);
@@ -209,12 +210,15 @@ public class CAndroidPlugin {
 		
 		float fDuration = Math.abs(Float.parseFloat(oDuration));
 		float fIntensity = Math.abs(Float.parseFloat(oIntensity));
+		
+		int nDuration = (int)(fDuration * KGDefine.UNIT_S_TO_MS);
+		int nIntensity = (int)(fIntensity * KGDefine.UNIT_NORM_VAL_TO_BYTE);
 
 		// 햅틱 진동을 지원하지 않을 경우
 		if(Build.VERSION.SDK_INT < KGDefine.MIN_VER_FEEDBACK_GENERATOR) {
-			oVibrator.vibrate((int)(fDuration * KGDefine.UNIT_MILLI_SECS_PER_SEC));
+			oVibrator.vibrate(nDuration);
 		} else {
-			oVibrator.vibrate(VibrationEffect.createOneShot((int)(fDuration * KGDefine.UNIT_MILLI_SECS_PER_SEC), (int)(fIntensity * KGDefine.UNIT_NORM_VAL_TO_BYTE)));
+			oVibrator.vibrate(VibrationEffect.createOneShot(nDuration, nIntensity));
 		}
 	}
 	

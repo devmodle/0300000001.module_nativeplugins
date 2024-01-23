@@ -2,7 +2,9 @@ package lkstudio.dante.android.Global.Define;
 
 import android.os.Build;
 
-/** 전역 상수 */
+/**
+ * 전역 상수
+ */
 public abstract class KGDefine {
 	// 기타 {
 	public static final String TAG = "Plugin";
@@ -37,22 +39,18 @@ public abstract class KGDefine {
 	public static final float VAL_9_REAL = 9.0f;
 	// 값 }
 	
-	// 회전
+	// 단위 {
 	public static final int ANGLE_360_DEG = 360;
-	
-	// 단위
-	public static final int UNIT_NORM_VAL_TO_BYTE = 255;
-	public static final int UNIT_MILLI_SECS_PER_SEC = 1000;
-	
-	// 버전
 	public static final int MIN_VER_FEEDBACK_GENERATOR = Build.VERSION_CODES.O;
 	
-	// 비율
+	public static final int UNIT_S_TO_MS = 1000;
+	public static final int UNIT_NORM_VAL_TO_BYTE = 255;
+	
+	public static final float PIVOT_CENTER = 0.5f;
+	
 	public static final float SCALE_INDICATOR_IMG_VIEW = 0.25f;
 	public static final float OFFSET_SCALE_INDICATOR_IMG_VIEW = 0.0f;
-	
-	// 기준
-	public static final float PIVOT_CENTER = 0.5f;
+	// 단위 }
 	
 	// 결과
 	public static final String RESULT_TRUE = "True";

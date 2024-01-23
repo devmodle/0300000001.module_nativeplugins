@@ -9,7 +9,9 @@ import org.json.JSONObject;
 import lkstudio.dante.android.Global.Define.KGDefine;
 import lkstudio.dante.android.Global.Function.GFunc;
 
-/** 디바이스 메세지 전송자 */
+/**
+ * 디바이스 메세지 전송자
+ */
 public class CDeviceMsgSender {
 	private static CDeviceMsgSender m_oInst = null;
 	

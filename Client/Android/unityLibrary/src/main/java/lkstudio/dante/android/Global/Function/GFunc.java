@@ -2,7 +2,9 @@ package lkstudio.dante.android.Global.Function;
 
 import lkstudio.dante.android.Global.Define.KGDefine;
 
-/** 전역 함수 */
+/**
+ * 전역 함수
+ */
 public abstract class GFunc {
 	/** 문자열 유효 여부를 검사한다 */
 	public static boolean isValid(String a_oStr) {

@@ -11,7 +11,9 @@
 /** 전역 변수 */
 static CDeviceMsgSender *g_pInst = nil;
 
-/** 디바이스 메세지 전송자 */
+/** 
+ * 디바이스 메세지 전송자
+ */
 @implementation CDeviceMsgSender
 #pragma mark - 초기화
 /** 객체를 생성한다 */
@@ -26,7 +28,7 @@ static CDeviceMsgSender *g_pInst = nil;
 	return g_pInst;
 }
 
-#pragma mark - 인스턴스 메서드
+#pragma mark - 메서드
 /** 디바이스 식별자 반환 메세지를 전송한다 */
 - (void)sendGetDeviceIDMsg:(NSString *)a_oDeviceID {
 	[self send:@(G_CMD_GET_DEVICE_ID) withDeviceMsg:a_oDeviceID];
@@ -70,4 +72,4 @@ static CDeviceMsgSender *g_pInst = nil;
 	
 	return g_pInst;
 }
-@end			// CDeviceMsgSender
+@end // CDeviceMsgSender

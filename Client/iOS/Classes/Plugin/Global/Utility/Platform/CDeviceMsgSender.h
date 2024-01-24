@@ -9,7 +9,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-/** 디바이스 메세지 전송자 */
+/** 
+ * 디바이스 메세지 전송자
+ */
 @interface CDeviceMsgSender : NSObject {
 	
 }
@@ -28,6 +30,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 /** 인스턴스를 반환한다 */
 + (instancetype)sharedInst;
-@end			// CDeviceMsgSender
+@end // CDeviceMsgSender
 
 NS_ASSUME_NONNULL_END

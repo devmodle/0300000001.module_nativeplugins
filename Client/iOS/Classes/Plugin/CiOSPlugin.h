@@ -12,7 +12,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-/** iOS 플러그인 */
+/**
+ * iOS 플러그인
+ */
 @interface CiOSPlugin : NSObject <MFMailComposeViewControllerDelegate> {
 	NSArray *m_pImpactGeneratorList;
 	NSMutableArray *m_pUnityMsgInfoList;
@@ -43,6 +45,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 /** 인스턴스를 반환한다 */
 + (instancetype)sharedInst;
-@end			// CiOSPlugin
+@end // CiOSPlugin
 
 NS_ASSUME_NONNULL_END

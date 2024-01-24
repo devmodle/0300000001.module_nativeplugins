@@ -7,7 +7,9 @@
 
 #import "../Define/KGDefine.h"
 
-/** 전역 함수 */
+/** 
+ * 전역 함수
+ */
 namespace GFunc {
 	/** 문자열 유효 여부를 검사한다 */
 	BOOL IsValid(NSString *a_pStr);

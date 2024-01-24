@@ -12,7 +12,9 @@
 /** 전역 변수 */
 static CiOSPlugin *g_pInst = nil;
 
-/** 유니티 메세지 정보 */
+/** 
+ * 유니티 메세지 정보
+ */
 @interface CUnityMsgInfo : NSObject {
 	// Do Something
 }
@@ -23,11 +25,13 @@ static CiOSPlugin *g_pInst = nil;
 
 /** 초기화 */
 - (id)init:(NSString *)a_pCmd withMsg:(NSString *)a_pMsg;
-@end			// CUnityMsgInfo
+@end // CUnityMsgInfo
 
-/** 유니티 메세지 정보 */
+/** 
+ * 유니티 메세지 정보
+ */
 @implementation CUnityMsgInfo
-#pragma mark - 인스턴스 메서드
+#pragma mark - 메서드
 /** 초기화 */
 - (id)init:(NSString *)a_pCmd withMsg:(NSString *)a_pMsg {
 	/** 초기화 되었을 경우 */
@@ -38,9 +42,11 @@ static CiOSPlugin *g_pInst = nil;
 	
 	return self;
 }
-@end			// CUnityMsgInfo
+@end // CUnityMsgInfo
 
-/** iOS 플러그인 - Private */
+/** 
+ * iOS 플러그인 - Private
+ */
 @interface CiOSPlugin (Private) {
 	// Do Something
 }
@@ -74,7 +80,7 @@ static CiOSPlugin *g_pInst = nil;
 
 /** 임팩트 진동 메세지를 수신했을 경우 */
 - (void)onReceiveImpactVibrateMsg:(NSDictionary *)a_pDataDict withVibrateStyle:(EVibrateStyle)a_eVibrateStyle;
-@end			// CiOSPlugin (Private)
+@end // CiOSPlugin (Private)
 
 extern "C" {
 	/** 유니티 메세지를 수신했을 경우 */
@@ -105,7 +111,9 @@ extern "C" {
 	}
 }
 
-/** iOS 플러그인 */
+/** 
+ * iOS 플러그인
+ */
 @implementation CiOSPlugin
 #pragma mark - 프로퍼티
 @synthesize impactGeneratorList = m_pImpactGeneratorList;
@@ -137,7 +145,7 @@ extern "C" {
 	return g_pInst;
 }
 
-#pragma mark - 인스턴스 메서드
+#pragma mark - 메서드
 /** 디바이스 식별자를 반환한다 */
 - (NSString *)deviceID {
 	// 디바이스 식별자가 유효하지 않을 경우
@@ -416,4 +424,4 @@ extern "C" {
 	
 	return g_pInst;
 }
-@end			// CiOSPlugin
+@end // CiOSPlugin

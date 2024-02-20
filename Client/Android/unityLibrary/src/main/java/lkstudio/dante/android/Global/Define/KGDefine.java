@@ -3,7 +3,7 @@ package lkstudio.dante.android.Global.Define;
 import android.os.Build;
 
 /**
- * 전역 상수
+ * 상수
  */
 public abstract class KGDefine {
 	// 기타 {

@@ -62,21 +62,29 @@ public class CAndroidPlugin {
 	/** 생성자 */
 	private CAndroidPlugin() {
 		Point oPoint = new Point();
-		Bitmap oBitmap = BitmapFactory.decodeResource(UnityPlayer.currentActivity.getResources(), R.drawable.indicator);
-		BitmapDrawable oBitmapDrawable = new BitmapDrawable(UnityPlayer.currentActivity.getResources(), oBitmap);
 		
+		Bitmap oBitmap = BitmapFactory.decodeResource(UnityPlayer.currentActivity.getResources(),
+				R.drawable.indicator);
+		
+		BitmapDrawable oBitmapDrawable = new BitmapDrawable(UnityPlayer.currentActivity.getResources(), oBitmap);
 		UnityPlayer.currentActivity.getWindowManager().getDefaultDisplay().getSize(oPoint);
 		
-		// 이미지 뷰를 설정한다
-		m_oIndicatorImgView = new ImageView(UnityPlayer.currentActivity, null, android.R.attr.animatedImageDrawable);
+		// 이미지 뷰를 설정한다 {
+		m_oIndicatorImgView = new ImageView(UnityPlayer.currentActivity,
+				null, android.R.attr.animatedImageDrawable);
+		
 		m_oIndicatorImgView.setImageDrawable(oBitmapDrawable);
 		m_oIndicatorImgView.setVisibility(View.GONE);
+		// 이미지 뷰를 설정한다 }
 		
-		// 애니메이션을 설정한다
-		m_oIndicatorImgViewAni = new RotateAnimation(KGDefine.VAL_0_INT, KGDefine.ANGLE_360_DEG, Animation.RELATIVE_TO_SELF, KGDefine.PIVOT_CENTER, Animation.RELATIVE_TO_SELF, KGDefine.PIVOT_CENTER);
+		// 애니메이션을 설정한다 {
+		m_oIndicatorImgViewAni = new RotateAnimation(KGDefine.VAL_0_INT,
+				KGDefine.ANGLE_360_DEG, Animation.RELATIVE_TO_SELF, KGDefine.PIVOT_CENTER, Animation.RELATIVE_TO_SELF, KGDefine.PIVOT_CENTER);
+		
 		m_oIndicatorImgViewAni.setDuration(KGDefine.VAL_1_INT * KGDefine.UNIT_S_TO_MS);
 		m_oIndicatorImgViewAni.setRepeatCount(Animation.INFINITE);
 		m_oIndicatorImgViewAni.setInterpolator(UnityPlayer.currentActivity, android.R.anim.linear_interpolator);
+		// 애니메이션을 설정한다 }
 		
 		// 레이아웃을 설정한다 {
 		int nSize = (int)(Math.min(oPoint.x, oPoint.y) * KGDefine.SCALE_INDICATOR_IMG_VIEW);
@@ -90,7 +98,9 @@ public class CAndroidPlugin {
 		oLayout.setPadding(KGDefine.VAL_0_INT, KGDefine.VAL_0_INT, KGDefine.VAL_0_INT, nOffset);
 		oLayout.addView(m_oIndicatorImgView, oParams);
 		
-		RelativeLayout.LayoutParams oLayoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
+		RelativeLayout.LayoutParams oLayoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,
+				RelativeLayout.LayoutParams.MATCH_PARENT);
+		
 		UnityPlayer.currentActivity.addContentView(oLayout, oLayoutParams);
 		// 레이아웃을 설정한다 }
 	}
@@ -141,8 +151,11 @@ public class CAndroidPlugin {
 	
 	/** 디바이스 식별자 반환 메세지를 수신했을 경우 */
 	private void onReceiveGetDeviceIDMsg(String a_oMsg) {
-		@SuppressLint("HardwareIds") String oDeviceID = Settings.Secure.getString(UnityPlayer.currentActivity.getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
-		CDeviceMsgSender.getInst().sendGetDeviceIDMsg((oDeviceID.equals(KGDefine.INVALID_ANDROID_ID) ? UUID.randomUUID() : UUID.nameUUIDFromBytes(oDeviceID.getBytes(StandardCharsets.UTF_8))).toString());
+		@SuppressLint("HardwareIds") String oDeviceID = Settings.Secure.getString(UnityPlayer.currentActivity.getApplicationContext().getContentResolver(),
+				Settings.Secure.ANDROID_ID);
+		
+		CDeviceMsgSender.getInst().sendGetDeviceIDMsg((oDeviceID.equals(KGDefine.INVALID_ANDROID_ID) ?
+				UUID.randomUUID() : UUID.nameUUIDFromBytes(oDeviceID.getBytes(StandardCharsets.UTF_8))).toString());
 	}
 	
 	/** 국가 코드 반환 메세지를 수신했을 경우 */
@@ -155,9 +168,11 @@ public class CAndroidPlugin {
 		JSONObject oJSONObj = new JSONObject(a_oMsg);
 		
 		AlertDialog.Builder oBuilder = new AlertDialog.Builder(UnityPlayer.currentActivity);
-		oBuilder.setTitle(oJSONObj.has(KGDefine.KEY_ALERT_TITLE) ? oJSONObj.getString(KGDefine.KEY_ALERT_TITLE) : null);
 		oBuilder.setMessage(oJSONObj.getString(KGDefine.KEY_ALERT_MSG));
-
+		
+		oBuilder.setTitle(oJSONObj.has(KGDefine.KEY_ALERT_TITLE) ?
+				oJSONObj.getString(KGDefine.KEY_ALERT_TITLE) : null);
+		
 		// 확인 버튼을 눌렀을 경우
 		oBuilder.setPositiveButton(oJSONObj.getString(KGDefine.KEY_ALERT_OK_BTN_TEXT), new DialogInterface.OnClickListener() {
 			@Override

@@ -61,12 +61,12 @@ public class CAndroidPlugin {
 	
 	/** 생성자 */
 	private CAndroidPlugin() {
-		Point oPoint = new Point();
-		
 		Bitmap oBitmap = BitmapFactory.decodeResource(UnityPlayer.currentActivity.getResources(),
 				R.drawable.indicator);
 		
 		BitmapDrawable oBitmapDrawable = new BitmapDrawable(UnityPlayer.currentActivity.getResources(), oBitmap);
+		Point oPoint = new Point();
+		
 		UnityPlayer.currentActivity.getWindowManager().getDefaultDisplay().getSize(oPoint);
 		
 		// 이미지 뷰를 설정한다 {
@@ -120,33 +120,37 @@ public class CAndroidPlugin {
 		Log.d(KGDefine.TAG, String.format("CAndroidPlugin.onReceiveUnityMsg: %s, %s", a_oCmd, a_oMsg));
 		CAndroidPlugin.m_oUnityMsgInfoList.add(new CUnityMsgInfo(a_oCmd, a_oMsg));
 		
-		// UI 쓰레드가 시작 되었을 경우
 		UnityPlayer.currentActivity.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				try {
-					while(!CAndroidPlugin.m_oUnityMsgInfoList.isEmpty()) {
-						Log.d(KGDefine.TAG, String.format("CAndroidPlugin.runOnUiThread: %d", CAndroidPlugin.m_oUnityMsgInfoList.size()));
-						CUnityMsgInfo oUnityMsgInfo = CAndroidPlugin.m_oUnityMsgInfoList.get(KGDefine.VAL_0_INT);
-						
-						switch(oUnityMsgInfo.m_oCmd) {
-							case KGDefine.CMD_GET_DEVICE_ID: CAndroidPlugin.getInst().onReceiveGetDeviceIDMsg(oUnityMsgInfo.m_oMsg); break;
-							case KGDefine.CMD_GET_COUNTRY_CODE: CAndroidPlugin.getInst().onReceiveGetCountryCodeMsg(oUnityMsgInfo.m_oMsg); break;
-							case KGDefine.CMD_SHOW_ALERT: CAndroidPlugin.getInst().onReceiveShowAlertMsg(oUnityMsgInfo.m_oMsg); break;
-							case KGDefine.CMD_SHOW_TOAST: CAndroidPlugin.getInst().onReceiveShowToastMsg(oUnityMsgInfo.m_oMsg); break;
-							case KGDefine.CMD_MAIL: CAndroidPlugin.getInst().onReceiveMailMsg(oUnityMsgInfo.m_oMsg); break;
-							case KGDefine.CMD_VIBRATE: CAndroidPlugin.getInst().onReceiveVibrateMsg(oUnityMsgInfo.m_oMsg); break;
-							case KGDefine.CMD_INDICATOR: CAndroidPlugin.getInst().onReceiveIndicatorMsg(oUnityMsgInfo.m_oMsg); break;
-						}
-						
-						CAndroidPlugin.m_oUnityMsgInfoList.remove(KGDefine.VAL_0_INT);
-					}
-				} catch(Exception oException) {
-					Log.e(KGDefine.TAG, String.format("CAndroidPlugin.onReceiveUnityMsg Exception: %s", oException.getMessage()));
-					oException.printStackTrace();
-				}
+				CAndroidPlugin.getInst().handleOnReceiveUnityMsg();
 			}
 		});
+	}
+	
+	/** 유니티 메세지 수신을 처리한다 */
+	public static void handleOnReceiveUnityMsg() {
+		try {
+			while(!CAndroidPlugin.m_oUnityMsgInfoList.isEmpty()) {
+				Log.d(KGDefine.TAG, String.format("CAndroidPlugin.runOnUiThread: %d", CAndroidPlugin.m_oUnityMsgInfoList.size()));
+				CUnityMsgInfo oUnityMsgInfo = CAndroidPlugin.m_oUnityMsgInfoList.get(KGDefine.VAL_0_INT);
+				
+				switch(oUnityMsgInfo.m_oCmd) {
+					case KGDefine.CMD_GET_DEVICE_ID: CAndroidPlugin.getInst().onReceiveGetDeviceIDMsg(oUnityMsgInfo.m_oMsg); break;
+					case KGDefine.CMD_GET_COUNTRY_CODE: CAndroidPlugin.getInst().onReceiveGetCountryCodeMsg(oUnityMsgInfo.m_oMsg); break;
+					case KGDefine.CMD_SHOW_ALERT: CAndroidPlugin.getInst().onReceiveShowAlertMsg(oUnityMsgInfo.m_oMsg); break;
+					case KGDefine.CMD_SHOW_TOAST: CAndroidPlugin.getInst().onReceiveShowToastMsg(oUnityMsgInfo.m_oMsg); break;
+					case KGDefine.CMD_MAIL: CAndroidPlugin.getInst().onReceiveMailMsg(oUnityMsgInfo.m_oMsg); break;
+					case KGDefine.CMD_VIBRATE: CAndroidPlugin.getInst().onReceiveVibrateMsg(oUnityMsgInfo.m_oMsg); break;
+					case KGDefine.CMD_INDICATOR: CAndroidPlugin.getInst().onReceiveIndicatorMsg(oUnityMsgInfo.m_oMsg); break;
+				}
+				
+				CAndroidPlugin.m_oUnityMsgInfoList.remove(KGDefine.VAL_0_INT);
+			}
+		} catch(Exception oException) {
+			Log.e(KGDefine.TAG, String.format("CAndroidPlugin.onReceiveUnityMsg Exception: %s", oException.getMessage()));
+			oException.printStackTrace();
+		}
 	}
 	
 	/** 디바이스 식별자 반환 메세지를 수신했을 경우 */
@@ -154,8 +158,10 @@ public class CAndroidPlugin {
 		@SuppressLint("HardwareIds") String oDeviceID = Settings.Secure.getString(UnityPlayer.currentActivity.getApplicationContext().getContentResolver(),
 				Settings.Secure.ANDROID_ID);
 		
-		CDeviceMsgSender.getInst().sendGetDeviceIDMsg((oDeviceID.equals(KGDefine.INVALID_ANDROID_ID) ?
-				UUID.randomUUID() : UUID.nameUUIDFromBytes(oDeviceID.getBytes(StandardCharsets.UTF_8))).toString());
+		UUID oDeviceUUID = oDeviceID.equals(KGDefine.INVALID_ANDROID_ID) ?
+				UUID.randomUUID() : UUID.nameUUIDFromBytes(oDeviceID.getBytes(StandardCharsets.UTF_8));
+		
+		CDeviceMsgSender.getInst().sendGetDeviceIDMsg(oDeviceUUID.toString());
 	}
 	
 	/** 국가 코드 반환 메세지를 수신했을 경우 */
